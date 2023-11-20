@@ -11,7 +11,7 @@ import subprocess
 import matplotlib.pyplot as plt
 
 
-def Piece_Selection():
+def Piece_Selection(): #This gives the 2x1 case 
     choice = np.random.randint(2, size =2) 
     # This function chooses the piece that will be dropped. The piece is chosen by a random integer
     # between 0 and 1. 0 corresponds to the horizontal piece, 1 corresponds to the vertical piece,
@@ -19,9 +19,15 @@ def Piece_Selection():
     # corresponds to the right pivot point. The function returns the choice as a list of two
     # integers. We can safely ignore the pivot when working with the vertical piece.
     return choice
+
+def Tetris_Choice(): #This gives the tetris case 
+    choice = np.random.randint(7, size =4) #There are 7 tetris pieces that we are rotating
+    # 0 is the square, 1 is the line, 2 is the L, 3 is the reverse L, 4 is the T, 5 is the S, 6 is the Z
+    # 0 is the original orientation, 1 is the 90 degree rotation, 2 is the 180 degree rotation, 3 is the 270 degree rotation
+    return choice
    
 
-def Random_Deposition_Modified(width, height, steps):
+def Random_Deposition_2x1(width, height, steps):# {{{
     substrate = np.zeros((height, width))
     topmost = height - 1
 
@@ -33,14 +39,20 @@ def Random_Deposition_Modified(width, height, steps):
         Piece_Selection()
 
         if choice[0] == 0 and choice[1] == 0: # Horizontal piece, left pivot. As in, the nonpivot is on the right.
-            landing_row = np.minimum( np.max(np.where(substrate[:, position] == 0)), np.max(np.where(substrate[:, position + 1] == 0)) )
-            substrate[landing_row, position] = step + 1
-            substrate[landing_row, position + 1] = step + 1
+            if position != width: # Need to fix this, can't compare numpy array to int.
+                landing_row = np.minimum( np.max(np.where(substrate[:, position] == 0)), np.max(np.where(substrate[:, position + 1] == 0)) )
+                substrate[landing_row, position] = step + 1
+                substrate[landing_row, position + 1] = step + 1
+            else :
+                #print("The piece is out of bounds, choosing a new piece")
+                Piece_Selection() #This definitely is not a fix. It chooses a new piece, but it doesn't restart the loop.
+                #It skips over the loop and goes to the next step. I need to figure out how to restart the loop without restarting the program.
 
         if choice[0] == 0 and choice[1] == 1: # Horizontal piece, right pivot. As in, the nonpivot is on the left.
-            landing_row = np.minimum( np.max(np.where(substrate[:, position] == 0)), np.max(np.where(substrate[:, position - 1] == 0)) )
-            substrate[landing_row, position] = step + 1
-            substrate[landing_row, position - 1] = step + 1
+            if position != 0: # Need to fix this, can't compare numpy array to int.
+                landing_row = np.minimum( np.max(np.where(substrate[:, position] == 0)), np.max(np.where(substrate[:, position - 1] == 0)) )
+                substrate[landing_row, position] = step + 1
+                substrate[landing_row, position - 1] = step + 1
 
         if choice[0] == 1: #Vertical piece. We can safely ignore the pivot.
             landing_row = np.max(np.where(substrate[:, position] == 0))
@@ -72,16 +84,16 @@ def Random_Deposition_Modified(width, height, steps):
     outputfile = f'Substrate_{width}x{height}_Particles={steps}.txt'
     np.savetxt(outputfile, substrate, fmt='%d', delimiter=',')
     print(f"{outputfile} saved!")
-    return outputfile
+    return outputfile# }}}
 
-def Random_Deposition(width, height, steps):
+def Random_Deposition_tetris(width, height, steps):
     substrate = np.zeros((height, width))
     topmost = height - 1
 
     for step in range(steps):
         position = np.random.randint(0, width)
-        landing_row = np.max(np.where(substrate[:, position] == 0)) 
-        substrate[landing_row, position] = step + 1 
+        #landing_row = np.max(np.where(substrate[:, position] == 0)) 
+        #substrate[landing_row, position] = step + 1 
         # The two lines above dictate the most important part
         # of the code. This is what we need to update properly. Thinking out loud, we need to design
         # the piece that drops to simply be in the necessary shape to update the substrate. We can
@@ -91,8 +103,7 @@ def Random_Deposition(width, height, steps):
         # if the piece is in the right boundary and if it is not, then we can run the program again
         # and choose a different piece. Overlap should never be an issue if we code this right. So
         # let's do it!       
-        
-
+        Tetris_Choice()
 
         if landing_row < topmost:
             topmost = landing_row
