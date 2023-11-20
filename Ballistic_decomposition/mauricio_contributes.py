@@ -239,7 +239,7 @@ def main():
     if args.movie:
         print("Generating the movie...")
         cmd = [
-            'python3', 'Visualize_RD.py',
+            'python3', 'mauricio_contributes.py',
             '--file', Outputfile,
             '--title', Title,
             '--envelop',
