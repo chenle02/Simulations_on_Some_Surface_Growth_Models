@@ -10,23 +10,6 @@ import argparse
 import subprocess
 import matplotlib.pyplot as plt
 
-class Piece_Selection:
-
-    substrate = np.zeros((height, width))
-    topmost = height - 1
-
-    def hor_or_vert_and_pivot(): #Chooses whether the piece is horizontal or vertical and the pivot point
-        return np.random.randint(2, size =2)
-
-    def piece_rotation():
-        return np.random.randint(4)
-
-    def the_piece():
-        if hor_or_vert_and_pivot[0] == 0 and piece_drop=0 and piece_rotation == 0 or 2:
-            return #Run the program again and choose a different piece
-
-    def column_drop():
-        return np.random.randint(width)
 
 def Piece_Selection():
     choice = np.random.randint(2, size =2) 
@@ -35,11 +18,8 @@ def Piece_Selection():
     # The second digit corresponds to the pivot point. 0 corresponds to the left pivot point, 1
     # corresponds to the right pivot point. The function returns the choice as a list of two
     # integers. We can safely ignore the pivot when working with the vertical piece.
-   if choice[0] == 0: 
-       return choice
-   if choice[0] == 1:
-       return choice # We can safely ignore the pivot when working with the vertical piece.
-
+    return choice
+   
 
 def Random_Deposition_Modified(width, height, steps):
     substrate = np.zeros((height, width))
@@ -129,4 +109,146 @@ def Random_Deposition(width, height, steps):
     print(f"{outputfile} saved!")
     return outputfile
 
+def interface_width(filename):
+    # Main function to visualize the simulation
+    # Load substrate from file
+    substrate = np.loadtxt(filename, delimiter=',')
 
+    # Parameters
+    height, width = substrate.shape
+    print(f"Height: {height}, Width: {width}")
+    steps = int(np.max(substrate))
+    interface = np.zeros(steps)
+
+    # Compute the interface width
+    for step in range(1, steps + 1):
+        # Create a copy of the substrate for visualization
+        vis_substrate = np.copy(substrate)
+
+        # Replace values greater than the current step with 0
+        vis_substrate[vis_substrate > step] = 0
+
+        top_envelope = Envelop(vis_substrate)
+        average = np.mean(top_envelope)
+
+        interface[step - 1] = 0
+        for pos in range(width):
+            interface[step - 1] += np.power(top_envelope[pos] - average, 2) / width
+        interface[step - 1] = np.sqrt(interface[step - 1])
+
+    # Assuming 'time' is your x-axis data and 'interface' is your y-axis data
+    time = np.array(range(1, steps + 1))
+    quarter_length = len(time) // 4  # Compute the one-fourth point
+
+    slopes = []
+
+    # Loop from one-fourth of t to all t
+    for end in range(quarter_length, len(time) + 1):
+        current_time = time[:end]
+        current_interface = interface[:end]
+
+        log_time = np.log(current_time)
+        log_interface = np.log(current_interface)
+
+        # Fit a linear regression to the log-log data of the current window
+        slope, _ = np.polyfit(log_time, log_interface, 1)
+        slopes.append(slope)
+
+    # Convert slopes to a numpy array for further processing if needed
+    slopes = np.array(slopes)
+
+    # Create side-by-side plots
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6))
+
+    # First plot: log-log plot of the interface width
+    ax1.loglog(time, interface, '-o', label='Interface Width')
+    ax1.set_xlabel('Log of Time (log(t)')
+    ax1.set_ylabel('Interface Width in log')
+    ax1.set_title('Log-Log plot of Interface Width vs Time')
+    ax1.grid(True)
+
+    # Second plot: slopes
+    ax2.plot(time[quarter_length - 1:], slopes, '-o', label='Computed Slopes')
+    # ax2.axhline(y=reference_slope, color='r', linestyle='--', label=f'Reference Slope {reference_slope}')
+    ax2.axhline(y=1 / 2, color='r', linestyle='--', label='Reference Slope 1/2')
+    ax2.axhline(y=1 / 3, color='r', linestyle='--', label='Reference Slope 1/3')
+    ax2.axhline(y=1 / 4, color='r', linestyle='--', label='Reference Slope 1/4')
+    ax2.set_xlabel('Time (t)')
+    ax2.set_ylabel('Slope')
+    ax2.set_title('Slope of the log-log plot as a function of log(t)')
+    ax2.legend()
+    ax2.grid(True)
+
+    plt.tight_layout()
+    plt.savefig(filename.replace('.txt', '.png'), dpi=300)
+    # plt.show()
+
+    return interface
+
+
+def Envelop(substrate):
+    # Compute the envelop of the substrate
+    height, width = substrate.shape
+    top_envelope = np.zeros(width)
+    for pos in range(width):
+        if np.any(substrate[:, pos] > 0):  # If there's any nonzero value in the column
+            top_envelope[pos] = np.argmax(substrate[:, pos] > 0) - 3
+        else:
+            top_envelope[pos] = height - 2
+    return top_envelope
+
+
+def main():
+    parser = argparse.ArgumentParser(description="""
+
+    Simulate Random Deposition on a substrate.
+    Outputs: 1. Substrate_WIDTHxHEIGHT_Particles=STEPS_[Relaxed/BD].txt
+                A text file for the substrate.
+             2. Statistical figures, loglog plot for the interface width and the estimated slope.
+
+    Author: Le Chen (le.chen@auburn.edu, chenle02@gmail.com)
+    Date: 2023-10-22
+
+
+                                     """, formatter_class=argparse.RawTextHelpFormatter)
+    parser.add_argument("-w", "--width", type=int, default=100, help="Width of the substrate (default: 100)")
+    parser.add_argument("-e", "--height", type=int, default=60, help="Maximum height of the substrate (default: 60)")
+    parser.add_argument("-s", "--steps", type=int, default=5000, help="Number of particles to drop (default: 5000)")
+    parser.add_argument("--relax", action="store_true", help="Surface Relaxation: go to the nearest lowest neighbor (default: False)")
+    parser.add_argument("--BD", action="store_true", help="Ballistic decomposition (default: False)")
+    parser.add_argument("-m", "--movie", action="store_true", help="Generate the mp4 movie (default: False)")
+    args = parser.parse_args()
+
+    Outputfile = ""
+    if args.relax:
+        Title = "Random Decomposition with Surface Relaxation"
+        Outputfile = Random_Deposition_Surface_Relaxation(args.width, args.height, args.steps)
+        print(Title)
+    elif args.BD:
+        Title = "Ballistic Decomposition"
+        Outputfile = Ballistic_Deposition(args.width, args.height, args.steps)
+        print(Title)
+    else:
+        Title = "Random Decomposition"
+        Outputfile = Random_Deposition(args.width, args.height, args.steps)
+        print(Title)
+
+    print("Computing the interface width...")
+    interface_width(Outputfile)
+
+    if args.movie:
+        print("Generating the movie...")
+        cmd = [
+            'python3', 'Visualize_RD.py',
+            '--file', Outputfile,
+            '--title', Title,
+            '--envelop',
+            '--average',
+        ]
+        subprocess.run(cmd)
+    else:
+        print("Do not generate the movie.")
+
+
+if __name__ == "__main__":
+    main()
