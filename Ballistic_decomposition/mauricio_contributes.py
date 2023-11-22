@@ -9,6 +9,7 @@ import numpy as np
 import argparse
 import subprocess
 import matplotlib.pyplot as plt
+import random
 
 
 def Piece_Selection(): #This gives the 2x1 case 
@@ -30,31 +31,34 @@ def Tetris_Choice(): #This gives the tetris case
 def Random_Deposition_2x1(width, height, steps):# {{{
     substrate = np.zeros((height, width))
     topmost = height - 1
+    i = 0
 
-    for step in range(steps):
-        position = np.random.randint(0, width)
+   while i < steps: 
+        position = random.randint(0, width)
         # landing_row = np.max(np.where(substrate[:, position] == 0))  <- This will have to be moved
         # to the if functions below. Definitely could be optimized, but right now I want to just get
         # things on the screen.
         Piece_Selection()
 
         if choice[0] == 0 and choice[1] == 0: # Horizontal piece, left pivot. As in, the nonpivot is on the right.
-            if position != width: # Need to fix this, can't compare numpy array to int.
+            if position != width: # Checks if the piece is in the right boundary
                 landing_row = np.minimum( np.max(np.where(substrate[:, position] == 0)), np.max(np.where(substrate[:, position + 1] == 0)) )
-                substrate[landing_row, position] = step + 1
-                substrate[landing_row, position + 1] = step + 1
+                substrate[landing_row, position] = i + 1
+                substrate[landing_row, position + 1] = i + 1
+                i += 1
             else :
-                #print("The piece is out of bounds, choosing a new piece")
-                Piece_Selection() #This definitely is not a fix. It chooses a new piece, but it doesn't restart the loop.
-                #It skips over the loop and goes to the next step. I need to figure out how to restart the loop without restarting the program.
+               continue 
 
         if choice[0] == 0 and choice[1] == 1: # Horizontal piece, right pivot. As in, the nonpivot is on the left.
             if position != 0: # Need to fix this, can't compare numpy array to int.
                 landing_row = np.minimum( np.max(np.where(substrate[:, position] == 0)), np.max(np.where(substrate[:, position - 1] == 0)) )
-                substrate[landing_row, position] = step + 1
-                substrate[landing_row, position - 1] = step + 1
+                substrate[landing_row, position] = i + 1
+                substrate[landing_row, position - 1] = i + 1
+                i += 1
+            else :
+                continue
 
-        if choice[0] == 1: #Vertical piece. We can safely ignore the pivot.
+        if choice[0] == 1: #Vertical piece. We can safely ignore the pivot and we also don't need to check boundary conditions
             landing_row = np.max(np.where(substrate[:, position] == 0))
             substrate[landing_row, position] = step + 1
             substrate[landing_row - 1, position] = step + 1
