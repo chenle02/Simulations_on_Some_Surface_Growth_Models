@@ -41,6 +41,10 @@ def Tetris_Choice(): #This gives the tetris case
 # The T pivot is in the middle of the top row. The first rotation leaves a piece sticking out to the
 # right. The second leaves the piece sticking out to the top. The third leaves the piece sticking out
 # to the left. 
+
+# The S pivot is at the bottom right corner. The first rotation leaves the piece sticking out to the
+# top and bottom. The second rotation leaves the piece sticking out to the left and right. The third
+# rotation leaves the piece sticking out to the top and bottom. 
    
 
 def Random_Deposition_2x1(width, height, steps):# {{{
@@ -90,7 +94,7 @@ def Random_Deposition_2x1(width, height, steps):# {{{
     print(f"{outputfile} saved!")
     return outputfile# }}}
 
-def Random_Deposition_tetris(width, height, steps):
+def Random_Deposition_tetris(width, height, steps):# {{{
     substrate = np.zeros((height, width))
     topmost = height - 1
     i = 0
@@ -99,12 +103,14 @@ def Random_Deposition_tetris(width, height, steps):
         position = random.randint(0, width)
         Tetris_Choice()
 
+        # Square Piece {{{
         if choice[0] == 0 and (choice[1] == 0 or choice[1]=1): # Square, check left boundary
             ...
         
         if choice[0] == 0 and (choice[1] == 2 or choice[1]=3): # Square, check right boundary
-            ...
+            ...# }}}
 
+        # Line Piece {{{
         if choice[0] == 1 and (choice[1] == 0 or choice[1]=2): # Line, vertical position
             ...
 
@@ -112,8 +118,9 @@ def Random_Deposition_tetris(width, height, steps):
             ...
 
         if choice[0] == 1 and choice[1] == 3: # Line, horizontal position, check right boundary
-            ...
-
+            ...# }}}
+            
+        # L piece{{{
         if choice[0] == 2 and choice[1] == 0: # L, upright position, check right boundary
             ...
 
@@ -124,8 +131,9 @@ def Random_Deposition_tetris(width, height, steps):
             ...
 
         if choice[0] == 2 and choice[1] == 3: # L, horizontal position, check right boundary
-            ...
-
+            ...# }}}
+            
+        # Reverse L{{{
         if choice[0] == 3 and choice[1] == 0: # Reverse L, upright position, check left boundary
             ...
 
@@ -136,10 +144,46 @@ def Random_Deposition_tetris(width, height, steps):
             ...
 
         if choice[0] == 3 and choice[1] == 3: # Reverse L, horizontal position, check right boundary
+            ...# }}}
+
+        # T piece{{{
+        if choice[0] == 4 and choice[1] == 0: # T, upright position, check left and right boundary
             ...
 
+        if choice[0] == 4 and choice[1] == 1: # T, horizontal position, check right boundary
+            ...
 
+        if choice[0] == 4 and choice[1] == 2: # T, upside down position, check left and right boundary
+            ...
 
+        if choice[0] == 4 and choice[1] == 3: # T, horizontal position, check left boundary
+            ...# }}}
+
+        # S Piece{{{
+        if choice[5] == 5 and choice[1] == 0: # Z, horizontal position, check left and right boundary
+            ...
+
+        if choice[5] == 5 and choice[1] == 1: # Z, vertical position, check left boundary
+            ...
+
+        if choice[5] == 5 and choice[1] == 2: # Z, horizontal position, check left and right boundary
+            ...
+
+        if choice[5] == 5 and choice[1] == 3: # Z, vertical position, check right boundary
+            ...# }}}
+
+        # Z piece{{{
+        if choice[5] == 6 and choice[1] == 0: # Z, horizontal position, check left and right boundary
+            ...
+
+        if choice[5] == 6 and choice[1] == 1: # Z, vertical position, check left boundary
+            ...
+
+        if choice[5] == 6 and choice[1] == 2: # Z, horizontal position, check left and right boundary
+            ...
+
+        if choice[5] == 6 and choice[1] == 3: # Z, vertical position, check right boundary
+            ...# }}}
 
         #landing_row = np.max(np.where(substrate[:, position] == 0)) 
         #substrate[landing_row, position] = step + 1 
@@ -167,9 +211,9 @@ def Random_Deposition_tetris(width, height, steps):
     outputfile = f'Substrate_{width}x{height}_Particles={steps}.txt'
     np.savetxt(outputfile, substrate, fmt='%d', delimiter=',')
     print(f"{outputfile} saved!")
-    return outputfile
+    return outputfile# }}}
 
-def interface_width(filename):
+def interface_width(filename):# {{{
     # Main function to visualize the simulation
     # Load substrate from file
     substrate = np.loadtxt(filename, delimiter=',')
@@ -243,10 +287,10 @@ def interface_width(filename):
     plt.savefig(filename.replace('.txt', '.png'), dpi=300)
     # plt.show()
 
-    return interface
+    return interface# }}}
 
 
-def Envelop(substrate):
+def Envelop(substrate):# {{{
     # Compute the envelop of the substrate
     height, width = substrate.shape
     top_envelope = np.zeros(width)
@@ -255,10 +299,10 @@ def Envelop(substrate):
             top_envelope[pos] = np.argmax(substrate[:, pos] > 0) - 3
         else:
             top_envelope[pos] = height - 2
-    return top_envelope
+    return top_envelope# }}}
 
 
-def main():
+def main():# {{{
     parser = argparse.ArgumentParser(description="""
 
     Simulate Random Deposition on a substrate.
@@ -307,7 +351,7 @@ def main():
         ]
         subprocess.run(cmd)
     else:
-        print("Do not generate the movie.")
+        print("Do not generate the movie.")# }}}
 
 
 if __name__ == "__main__":
