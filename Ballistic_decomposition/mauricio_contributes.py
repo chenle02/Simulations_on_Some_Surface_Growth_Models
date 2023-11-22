@@ -22,10 +22,25 @@ def Piece_Selection(): #This gives the 2x1 case
     return choice
 
 def Tetris_Choice(): #This gives the tetris case 
-    choice = np.random.randint(7, size =4) #There are 7 tetris pieces that we are rotating
+    choice = np.random.randint(7, size =4) #There are 7 tetris pieces that we are rotating counterclockwise
     # 0 is the square, 1 is the line, 2 is the L, 3 is the reverse L, 4 is the T, 5 is the S, 6 is the Z
     # 0 is the original orientation, 1 is the 90 degree rotation, 2 is the 180 degree rotation, 3 is the 270 degree rotation
     return choice
+
+# The square pivot starts in the bottom right corner. So the first rotation doesn't change how we place the piece
+
+# The line pivot is at the bottom, it starts vertically. So the first rotation is horizontal, then
+# vertical again, then horizontal again.
+
+# The L pivot is at the corner piece. The first rotation (as in, choice[1]=1) leaves the piece
+# sticking out to the left
+
+# The reverse L pivot is at the corner piece. The first rotation leaves the piece sticking out to
+# the left 
+
+# The T pivot is in the middle of the top row. The first rotation leaves a piece sticking out to the
+# right. The second leaves the piece sticking out to the top. The third leaves the piece sticking out
+# to the left. 
    
 
 def Random_Deposition_2x1(width, height, steps):# {{{
@@ -78,9 +93,54 @@ def Random_Deposition_2x1(width, height, steps):# {{{
 def Random_Deposition_tetris(width, height, steps):
     substrate = np.zeros((height, width))
     topmost = height - 1
+    i = 0
 
-    for step in range(steps):
-        position = np.random.randint(0, width)
+   while i < steps: 
+        position = random.randint(0, width)
+        Tetris_Choice()
+
+        if choice[0] == 0 and (choice[1] == 0 or choice[1]=1): # Square, check left boundary
+            ...
+        
+        if choice[0] == 0 and (choice[1] == 2 or choice[1]=3): # Square, check right boundary
+            ...
+
+        if choice[0] == 1 and (choice[1] == 0 or choice[1]=2): # Line, vertical position
+            ...
+
+        if choice[0] == 1 and choice[1] == 1: # Line, horizontal position, check left boundary
+            ...
+
+        if choice[0] == 1 and choice[1] == 3: # Line, horizontal position, check right boundary
+            ...
+
+        if choice[0] == 2 and choice[1] == 0: # L, upright position, check right boundary
+            ...
+
+        if choice[0] == 2 and choice[1] == 1: # L, horizontal position, check left boundary
+            ...
+
+        if choice[0] == 2 and choice[1] == 2: # L, upside down position, check left boundary
+            ...
+
+        if choice[0] == 2 and choice[1] == 3: # L, horizontal position, check right boundary
+            ...
+
+        if choice[0] == 3 and choice[1] == 0: # Reverse L, upright position, check left boundary
+            ...
+
+        if choice[0] == 3 and choice[1] == 1: # Reverse L, horizontal position, check left boundary
+            ...
+
+        if choice[0] == 3 and choice[1] == 2: # Reverse L, upside down position, check right boundary
+            ...
+
+        if choice[0] == 3 and choice[1] == 3: # Reverse L, horizontal position, check right boundary
+            ...
+
+
+
+
         #landing_row = np.max(np.where(substrate[:, position] == 0)) 
         #substrate[landing_row, position] = step + 1 
         # The two lines above dictate the most important part
