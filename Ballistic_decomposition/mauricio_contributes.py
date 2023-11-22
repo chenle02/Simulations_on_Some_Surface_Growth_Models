@@ -35,9 +35,6 @@ def Random_Deposition_2x1(width, height, steps):# {{{
 
    while i < steps: 
         position = random.randint(0, width)
-        # landing_row = np.max(np.where(substrate[:, position] == 0))  <- This will have to be moved
-        # to the if functions below. Definitely could be optimized, but right now I want to just get
-        # things on the screen.
         Piece_Selection()
 
         if choice[0] == 0 and choice[1] == 0: # Horizontal piece, left pivot. As in, the nonpivot is on the right.
@@ -60,20 +57,8 @@ def Random_Deposition_2x1(width, height, steps):# {{{
 
         if choice[0] == 1: #Vertical piece. We can safely ignore the pivot and we also don't need to check boundary conditions
             landing_row = np.max(np.where(substrate[:, position] == 0))
-            substrate[landing_row, position] = step + 1
-            substrate[landing_row - 1, position] = step + 1
-
-        # The two lines above dictate the most important part
-        # of the code. This is what we need to update properly. Thinking out loud, we need to design
-        # the piece that drops to simply be in the necessary shape to update the substrate. We can
-        # do this by creating a function that creates the piece and then we can call it here. We
-        # then can have independent if functions that check if the piece is horizontal or vertical
-        # and then check if the piece is rotated or not. We can then have a function that checks
-        # if the piece is in the right boundary and if it is not, then we can run the program again
-        # and choose a different piece. Overlap should never be an issue if we code this right. So
-        # let's do it!       
-        
-
+            substrate[landing_row, position] = i + 1
+            substrate[landing_row - 1, position] = i + 1 #This places a block above the first one
 
         if landing_row < topmost:
             topmost = landing_row
