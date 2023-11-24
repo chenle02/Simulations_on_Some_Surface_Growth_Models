@@ -1,12 +1,9 @@
 import numpy as np
-import argparse
-import subprocess
-import matplotlib.pyplot as plt
 import random
 
 
-def Tetris_Choice(): #This gives the tetris case
-    choice = np.random.randint(7, size =4) #There are 7 tetris pieces that we are rotating counterclockwise
+def Tetris_Choice():  # This gives the tetris case
+    choice = np.random.randint(7, size=4)  # There are 7 tetris pieces that we are rotating counterclockwise
     # 0 is the square, 1 is the line, 2 is the L, 3 is J, 4 is the T, 5 is the S, 6 is the Z
     # 0 is the original orientation, 1 is the 90 degree rotation, 2 is the 180 degree rotation, 3 is the 270 degree rotation
     return choice
@@ -32,7 +29,7 @@ def Tetris_Choice(): #This gives the tetris case
 # rotation leaves the piece sticking out to the top and bottom.
 
 
-#def Random_Deposition_2x1(width, height, steps):
+# def Random_Deposition_2x1(width, height, steps):
 #    substrate = np.zeros((height, width))
 #    topmost = height - 1
 #    i = 0
@@ -79,123 +76,62 @@ def Tetris_Choice(): #This gives the tetris case
 #    print(f"{outputfile} saved!")
 #    return outputfile
 #
-def Random_Deposition_tetris(width, height, steps):
-    substrate = np.zeros((height, width))
-    topmost = height - 1
-    i = 0
-    steps = 10
+choice = np.random.randint(7, size=4)
+width = 10
+height = 15
 
-   while i < steps:
-        position = random.randint(0, width)
-        Tetris_Choice()
+# def Random_Deposition_tetris(width, height, steps):
+position = random.randint(0, width)
+substrate = np.zeros((height, width))
+topmost = height - 1
+landing_row = np.max(np.where(substrate[:, position] == 0))
+i = 0
+steps = 2
+choice[0] = 0
+choice[1] = 0
 
-        # Square Piece {{{
-        if choice[0] == 0 and (choice[1] == 0 or choice[1]=1): # Square, check left boundary
-            ...
+while i < steps:
+    position = random.randint(0, width)
+    print('position=', position)
+    Tetris_Choice()
+    print(choice)
 
-        if choice[0] == 0 and (choice[1] == 2 or choice[1]=3): # Square, check right boundary
-            ...# }}}
+    # Square Piece
+    if choice[0] == 0 and (choice[1] == 0 or choice[1] == 1):   # Square, check left boundary
+        position = random.randint(0, width - 1)
+        print('position=', position)
+        left_column = position
+        right_column = position + 1
+        landing_row = np.max()
+        substrate[1, 1] = 1
+        substrate[5, 5] = 1
 
-        # Line Piece {{{
-        if choice[0] == 1 and (choice[1] == 0 or choice[1]=2): # Line, vertical position
-            ...
+    if choice[0] == 0 and (choice[1] == 2 or choice[1] == 3):  # Square, check right boundary
+        ...
+    # landing_row = np.max(np.where(substrate[:, position] == 0))
+    # substrate[landing_row, position] = step + 1
+    # The two lines above dictate the most important part
+    # of the code. This is what we need to update properly. Thinking out loud, we need to design
+    # the piece that drops to simply be in the necessary shape to update the substrate. We can
+    # do this by creating a function that creates the piece and then we can call it here. We
+    # then can have independent if functions that check if the piece is horizontal or vertical
+    # and then check if the piece is rotated or not. We can then have a function that checks
+    # if the piece is in the right boundary and if it is not, then we can run the program again
+    # and choose a different piece. Overlap should never be an issue if we code this right. So
+    # let's do it!
+    Tetris_Choice()
+    i = i + 1
 
-        if choice[0] == 1 and choice[1] == 1: # Line, horizontal position, check left boundary
-            ...
+    if landing_row < topmost:
+        topmost = landing_row
 
-        if choice[0] == 1 and choice[1] == 3: # Line, horizontal position, check right boundary
-            ...# }}}
+    if (steps + 1) % 200 == 0:
+        print(f"Step: {steps + 1}/{steps}, Level at {height - topmost}/{height}")
 
-        # L piece{{{
-        if choice[0] == 2 and choice[1] == 0: # L, upright position, check right boundary
-            ...
-
-        if choice[0] == 2 and choice[1] == 1: # L, horizontal position, check left boundary
-            ...
-
-        if choice[0] == 2 and choice[1] == 2: # L, upside down position, check left boundary
-            ...
-
-        if choice[0] == 2 and choice[1] == 3: # L, horizontal position, check right boundary
-            ...# }}}
-
-        # J piece{{{
-        if choice[0] == 3 and choice[1] == 0: # Reverse L, upright position, check left boundary
-            ...
-
-        if choice[0] == 3 and choice[1] == 1: # Reverse L, horizontal position, check left boundary
-            ...
-
-        if choice[0] == 3 and choice[1] == 2: # Reverse L, upside down position, check right boundary
-            ...
-
-        if choice[0] == 3 and choice[1] == 3: # Reverse L, horizontal position, check right boundary
-            ...# }}}
-
-        # T piece{{{
-        if choice[0] == 4 and choice[1] == 0: # T, upright position, check left and right boundary
-            ...
-
-        if choice[0] == 4 and choice[1] == 1: # T, horizontal position, check right boundary
-            ...
-
-        if choice[0] == 4 and choice[1] == 2: # T, upside down position, check left and right boundary
-            ...
-
-        if choice[0] == 4 and choice[1] == 3: # T, horizontal position, check left boundary
-            ...# }}}
-
-        # S Piece{{{
-        if choice[5] == 5 and choice[1] == 0: # Z, horizontal position, check left and right boundary
-            ...
-
-        if choice[5] == 5 and choice[1] == 1: # Z, vertical position, check left boundary
-            ...
-
-        if choice[5] == 5 and choice[1] == 2: # Z, horizontal position, check left and right boundary
-            ...
-
-        if choice[5] == 5 and choice[1] == 3: # Z, vertical position, check right boundary
-            ...# }}}
-
-        # Z piece{{{
-        if choice[5] == 6 and choice[1] == 0: # Z, horizontal position, check left and right boundary
-            ...
-
-        if choice[5] == 6 and choice[1] == 1: # Z, vertical position, check left boundary
-            ...
-
-        if choice[5] == 6 and choice[1] == 2: # Z, horizontal position, check left and right boundary
-            ...
-
-        if choice[5] == 6 and choice[1] == 3: # Z, vertical position, check right boundary
-            ...# }}}
-
-        #landing_row = np.max(np.where(substrate[:, position] == 0))
-        #substrate[landing_row, position] = step + 1
-        # The two lines above dictate the most important part
-        # of the code. This is what we need to update properly. Thinking out loud, we need to design
-        # the piece that drops to simply be in the necessary shape to update the substrate. We can
-        # do this by creating a function that creates the piece and then we can call it here. We
-        # then can have independent if functions that check if the piece is horizontal or vertical
-        # and then check if the piece is rotated or not. We can then have a function that checks
-        # if the piece is in the right boundary and if it is not, then we can run the program again
-        # and choose a different piece. Overlap should never be an issue if we code this right. So
-        # let's do it!
-        Tetris_Choice()
-
-        if landing_row < topmost:
-            topmost = landing_row
-
-        if (step + 1) % 200 == 0:
-            print(f"Step: {step + 1}/{steps}, Level at {height - topmost}/{height}")
-
-        if topmost < height * 0.10 or topmost <= 2:
-            print(f"Stopped at step {step + 1}, Level at {height - topmost}/{height}")
-            break
-
-    outputfile = f'Substrate_{width}x{height}_Particles={steps}.txt'
-    np.savetxt(outputfile, substrate, fmt='%d', delimiter=',')
-    print(f"{outputfile} saved!")
-    return outputfile
-
+    if topmost < height * 0.10 or topmost <= 2:
+        print(f"Stopped at step {steps + 1}, Level at {height - topmost}/{height}")
+        break
+print(substrate)
+#    outputfile = f'Substrate_{width}x{height}_Particles={steps}.txt'
+#    np.savetxt(outputfile, substrate, fmt='%d', delimiter=',')
+#    print(f"{outputfile} saved!")
