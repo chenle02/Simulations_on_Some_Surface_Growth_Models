@@ -77,8 +77,20 @@ def Tetris_Choice():  # This gives the tetris case
 #    return outputfile
 #
 choice = np.random.randint(7, size=4)
-width = 10
-height = 15
+width = 8
+height = 8
+
+
+def ffnz(matrix, height, column):  # ffnz finds the first nonzero entry in a fixed column
+    i = 0
+    j = 0
+    while j == 0:
+        if matrix[i, column] == 0:
+            i = i + 1
+        else:
+            j = i
+    return j
+
 
 # def Random_Deposition_tetris(width, height, steps):
 position = random.randint(0, width)
@@ -86,41 +98,93 @@ substrate = np.zeros((height, width))
 topmost = height - 1
 landing_row = np.max(np.where(substrate[:, position] == 0))
 i = 0
-steps = 2
+steps = 1
 choice[0] = 0
 choice[1] = 0
-
+substrate[3, 3] = 11
+substrate[4, 3] = 11
+substrate[5, 3] = 11
+substrate[6, 0] = 11
+substrate[6, 1] = 0
+substrate[6, 3] = 11
+substrate[6, 6] = 11
+substrate[7, 0] = 11
+substrate[7, 1] = 0
+substrate[7, 2] = 11
+substrate[7, 3] = 11
+substrate[7, 4] = 11
+substrate[7, 5] = 11
+substrate[7, 6] = 11
+substrate[4, 2] = 11
+substrate[2, 6] = 11
+print(substrate)
+print('ffnz=', ffnz(substrate, height, 2))
+print('ffnz=', ffnz(substrate, height, 6))
+step = 1  # This is the counter that goes in each piece
 while i < steps:
     position = random.randint(0, width)
-    print('position=', position)
+    # print('position=', position)
     Tetris_Choice()
     print(choice)
+    border_hit = False
 
     # Square Piece
     if choice[0] == 0 and (choice[1] == 0 or choice[1] == 1):   # Square, check left boundary
-        position = random.randint(0, width - 1)
+        # position = random.randint(0, width)
+        position = 0
         print('position=', position)
-        left_column = position
-        right_column = position + 1
-        landing_row = np.max()
-        substrate[1, 1] = 1
-        substrate[5, 5] = 1
+        if position != (width - 1):
+            if position == 0:
+                mleft_column = position
+                mright_column = position + 1
+                right_column = position + 2
+                max_mleft_column = ffnz(substrate, height, mleft_column)
+                print('max mlcol=', max_mleft_column)
+                max_mright_column = ffnz(substrate, height, mright_column)
+                print('max_mrcol=', max_mright_column)
+                max_right_column = ffnz(substrate, height, right_column)
+                print('max_rc=', max_right_column)
+                if (max_right_column < mright_column) and (max_right_column < mleft_column):
+                    substrate[max_right_column, position] = step
+                    substrate[max_right_column, position + 1] = step
+                    substrate[max_right_column + 1, position] = step
+                    substrate[max_right_column + 1, position + 1] = step
+            elif position == width - 1:
+                left_column = position - 1
+                mleft_column = position
+                mright_column = position + 1
+                max_left_column = np.max(np.where(substrate[:, left_column] == 0))
+                print('max lc=', max_left_column)
+                max_mleft_column = np.max(np.where(substrate[:, mleft_column] == 0))
+                print('max mlcol=', max_mleft_column)
+                max_mright_column = np.max(np.where(substrate[:, mright_column] == 0))
+                print('max_mrcol=', max_mright_column)
+            else:
+                left_column = position - 1
+                mleft_column = position
+                mright_column = position + 1
+                right_column = position + 2
+                max_left_column = np.max(np.where(substrate[:, left_column] == 0))
+                print('max lc=', max_left_column)
+                max_mleft_column = np.max(np.where(substrate[:, mleft_column] == 0))
+                print('max mlcol=', max_mleft_column)
+                max_mright_column = np.max(np.where(substrate[:, mright_column] == 0))
+                print('max_mrcol=', max_mright_column)
+                max_right_column = np.max(np.where(substrate[:, right_column] == 0))
+                print('max_rc=', max_right_column)
+                # landing_row = np.max()
+        else:
+            border_hit = True  # A border was hit by the piece, so we must discard it and not augment the counter
+            print('borderhit=', border_hit)
 
     if choice[0] == 0 and (choice[1] == 2 or choice[1] == 3):  # Square, check right boundary
         ...
     # landing_row = np.max(np.where(substrate[:, position] == 0))
     # substrate[landing_row, position] = step + 1
-    # The two lines above dictate the most important part
-    # of the code. This is what we need to update properly. Thinking out loud, we need to design
-    # the piece that drops to simply be in the necessary shape to update the substrate. We can
-    # do this by creating a function that creates the piece and then we can call it here. We
-    # then can have independent if functions that check if the piece is horizontal or vertical
-    # and then check if the piece is rotated or not. We can then have a function that checks
-    # if the piece is in the right boundary and if it is not, then we can run the program again
-    # and choose a different piece. Overlap should never be an issue if we code this right. So
-    # let's do it!
     Tetris_Choice()
-    i = i + 1
+    if not border_hit:  # If we didn't hit a border with a piece, all the counters increase by 1
+        i = i + 1  # This is the counter of steps
+        step = step + 1  # This is the counter that goes in each piece
 
     if landing_row < topmost:
         topmost = landing_row
