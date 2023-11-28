@@ -270,4 +270,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    # main()
+    interface_width("./Substrate_domino_500x500_Particles=15000.txt")
