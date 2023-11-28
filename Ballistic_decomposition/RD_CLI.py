@@ -35,28 +35,6 @@ def Random_Deposition(width, height, steps):
     print(f"{outputfile} saved!")
     return outputfile
 
-class Piece_Selection:
-
-    substrate = np.zeros((height, width))
-    topmost = height - 1
-
-    def hor_or_vert_and_pivot(): #Chooses whether the piece is horizontal or vertical and the pivot point
-        return np.random.randint(2, size =2)
-
-    def piece_rotation():
-        return np.random.randint(4)
-
-    def the_piece():
-        if hor_or_vert_and_pivot[0] == 0 and piece_drop=0 and piece_rotation == 0 or 2:
-            return #Run the program again and choose a different piece
-
-    def column_drop():
-        return np.random.randint(width)
-
-    def illegal_boundary():
-        if (
-
-
 
 def Random_Deposition_Surface_Relaxation(width, height, steps):
     substrate = np.zeros((height, width))
