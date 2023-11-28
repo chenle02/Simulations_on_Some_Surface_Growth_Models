@@ -1,6 +1,6 @@
 import numpy as np
 import random
-
+#Hi Ian
 
 def Tetris_Choice():  # This gives the tetris case
     choice = np.random.randint(7, size=4)  # There are 7 tetris pieces that we are rotating counterclockwise
