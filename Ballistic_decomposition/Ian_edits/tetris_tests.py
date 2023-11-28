@@ -51,8 +51,8 @@ topmost = height - 1
 
 i = 0
 steps = 20 
-choice[0] = 1
-choice[1] = 1
+choice[0] = 2
+choice[1] = 0
 substrate[11, 3] = 11
 substrate[12, 3] = 11
 substrate[13, 3] = 11
@@ -163,6 +163,46 @@ while i < steps:
         else: 
             continue
 
+   #L Case 
+    if choice[0] == 2 and choice[1] == 0 :  # L case upright, check right boundary
+        position = random.randint(0, width-1)
+        # position = 6
+        print('position=', position)
+        if position + 1 <= width - 1:
+            #Pass function through here
+            landing_row = min(ffnz(substrate, height, position), ffnz(substrate, height, position + 1)) - 1 
+
+            if landing_row >= 2:
+                substrate[landing_row, position] = i + 1
+                substrate[landing_row, position + 1] = i + 1
+                substrate[landing_row - 1, position] = i + 1
+                substrate[landing_row - 2, position] = i + 1
+
+                i += 1
+            else: 
+                break 
+        else:
+            continue
+
+    if choice[0] == 2 and choice[1] == 1 :  # L case laying down, check left boundary
+        position = random.randint(0, width-1)
+        # position = 6
+        print('position=', position)
+        if position - 2 < 0:
+            #Pass function through here
+            landing_row = min(ffnz(substrate, height, position), ffnz(substrate, height, position + 1)) - 1 
+
+            if landing_row >= 2:
+                substrate[landing_row, position] = i + 1
+                substrate[landing_row, position + 1] = i + 1
+                substrate[landing_row - 1, position] = i + 1
+                substrate[landing_row - 2, position] = i + 1
+
+                i += 1
+            else: 
+                break 
+        else:
+            continue
 
 
     if landing_row < topmost:
