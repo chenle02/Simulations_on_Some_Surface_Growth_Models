@@ -69,11 +69,7 @@ def Random_Deposition_2x1(width, height, steps):
             print(f"Stopped at step {i + 1}, Level at {height - topmost + 1}/{height}")
             break
 
-    # outputfile = f'Substrate_domino_{width}x{height}_Particles={steps}.txt'
-    # np.savetxt(outputfile, substrate, fmt='%d', delimiter=',')
-    # print(f"{outputfile} saved!")
-    # return outputfile
-    return print(substrate)
+    return substrate
 
 
 height_str = input('What is the height?')
@@ -83,4 +79,9 @@ height = int(height_str)
 width = int(width_str)
 steps = int(steps_str)
 
-Random_Deposition_2x1(width, height, steps)
+substrate = Random_Deposition_2x1(width, height, steps)
+
+outputfile = f'Substrate_domino_{width}x{height}_Particles={steps}.txt'
+np.savetxt(outputfile, substrate, fmt='%d', delimiter=',')
+print(f"{outputfile} saved!")
+
