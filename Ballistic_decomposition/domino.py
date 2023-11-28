@@ -1,7 +1,6 @@
+# By Mauricio Montes and Ian Ruau
+
 import numpy as np
-# import argparse
-# import subprocess
-# import matplotlib.pyplot as plt
 import random
 
 
@@ -15,29 +14,6 @@ def Piece_Selection():  # This gives the 2x1 case
     return choice
 
 
-# choice = np.random.randint(2, size=2)
-# substrate = np.zeros((8, 8))
-# choice[0] = 1
-# choice[1] = 1
-# substrate[3, 3] = 11
-# substrate[4, 3] = 11
-# substrate[5, 3] = 11
-# substrate[6, 0] = 11
-# substrate[6, 1] = 0
-# substrate[6, 3] = 11
-# substrate[6, 6] = 11
-# substrate[7, 0] = 11
-# substrate[7, 1] = 0
-# substrate[7, 2] = 11
-# substrate[7, 3] = 11
-# substrate[7, 4] = 11
-# substrate[7, 5] = 11
-# substrate[7, 6] = 11
-# substrate[4, 2] = 11
-# substrate[2, 6] = 11
-# print(substrate)
-
-
 def ffnz(matrix, height, column):  # ffnz Finds the First NonZero entry in a fixed column
     i = 0
     flag = height
@@ -47,16 +23,6 @@ def ffnz(matrix, height, column):  # ffnz Finds the First NonZero entry in a fix
         else:
             flag = i
     return flag
-
-
-# print('first nonzero in column 0', ffnz(substrate, 8, 0))
-# print('first nonzero in column 1', ffnz(substrate, 8, 1))
-# print('first nonzero in column 2', ffnz(substrate, 8, 2))
-# print('first nonzero in column 3', ffnz(substrate, 8, 3))
-# print('first nonzero in column 4', ffnz(substrate, 8, 4))
-# print('first nonzero in column 5', ffnz(substrate, 8, 5))
-# print('first nonzero in column 6', ffnz(substrate, 8, 6))
-# print('first nonzero in column 7', ffnz(substrate, 8, 7))
 
 
 def Random_Deposition_2x1(width, height, steps):
@@ -110,13 +76,11 @@ def Random_Deposition_2x1(width, height, steps):
     return print(substrate)
 
 
-# print(Piece_Selection())
-# print(Piece_Selection())
-# print(Piece_Selection())
-# print(Piece_Selection())
-# print(Piece_Selection())
-# print(Piece_Selection())
-# print(Piece_Selection())
-# print(Piece_Selection())
+height_str = input('What is the height?')
+width_str = input('What is the width?')
+steps_str = input('How many blocks?')
+height = int(height_str)
+width = int(width_str)
+steps = int(steps_str)
 
-Random_Deposition_2x1(15, 15, 100)
+Random_Deposition_2x1(width, height, steps)
