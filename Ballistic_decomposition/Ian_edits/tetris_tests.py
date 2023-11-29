@@ -52,7 +52,7 @@ topmost = height - 1
 i = 0
 steps = 20 
 choice[0] = 2
-choice[1] = 0
+choice[1] = 3
 substrate[11, 3] = 11
 substrate[12, 3] = 11
 substrate[13, 3] = 11
@@ -234,6 +234,46 @@ while i < steps:
         else:
             continue
 
+    if choice[0] == 2 and choice[1] == 3:  # L case laying down, check right boundary
+        position = random.randint(0, width - 1)
+        #position = 3
+        print('position=', position)
+        if position + 2 <= width - 1:
+            # Pass function through here
+            landing_row_pivot = ffnz(substrate, height, position) - 1
+            landing_row_right = ffnz(substrate, height, position + 1) - 1
+            landing_row_right_2 = ffnz(substrate, height, position + 2) - 1
+            landing_row = min (landing_row_pivot, landing_row_right, landing_row_right_2)
+            print(landing_row_pivot, landing_row_right, landing_row_right_2, landing_row)
+
+            if landing_row_pivot < landing_row_right and landing_row_pivot < landing_row_right_2:
+                substrate[landing_row_pivot, position] = i + 1
+                print("I am some text")
+                substrate[landing_row_pivot - 1, position] = i + 1
+                substrate[landing_row_pivot - 1, position + 1] = i + 1
+                substrate[landing_row_pivot - 1, position + 2] = i + 1
+                i += 1
+
+            elif landing_row_right <= landing_row_pivot - 1 and landing_row_right <= landing_row_right_2:
+                substrate[landing_row_right, position + 1] = i + 1
+                print("I am some text 2")
+                substrate[landing_row_right, position + 2] = i + 1
+                substrate[landing_row_right, position] = i + 1
+                substrate[landing_row_right + 1, position] = i + 1
+                i += 1
+
+            elif landing_row_right_2 <= landing_row_pivot - 1 and landing_row_right_2 <= landing_row_right:
+                substrate[landing_row_right_2, position + 1] = i + 1
+                print("I am some text 3")
+                substrate[landing_row_right_2, position + 2] = i + 1
+                substrate[landing_row_right_2, position] = i + 1
+                substrate[landing_row_right_2 + 1, position] = i + 1
+                i += 1
+            else:
+              continue 
+
+        else:
+            continue
 
     if landing_row < topmost:
         topmost = landing_row
