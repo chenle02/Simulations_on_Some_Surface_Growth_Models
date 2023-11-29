@@ -52,7 +52,7 @@ topmost = height - 1
 
 i = 0
 steps = 20
-choice[0] = 2
+choice[0] = 3
 choice[1] = 3
 substrate[11, 3] = 11
 substrate[12, 3] = 11
@@ -77,7 +77,7 @@ print(substrate)
 while i < steps:
     # position = random.randint(0, width)
     # print('position=', position)
-#    Tetris_Choice()
+    # Tetris_Choice()
     print(choice)
 
 # Square Piece
@@ -328,7 +328,7 @@ while i < steps:
         print('position=', position)
         if position + 2 <= width - 1:
             # Pass function through here
-            landing_row = min(ffnz(substrate, height, position), ffnz(substrate, height , position + 1), ffnz(substrate, height, position + 2)) - 1
+            landing_row = min(ffnz(substrate, height, position), ffnz(substrate, height, position + 1), ffnz(substrate, height, position + 2)) - 1
 
             if landing_row >= 1:
                 substrate[landing_row, position] = i + 1
@@ -343,7 +343,7 @@ while i < steps:
             continue
 
     if choice[0] == 2 and choice[1] == 3:  # L case laying down, check right boundary
-        #position = random.randint(0, width - 1)
+        # position = random.randint(0, width - 1)
         position = 6
         print('position=', position)
         if position + 2 <= width - 1:
@@ -357,7 +357,7 @@ while i < steps:
 
             if landing_row_pivot > landing_row_right and landing_row_pivot > landing_row_right_2:
                 substrate[landing_row_pivot, position] = i + 1
-                substrate[landing_row_pivot - 1 , position] = i + 1
+                substrate[landing_row_pivot - 1, position] = i + 1
                 substrate[landing_row_pivot - 1, position + 1] = i + 1
                 substrate[landing_row_pivot - 1, position + 1] = i + 1
 
@@ -365,7 +365,7 @@ while i < steps:
 
             elif landing_row_right - 1 < landing_row_pivot or landing_row_right_2 - 1 < landing_row_pivot:
                 substrate[landing_row_pivot, position] = i + 1
-                substrate[landing_row_pivot - 1 , position] = i + 1
+                substrate[landing_row_pivot - 1, position] = i + 1
                 substrate[landing_row_left - 1, position + 1] = i + 1
                 substrate[landing_row_left - 1, position + 1] = i + 1
 
