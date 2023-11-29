@@ -51,8 +51,8 @@ substrate = np.zeros((height, width))
 topmost = height - 1
 
 i = 0
-steps = 20
-choice[0] = 2
+steps = 1
+choice[0] = 4
 choice[1] = 0
 substrate[11, 3] = 11
 substrate[12, 3] = 11
@@ -232,6 +232,113 @@ while i < steps:
                 substrate[landing_row_right - 2, position - 1] = i + 1
 
                 i += 1
+        else:
+            continue
+# J case
+    if choice[0] == 3 and choice[1] == 0:  # J case upright, check left boundary
+        position = random.randint(0, width - 1)
+        # position = 6
+        print('position=', position)
+        if position != 0:
+            # Pass function through here
+            landing_row = min(ffnz(substrate, height, position), ffnz(substrate, height, position - 1)) - 1
+
+            if landing_row >= 2:
+                substrate[landing_row, position] = i + 1
+                substrate[landing_row, position - 1] = i + 1
+                substrate[landing_row - 1, position] = i + 1
+                substrate[landing_row - 2, position] = i + 1
+
+                i += 1
+            else:
+                break
+        else:
+            continue
+
+    if choice[0] == 3 and choice[1] == 1:  # J case long part on top, check left boundary
+        # position = random.randint(0, width - 1)
+        position = 7
+        print('position=', position)
+        if position - 2 >= 0:
+            # Pass function through here
+            landing_row_left = ffnz(substrate, height, position - 2) - 1
+            landing_row_center = ffnz(substrate, height, position - 1) - 1
+            landing_row_right = ffnz(substrate, height, position) - 1
+            landing_row = min(landing_row_left, landing_row_center, landing_row_right)
+
+            if (landing_row_left <= landing_row_center) and (landing_row_left < landing_row_right):
+                substrate[landing_row_left, position - 2] = i + 1
+                substrate[landing_row_left, position - 1] = i + 1
+                substrate[landing_row_left, position] = i + 1
+                substrate[landing_row_left + 1, position] = i + 1
+
+                i += 1
+            elif (landing_row_center <= landing_row_left) and (landing_row_center < landing_row_right):
+                substrate[landing_row_center, position - 1] = i + 1
+                substrate[landing_row_center, position - 2] = i + 1
+                substrate[landing_row_center, position] = i + 1
+                substrate[landing_row_center + 1, position] = i + 1
+                i += 1
+            elif (landing_row_right <= landing_row_left) and (landing_row_right <= landing_row_center):
+                substrate[landing_row_right, position] = i + 1
+                substrate[landing_row_right - 1, position] = i + 1
+                substrate[landing_row_right - 1, position - 1] = i + 1
+                substrate[landing_row_right - 1, position - 2] = i + 1
+                i += 1
+
+            else:
+                break
+        else:
+            continue
+    if choice[0] == 3 and choice[1] == 2:  # J case long part on the left, check right boundary
+        position = random.randint(0, width - 1)
+        # position = 7
+        print('position=', position)
+        if position != width - 1:
+            # Pass function through here
+            landing_row_right = ffnz(substrate, height, position + 1) - 1
+            landing_row_left = ffnz(substrate, height, position) - 1
+            landing_row = min(landing_row_right, landing_row_left)
+            print('lrr=', landing_row_right)
+            print('lrl=', landing_row_left)
+
+            if min(landing_row_right, landing_row_left) <= 2:
+                break
+
+            elif landing_row_right <= landing_row_left - 2:
+                substrate[landing_row_right, position + 1] = i + 1
+                substrate[landing_row_right, position] = i + 1
+                substrate[landing_row_right + 1, position] = i + 1
+                substrate[landing_row_right + 2, position] = i + 1
+
+                i += 1
+
+            else:
+                substrate[landing_row_left, position] = i + 1
+                substrate[landing_row_left - 1, position] = i + 1
+                substrate[landing_row_left - 2, position] = i + 1
+                substrate[landing_row_left - 2, position + 1] = i + 1
+
+                i += 1
+        else:
+            continue
+    if choice[0] == 3 and choice[1] == 3:  # J case long part on the bottom, check right boundary
+        position = random.randint(0, width - 1)
+        # position = 7
+        print('position=', position)
+        if position + 2 <= width - 1:
+            # Pass function through here
+            landing_row = min(ffnz(substrate, height, position), ffnz(substrate, height , position + 1), ffnz(substrate, height, position + 2)) - 1
+
+            if landing_row >= 1:
+                substrate[landing_row, position] = i + 1
+                substrate[landing_row - 1, position] = i + 1
+                substrate[landing_row, position + 1] = i + 1
+                substrate[landing_row, position + 2] = i + 1
+
+                i += 1
+            else:
+                break
         else:
             continue
 
