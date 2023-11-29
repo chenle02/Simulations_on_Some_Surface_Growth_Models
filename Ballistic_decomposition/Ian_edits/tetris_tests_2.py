@@ -77,7 +77,7 @@ print(substrate)
 while i < steps:
     # position = random.randint(0, width)
     # print('position=', position)
-    # Tetris_Choice()
+    #    Tetris_Choice()
     print(choice)
 
 # Square Piece
@@ -339,37 +339,6 @@ while i < steps:
                 i += 1
             else:
                 break
-        else:
-            continue
-
-    if choice[0] == 2 and choice[1] == 3:  # L case laying down, check right boundary
-        # position = random.randint(0, width - 1)
-        position = 6
-        print('position=', position)
-        if position + 2 <= width - 1:
-            # Pass function through here
-            landing_row_pivot = ffnz(substrate, height, position) - 1
-            landing_row_right = ffnz(substrate, height, position + 1) - 1
-            landing_row_right_2 = ffnz(substrate, height, position + 2) - 1
-
-            if min(landing_row_pivot, landing_row_right, landing_row_right_2) >= 1:
-                break
-
-            if landing_row_pivot > landing_row_right and landing_row_pivot > landing_row_right_2:
-                substrate[landing_row_pivot, position] = i + 1
-                substrate[landing_row_pivot - 1, position] = i + 1
-                substrate[landing_row_pivot - 1, position + 1] = i + 1
-                substrate[landing_row_pivot - 1, position + 1] = i + 1
-
-                i += 1
-
-            elif landing_row_right - 1 < landing_row_pivot or landing_row_right_2 - 1 < landing_row_pivot:
-                substrate[landing_row_pivot, position] = i + 1
-                substrate[landing_row_pivot - 1, position] = i + 1
-                substrate[landing_row_left - 1, position + 1] = i + 1
-                substrate[landing_row_left - 1, position + 1] = i + 1
-
-                i += 1
         else:
             continue
 
