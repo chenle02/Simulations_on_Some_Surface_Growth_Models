@@ -275,6 +275,29 @@ while i < steps:
         else:
             continue
 
+        # S Case
+    if choice[0] == 3 and (choice[1] == 0 or choice[1] == 2):  # S case laying down, check left and right boundary
+        position = random.randint(0, width - 1)
+        #position = 3
+        print('position=', position)
+        if position + 1 <= width - 1:
+            landing_row_pivot = ffnz(substrate, height, position) - 1
+            landing_row_right = ffnz(substrate, height, position + 1) - 1
+            landing_row_left = ffnz(substrate, height, position - 1) - 1
+            landing_row = min(landing_row_pivot, landing_row_right, landing_row_left)
+
+            if landing_row_pivot < landing_row_right and landing_row_pivot <= landing_row_left:
+                substrate[landing_row_pivot, position] = i + 1
+                substrate[landing_row_pivot, position - 1] = i + 1
+                substrate[landing_row_pivot - 1, position] = i + 1
+                substrate[landing_row_pivot - 1, position - +] = i + 1
+                i += 1
+
+
+    if choice[0] == 3 and (choice[1] == 1 or choice[1] == 3): # S case standing up, check left boundary SEE Z CASE 
+
+
+
     if landing_row < topmost:
         topmost = landing_row
 
