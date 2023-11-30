@@ -26,8 +26,6 @@ topmost = height - 1
 
 i = 0
 steps = 2000
-#choice[0] = 6
-#choice[1] = 3
 substrate[11, 3] = 11
 substrate[12, 3] = 11
 substrate[13, 3] = 11
@@ -53,7 +51,6 @@ def Tetris_RD(width, height, steps):
     topmost = height - 1 
     while i < steps:
         choice = Tetris_Choice()
-        choice[0] = 1
         print(choice)
 
         # Square Piece
@@ -165,7 +162,7 @@ def Tetris_RD(width, height, steps):
             position = random.randint(0, width-1)
             # position = 6
             print('position=', position)
-            if position - 2 < 0:
+            if position != 0 and position != 1:
                 #Pass function through here
                 landing_row = ffnz(substrate, height, position) - 1 
 
@@ -181,7 +178,7 @@ def Tetris_RD(width, height, steps):
             else:
                 continue
 
-        if choice[0] == 2 and choice[1] == 2 :  # L case laying down, check left boundary
+        if choice[0] == 2 and choice[1] == 2 :  # L case standing up, check left boundary
             position = random.randint(0, width-1)
             # position = 6
             print('position=', position)
@@ -189,11 +186,12 @@ def Tetris_RD(width, height, steps):
                 #Pass function through here
                 landing_row_right = ffnz(substrate, height, position) - 1 
                 landing_row_left = ffnz(substrate, height, position - 1) - 1
+                landing_row = min(landing_row_right, landing_row_left)
 
-                if min(landing_row_right, landing_row_left) >= 2:
+                if min(landing_row_right, landing_row_left) <= 2:
                     break
                 
-                elif landing_row_right < landing_row_left - 1:
+                elif landing_row_left < landing_row_right - 1:
                     substrate[landing_row_left, position - 1] = i + 1
                     substrate[landing_row_left, position] = i + 1
                     substrate[landing_row_left + 1, position] = i + 1
@@ -215,7 +213,7 @@ def Tetris_RD(width, height, steps):
             position = random.randint(0, width - 1)
             #position = 3
             print('position=', position)
-            if position + 2 <= width - 1:
+            if position != width - 1 and position != width - 2:
                 # Pass function through here
                 landing_row_pivot = ffnz(substrate, height, position) - 1
                 landing_row_right = ffnz(substrate, height, position + 1) - 1
@@ -223,27 +221,26 @@ def Tetris_RD(width, height, steps):
                 landing_row = min (landing_row_pivot, landing_row_right, landing_row_right_2)
                 print(landing_row_pivot, landing_row_right, landing_row_right_2, landing_row)
 
-                if landing_row_pivot < landing_row_right and landing_row_pivot < landing_row_right_2:
+                if landing_row_pivot <= landing_row_right and landing_row_pivot <= landing_row_right_2:
                     substrate[landing_row_pivot, position] = i + 1
-                    print("I am some text")
+                    print("help help!")
                     substrate[landing_row_pivot - 1, position] = i + 1
                     substrate[landing_row_pivot - 1, position + 1] = i + 1
                     substrate[landing_row_pivot - 1, position + 2] = i + 1
                     i += 1
 
-                elif landing_row_right <= landing_row_pivot - 1 and landing_row_right <= landing_row_right_2:
+                elif landing_row_right < landing_row_pivot and landing_row_right <= landing_row_right_2:
                     substrate[landing_row_right, position + 1] = i + 1
-                    print("I am some text 2")
                     substrate[landing_row_right, position + 2] = i + 1
                     substrate[landing_row_right, position] = i + 1
                     substrate[landing_row_right + 1, position] = i + 1
                     i += 1
 
-                elif landing_row_right_2 <= landing_row_pivot - 1 and landing_row_right_2 <= landing_row_right:
+                elif landing_row_right_2 < landing_row_pivot and landing_row_right_2 <= landing_row_right:
                     substrate[landing_row_right_2, position + 1] = i + 1
-                    print("I am some text 3")
                     substrate[landing_row_right_2, position + 2] = i + 1
                     substrate[landing_row_right_2, position] = i + 1
+                    print("find me")
                     substrate[landing_row_right_2 + 1, position] = i + 1
                     i += 1
                 else:
