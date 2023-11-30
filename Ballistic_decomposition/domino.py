@@ -84,4 +84,3 @@ substrate = Random_Deposition_2x1(width, height, steps)
 outputfile = f'Substrate_domino_{width}x{height}_Particles={steps}.txt'
 np.savetxt(outputfile, substrate, fmt='%d', delimiter=',')
 print(f"{outputfile} saved!")
-
