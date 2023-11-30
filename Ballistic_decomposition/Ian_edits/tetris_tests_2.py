@@ -391,7 +391,7 @@ while i < steps:
             print('lrr=', landing_row_left)
             print('lrl=', landing_row_right)
 
-            if min(landing_row_right, landing_row_left) < 2:
+            if min(landing_row_right, landing_row_left) <= 2:
                 break
 
             elif landing_row_right < landing_row_left:
@@ -440,7 +440,7 @@ while i < steps:
             print('lrl=', landing_row_left)
             print('lrr=', landing_row_right)
 
-            if min(landing_row_right, landing_row_left) < 2:
+            if min(landing_row_right, landing_row_left) <= 2:
                 break
 
             elif landing_row_right > landing_row_left:
