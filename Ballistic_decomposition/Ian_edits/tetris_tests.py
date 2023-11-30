@@ -52,7 +52,7 @@ topmost = height - 1
 i = 0
 steps = 20 
 choice[0] = 6
-choice[1] = 1
+choice[1] = 3
 substrate[11, 3] = 11
 substrate[12, 3] = 11
 substrate[13, 3] = 11
@@ -286,6 +286,9 @@ while i < steps:
             landing_row_left = ffnz(substrate, height, position - 1) - 1
             landing_row = min(landing_row_pivot, landing_row_right, landing_row_left)
 
+            if landing_row <= 2:
+                break
+
             if landing_row_pivot < landing_row_right and landing_row_pivot <= landing_row_left:
                 substrate[landing_row_pivot, position] = i + 1
                 substrate[landing_row_pivot, position - 1] = i + 1
@@ -315,6 +318,9 @@ while i < steps:
             landing_row_left = ffnz(substrate, height, position - 1) - 1
             landing_row = min(landing_row_pivot, landing_row_left)
 
+            if landing_row <= 2:
+                break
+
             if landing_row_pivot < landing_row_left - 1: 
                 substrate[landing_row_pivot, position] = i + 1
                 substrate[landing_row_pivot - 1, position] = i + 1
@@ -341,6 +347,9 @@ while i < steps:
             landing_row_pivot = ffnz(substrate, height, position) - 1
             landing_row_right = ffnz(substrate, height, position + 1) - 1
             landing_row = min(landing_row_pivot, landing_row_right)
+
+            if landing_row <= 2:
+                break
 
             if landing_row_pivot - 1 < landing_row_right: 
                 substrate[landing_row_pivot, position] = i + 1
@@ -372,6 +381,9 @@ while i < steps:
             landing_row_right = ffnz(substrate, height, position + 1) - 1
             landing_row_left = ffnz(substrate, height, position - 1) - 1
             landing_row = min(landing_row_pivot, landing_row_right, landing_row_left)
+
+            if landing_row <= 2:
+                break
 
             if landing_row_pivot < landing_row_left and landing_row_pivot <= landing_row_right:
                 substrate[landing_row_pivot, position] = i + 1
@@ -410,6 +422,9 @@ while i < steps:
             landing_row_left = ffnz(substrate, height, position - 1) - 1
             landing_row = min(landing_row_pivot, landing_row_left)
 
+            if landing_row <= 2:
+                break
+
             if landing_row_left <= landing_row_pivot: 
                 substrate[landing_row_left, position - 1] = i + 1
                 substrate[landing_row_left - 1, position - 1] = i + 1
@@ -436,6 +451,9 @@ while i < steps:
             landing_row_pivot = ffnz(substrate, height, position) - 1
             landing_row_right = ffnz(substrate, height, position + 1) - 1
             landing_row = min(landing_row_pivot, landing_row_right)
+
+            if landing_row <= 2:
+                break
 
             if landing_row_pivot <= landing_row_right: 
                 substrate[landing_row_pivot, position] = i + 1
