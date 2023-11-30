@@ -52,7 +52,7 @@ topmost = height - 1
 i = 0
 steps = 20 
 choice[0] = 3
-choice[1] = 1
+choice[1] = 3
 substrate[11, 3] = 11
 substrate[12, 3] = 11
 substrate[13, 3] = 11
@@ -305,6 +305,7 @@ while i < steps:
         else:
             continue
 
+#NEED TO FIX CEILING ISSUES HERE
     if choice[0] == 3 and choice[1] == 1: # S case standing up, pivot on the right, check left boundary SEE Z CASE 
         position = random.randint(0, width - 1)
         #position = 3
@@ -331,6 +332,34 @@ while i < steps:
                 i += 1
         else:
             continue
+
+    if choice[0] == 3 and choice[1] == 3: # S case standing up, pivot on the left, check right boundary SEE Z CASE 
+        position = random.randint(0, width - 1)
+        #position = 3
+        print('position=', position)
+        if position + 1 <= width - 1:
+            landing_row_pivot = ffnz(substrate, height, position) - 1
+            landing_row_right = ffnz(substrate, height, position + 1) - 1
+            landing_row = min(landing_row_pivot, landing_row_right)
+
+            if landing_row_pivot - 1 < landing_row_right: 
+                substrate[landing_row_pivot, position] = i + 1
+                substrate[landing_row_pivot - 1, position] = i + 1
+                print("Hi")
+                substrate[landing_row_pivot, position + 1] = i + 1
+                substrate[landing_row_pivot + 1, position + 1] = i + 1
+                i += 1
+
+            elif landing_row_right >= landing_row_pivot:
+                substrate[landing_row_right, position + 1] = i + 1
+                substrate[landing_row_right - 1, position + 1] = i + 1
+                print("Hi2")
+                substrate[landing_row_right, position] = i + 1
+                substrate[landing_row_right - 2, position] = i + 1
+                i += 1
+        else:
+            continue
+    
 
 
     if landing_row < topmost:
