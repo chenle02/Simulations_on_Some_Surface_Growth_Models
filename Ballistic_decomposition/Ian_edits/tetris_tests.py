@@ -1,6 +1,6 @@
 import numpy as np
 import random
-
+#Hi Ian
 
 def Tetris_Choice():  # This gives the tetris case
     choice = np.random.randint(7, size=4)  # There are 7 tetris pieces that we are rotating counterclockwise
@@ -9,7 +9,9 @@ def Tetris_Choice():  # This gives the tetris case
     return choice
 
 # The square pivot starts in the bottom right corner. So the first rotation
-# doesn't change how we place the piece.
+# doesn't change how we place the piece. 
+
+#SQUARE CASE COMPLETE
 
 # The line pivot is at the bottom, it starts vertically. So the first rotation is horizontal, then
 # vertical again, then horizontal again.
@@ -29,162 +31,272 @@ def Tetris_Choice():  # This gives the tetris case
 # rotation leaves the piece sticking out to the top and bottom.
 
 
-# def Random_Deposition_2x1(width, height, steps):
-#    substrate = np.zeros((height, width))
-#    topmost = height - 1
-#    i = 0
-#
-#   while i < steps:
-#        position = random.randint(0, width)
-#        Piece_Selection()
-#
-#        if choice[0] == 0 and choice[1] == 0: # Horizontal piece, left pivot. As in, the nonpivot is on the right.
-#            if position != width: # Checks if the piece is in the right boundary
-#                landing_row = np.minimum( np.max(np.where(substrate[:, position] == 0)), np.max(np.where(substrate[:, position + 1] == 0)) )
-#                substrate[landing_row, position] = i + 1
-#                substrate[landing_row, position + 1] = i + 1
-#                i += 1
-#            else :
-#               continue
-#
-#        if choice[0] == 0 and choice[1] == 1: # Horizontal piece, right pivot. As in, the nonpivot is on the left.
-#            if position != 0: # Need to fix this, can't compare numpy array to int.
-#                landing_row = np.minimum( np.max(np.where(substrate[:, position] == 0)), np.max(np.where(substrate[:, position - 1] == 0)) )
-#                substrate[landing_row, position] = i + 1
-#                substrate[landing_row, position - 1] = i + 1
-#                i += 1
-#            else :
-#                continue
-#
-#        if choice[0] == 1: #Vertical piece. We can safely ignore the pivot and we also don't need to check boundary conditions
-#            landing_row = np.max(np.where(substrate[:, position] == 0))
-#            substrate[landing_row, position] = i + 1
-#            substrate[landing_row - 1, position] = i + 1 #This places a block above the first one
-#
-#        if landing_row < topmost:
-#            topmost = landing_row
-#
-#        if (step + 1) % 200 == 0:
-#            print(f"Step: {step + 1}/{steps}, Level at {height - topmost}/{height}")
-#
-#        if topmost < height * 0.10 or topmost <= 2:
-#            print(f"Stopped at step {step + 1}, Level at {height - topmost}/{height}")
-#            break
-#
-#    outputfile = f'Substrate_{width}x{height}_Particles={steps}.txt'
-#    np.savetxt(outputfile, substrate, fmt='%d', delimiter=',')
-#    print(f"{outputfile} saved!")
-#    return outputfile
-#
+
 choice = np.random.randint(7, size=4)
 width = 8
-height = 8
+height = 16
 
-
-def ffnz(matrix, height, column):  # ffnz finds the first nonzero entry in a fixed column
+def ffnz(matrix, height, column):  # ffnz Finds the First NonZero entry in a fixed column
     i = 0
-    j = 0
-    while j == 0:
+    flag = height
+    while (flag == height) and (i < height):
         if matrix[i, column] == 0:
             i = i + 1
         else:
-            j = i
-    return j
+            flag = i
+    return flag
 
-
-# def Random_Deposition_tetris(width, height, steps):
-position = random.randint(0, width)
 substrate = np.zeros((height, width))
-topmost = height - 1
-landing_row = np.max(np.where(substrate[:, position] == 0))
+topmost = height - 1 
+
 i = 0
-steps = 1
-choice[0] = 0
-choice[1] = 0
-substrate[3, 3] = 11
-substrate[4, 3] = 11
-substrate[5, 3] = 11
-substrate[6, 0] = 11
-substrate[6, 1] = 0
-substrate[6, 3] = 11
-substrate[6, 6] = 11
-substrate[7, 0] = 11
-substrate[7, 1] = 0
-substrate[7, 2] = 11
-substrate[7, 3] = 11
-substrate[7, 4] = 11
-substrate[7, 5] = 11
-substrate[7, 6] = 11
-substrate[4, 2] = 11
-substrate[2, 6] = 11
+steps = 20 
+choice[0] = 2
+choice[1] = 3
+substrate[11, 3] = 11
+substrate[12, 3] = 11
+substrate[13, 3] = 11
+substrate[14, 0] = 11
+substrate[14, 1] = 0
+substrate[14, 3] = 11
+substrate[14, 6] = 11
+substrate[15, 0] = 11
+substrate[15, 1] = 0
+substrate[15, 2] = 11
+substrate[15, 3] = 11
+substrate[15, 4] = 11
+substrate[15, 5] = 11
+substrate[15, 6] = 11
+substrate[12, 2] = 11
+substrate[10, 6] = 11
 print(substrate)
-print('ffnz=', ffnz(substrate, height, 2))
-print('ffnz=', ffnz(substrate, height, 6))
-step = 1  # This is the counter that goes in each piece
+#print('ffnz=', ffnz(substrate, height, 2))
+#print('ffnz=', ffnz(substrate, height, 6))
+#step = 1  # This is the counter that goes in each piece
 while i < steps:
     position = random.randint(0, width)
     # print('position=', position)
-    Tetris_Choice()
+#    Tetris_Choice()
     print(choice)
-    border_hit = False
 
     # Square Piece
-    if choice[0] == 0 and (choice[1] == 0 or choice[1] == 1):   # Square, check left boundary
-        # position = random.randint(0, width)
-        position = 0
+    if choice[0] == 0 and (choice[1] == 0 or choice[1] == 1):   # Square, check right boundary
+        # position = random.randint(0, width-1)
+        position = 4
         print('position=', position)
         if position != (width - 1):
-            if position == 0:
-                mleft_column = position
-                mright_column = position + 1
-                right_column = position + 2
-                max_mleft_column = ffnz(substrate, height, mleft_column)
-                print('max mlcol=', max_mleft_column)
-                max_mright_column = ffnz(substrate, height, mright_column)
-                print('max_mrcol=', max_mright_column)
-                max_right_column = ffnz(substrate, height, right_column)
-                print('max_rc=', max_right_column)
-                if (max_right_column < mright_column) and (max_right_column < mleft_column):
-                    substrate[max_right_column, position] = step
-                    substrate[max_right_column, position + 1] = step
-                    substrate[max_right_column + 1, position] = step
-                    substrate[max_right_column + 1, position + 1] = step
-            elif position == width - 1:
-                left_column = position - 1
-                mleft_column = position
-                mright_column = position + 1
-                max_left_column = np.max(np.where(substrate[:, left_column] == 0))
-                print('max lc=', max_left_column)
-                max_mleft_column = np.max(np.where(substrate[:, mleft_column] == 0))
-                print('max mlcol=', max_mleft_column)
-                max_mright_column = np.max(np.where(substrate[:, mright_column] == 0))
-                print('max_mrcol=', max_mright_column)
-            else:
-                left_column = position - 1
-                mleft_column = position
-                mright_column = position + 1
-                right_column = position + 2
-                max_left_column = np.max(np.where(substrate[:, left_column] == 0))
-                print('max lc=', max_left_column)
-                max_mleft_column = np.max(np.where(substrate[:, mleft_column] == 0))
-                print('max mlcol=', max_mleft_column)
-                max_mright_column = np.max(np.where(substrate[:, mright_column] == 0))
-                print('max_mrcol=', max_mright_column)
-                max_right_column = np.max(np.where(substrate[:, right_column] == 0))
-                print('max_rc=', max_right_column)
-                # landing_row = np.max()
-        else:
-            border_hit = True  # A border was hit by the piece, so we must discard it and not augment the counter
-            print('borderhit=', border_hit)
+            #Pass function through here
+            landing_row = min(ffnz(substrate, height, position), ffnz(substrate, height, position + 1)) - 1
 
-    if choice[0] == 0 and (choice[1] == 2 or choice[1] == 3):  # Square, check right boundary
-        ...
-    # landing_row = np.max(np.where(substrate[:, position] == 0))
-    # substrate[landing_row, position] = step + 1
-    Tetris_Choice()
-    if not border_hit:  # If we didn't hit a border with a piece, all the counters increase by 1
-        i = i + 1  # This is the counter of steps
-        step = step + 1  # This is the counter that goes in each piece
+            substrate[landing_row - 1, position] = i + 1
+            substrate[landing_row, position] = i + 1
+            substrate[landing_row - 1, position + 1] = i + 1
+            substrate[landing_row, position + 1] = i + 1
+
+            i += 1
+
+        else:
+            continue
+
+    if choice[0] == 0 and (choice[1] == 2 or choice[1] == 3):  # Square, check left boundary
+        # position = random.randint(0, width-1)
+        position = 4
+        print('position=', position)
+        if position != 0:
+            #Pass function through here
+            landing_row = min(ffnz(substrate, height, position), ffnz(substrate, height, position - 1)) - 1
+
+            substrate[landing_row - 1, position] = i + 1
+            substrate[landing_row, position] = i + 1
+            substrate[landing_row - 1, position - 1] = i + 1
+            substrate[landing_row, position - 1] = i + 1
+
+            i += 1
+        else: 
+            continue
+
+    if choice[0] == 1 and (choice[1] == 0 or choice[1] == 2):   # Vertical, check ceiling case 
+        # position = random.randint(0, width-1)
+        position = 7
+        print('position=', position)
+        landing_row = ffnz(substrate, height, position) - 1
+        if landing_row >= 3:
+            substrate[landing_row, position] = i + 1
+            substrate[landing_row - 1 , position] = i + 1
+            substrate[landing_row - 2, position] = i + 1
+            substrate[landing_row - 3, position] = i + 1
+            i += 1
+        else:
+           break 
+
+    if choice[0] == 1 and choice[1] == 1 :  # Line with right pivot, check left boundary
+        position = random.randint(0, width-1)
+        # position = 6
+        print('position=', position)
+        if position - 3 >= 0:
+            #Pass function through here
+            landing_row = min(ffnz(substrate, height, position), ffnz(substrate, height, position - 1), ffnz(substrate, height, position - 2), ffnz(substrate, height, position - 3)) - 1
+
+            substrate[landing_row, position] = i + 1
+            substrate[landing_row, position - 1] = i + 1
+            substrate[landing_row, position - 2] = i + 1
+            substrate[landing_row, position - 3] = i + 1
+
+            i += 1
+        else: 
+            continue
+
+    if choice[0] == 1 and choice[1] == 3 :  # Line with left pivot, check right boundary
+        position = random.randint(0, width-1)
+        # position = 6
+        print('position=', position)
+        if position + 3 <= width - 1:
+            #Pass function through here
+            landing_row = min(ffnz(substrate, height, position), ffnz(substrate, height, position + 1), ffnz(substrate, height, position + 2), ffnz(substrate, height, position + 3)) - 1
+
+            substrate[landing_row, position] = i + 1
+            substrate[landing_row, position + 1] = i + 1
+            substrate[landing_row, position + 2] = i + 1
+            substrate[landing_row, position + 3] = i + 1
+
+            i += 1
+        else: 
+            continue
+
+   #L Case 
+    if choice[0] == 2 and choice[1] == 0 :  # L case upright, check right boundary
+        position = random.randint(0, width-1)
+        # position = 6
+        print('position=', position)
+        if position + 1 <= width - 1:
+            #Pass function through here
+            landing_row = min(ffnz(substrate, height, position), ffnz(substrate, height, position + 1)) - 1 
+
+            if landing_row >= 2:
+                substrate[landing_row, position] = i + 1
+                substrate[landing_row, position + 1] = i + 1
+                substrate[landing_row - 1, position] = i + 1
+                substrate[landing_row - 2, position] = i + 1
+
+                i += 1
+            else: 
+                break 
+        else:
+            continue
+
+    if choice[0] == 2 and choice[1] == 1 :  # L case laying down, check left boundary
+        position = random.randint(0, width-1)
+        # position = 6
+        print('position=', position)
+        if position - 2 < 0:
+            #Pass function through here
+            landing_row = ffnz(substrate, height, position) - 1 
+
+            if landing_row >= 1:
+                substrate[landing_row, position] = i + 1
+                substrate[landing_row - 1 , position] = i + 1
+                substrate[landing_row, position - 1] = i + 1
+                substrate[landing_row, position - 2] = i + 1
+
+                i += 1
+            else: 
+                break 
+        else:
+            continue
+
+    if choice[0] == 2 and choice[1] == 2 :  # L case laying down, check left boundary
+        position = random.randint(0, width-1)
+        # position = 6
+        print('position=', position)
+        if position != 0:
+            #Pass function through here
+            landing_row_right = ffnz(substrate, height, position) - 1 
+            landing_row_left = ffnz(substrate, height, position - 1) - 1
+
+            if min(landing_row_right, landing_row_left) >= 2:
+                break
+            
+            elif landing_row_right < landing_row_left - 1:
+                substrate[landing_row_left, position - 1] = i + 1
+                substrate[landing_row_left, position] = i + 1
+                substrate[landing_row_left + 1, position] = i + 1
+                substrate[landing_row_left + 2, position] = i + 1
+
+                i += 1
+
+            else:
+                substrate[landing_row_right, position] = i + 1
+                substrate[landing_row_right - 1, position] = i + 1
+                substrate[landing_row_right - 2, position] = i + 1
+                substrate[landing_row_right - 2, position - 1] = i + 1
+
+                i += 1
+        else:
+            continue
+
+    if choice[0] == 2 and choice[1] == 3:  # L case laying down, check right boundary
+        position = random.randint(0, width - 1)
+        #position = 3
+        print('position=', position)
+        if position + 2 <= width - 1:
+            # Pass function through here
+            landing_row_pivot = ffnz(substrate, height, position) - 1
+            landing_row_right = ffnz(substrate, height, position + 1) - 1
+            landing_row_right_2 = ffnz(substrate, height, position + 2) - 1
+            landing_row = min (landing_row_pivot, landing_row_right, landing_row_right_2)
+            print(landing_row_pivot, landing_row_right, landing_row_right_2, landing_row)
+
+            if landing_row_pivot < landing_row_right and landing_row_pivot < landing_row_right_2:
+                substrate[landing_row_pivot, position] = i + 1
+                print("I am some text")
+                substrate[landing_row_pivot - 1, position] = i + 1
+                substrate[landing_row_pivot - 1, position + 1] = i + 1
+                substrate[landing_row_pivot - 1, position + 2] = i + 1
+                i += 1
+
+            elif landing_row_right <= landing_row_pivot - 1 and landing_row_right <= landing_row_right_2:
+                substrate[landing_row_right, position + 1] = i + 1
+                print("I am some text 2")
+                substrate[landing_row_right, position + 2] = i + 1
+                substrate[landing_row_right, position] = i + 1
+                substrate[landing_row_right + 1, position] = i + 1
+                i += 1
+
+            elif landing_row_right_2 <= landing_row_pivot - 1 and landing_row_right_2 <= landing_row_right:
+                substrate[landing_row_right_2, position + 1] = i + 1
+                print("I am some text 3")
+                substrate[landing_row_right_2, position + 2] = i + 1
+                substrate[landing_row_right_2, position] = i + 1
+                substrate[landing_row_right_2 + 1, position] = i + 1
+                i += 1
+            else:
+              continue 
+
+        else:
+            continue
+
+        # S Case
+    if choice[0] == 3 and (choice[1] == 0 or choice[1] == 2):  # S case laying down, check left and right boundary
+        position = random.randint(0, width - 1)
+        #position = 3
+        print('position=', position)
+        if position + 1 <= width - 1:
+            landing_row_pivot = ffnz(substrate, height, position) - 1
+            landing_row_right = ffnz(substrate, height, position + 1) - 1
+            landing_row_left = ffnz(substrate, height, position - 1) - 1
+            landing_row = min(landing_row_pivot, landing_row_right, landing_row_left)
+
+            if landing_row_pivot < landing_row_right and landing_row_pivot <= landing_row_left:
+                substrate[landing_row_pivot, position] = i + 1
+                substrate[landing_row_pivot, position - 1] = i + 1
+                substrate[landing_row_pivot - 1, position] = i + 1
+                substrate[landing_row_pivot - 1, position - +] = i + 1
+                i += 1
+
+
+    if choice[0] == 3 and (choice[1] == 1 or choice[1] == 3): # S case standing up, check left boundary SEE Z CASE 
+
+
 
     if landing_row < topmost:
         topmost = landing_row
@@ -196,6 +308,3 @@ while i < steps:
         print(f"Stopped at step {steps + 1}, Level at {height - topmost}/{height}")
         break
 print(substrate)
-#    outputfile = f'Substrate_{width}x{height}_Particles={steps}.txt'
-#    np.savetxt(outputfile, substrate, fmt='%d', delimiter=',')
-#    print(f"{outputfile} saved!")

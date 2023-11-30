@@ -97,6 +97,7 @@ position = random.randint(0, width)
 substrate = np.zeros((height, width))
 topmost = height - 1
 landing_row = np.max(np.where(substrate[:, position] == 0))
+
 i = 0
 steps = 1
 choice[0] = 0
