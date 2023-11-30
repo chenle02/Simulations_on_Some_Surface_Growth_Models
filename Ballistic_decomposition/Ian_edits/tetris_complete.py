@@ -9,7 +9,7 @@ def Tetris_Choice():  # This gives the tetris case
     return choice
 
 width = 100
-height = 100
+height = 1000
 
 def ffnz(matrix, height, column):  # ffnz Finds the First NonZero entry in a fixed column
     i = 0
@@ -53,7 +53,7 @@ def Tetris_RD(width, height, steps):
     topmost = height - 1 
     while i < steps:
         choice = Tetris_Choice()
-        choice[0] = 0
+        choice[0] = 1
         print(choice)
 
         # Square Piece
@@ -687,7 +687,7 @@ def Tetris_RD(width, height, steps):
         if (steps + 1) % 200 == 0:
             print(f"Step: {steps + 1}/{steps}, Level at {height - topmost}/{height}")
 
-        if topmost < height * 0.10 or topmost <= 2:
+        if topmost < height * 0.05 or topmost <= 2:
             print(f"Stopped at step {steps + 1}, Level at {height - topmost}/{height}")
             break
 
