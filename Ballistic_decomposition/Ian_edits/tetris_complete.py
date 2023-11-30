@@ -26,8 +26,6 @@ topmost = height - 1
 
 i = 0
 steps = 2000
-#choice[0] = 6
-#choice[1] = 3
 substrate[11, 3] = 11
 substrate[12, 3] = 11
 substrate[13, 3] = 11
