@@ -51,8 +51,8 @@ substrate = np.zeros((height, width))
 topmost = height - 1
 
 i = 0
-steps = 20
-choice[0] = 3
+steps = 10
+choice[0] = 4
 choice[1] = 3
 substrate[11, 3] = 11
 substrate[12, 3] = 11
@@ -340,6 +340,128 @@ while i < steps:
             else:
                 break
         else:
+            continue
+
+# T case
+
+    if choice[0] == 4 and choice[1] == 0:  # T case long part on top, check left and right boundaries
+        position = random.randint(0, width - 1)
+        # position = 7
+        print('position=', position)
+        if (position != width - 1) and (position != 0):
+            # Pass function through here
+            landing_row_left = ffnz(substrate, height, position - 1) - 1
+            landing_row_center = ffnz(substrate, height, position) - 1
+            landing_row_right = ffnz(substrate, height, position + 1) - 1
+            landing_row = min(landing_row_right, landing_row_left, landing_row_center)
+
+            if (landing_row_left < landing_row_center) and (landing_row_left <= landing_row_right):
+                substrate[landing_row_left, position - 1] = i + 1
+                substrate[landing_row_left, position] = i + 1
+                substrate[landing_row_left, position + 1] = i + 1
+                substrate[landing_row_left + 1, position] = i + 1
+
+                i += 1
+            elif (landing_row_center <= landing_row_left) and (landing_row_center <= landing_row_right):
+                substrate[landing_row_center, position] = i + 1
+                substrate[landing_row_center - 1, position - 1] = i + 1
+                substrate[landing_row_center - 1, position] = i + 1
+                substrate[landing_row_center - 1, position + 1] = i + 1
+                i += 1
+            elif (landing_row_right <= landing_row_left) and (landing_row_right < landing_row_center):
+                substrate[landing_row_right, position - 1] = i + 1
+                substrate[landing_row_right, position] = i + 1
+                substrate[landing_row_right, position + 1] = i + 1
+                substrate[landing_row_right + 1, position] = i + 1
+                i += 1
+
+            else:
+                break
+        else:
+            continue
+    if choice[0] == 4 and choice[1] == 1:  # T case long part on the left, check right boundary
+        position = random.randint(0, width - 1)
+        # position = 7
+        print('position=', position)
+        if position != width - 1:
+            # Pass function through here
+            landing_row_left = ffnz(substrate, height, position) - 1
+            landing_row_right = ffnz(substrate, height, position + 1) - 1
+            landing_row = min(landing_row_right, landing_row_left)
+            print('lrr=', landing_row_left)
+            print('lrl=', landing_row_right)
+
+            if min(landing_row_right, landing_row_left) < 2:
+                break
+
+            elif landing_row_right < landing_row_left:
+                substrate[landing_row_right, position + 1] = i + 1
+                substrate[landing_row_right - 1, position] = i + 1
+                substrate[landing_row_right, position] = i + 1
+                substrate[landing_row_right + 1, position] = i + 1
+
+                i += 1
+            elif landing_row_right >= landing_row_left:
+                substrate[landing_row_left, position] = i + 1
+                substrate[landing_row_left - 1, position] = i + 1
+                substrate[landing_row_left - 2, position] = i + 1
+                substrate[landing_row_left - 1, position + 1] = i + 1
+                i += 1
+            else:
+                continue
+    if choice[0] == 4 and choice[1] == 2:  # T case long part on the bottom, check left and right boundaries
+        position = random.randint(0, width - 1)
+        # position = 4
+        print('position=', position)
+        if (position != 0) and (position != width - 1):
+            # Pass function through here
+            landing_row = min(ffnz(substrate, height, position), ffnz(substrate, height, position + 1), ffnz(substrate, height, position - 1)) - 1
+
+            if landing_row >= 1:
+                substrate[landing_row, position] = i + 1
+                substrate[landing_row, position + 1] = i + 1
+                substrate[landing_row, position - 1] = i + 1
+                substrate[landing_row - 1, position] = i + 1
+
+                i += 1
+            else:
+                break
+        else:
+            continue
+    if choice[0] == 4 and choice[1] == 3:  # T case long part on the right, check left boundary
+        position = random.randint(0, width - 1)
+        # position = 7
+        print('position=', position)
+        if position != 0:
+            # Pass function through here
+            landing_row_left = ffnz(substrate, height, position - 1) - 1
+            landing_row_right = ffnz(substrate, height, position) - 1
+            landing_row = min(landing_row_right, landing_row_left)
+            print('lrl=', landing_row_left)
+            print('lrr=', landing_row_right)
+
+            if min(landing_row_right, landing_row_left) < 2:
+                break
+
+            elif landing_row_right > landing_row_left:
+                substrate[landing_row_left, position - 1] = i + 1
+                substrate[landing_row_left - 1, position] = i + 1
+                substrate[landing_row_left, position] = i + 1
+                substrate[landing_row_left + 1, position] = i + 1
+
+                i += 1
+            elif landing_row_right <= landing_row_left:
+                substrate[landing_row_right, position] = i + 1
+                substrate[landing_row_right - 1, position] = i + 1
+                substrate[landing_row_right - 2, position] = i + 1
+                substrate[landing_row_right - 1, position - 1] = i + 1
+                i += 1
+            else:
+                continue
+        else:
+            landing_row_left = ffnz(substrate, height, position - 1) - 1
+            landing_row_right = ffnz(substrate, height, position) - 1
+            landing_row = min(landing_row_right, landing_row_left)
             continue
 
     if landing_row < topmost:
