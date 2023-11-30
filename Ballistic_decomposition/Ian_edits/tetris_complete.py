@@ -53,6 +53,7 @@ def Tetris_RD(width, height, steps):
     topmost = height - 1 
     while i < steps:
         choice = Tetris_Choice()
+        choice[0] = 0
         print(choice)
 
         # Square Piece
