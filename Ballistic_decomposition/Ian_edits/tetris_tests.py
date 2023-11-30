@@ -51,8 +51,8 @@ topmost = height - 1
 
 i = 0
 steps = 20 
-choice[0] = 3
-choice[1] = 3
+choice[0] = 6
+choice[1] = 1
 substrate[11, 3] = 11
 substrate[12, 3] = 11
 substrate[13, 3] = 11
@@ -359,7 +359,101 @@ while i < steps:
                 i += 1
         else:
             continue
-    
+
+
+        # Z Case
+
+    if choice[0] == 6 and (choice[1] == 0 or choice[1] == 2):  # Z case laying down, check left and right boundary
+        position = random.randint(0, width - 1)
+        #position = 3
+        print('position=', position)
+        if position + 1 <= width - 1 and position - 1 >= 0: #Check left and right bdy
+            landing_row_pivot = ffnz(substrate, height, position) - 1
+            landing_row_right = ffnz(substrate, height, position + 1) - 1
+            landing_row_left = ffnz(substrate, height, position - 1) - 1
+            landing_row = min(landing_row_pivot, landing_row_right, landing_row_left)
+
+            if landing_row_pivot < landing_row_left and landing_row_pivot <= landing_row_right:
+                substrate[landing_row_pivot, position] = i + 1
+                substrate[landing_row_pivot, position + 1] = i + 1
+                substrate[landing_row_pivot - 1, position] = i + 1
+                print("Hi")
+                substrate[landing_row_pivot - 1, position - 1] = i + 1
+                i += 1
+
+            elif landing_row_left < landing_row_pivot and landing_row_left < landing_row_right:
+                substrate[landing_row_left, position - 1] = i + 1
+                substrate[landing_row_left, position] = i + 1
+                substrate[landing_row_left + 1, position] = i + 1
+                print("Hi2")
+                substrate[landing_row_left + 1, position + 1] = i + 1
+                i += 1
+
+            elif landing_row_right <= landing_row_pivot and landing_row_right < landing_row_left:
+                substrate[landing_row_right, position + 1] = i + 1
+                substrate[landing_row_right, position] = i + 1
+                substrate[landing_row_right - 1, position] = i + 1
+                print("Hi2")
+                substrate[landing_row_right - 1, position - 1] = i + 1
+                i += 1
+
+        else:
+            continue
+
+
+    if choice[0] == 6 and choice[1] == 1: # Z case standing up, pivot on the right, check left boundary SEE S CASE  
+        position = random.randint(0, width - 1)
+        #position = 1
+        print('position=', position)
+        if position - 1 >= 0:
+            landing_row_pivot = ffnz(substrate, height, position) - 1
+            landing_row_left = ffnz(substrate, height, position - 1) - 1
+            landing_row = min(landing_row_pivot, landing_row_left)
+
+            if landing_row_left <= landing_row_pivot: 
+                substrate[landing_row_left, position - 1] = i + 1
+                substrate[landing_row_left - 1, position - 1] = i + 1
+                print("Hi")
+                substrate[landing_row_left - 1, position] = i + 1
+                substrate[landing_row_left - 2, position] = i + 1
+                i += 1
+
+            elif landing_row_pivot < landing_row_left:
+                substrate[landing_row_pivot, position] = i + 1
+                substrate[landing_row_pivot - 1, position] = i + 1
+                print("Hi2")
+                substrate[landing_row_pivot, position - 1] = i + 1
+                substrate[landing_row_pivot + 1, position - 1] = i + 1
+                i += 1
+        else:
+            continue
+
+    if choice[0] == 6 and choice[1] == 3: # Z case standing up, pivot on the left, check right boundary SEE S CASE
+        position = random.randint(0, width - 1)
+        #position = 3
+        print('position=', position)
+        if position + 1 <= width - 1:
+            landing_row_pivot = ffnz(substrate, height, position) - 1
+            landing_row_right = ffnz(substrate, height, position + 1) - 1
+            landing_row = min(landing_row_pivot, landing_row_right)
+
+            if landing_row_pivot <= landing_row_right: 
+                substrate[landing_row_pivot, position] = i + 1
+                substrate[landing_row_pivot - 1, position] = i + 1
+                print("Hi")
+                substrate[landing_row_pivot - 1, position + 1] = i + 1
+                substrate[landing_row_pivot - 2, position + 1] = i + 1
+                i += 1
+
+            elif landing_row_right < landing_row_pivot:
+                substrate[landing_row_right, position + 1] = i + 1
+                substrate[landing_row_right - 1, position + 1] = i + 1
+                print("Hi2")
+                substrate[landing_row_right, position] = i + 1
+                substrate[landing_row_right + 1, position] = i + 1
+                i += 1
+        else:
+            continue
 
 
     if landing_row < topmost:
