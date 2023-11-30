@@ -14,8 +14,8 @@ import torch
 start_time = time.time()
 
 
-h = 20 
-w = 100 
+h = 20
+w = 100
 p_desorp = 0.1
 p_grow = 0.1
 
@@ -34,32 +34,32 @@ while not(base_df.iloc[2].eq(1).any()):
     for i in reversed(base_df.iloc[:,col]):
         if i  == 0:
             if (base_df.iloc[aa,col+1])==0 and (base_df.iloc[aa,col-1])==0  and p_plus<= p_desorp:
-                one_below = aa 
+                one_below = aa
                 two_below = aa+1
-                
+
                 if one_below > (h-1) :
                     one_below = h - 1
                 if two_below > (h-1):
                     two_below = h - 1
-                    
+
                 base_df.iloc[one_below,col] = 0
                 base_df.iloc[two_below,col] = 0
-                
+
                 break
-            
+
             elif (base_df.iloc[aa,col+1])==1 and (base_df.iloc[aa,col-1])==1  and p_minus>= p_grow:
-                    
+
                 base_df.iloc[aa,col] = 1
-                base_df.iloc[aa-1,col] = 1 
-                
+                base_df.iloc[aa-1,col] = 1
+
                 break
-            
+
             elif ((base_df.iloc[aa,col+1])==1 and (base_df.iloc[aa,col+1])==0) or ((base_df.iloc[aa,col-1])==1 and (base_df.iloc[aa,col-1])==0):
-                
+
                 break
-            
+
         aa -= 1
-            
+
 
 # Display the DataFrame
 plt.imshow(base_df, cmap='gray')
