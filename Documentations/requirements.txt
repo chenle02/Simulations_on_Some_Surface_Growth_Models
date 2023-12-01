@@ -1,12 +1,4 @@
-# Sphinx and Theme
+
 Sphinx>=4.0
 sphinx_rtd_theme>=1.0
-
-# Common Sphinx Extensions
-sphinx.ext.napoleon
-sphinx.ext.autodoc
-sphinx.ext.todo
-sphinx.ext.viewcode
-
-# For Markdown Support (if needed)
-recommonmark
+recommonmark  # Only include this if you're using Markdown files
