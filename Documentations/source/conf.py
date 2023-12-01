@@ -10,6 +10,7 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
+
 import os
 import sys
 sys.path.insert(0, os.path.abspath('../../Ballistic_decomposition/'))
@@ -17,9 +18,9 @@ sys.path.insert(0, os.path.abspath('../../Ballistic_decomposition/'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'Simulations for Surface Growth Models with Tetris Pieces'
-copyright = '2023, Le Chen, Ian Ruau, Mauricio Montes'
-author = 'Le Chen, Ian Ruau, Mauricio Montes'
+project = 'Surface Growth Models with Tetris Growth'
+copyright = '2023, Le Chen, Mauricio Montes, Ian Ruau'
+author = 'Le Chen, Mauricio Montes, Ian Ruau (alphabetical order)'
 
 
 # -- General configuration ---------------------------------------------------
