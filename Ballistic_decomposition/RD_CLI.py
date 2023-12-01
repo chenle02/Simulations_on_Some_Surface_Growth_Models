@@ -12,16 +12,16 @@ import matplotlib.pyplot as plt
 
 
 def Random_Deposition(width, height, steps):
-   """
-    This is a function to simulate Random Deposition on a substrate.
+    """
+    This is a function to simulate Random Deposition on a substrate. This is simulation for the sand dropping. All columns are independent.
 
     Parameters
     ----------
-    param1 : int
+    width : int
         Width of the substrate.
-    param2 : int
+    height : int
         Height of the substrate.
-    param3 : int
+    steps : int
         Steps or times to run.
 
     Returns
@@ -29,6 +29,7 @@ def Random_Deposition(width, height, steps):
     string
         Filename of the output substrate.
     """
+
     substrate = np.zeros((height, width))
     topmost = height - 1
 
@@ -235,6 +236,33 @@ def Envelop(substrate):
 
 
 def main():
+    """
+    The main function to simulate different types of surface growth models based on the provided command-line arguments.
+
+    This function sets up a command-line interface for simulating Random Deposition, Random Deposition with Surface Relaxation,
+    or Ballistic Decomposition on a substrate. It accepts various parameters like width, height, and number of steps for the simulation.
+    It also provides options for generating a movie of the simulation and calculating interface width.
+
+    The function decides the type of simulation based on the arguments passed, performs the simulation, and then proceeds to
+    calculate the interface width. If the movie generation option is selected, it invokes another script to generate the movie.
+
+    Command-line Arguments:
+        -w, --width: Width of the substrate (default: 100)
+        -e, --height: Maximum height of the substrate (default: 60)
+        -s, --steps: Number of particles to drop (default: 5000)
+        --relax: Enable surface relaxation (default: False)
+        --BD: Enable ballistic decomposition (default: False)
+        -m, --movie: Generate an mp4 movie of the simulation (default: False)
+
+    Outputs:
+        1. A text file representing the substrate state.
+        2. Statistical figures, including a log-log plot for the interface width and the estimated slope.
+        3. (Optional) An mp4 movie of the simulation process.
+
+    Author: Le Chen (le.chen@auburn.edu, chenle02@gmail.com)
+    Date: 2023-10-22
+    """
+
     parser = argparse.ArgumentParser(description="""
 
     Simulate Random Deposition on a substrate.

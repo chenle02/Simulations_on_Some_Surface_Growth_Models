@@ -7,10 +7,16 @@ Welcome to Simulations for Surface Growth Models with Tetris Pieces's documentat
 ====================================================================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
    :caption: Contents:
 
-
+   doc/RD_CLI
+   doc/domino
+   doc/Interface
+   .. doc/mauricio_contributes
+   doc/VisualizePNG
+   doc/Visualize_RD
+   ./doc/tetris_complete.rst
 
 Indices and tables
 ==================
