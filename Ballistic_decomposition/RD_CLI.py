@@ -13,7 +13,9 @@ import matplotlib.pyplot as plt
 
 def Random_Deposition(width, height, steps):
     """
-    This is a function to simulate Random Deposition on a substrate. This is simulation for the sand dropping. All columns are independent.
+    This is a function to simulate Random Deposition on a substrate.
+
+    This is simulation for the independent boxes (sand) piling. All columns are independent.
 
     Parameters
     ----------
@@ -97,7 +99,30 @@ def Random_Deposition_Surface_Relaxation(width, height, steps):
 
 
 def Ballistic_Deposition(width, height, steps):
-    # Your other function code here
+    """
+    Simulate Ballistic Deposition on a substrate. In this simulation, particles stick
+    upon contact with the substrate or a deposited particle.
+
+    This is simulation for snowflakes piling.
+
+    Parameters
+    ----------
+    width : int
+        Width of the substrate.
+    height : int
+        Height of the substrate.
+    steps : int
+        Number of particles to drop.
+
+    Outputs
+    -------
+        A csv file contains the substrate state.
+
+    Returns
+    -------
+    string
+        Filename of the output substrate for Ballistic Deposition.
+    """
     substrate = np.zeros((height, width))
     topmost = height - 1
 
@@ -147,7 +172,28 @@ def Ballistic_Deposition(width, height, steps):
 
 
 def interface_width(filename):
-    # Main function to visualize the simulation
+    """
+    Compute and visualize the interface width of a substrate from a given simulation.
+
+    This function reads the substrate state from a file, calculates the interface width
+    over time, and generates a log-log plot of the interface width. It also computes the
+    slope of the log-log plot as a function of time.
+
+    Parameters
+    ----------
+    filename : str
+        The name of the file containing the substrate data.
+
+    Outputs
+    -------
+        An image file with the same name as the input file, but with a .png extension. The file contains the statistical figures.
+
+    Returns
+    -------
+    numpy.ndarray
+        Array containing the interface width calculated at each step.
+    """
+
     # Load substrate from file
     substrate = np.loadtxt(filename, delimiter=',')
 
@@ -224,7 +270,23 @@ def interface_width(filename):
 
 
 def Envelop(substrate):
-    # Compute the envelop of the substrate
+    """
+    Calculate the envelop of a substrate.
+
+    This function computes the top envelope of a substrate matrix,
+    indicating the highest particle position at each column.
+
+    Parameters
+    ----------
+    substrate : numpy.ndarray
+        The substrate matrix to compute the envelop for.
+
+    Returns
+    -------
+    numpy.ndarray
+        Array representing the top envelope of the substrate.
+    """
+
     height, width = substrate.shape
     top_envelope = np.zeros(width)
     for pos in range(width):
