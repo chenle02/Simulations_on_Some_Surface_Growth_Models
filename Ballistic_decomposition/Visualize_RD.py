@@ -14,7 +14,32 @@ import os
 
 
 def visualize_simulation(filename, plot_title, rate, envelop, show_average):
-    # Main function to visualize the simulation
+    """
+    Visualize the particle deposition simulation and generate a video.
+
+    This function loads the substrate data from a file and visualizes the deposition process
+    as an animation. It supports visualizing the top envelope and average height of the deposited
+    particles. The final output is saved as an mp4 video file.
+
+    Parameters
+    ----------
+    filename : str
+        The path to the substrate data file.
+    plot_title : str
+        The title of the plot.
+    rate : int
+        The frame rate for the video.
+    envelop : bool
+        Flag to indicate whether to show the top envelope.
+    show_average : bool
+        Flag to indicate whether to show the average height.
+
+    Returns
+    -------
+    str
+        The filename of the generated mp4 video.
+    """
+
     # Load substrate from file
     substrate = np.loadtxt(filename, delimiter=',')
 
@@ -81,7 +106,22 @@ def visualize_simulation(filename, plot_title, rate, envelop, show_average):
 
 
 def Envelop(substrate):
-    # Compute the envelop of the substrate
+    """
+    Compute the top envelope of a substrate.
+
+    This function calculates the highest particle position in each column of the substrate.
+    It is used to visualize the top envelope of the substrate in the simulation.
+
+    Parameters
+    ----------
+    substrate : numpy.ndarray
+        The substrate matrix to compute the envelop for.
+
+    Returns
+    -------
+    numpy.ndarray
+        Array representing the top envelope of the substrate.
+    """
     height, width = substrate.shape
     top_envelope = np.zeros(width)
     for pos in range(width):
@@ -93,6 +133,35 @@ def Envelop(substrate):
 
 
 def main():
+    """
+    Main function to execute the particle deposition visualization script.
+
+    This script visualizes the process of particle deposition based on the data from a substrate simulation.
+    It generates a video showing the evolution of the deposition over time. The script offers several command-line
+    options to customize the visualization, such as showing the top envelope, the average height, and adjusting
+    the video playback rate.
+
+    Usage:
+    ------
+    The script is executed from the command line with various options:
+
+    -f, --file       : Required. Path to the substrate file containing simulation data.
+    -t, --title      : Optional. Title of the plot. If not provided, no title is displayed.
+    -r, --rate       : Optional. Frame rate for the video. Default is 4 frames per second.
+    -e, --envelop    : Optional. Flag to display the top envelope of the deposition.
+    -a, --average    : Optional. Flag to display the average height of the deposition.
+    -p, --play       : Optional. Flag to automatically play the video after generation.
+
+    Example:
+    --------
+    python script_name.py -f path/to/substrate.txt -t "Simulation Title" -r 10 --envelop --average
+
+    This command will run the script on 'substrate.txt', set a title, use a frame rate of 10 fps,
+    and display both the top envelope and average height in the visualization.
+
+    By Le Chen (le.chen@auburn.edu, chenle02@gmail.com), 2023-10-22
+    """
+
     parser = argparse.ArgumentParser(description="""
 
     Visualization the decomposition of particles on a substrate

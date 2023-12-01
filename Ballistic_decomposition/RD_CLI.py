@@ -57,6 +57,25 @@ def Random_Deposition(width, height, steps):
 
 
 def Random_Deposition_Surface_Relaxation(width, height, steps):
+    """
+    This is a function to simulate Random Deposition on a substrate with the surface relaxation. Particle will seek the lowest left/right neighbors to land.
+
+    This is simulation for the independent boxes (sand) piling with surface relaxation.
+
+    Parameters
+    ----------
+    width : int
+        Width of the substrate.
+    height : int
+        Height of the substrate.
+    steps : int
+        Steps or times to run.
+
+    Returns
+    -------
+    string
+        Filename of the output substrate.
+    """
     substrate = np.zeros((height, width))
     topmost = height - 1
 
@@ -114,14 +133,12 @@ def Ballistic_Deposition(width, height, steps):
     steps : int
         Number of particles to drop.
 
-    Outputs
-    -------
-        A csv file contains the substrate state.
 
     Returns
     -------
     string
-        Filename of the output substrate for Ballistic Deposition.
+        Filename of the output substrate for Ballistic Deposition;
+        A csv file contains the substrate state.
     """
     substrate = np.zeros((height, width))
     topmost = height - 1
@@ -184,14 +201,11 @@ def interface_width(filename):
     filename : str
         The name of the file containing the substrate data.
 
-    Outputs
-    -------
-        An image file with the same name as the input file, but with a .png extension. The file contains the statistical figures.
-
     Returns
     -------
     numpy.ndarray
-        Array containing the interface width calculated at each step.
+        Array containing the interface width calculated at each step;
+        An image file with the same name as the input file, but with a .png extension. The file contains the statistical figures.
     """
 
     # Load substrate from file
@@ -308,21 +322,24 @@ def main():
     The function decides the type of simulation based on the arguments passed, performs the simulation, and then proceeds to
     calculate the interface width. If the movie generation option is selected, it invokes another script to generate the movie.
 
-    Command-line Arguments:
-        -w, --width: Width of the substrate (default: 100)
-        -e, --height: Maximum height of the substrate (default: 60)
-        -s, --steps: Number of particles to drop (default: 5000)
-        --relax: Enable surface relaxation (default: False)
-        --BD: Enable ballistic decomposition (default: False)
-        -m, --movie: Generate an mp4 movie of the simulation (default: False)
+    Usage:
+    ------
+    The script is executed from the command line with various options:
+
+    -w, --width  : Width of the substrate (default: 100)
+    -e, --height : Maximum height of the substrate (default: 60)
+    -s, --steps  : Number of particles to drop (default: 5000)
+        --relax  : Enable surface relaxation (default: False)
+        --BD     : Enable ballistic decomposition (default: False)
+    -m, --movie  : Generate an mp4 movie of the simulation (default: False)
 
     Outputs:
+    --------
         1. A text file representing the substrate state.
         2. Statistical figures, including a log-log plot for the interface width and the estimated slope.
         3. (Optional) An mp4 movie of the simulation process.
 
-    Author: Le Chen (le.chen@auburn.edu, chenle02@gmail.com)
-    Date: 2023-10-22
+    By Le Chen (le.chen@auburn.edu, chenle02@gmail.com),  2023-10-22
     """
 
     parser = argparse.ArgumentParser(description="""
