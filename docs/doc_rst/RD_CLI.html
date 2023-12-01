@@ -1,0 +1,258 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>RD_CLI module &#8212; Surface Growth Models with Tetris Growth  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/nature.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Visualize_RD module" href="Visualize_RD.html" />
+    <link rel="prev" title="Welcome to Surface Growth Models with Tetris Growth’s documentation!" href="../index.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="Visualize_RD.html" title="Visualize_RD module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="Welcome to Surface Growth Models with Tetris Growth’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Surface Growth Models with Tetris Growth  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">RD_CLI module</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-RD_CLI">
+<span id="rd-cli-module"></span><h1>RD_CLI module<a class="headerlink" href="#module-RD_CLI" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="RD_CLI.Ballistic_Deposition">
+<span class="sig-prename descclassname"><span class="pre">RD_CLI.</span></span><span class="sig-name descname"><span class="pre">Ballistic_Deposition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RD_CLI.Ballistic_Deposition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simulate Ballistic Deposition on a substrate. In this simulation, particles stick
+upon contact with the substrate or a deposited particle.</p>
+<p>This is simulation for snowflakes piling.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>width</strong> (<em>int</em>) – Width of the substrate.</p></li>
+<li><p><strong>height</strong> (<em>int</em>) – Height of the substrate.</p></li>
+<li><p><strong>steps</strong> (<em>int</em>) – Number of particles to drop.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Filename of the output substrate for Ballistic Deposition;
+A csv file contains the substrate state.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="RD_CLI.Envelop">
+<span class="sig-prename descclassname"><span class="pre">RD_CLI.</span></span><span class="sig-name descname"><span class="pre">Envelop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">substrate</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RD_CLI.Envelop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the envelop of a substrate.</p>
+<p>This function computes the top envelope of a substrate matrix,
+indicating the highest particle position at each column.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>substrate</strong> (<em>numpy.ndarray</em>) – The substrate matrix to compute the envelop for.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Array representing the top envelope of the substrate.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="RD_CLI.Random_Deposition">
+<span class="sig-prename descclassname"><span class="pre">RD_CLI.</span></span><span class="sig-name descname"><span class="pre">Random_Deposition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RD_CLI.Random_Deposition" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is a function to simulate Random Deposition on a substrate.</p>
+<p>This is simulation for the independent boxes (sand) piling. All columns are independent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>width</strong> (<em>int</em>) – Width of the substrate.</p></li>
+<li><p><strong>height</strong> (<em>int</em>) – Height of the substrate.</p></li>
+<li><p><strong>steps</strong> (<em>int</em>) – Steps or times to run.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Filename of the output substrate.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="RD_CLI.Random_Deposition_Surface_Relaxation">
+<span class="sig-prename descclassname"><span class="pre">RD_CLI.</span></span><span class="sig-name descname"><span class="pre">Random_Deposition_Surface_Relaxation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RD_CLI.Random_Deposition_Surface_Relaxation" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is a function to simulate Random Deposition on a substrate with the surface relaxation. Particle will seek the lowest left/right neighbors to land.</p>
+<p>This is simulation for the independent boxes (sand) piling with surface relaxation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>width</strong> (<em>int</em>) – Width of the substrate.</p></li>
+<li><p><strong>height</strong> (<em>int</em>) – Height of the substrate.</p></li>
+<li><p><strong>steps</strong> (<em>int</em>) – Steps or times to run.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Filename of the output substrate.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="RD_CLI.interface_width">
+<span class="sig-prename descclassname"><span class="pre">RD_CLI.</span></span><span class="sig-name descname"><span class="pre">interface_width</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RD_CLI.interface_width" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute and visualize the interface width of a substrate from a given simulation.</p>
+<p>This function reads the substrate state from a file, calculates the interface width
+over time, and generates a log-log plot of the interface width. It also computes the
+slope of the log-log plot as a function of time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – The name of the file containing the substrate data.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Array containing the interface width calculated at each step;
+An image file with the same name as the input file, but with a .png extension. The file contains the statistical figures.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="RD_CLI.main">
+<span class="sig-prename descclassname"><span class="pre">RD_CLI.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#RD_CLI.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>The main function to simulate different types of surface growth models based on the provided command-line arguments.</p>
+<p>This function sets up a command-line interface for simulating Random Deposition, Random Deposition with Surface Relaxation,
+or Ballistic Decomposition on a substrate. It accepts various parameters like width, height, and number of steps for the simulation.
+It also provides options for generating a movie of the simulation and calculating interface width.</p>
+<p>The function decides the type of simulation based on the arguments passed, performs the simulation, and then proceeds to
+calculate the interface width. If the movie generation option is selected, it invokes another script to generate the movie.</p>
+<p>The script is executed from the command line with various options:</p>
+<dl class="option-list">
+<dt><kbd><span class="option">-w</span>, <span class="option">--width</span></kbd></dt>
+<dd><p>: Width of the substrate (default: 100)</p>
+</dd>
+</dl>
+<p>-e, –height : Maximum height of the substrate (default: 60)
+-s, –steps  : Number of particles to drop (default: 5000)</p>
+<blockquote>
+<div><dl class="option-list">
+<dt><kbd><span class="option">--relax</span></kbd></dt>
+<dd><p>: Enable surface relaxation (default: False)</p>
+</dd>
+<dt><kbd><span class="option">--BD</span></kbd></dt>
+<dd><p>: Enable ballistic decomposition (default: False)</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="option-list">
+<dt><kbd><span class="option">-m</span>, <span class="option">--movie</span></kbd></dt>
+<dd><p>: Generate an mp4 movie of the simulation (default: False)</p>
+</dd>
+</dl>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>A text file representing the substrate state.</p></li>
+<li><p>Statistical figures, including a log-log plot for the interface width and the estimated slope.</p></li>
+<li><p>(Optional) An mp4 movie of the simulation process.</p></li>
+</ol>
+</div></blockquote>
+<p>By Le Chen (<a class="reference external" href="mailto:le&#46;chen&#37;&#52;&#48;auburn&#46;edu">le<span>&#46;</span>chen<span>&#64;</span>auburn<span>&#46;</span>edu</a>, <a class="reference external" href="mailto:chenle02&#37;&#52;&#48;gmail&#46;com">chenle02<span>&#64;</span>gmail<span>&#46;</span>com</a>),  2023-10-22</p>
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../index.html"
+                        title="previous chapter">Welcome to Surface Growth Models with Tetris Growth’s documentation!</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="Visualize_RD.html"
+                        title="next chapter">Visualize_RD module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/doc_rst/RD_CLI.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="Visualize_RD.html" title="Visualize_RD module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="Welcome to Surface Growth Models with Tetris Growth’s documentation!"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Surface Growth Models with Tetris Growth  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">RD_CLI module</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2023, Le Chen, Mauricio Montes, Ian Ruau.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.2.
+    </div>
+  </body>
+</html>

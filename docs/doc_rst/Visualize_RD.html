@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Visualize_RD module &#8212; Surface Growth Models with Tetris Growth  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/nature.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="RD_CLI module" href="RD_CLI.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="RD_CLI.html" title="RD_CLI module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Surface Growth Models with Tetris Growth  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Visualize_RD module</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-Visualize_RD">
+<span id="visualize-rd-module"></span><h1>Visualize_RD module<a class="headerlink" href="#module-Visualize_RD" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="Visualize_RD.Envelop">
+<span class="sig-prename descclassname"><span class="pre">Visualize_RD.</span></span><span class="sig-name descname"><span class="pre">Envelop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">substrate</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Visualize_RD.Envelop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the top envelope of a substrate.</p>
+<p>This function calculates the highest particle position in each column of the substrate.
+It is used to visualize the top envelope of the substrate in the simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>substrate</strong> (<em>numpy.ndarray</em>) – The substrate matrix to compute the envelop for.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Array representing the top envelope of the substrate.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Visualize_RD.main">
+<span class="sig-prename descclassname"><span class="pre">Visualize_RD.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Visualize_RD.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main function to execute the particle deposition visualization script.</p>
+<p>This script visualizes the process of particle deposition based on the data from a substrate simulation.
+It generates a video showing the evolution of the deposition over time. The script offers several command-line
+options to customize the visualization, such as showing the top envelope, the average height, and adjusting
+the video playback rate.</p>
+<p>The script is executed from the command line with various options:</p>
+<dl class="option-list">
+<dt><kbd><span class="option">-f</span>, <span class="option">--file</span></kbd></dt>
+<dd><p>: Required. Path to the substrate file containing simulation data.</p>
+</dd>
+<dt><kbd><span class="option">-t</span>, <span class="option">--title</span></kbd></dt>
+<dd><p>: Optional. Title of the plot. If not provided, no title is displayed.</p>
+</dd>
+<dt><kbd><span class="option">-r</span>, <span class="option">--rate</span></kbd></dt>
+<dd><p>: Optional. Frame rate for the video. Default is 4 frames per second.</p>
+</dd>
+<dt><kbd><span class="option">-e</span>, <span class="option">--envelop</span></kbd></dt>
+<dd><p>: Optional. Flag to display the top envelope of the deposition.</p>
+</dd>
+<dt><kbd><span class="option">-a</span>, <span class="option">--average</span></kbd></dt>
+<dd><p>: Optional. Flag to display the average height of the deposition.</p>
+</dd>
+<dt><kbd><span class="option">-p</span>, <span class="option">--play</span></kbd></dt>
+<dd><p>: Optional. Flag to automatically play the video after generation.</p>
+</dd>
+</dl>
+<p>python script_name.py -f path/to/substrate.txt -t “Simulation Title” -r 10 –envelop –average</p>
+<p>This command will run the script on ‘substrate.txt’, set a title, use a frame rate of 10 fps,
+and display both the top envelope and average height in the visualization.</p>
+<p>By Le Chen (<a class="reference external" href="mailto:le&#46;chen&#37;&#52;&#48;auburn&#46;edu">le<span>&#46;</span>chen<span>&#64;</span>auburn<span>&#46;</span>edu</a>, <a class="reference external" href="mailto:chenle02&#37;&#52;&#48;gmail&#46;com">chenle02<span>&#64;</span>gmail<span>&#46;</span>com</a>), 2023-10-22</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Visualize_RD.visualize_simulation">
+<span class="sig-prename descclassname"><span class="pre">Visualize_RD.</span></span><span class="sig-name descname"><span class="pre">visualize_simulation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_title</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">envelop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_average</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Visualize_RD.visualize_simulation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Visualize the particle deposition simulation and generate a video.</p>
+<p>This function loads the substrate data from a file and visualizes the deposition process
+as an animation. It supports visualizing the top envelope and average height of the deposited
+particles. The final output is saved as an mp4 video file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>str</em>) – The path to the substrate data file.</p></li>
+<li><p><strong>plot_title</strong> (<em>str</em>) – The title of the plot.</p></li>
+<li><p><strong>rate</strong> (<em>int</em>) – The frame rate for the video.</p></li>
+<li><p><strong>envelop</strong> (<em>bool</em>) – Flag to indicate whether to show the top envelope.</p></li>
+<li><p><strong>show_average</strong> (<em>bool</em>) – Flag to indicate whether to show the average height.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The filename of the generated mp4 video.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="RD_CLI.html"
+                        title="previous chapter">RD_CLI module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/doc_rst/Visualize_RD.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="RD_CLI.html" title="RD_CLI module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Surface Growth Models with Tetris Growth  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Visualize_RD module</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2023, Le Chen, Mauricio Montes, Ian Ruau.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.2.
+    </div>
+  </body>
+</html>
