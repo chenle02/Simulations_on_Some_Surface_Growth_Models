@@ -12,6 +12,23 @@ import matplotlib.pyplot as plt
 
 
 def Random_Deposition(width, height, steps):
+   """
+    This is a function to simulate Random Deposition on a substrate.
+
+    Parameters
+    ----------
+    param1 : int
+        Width of the substrate.
+    param2 : int
+        Height of the substrate.
+    param3 : int
+        Steps or times to run.
+
+    Returns
+    -------
+    string
+        Filename of the output substrate.
+    """
     substrate = np.zeros((height, width))
     topmost = height - 1
 
