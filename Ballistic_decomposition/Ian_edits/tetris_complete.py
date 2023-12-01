@@ -1,15 +1,58 @@
+"""
+
+This module simulates the surface growth by Tetris pieces. It includes
+functions to generate random Tetris pieces, calculate their landing positions
+on a substrate, and simulate a game of Tetris for a given number of steps and a
+defined grid size.
+
+By Ian Ruau (iir0001@auburn.edu) and Mauricio Montes (mauricio.montes@auburn.edu)
+Date: 12/2023
+
+"""
+
 import numpy as np
 import random
 
 
-def Tetris_Choice():  # This gives the tetris case
-    choice = np.random.randint(1, [7, 4])  # There are 7 tetris pieces that we are rotating counterclockwise
-    # 0 is the square, 1 is the line, 2 is the L, 3 is J, 4 is the T, 5 is the S, 6 is the Z
-    # 0 is the original orientation, 1 is the 90 degree rotation, 2 is the 180 degree rotation, 3 is the 270 degree rotation
+def Tetris_Choice():
+    """
+    Randomly selects a Tetris piece and its orientation.
+
+        There are 7 tetris pieces:
+          *  0 is the square
+          *  1 is the line
+          *  2 is the L
+          *  3 is J
+          *  4 is the T
+          *  5 is the S
+          *  6 is the Z
+        There are 4 orientations for each piece:
+          * 0 is the original orientation
+          * 1 is the 90 degree rotation
+          * 2 is the 180 degree rotation
+          * 3 is the 270 degree rotation
+
+    Returns:
+        numpy.ndarray: A 2-element array:
+            * the first element is the piece type (0-6)
+            * the second element is the orientation (0-3).
+    """
+    choice = np.random.randint(1, [7, 4])
     return choice
 
 
-def ffnz(matrix, height, column):  # ffnz Finds the First NonZero entry in a fixed column
+def ffnz(matrix, height, column):
+    """
+    Finds the first non-zero entry in a specified column of a matrix.
+
+    Args:
+        matrix (numpy.ndarray): The matrix to search.
+        height (int): The height of the matrix.
+        column (int): The column index to search in.
+
+    Returns:
+        int: The index of the first non-zero entry.
+    """
     i = 0
     flag = height
     while (flag == height) and (i < height):
@@ -591,6 +634,7 @@ def Tetris_RD(width, height, steps):
     print(f"{outputfile} saved!")
     return outputfile
 
+
 height_str = input('What is the height?')
 width_str = input('What is the width?')
 steps_str = input('How many blocks?')
@@ -599,4 +643,4 @@ width = int(width_str)
 steps = int(steps_str)
 
 
-Tetris_RD(width , height, steps)
+Tetris_RD(width, height, steps)
