@@ -1,10 +1,3 @@
-#!/usr/bin/env python3
-#
-# By Le Chen and Chatgpt
-# chenle02@gmail.com / le.chen@auburn.edu
-# Created at Sun Oct 22 11:29:08 PM EDT 2023
-#
-
 import numpy as np
 import argparse
 import subprocess
@@ -13,9 +6,9 @@ import matplotlib.pyplot as plt
 
 def Random_Deposition(width, height, steps):
     """
-    This is a function to simulate Random Deposition on a substrate.
-
-    This is simulation for the independent boxes (sand) piling. All columns are independent.
+    This is a function to simulate Random Deposition on a substrate. This is
+    simulation for the independent boxes (sand) piling. All columns are
+    independent.
 
     Parameters
     ----------
@@ -31,7 +24,6 @@ def Random_Deposition(width, height, steps):
     string
         Filename of the output substrate.
     """
-
     substrate = np.zeros((height, width))
     topmost = height - 1
 
@@ -58,9 +50,12 @@ def Random_Deposition(width, height, steps):
 
 def Random_Deposition_Surface_Relaxation(width, height, steps):
     """
-    This is a function to simulate Random Deposition on a substrate with the surface relaxation. Particle will seek the lowest left/right neighbors to land.
+    This is a function to simulate Random Deposition on a substrate with the
+    surface relaxation. Particle will seek the lowest left/right neighbors to
+    land.
 
-    This is simulation for the independent boxes (sand) piling with surface relaxation.
+    This is simulation for the independent boxes (sand) piling with surface
+    relaxation.
 
     Parameters
     ----------
@@ -133,7 +128,6 @@ def Ballistic_Deposition(width, height, steps):
     steps : int
         Number of particles to drop.
 
-
     Returns
     -------
     string
@@ -190,11 +184,13 @@ def Ballistic_Deposition(width, height, steps):
 
 def interface_width(filename):
     """
-    Compute and visualize the interface width of a substrate from a given simulation.
+    Compute and visualize the interface width of a substrate from a given
+    simulation.
 
-    This function reads the substrate state from a file, calculates the interface width
-    over time, and generates a log-log plot of the interface width. It also computes the
-    slope of the log-log plot as a function of time.
+    This function reads the substrate state from a file, calculates the
+    interface width over time, and generates a log-log plot of the interface
+    width. It also computes the slope of the log-log plot as a function of
+    time.
 
     Parameters
     ----------
@@ -204,8 +200,9 @@ def interface_width(filename):
     Returns
     -------
     numpy.ndarray
-        Array containing the interface width calculated at each step;
-        An image file with the same name as the input file, but with a .png extension. The file contains the statistical figures.
+        Array containing the interface width calculated at each step; An image
+        file with the same name as the input file, but with a .png extension.
+        The file contains the statistical figures.
     """
 
     # Load substrate from file
@@ -285,10 +282,10 @@ def interface_width(filename):
 
 def Envelop(substrate):
     """
-    Calculate the envelop of a substrate.
+    Compute the top envelope of a substrate.
 
-    This function computes the top envelope of a substrate matrix,
-    indicating the highest particle position at each column.
+    This function calculates the highest particle position in each column of the substrate.
+    It is used to visualize the top envelope of the substrate in the simulation.
 
     Parameters
     ----------
@@ -300,7 +297,6 @@ def Envelop(substrate):
     numpy.ndarray
         Array representing the top envelope of the substrate.
     """
-
     height, width = substrate.shape
     top_envelope = np.zeros(width)
     for pos in range(width):
@@ -313,18 +309,21 @@ def Envelop(substrate):
 
 def main():
     """
-    The main function to simulate different types of surface growth models based on the provided command-line arguments.
+    The main function to simulate different types of surface growth models
+    based on the provided command-line arguments.
 
-    This function sets up a command-line interface for simulating Random Deposition, Random Deposition with Surface Relaxation,
-    or Ballistic Decomposition on a substrate. It accepts various parameters like width, height, and number of steps for the simulation.
-    It also provides options for generating a movie of the simulation and calculating interface width.
+    This function sets up a command-line interface for simulating Random
+    Deposition, Random Deposition with Surface Relaxation, or Ballistic
+    Decomposition on a substrate. It accepts various parameters like width,
+    height, and number of steps for the simulation. It also provides options
+    for generating a movie of the simulation and calculating interface width.
 
-    The function decides the type of simulation based on the arguments passed, performs the simulation, and then proceeds to
-    calculate the interface width. If the movie generation option is selected, it invokes another script to generate the movie.
+    The function decides the type of simulation based on the arguments passed,
+    performs the simulation, and then proceeds to calculate the interface
+    width. If the movie generation option is selected, it invokes another
+    script to generate the movie.
 
-    Usage:
-    ------
-    The script is executed from the command line with various options:
+    To use the script from terminal, the following options are expected:
 
     -w, --width  : Width of the substrate (default: 100)
     -e, --height : Maximum height of the substrate (default: 60)
@@ -333,8 +332,7 @@ def main():
         --BD     : Enable ballistic decomposition (default: False)
     -m, --movie  : Generate an mp4 movie of the simulation (default: False)
 
-    Outputs:
-    --------
+    It returns:
         1. A text file representing the substrate state.
         2. Statistical figures, including a log-log plot for the interface width and the estimated slope.
         3. (Optional) An mp4 movie of the simulation process.

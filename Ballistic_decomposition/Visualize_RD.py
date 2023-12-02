@@ -11,6 +11,7 @@ import matplotlib.colors as mcolors
 import imageio
 import argparse
 import os
+from RD_CLI import Envelop
 
 
 def visualize_simulation(filename, plot_title, rate, envelop, show_average):
@@ -105,56 +106,28 @@ def visualize_simulation(filename, plot_title, rate, envelop, show_average):
     return video_filename
 
 
-def Envelop(substrate):
-    """
-    Compute the top envelope of a substrate.
-
-    This function calculates the highest particle position in each column of the substrate.
-    It is used to visualize the top envelope of the substrate in the simulation.
-
-    Parameters
-    ----------
-    substrate : numpy.ndarray
-        The substrate matrix to compute the envelop for.
-
-    Returns
-    -------
-    numpy.ndarray
-        Array representing the top envelope of the substrate.
-    """
-    height, width = substrate.shape
-    top_envelope = np.zeros(width)
-    for pos in range(width):
-        if np.any(substrate[:, pos] > 0):  # If there's any nonzero value in the column
-            top_envelope[pos] = np.argmax(substrate[:, pos] > 0) - 3
-        else:
-            top_envelope[pos] = height - 2
-    return top_envelope
-
-
 def main():
     """
     Main function to execute the particle deposition visualization script.
 
-    This script visualizes the process of particle deposition based on the data from a substrate simulation.
-    It generates a video showing the evolution of the deposition over time. The script offers several command-line
-    options to customize the visualization, such as showing the top envelope, the average height, and adjusting
-    the video playback rate.
+    This script visualizes the process of particle deposition based on the data
+    from a substrate simulation. It generates a video showing the evolution of
+    the deposition over time. The script offers several command-line options to
+    customize the visualization, such as showing the top envelope, the average
+    height, and adjusting the video playback rate.
 
-    Usage:
-    ------
-    The script is executed from the command line with various options:
+    Options:
 
-    -f, --file       : Required. Path to the substrate file containing simulation data.
-    -t, --title      : Optional. Title of the plot. If not provided, no title is displayed.
-    -r, --rate       : Optional. Frame rate for the video. Default is 4 frames per second.
-    -e, --envelop    : Optional. Flag to display the top envelope of the deposition.
-    -a, --average    : Optional. Flag to display the average height of the deposition.
-    -p, --play       : Optional. Flag to automatically play the video after generation.
+    -f, --file      : Required. Path to the substrate file containing simulation data.
+    -t, --title     : Optional. Title of the plot. If not provided, no title is displayed.
+    -r, --rate      : Optional. Frame rate for the video. Default is 4 frames per second.
+    -e, --envelop   : Optional. Flag to display the top envelope of the deposition. Default is False.
+    -a, --average   : Optional. Flag to display the average height of the deposition. Default is False.
+    -p, --play      : Optional. Flag to automatically play the video after generation. Default is False.
 
     Example:
-    --------
-    python script_name.py -f path/to/substrate.txt -t "Simulation Title" -r 10 --envelop --average
+
+        ``python3 Visualize_RD.py -f path/to/substrate.txt -t "Simulation Title" -r 10 --envelop --average --play``
 
     This command will run the script on 'substrate.txt', set a title, use a frame rate of 10 fps,
     and display both the top envelope and average height in the visualization.
