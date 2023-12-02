@@ -56,8 +56,10 @@ options:
 
 ```
 # Documentation
-1. Simulation on the random surface growth with Tetris pieces: [http://webhome.auburn.edu/~lzc0090/Simulation_Tetris/index.html](Here).
-2. Simulation on the solid on solid model can be find here...
+1. Simulation on the random surface growth with Tetris pieces:
+  1. [html](http://webhome.auburn.edu/~lzc0090/Simulation_Tetris/index.html).
+  2. [pdf](./docs/pdf/surfacegrowthwithrandomtetrispieces.pdf).
+3. Simulation on the solid on solid model will come soon.
 
 # References
 1. Le Chen's Graduate Student Seminar talk on surface growth models: [here](https://github.com/chenle02/Graduate_Student_Seminars_by_Le_Chen/blob/main/2023-11-01/readme.md).
