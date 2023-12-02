@@ -179,33 +179,31 @@ script to generate the movie.</p>
 <dt><kbd><span class="option">-w</span>, <span class="option">--width</span></kbd></dt>
 <dd><p>: Width of the substrate (default: 100)</p>
 </dd>
-</dl>
-<p>-e, –height : Maximum height of the substrate (default: 60)
--s, –steps  : Number of particles to drop (default: 5000)</p>
-<blockquote>
-<div><dl class="option-list">
-<dt><kbd><span class="option">--relax</span></kbd></dt>
+<dt><kbd><span class="option">-e</span>, <span class="option">--height</span></kbd></dt>
+<dd><p>: Maximum height of the substrate (default: 60)</p>
+</dd>
+<dt><kbd><span class="option">-s</span>, <span class="option">--steps</span></kbd></dt>
+<dd><p>: Number of particles to drop (default: 5000)</p>
+</dd>
+<dt><kbd><span class="option">-r</span>, <span class="option">--relax</span></kbd></dt>
 <dd><p>: Enable surface relaxation (default: False)</p>
 </dd>
-<dt><kbd><span class="option">--BD</span></kbd></dt>
+<dt><kbd><span class="option">-b</span>, <span class="option">--BD</span></kbd></dt>
 <dd><p>: Enable ballistic decomposition (default: False)</p>
 </dd>
-</dl>
-</div></blockquote>
-<dl class="option-list">
 <dt><kbd><span class="option">-m</span>, <span class="option">--movie</span></kbd></dt>
 <dd><p>: Generate an mp4 movie of the simulation (default: False)</p>
 </dd>
 </dl>
-<dl class="simple">
-<dt>It returns:</dt><dd><ol class="arabic simple">
+<p>It returns:</p>
+<ol class="arabic simple">
 <li><p>A text file representing the substrate state.</p></li>
 <li><p>Statistical figures, including a log-log plot for the interface width and the estimated slope.</p></li>
 <li><p>(Optional) An mp4 movie of the simulation process.</p></li>
 </ol>
-</dd>
-</dl>
-<p>By Le Chen (<a class="reference external" href="mailto:le&#46;chen&#37;&#52;&#48;auburn&#46;edu">le<span>&#46;</span>chen<span>&#64;</span>auburn<span>&#46;</span>edu</a>, <a class="reference external" href="mailto:chenle02&#37;&#52;&#48;gmail&#46;com">chenle02<span>&#64;</span>gmail<span>&#46;</span>com</a>),  2023-10-22</p>
+<p class="rubric">Example</p>
+<p><code class="docutils literal notranslate"><span class="pre">ptyhon3</span> <span class="pre">RD_CLI.py</span> <span class="pre">-w</span> <span class="pre">100</span> <span class="pre">-e</span> <span class="pre">60</span> <span class="pre">-s</span> <span class="pre">5000</span> <span class="pre">--BD</span> <span class="pre">--movie</span></code></p>
+<p>In this example, the script will simulate Ballistic Decomposition on a substrate of size 100x60 for 5000 steps. And the simulation movie will be generated.</p>
 </dd></dl>
 
 </section>

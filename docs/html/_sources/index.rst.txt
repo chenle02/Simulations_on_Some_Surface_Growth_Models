@@ -13,6 +13,7 @@ Welcome to Surface Growth Models with Tetris Growth's documentation!
 
   doc_rst/RD_CLI
   doc_rst/Visualize_RD
+  doc_rst/tetris_complete
 
 
 Indices and tables
