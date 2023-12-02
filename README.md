@@ -3,7 +3,6 @@ This repo contains some simulations for some surface growth models. It comes out
 
 ## Scripts
 1. `RD_CLI.py`
-
 ```shell
 ❯ ./RD_CLI.py --help
 usage: RD_CLI.py [-h] [-w WIDTH] [-e HEIGHT] [-s STEPS] [--relax] [--BD] [-m]
@@ -56,6 +55,10 @@ options:
 
 
 ```
+# Documentation
+1. Simulation on the random surface growth with Tetris pieces: [http://webhome.auburn.edu/~lzc0090/Simulation_Tetris/index.html](Here).
+2. Simulation on the solid on solid model can be find here...
+
 # References
 1. Le Chen's Graduate Student Seminar talk on surface growth models: [here](https://github.com/chenle02/Graduate_Student_Seminars_by_Le_Chen/blob/main/2023-11-01/readme.md).
 2. Barabási and Stanley, ''Fractal Concepts in Surface Growth'', Cambridge University Press, 1995.
