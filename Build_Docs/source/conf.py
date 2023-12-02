@@ -30,7 +30,7 @@ author = 'Le Chen, Mauricio Montes, Ian Ruau (alphabetical order)'
 # ones.
 extensions = [
     'sphinx.ext.napoleon',
-    'sphinx.ext.autodoc',
+    # 'sphinx.ext.autodoc',
 ]
 
 napoleon_google_docstring = True

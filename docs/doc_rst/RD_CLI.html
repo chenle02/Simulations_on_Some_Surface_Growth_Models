@@ -91,8 +91,9 @@ indicating the highest particle position at each column.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="RD_CLI.Random_Deposition">
 <span class="sig-prename descclassname"><span class="pre">RD_CLI.</span></span><span class="sig-name descname"><span class="pre">Random_Deposition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RD_CLI.Random_Deposition" title="Permalink to this definition">¶</a></dt>
-<dd><p>This is a function to simulate Random Deposition on a substrate.</p>
-<p>This is simulation for the independent boxes (sand) piling. All columns are independent.</p>
+<dd><p>This is a function to simulate Random Deposition on a substrate. This is
+simulation for the independent boxes (sand) piling. All columns are
+independent.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -113,8 +114,11 @@ indicating the highest particle position at each column.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="RD_CLI.Random_Deposition_Surface_Relaxation">
 <span class="sig-prename descclassname"><span class="pre">RD_CLI.</span></span><span class="sig-name descname"><span class="pre">Random_Deposition_Surface_Relaxation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RD_CLI.Random_Deposition_Surface_Relaxation" title="Permalink to this definition">¶</a></dt>
-<dd><p>This is a function to simulate Random Deposition on a substrate with the surface relaxation. Particle will seek the lowest left/right neighbors to land.</p>
-<p>This is simulation for the independent boxes (sand) piling with surface relaxation.</p>
+<dd><p>This is a function to simulate Random Deposition on a substrate with the
+surface relaxation. Particle will seek the lowest left/right neighbors to
+land.</p>
+<p>This is simulation for the independent boxes (sand) piling with surface
+relaxation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -135,17 +139,20 @@ indicating the highest particle position at each column.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="RD_CLI.interface_width">
 <span class="sig-prename descclassname"><span class="pre">RD_CLI.</span></span><span class="sig-name descname"><span class="pre">interface_width</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RD_CLI.interface_width" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute and visualize the interface width of a substrate from a given simulation.</p>
-<p>This function reads the substrate state from a file, calculates the interface width
-over time, and generates a log-log plot of the interface width. It also computes the
-slope of the log-log plot as a function of time.</p>
+<dd><p>Compute and visualize the interface width of a substrate from a given
+simulation.</p>
+<p>This function reads the substrate state from a file, calculates the
+interface width over time, and generates a log-log plot of the interface
+width. It also computes the slope of the log-log plot as a function of
+time.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – The name of the file containing the substrate data.</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Array containing the interface width calculated at each step;
-An image file with the same name as the input file, but with a .png extension. The file contains the statistical figures.</p>
+<dd class="field-even"><p>Array containing the interface width calculated at each step; An image
+file with the same name as the input file, but with a .png extension.
+The file contains the statistical figures.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
@@ -156,12 +163,17 @@ An image file with the same name as the input file, but with a .png extension. T
 <dl class="py function">
 <dt class="sig sig-object py" id="RD_CLI.main">
 <span class="sig-prename descclassname"><span class="pre">RD_CLI.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#RD_CLI.main" title="Permalink to this definition">¶</a></dt>
-<dd><p>The main function to simulate different types of surface growth models based on the provided command-line arguments.</p>
-<p>This function sets up a command-line interface for simulating Random Deposition, Random Deposition with Surface Relaxation,
-or Ballistic Decomposition on a substrate. It accepts various parameters like width, height, and number of steps for the simulation.
-It also provides options for generating a movie of the simulation and calculating interface width.</p>
-<p>The function decides the type of simulation based on the arguments passed, performs the simulation, and then proceeds to
-calculate the interface width. If the movie generation option is selected, it invokes another script to generate the movie.</p>
+<dd><p>The main function to simulate different types of surface growth models
+based on the provided command-line arguments.</p>
+<p>This function sets up a command-line interface for simulating Random
+Deposition, Random Deposition with Surface Relaxation, or Ballistic
+Decomposition on a substrate. It accepts various parameters like width,
+height, and number of steps for the simulation. It also provides options
+for generating a movie of the simulation and calculating interface width.</p>
+<p>The function decides the type of simulation based on the arguments passed,
+performs the simulation, and then proceeds to calculate the interface
+width. If the movie generation option is selected, it invokes another
+script to generate the movie.</p>
 <p>The script is executed from the command line with various options:</p>
 <dl class="option-list">
 <dt><kbd><span class="option">-w</span>, <span class="option">--width</span></kbd></dt>
