@@ -18,19 +18,20 @@ def Tetris_Choice():
     """
     Randomly selects a Tetris piece and its orientation.
 
-        There are 7 tetris pieces:
-          *  0 is the square
-          *  1 is the line
-          *  2 is the L
-          *  3 is J
-          *  4 is the T
-          *  5 is the S
-          *  6 is the Z
-        There are 4 orientations for each piece:
-          * 0 is the original orientation
-          * 1 is the 90 degree rotation
-          * 2 is the 180 degree rotation
-          * 3 is the 270 degree rotation
+    There are 7 Tetris pieces:
+    * 0 is the square
+    * 1 is the line
+    * 2 is the L
+    * 3 is J
+    * 4 is the T
+    * 5 is the S
+    * 6 is the Z
+
+    There are 4 orientations for each piece:
+    * 0 is the original orientation
+    * 1 is the 90 degree rotation
+    * 2 is the 180 degree rotation
+    * 3 is the 270 degree rotation
 
     Returns:
         numpy.ndarray: A 2-element array:
@@ -70,7 +71,7 @@ def Tetris_RD(width, height, steps):
     while i < steps:
         choice = Tetris_Choice()
 
-        # Square Piece
+        # 0. Square Piece
         if choice[0] == 0 and (choice[1] == 0 or choice[1] == 1):   # Square, check right boundary
             position = random.randint(0, width - 1)
             if position != (width - 1):
@@ -100,6 +101,7 @@ def Tetris_RD(width, height, steps):
             else:
                 continue
 
+        # 1. Line Piece
         if choice[0] == 1 and (choice[1] == 0 or choice[1] == 2):   # Vertical, check ceiling case
             position = random.randint(0, width - 1)
             landing_row = ffnz(substrate, height, position) - 1
@@ -112,6 +114,7 @@ def Tetris_RD(width, height, steps):
             else:
                 break
 
+        # 2. L Piece
         if choice[0] == 1 and choice[1] == 1:  # Line with right pivot, check left boundary
             position = random.randint(0, width - 1)
             if position - 3 >= 0:
@@ -139,7 +142,7 @@ def Tetris_RD(width, height, steps):
             else:
                 continue
 
-# L Case
+        # L Case
         if choice[0] == 2 and choice[1] == 0:  # L case upright, check right boundary
             position = random.randint(0, width - 1)
             if position + 1 <= width - 1:
@@ -236,6 +239,7 @@ def Tetris_RD(width, height, steps):
             else:
                 continue
 
+        # 3. J Piece
         if choice[0] == 3 and choice[1] == 0:  # J case upright, check left boundary
             position = random.randint(0, width - 1)
             # position = 6
@@ -288,6 +292,7 @@ def Tetris_RD(width, height, steps):
                     continue
             else:
                 continue
+
         if choice[0] == 3 and choice[1] == 2:  # J case long part on the left, check right boundary
             position = random.randint(0, width - 1)
             if position != width - 1:
@@ -316,6 +321,7 @@ def Tetris_RD(width, height, steps):
                     i += 1
             else:
                 continue
+
         if choice[0] == 3 and choice[1] == 3:  # J case long part on the bottom, check right boundary
             position = random.randint(0, width - 1)
             # position = 7
@@ -335,8 +341,7 @@ def Tetris_RD(width, height, steps):
             else:
                 continue
 
-    # T case
-
+        # 4. T Piece
         if choice[0] == 4 and choice[1] == 0:  # T case long part on top, check left and right boundaries
             position = random.randint(0, width - 1)
             # position = 7
@@ -371,6 +376,7 @@ def Tetris_RD(width, height, steps):
                     continue
             else:
                 continue
+
         if choice[0] == 4 and choice[1] == 1:  # T case long part on the left, check right boundary
             position = random.randint(0, width - 1)
             # position = 7
@@ -398,6 +404,7 @@ def Tetris_RD(width, height, steps):
                     i += 1
                 else:
                     continue
+
         if choice[0] == 4 and choice[1] == 2:  # T case long part on the bottom, check left and right boundaries
             position = random.randint(0, width - 1)
             # position = 4
@@ -416,6 +423,7 @@ def Tetris_RD(width, height, steps):
                     break
             else:
                 continue
+
         if choice[0] == 4 and choice[1] == 3:  # T case long part on the right, check left boundary
             position = random.randint(0, width - 1)
             # position = 7
@@ -449,8 +457,7 @@ def Tetris_RD(width, height, steps):
                 landing_row = min(landing_row_right, landing_row_left)
                 continue
 
-
-# S Case
+        # 5. S Piece
         if choice[0] == 5 and (choice[1] == 0 or choice[1] == 2):  # S case laying down, check left and right boundary
             position = random.randint(0, width - 1)
             if position + 1 <= width - 1 and position - 1 >= 0:  # Check left and right bdy
@@ -530,8 +537,8 @@ def Tetris_RD(width, height, steps):
                     i += 1
             else:
                 continue
-# Z Case
 
+        # 6. Z Case
         if choice[0] == 6 and (choice[1] == 0 or choice[1] == 2):  # Z case laying down, check left and right boundary
             position = random.randint(0, width - 1)
             if position + 1 <= width - 1 and position - 1 >= 0:  # Check left and right bdy
@@ -641,6 +648,5 @@ steps_str = input('How many blocks?')
 height = int(height_str)
 width = int(width_str)
 steps = int(steps_str)
-
 
 Tetris_RD(width, height, steps)
