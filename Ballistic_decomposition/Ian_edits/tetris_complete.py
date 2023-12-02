@@ -12,6 +12,15 @@ Date: 12/2023
 
 import numpy as np
 import random
+import os
+import sys
+import argparse
+# from RD_CLI import Interface_width
+
+# Add the directory containing RD_CLI.py to the Python path
+# script_dir = os.path.dirname(os.path.realpath(__file__))
+# parent_dir = os.path.dirname(script_dir)
+# sys.path.append(parent_dir)
 
 
 def Tetris_Choice():
@@ -19,24 +28,27 @@ def Tetris_Choice():
     Randomly selects a Tetris piece and its orientation.
 
     There are 7 Tetris pieces:
-    * 0 is the square
-    * 1 is the line
-    * 2 is the L
-    * 3 is J
-    * 4 is the T
-    * 5 is the S
-    * 6 is the Z
+        - 0 :  the square;
+        - 1 :  the line;
+        - 2 :  the L;
+        - 3 :  J;
+        - 4 :  the T;
+        - 5 :  the S;
+        - 6 :  the Z.
 
     There are 4 orientations for each piece:
-    * 0 is the original orientation
-    * 1 is the 90 degree rotation
-    * 2 is the 180 degree rotation
-    * 3 is the 270 degree rotation
+        - 0 is the original orientation;
+        - 1 is the 90 degree rotation;
+        - 2 is the 180 degree rotation;
+        - 3 is the 270 degree rotation.
 
     Returns:
         numpy.ndarray: A 2-element array:
-            * the first element is the piece type (0-6)
-            * the second element is the orientation (0-3).
+        the first element is the piece type (0-6);
+        the second element is the orientation (0-3).
+
+    To-do:
+        - add input file to specify the probability of each piece.
     """
     choice = np.random.randint(1, [7, 4])
     return choice
@@ -65,6 +77,17 @@ def ffnz(matrix, height, column):
 
 
 def Tetris_RD(width, height, steps):
+    """
+    This function simulates the Tetris Decomposition model on a substrate.
+
+    Args:
+        width  (int): The width of the substrate.
+        height (int): The height of the matrix.
+        steps  (int): The steps to simulate.
+
+    Returns:
+        string : Filename of the output file.
+    """
     i = 0
     substrate = np.zeros((height, width))
     topmost = height - 1
@@ -642,11 +665,56 @@ def Tetris_RD(width, height, steps):
     return outputfile
 
 
-height_str = input('What is the height?')
-width_str = input('What is the width?')
-steps_str = input('How many blocks?')
-height = int(height_str)
-width = int(width_str)
-steps = int(steps_str)
 
-Tetris_RD(width, height, steps)
+def main():
+    """
+
+    To use the script from terminal, the following options are expected:
+
+    -w, --width    : Width of the substrate (default: 100)
+    -e, --height   : Maximum height of the substrate (default: 60)
+    -s, --steps    : Number of particles to drop (default: 5000)
+
+    It returns:
+
+    1. A text file representing the substrate state.
+
+    Example:
+
+        ``ptyhon3 tetris_complete.py -w 100 -e 60 -s 5000``
+
+    In this example, the script will simulate Tetris Decomposition on a substrate of size 100x60 for 5000 steps. And the simulation movie will be generated.
+
+    """
+
+    parser = argparse.ArgumentParser(description="""
+
+    Simulate Random Deposition on a substrate.
+    Outputs: 1. Substrate_WIDTHxHEIGHT_Particles=STEPS_[Relaxed/BD].txt
+                A text file for the substrate.
+             2. Statistical figures, loglog plot for the interface width and the estimated slope.
+
+    Author: Ian Ruau and Mauricio Mountes
+    Date: 2023-12-01
+
+
+                                     """, formatter_class=argparse.RawTextHelpFormatter)
+    parser.add_argument("-w", "--width",  type=int,            default=100,  help="Width of the substrate (default: 100)")
+    parser.add_argument("-e", "--height", type=int,            default=60,   help="Maximum height of the substrate (default: 60)")
+    parser.add_argument("-s", "--steps",  type=int,            default=5000, help="Number of particles to drop (default: 5000)")
+    args = parser.parse_args()
+
+    Outputfile = Tetris_RD(args.width, args.height, args.steps)
+    # print("Computing the interface width...")
+    # interface_width(Outputfile)
+
+
+if __name__ == "__main__":
+    main()
+    # height_str = input('What is the height?')
+    # width_str = input('What is the width?')
+    # steps_str = input('How many blocks?')
+    # height = int(height_str)
+    # width = int(width_str)
+    # steps = int(steps_str)
+    # Tetris_RD(width, height, steps)
