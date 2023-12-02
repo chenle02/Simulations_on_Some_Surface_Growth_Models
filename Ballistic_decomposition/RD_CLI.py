@@ -325,19 +325,25 @@ def main():
 
     To use the script from terminal, the following options are expected:
 
-    -w, --width  : Width of the substrate (default: 100)
-    -e, --height : Maximum height of the substrate (default: 60)
-    -s, --steps  : Number of particles to drop (default: 5000)
-        --relax  : Enable surface relaxation (default: False)
-        --BD     : Enable ballistic decomposition (default: False)
-    -m, --movie  : Generate an mp4 movie of the simulation (default: False)
+    -w, --width    : Width of the substrate (default: 100)
+    -e, --height   : Maximum height of the substrate (default: 60)
+    -s, --steps    : Number of particles to drop (default: 5000)
+    -r, --relax    : Enable surface relaxation (default: False)
+    -b, --BD       : Enable ballistic decomposition (default: False)
+    -m, --movie    : Generate an mp4 movie of the simulation (default: False)
 
     It returns:
-        1. A text file representing the substrate state.
-        2. Statistical figures, including a log-log plot for the interface width and the estimated slope.
-        3. (Optional) An mp4 movie of the simulation process.
 
-    By Le Chen (le.chen@auburn.edu, chenle02@gmail.com),  2023-10-22
+    1. A text file representing the substrate state.
+    2. Statistical figures, including a log-log plot for the interface width and the estimated slope.
+    3. (Optional) An mp4 movie of the simulation process.
+
+    Example:
+
+        ``ptyhon3 RD_CLI.py -w 100 -e 60 -s 5000 --BD --movie``
+
+    In this example, the script will simulate Ballistic Decomposition on a substrate of size 100x60 for 5000 steps. And the simulation movie will be generated.
+
     """
 
     parser = argparse.ArgumentParser(description="""
@@ -352,12 +358,12 @@ def main():
 
 
                                      """, formatter_class=argparse.RawTextHelpFormatter)
-    parser.add_argument("-w", "--width", type=int, default=100, help="Width of the substrate (default: 100)")
-    parser.add_argument("-e", "--height", type=int, default=60, help="Maximum height of the substrate (default: 60)")
-    parser.add_argument("-s", "--steps", type=int, default=5000, help="Number of particles to drop (default: 5000)")
-    parser.add_argument("--relax", action="store_true", help="Surface Relaxation: go to the nearest lowest neighbor (default: False)")
-    parser.add_argument("--BD", action="store_true", help="Ballistic decomposition (default: False)")
-    parser.add_argument("-m", "--movie", action="store_true", help="Generate the mp4 movie (default: False)")
+    parser.add_argument("-w", "--width",  type=int,            default=100,  help="Width of the substrate (default: 100)")
+    parser.add_argument("-e", "--height", type=int,            default=60,   help="Maximum height of the substrate (default: 60)")
+    parser.add_argument("-s", "--steps",  type=int,            default=5000, help="Number of particles to drop (default: 5000)")
+    parser.add_argument("-r", "--relax",  action="store_true", help="Surface Relaxation: go to the nearest lowest neighbor (default: False)")
+    parser.add_argument("-b", "--BD",     action="store_true", help="Ballistic decomposition (default: False)")
+    parser.add_argument("-m", "--movie",  action="store_true", help="Generate the mp4 movie (default: False)")
     args = parser.parse_args()
 
     Outputfile = ""

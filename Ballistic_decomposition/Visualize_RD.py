@@ -127,12 +127,10 @@ def main():
 
     Example:
 
-        ``python3 Visualize_RD.py -f path/to/substrate.txt -t "Simulation Title" -r 10 --envelop --average --play``
+    ``python3 Visualize_RD.py -f path/to/substrate.txt -t "Simulation Title" -r 10 --envelop --average --play``
 
     This command will run the script on 'substrate.txt', set a title, use a frame rate of 10 fps,
     and display both the top envelope and average height in the visualization.
-
-    By Le Chen (le.chen@auburn.edu, chenle02@gmail.com), 2023-10-22
     """
 
     parser = argparse.ArgumentParser(description="""
