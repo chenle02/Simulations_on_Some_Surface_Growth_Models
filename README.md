@@ -83,7 +83,7 @@ options:
 ```
 # Documentation
 * Documentation for the simulation on the random surface growth with Tetris pieces:
-    1. [html](http://webhome.auburn.edu/~lzc0090/Simulation_Tetris/index.html).
+    1. [html](http://webhome.auburn.edu/~lzc0090/Simulation_Tetris/html/).
     2. [pdf](./docs/pdf/surfacegrowthwithrandomtetrispieces.pdf).
 * Documenttation for the simulation on the solid on solid model will come soon.
 
