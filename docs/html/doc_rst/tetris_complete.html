@@ -14,7 +14,8 @@
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Visualize_RD module" href="Visualize_RD.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -25,6 +26,9 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="Visualize_RD.html" title="Visualize_RD module"
+             accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">Surface Growth with Random Tetris Pieces  documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">tetris_complete module</a></li> 
       </ul>
@@ -35,8 +39,121 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <section id="tetris-complete-module">
-<h1>tetris_complete module<a class="headerlink" href="#tetris-complete-module" title="Permalink to this headline">¶</a></h1>
+  <section id="module-tetris_complete">
+<span id="tetris-complete-module"></span><h1>tetris_complete module<a class="headerlink" href="#module-tetris_complete" title="Permalink to this headline">¶</a></h1>
+<p>This module simulates the surface growth by Tetris pieces. It includes
+functions to generate random Tetris pieces, calculate their landing positions
+on a substrate, and simulate a game of Tetris for a given number of steps and a
+defined grid size.</p>
+<p>By Ian Ruau (<a class="reference external" href="mailto:iir0001&#37;&#52;&#48;auburn&#46;edu">iir0001<span>&#64;</span>auburn<span>&#46;</span>edu</a>) and Mauricio Montes (<a class="reference external" href="mailto:mauricio&#46;montes&#37;&#52;&#48;auburn&#46;edu">mauricio<span>&#46;</span>montes<span>&#64;</span>auburn<span>&#46;</span>edu</a>)
+Date: 12/2023</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="tetris_complete.Tetris_Choice">
+<span class="sig-prename descclassname"><span class="pre">tetris_complete.</span></span><span class="sig-name descname"><span class="pre">Tetris_Choice</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tetris_complete.Tetris_Choice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Randomly selects a Tetris piece and its orientation.</p>
+<dl class="simple">
+<dt>There are 7 Tetris pieces:</dt><dd><ul class="simple">
+<li><p>0 :  the square;</p></li>
+<li><p>1 :  the line;</p></li>
+<li><p>2 :  the L;</p></li>
+<li><p>3 :  J;</p></li>
+<li><p>4 :  the T;</p></li>
+<li><p>5 :  the S;</p></li>
+<li><p>6 :  the Z.</p></li>
+</ul>
+</dd>
+<dt>There are 4 orientations for each piece:</dt><dd><ul class="simple">
+<li><p>0 is the original orientation;</p></li>
+<li><p>1 is the 90 degree rotation;</p></li>
+<li><p>2 is the 180 degree rotation;</p></li>
+<li><p>3 is the 270 degree rotation.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A 2-element array:
+the first element is the piece type (0-6);
+the second element is the orientation (0-3).</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>numpy.ndarray</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>To-do:</dt><dd><ul class="simple">
+<li><p>add input file to specify the probability of each piece.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tetris_complete.Tetris_RD">
+<span class="sig-prename descclassname"><span class="pre">tetris_complete.</span></span><span class="sig-name descname"><span class="pre">Tetris_RD</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tetris_complete.Tetris_RD" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function simulates the Tetris Decomposition model on a substrate.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>width</strong> (<em>int</em>) – The width of the substrate.</p></li>
+<li><p><strong>height</strong> (<em>int</em>) – The height of the matrix.</p></li>
+<li><p><strong>steps</strong> (<em>int</em>) – The steps to simulate.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Filename of the output file.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tetris_complete.ffnz">
+<span class="sig-prename descclassname"><span class="pre">tetris_complete.</span></span><span class="sig-name descname"><span class="pre">ffnz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tetris_complete.ffnz" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds the first non-zero entry in a specified column of a matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>matrix</strong> (<em>numpy.ndarray</em>) – The matrix to search.</p></li>
+<li><p><strong>height</strong> (<em>int</em>) – The height of the matrix.</p></li>
+<li><p><strong>column</strong> (<em>int</em>) – The column index to search in.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The index of the first non-zero entry.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tetris_complete.main">
+<span class="sig-prename descclassname"><span class="pre">tetris_complete.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tetris_complete.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>To use the script from terminal, the following options are expected:</p>
+<dl class="option-list">
+<dt><kbd><span class="option">-w</span>, <span class="option">--width</span></kbd></dt>
+<dd><p>: Width of the substrate (default: 100)</p>
+</dd>
+<dt><kbd><span class="option">-e</span>, <span class="option">--height</span></kbd></dt>
+<dd><p>: Maximum height of the substrate (default: 60)</p>
+</dd>
+<dt><kbd><span class="option">-s</span>, <span class="option">--steps</span></kbd></dt>
+<dd><p>: Number of particles to drop (default: 5000)</p>
+</dd>
+</dl>
+<p>It returns:</p>
+<ol class="arabic simple">
+<li><p>A text file representing the substrate state.</p></li>
+</ol>
+<p class="rubric">Example</p>
+<p><code class="docutils literal notranslate"><span class="pre">ptyhon3</span> <span class="pre">tetris_complete.py</span> <span class="pre">-w</span> <span class="pre">100</span> <span class="pre">-e</span> <span class="pre">60</span> <span class="pre">-s</span> <span class="pre">5000</span></code></p>
+<p>In this example, the script will simulate Tetris Decomposition on a substrate of size 100x60 for 5000 steps. And the simulation movie will be generated.</p>
+</dd></dl>
+
 </section>
 
 
@@ -46,6 +163,9 @@
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="Visualize_RD.html"
+                        title="previous chapter">Visualize_RD module</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -76,6 +196,9 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="Visualize_RD.html" title="Visualize_RD module"
+             >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">Surface Growth with Random Tetris Pieces  documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">tetris_complete module</a></li> 
       </ul>
