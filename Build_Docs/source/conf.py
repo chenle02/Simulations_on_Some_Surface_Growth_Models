@@ -18,9 +18,9 @@ sys.path.insert(0, os.path.abspath('../../Ballistic_decomposition/'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'Surface Growth Models with Tetris Growth'
+project = 'Surface Growth with Random Tetris Pieces'
 copyright = '2023, Le Chen, Mauricio Montes, Ian Ruau'
-author = 'Le Chen, Mauricio Montes, Ian Ruau (alphabetical order)'
+author = 'Le Chen, Mauricio Montes, Ian Ruau'
 
 
 # -- General configuration ---------------------------------------------------
