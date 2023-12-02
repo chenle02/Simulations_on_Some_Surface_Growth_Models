@@ -55,6 +55,32 @@ options:
 
 
 ```
+3. `tetris_complete.py`
+```
+
+❯ python3 tetris_complete.py --help
+usage: tetris_complete.py [-h] [-w WIDTH] [-e HEIGHT] [-s STEPS]
+
+    Simulate Random Deposition on a substrate.
+    Outputs: 1. Substrate_WIDTHxHEIGHT_Particles=STEPS_[Relaxed/BD].txt
+                A text file for the substrate.
+             2. Statistical figures, loglog plot for the interface width and the estimated slope.
+
+    Author: Ian Ruau and Mauricio Mountes
+    Date: 2023-12-01
+
+
+
+options:
+  -h, --help            show this help message and exit
+  -w WIDTH, --width WIDTH
+                        Width of the substrate (default: 100)
+  -e HEIGHT, --height HEIGHT
+                        Maximum height of the substrate (default: 60)
+  -s STEPS, --steps STEPS
+                        Number of particles to drop (default: 5000)
+
+```
 # Documentation
 * Documentation for the simulation on the random surface growth with Tetris pieces:
     1. [html](http://webhome.auburn.edu/~lzc0090/Simulation_Tetris/index.html).
