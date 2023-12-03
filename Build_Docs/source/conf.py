@@ -89,3 +89,9 @@ myst_enable_extensions = [
 bibtex_bibfiles = ['All.bib']
 math_numfig = True
 
+latex_elements = {
+    'preamble': r'''
+    \usepackage{amsmath}
+    % \numberwithin{equation}{section}
+    '''
+}
