@@ -56,13 +56,20 @@ by the second and third authors in Fall 2023. This is still an ongoing project.
 More feature and functionalities will be added in the future. Some simulation
 experiments will be carried out to test the universality of the growth models.
 
-Acknowledgents
+Acknowledgments
 ================
 
 The references throughout this document have been meticulously compiled and are
 available in a comprehensive bibliography bank :cite:`chen:23:spdes-bib`.
 
+This work is partially supported by the **National Science Foundation (NSF)**
+under Grant No. `No. 2246850
+<https://www.nsf.gov/awardsearch/showAward?AWD_ID=2246850>`_ (2023--2026) and
+the collaboration/travel award from the **Simons foundation** under Award No.
+959981 (2022--2027).
+
+
 Bibliography
-================
+=============
 
 .. bibliography::
