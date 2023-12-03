@@ -1,5 +1,4 @@
 # Configuration file for the Sphinx documentation builder.
-#
 # This file only contains a selection of the most common options. For a full
 # list see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
@@ -13,6 +12,8 @@
 
 import os
 import sys
+# from datetime import datetime
+
 # import your_package
 
 # version = your_package.__version__
@@ -95,3 +96,12 @@ latex_elements = {
     % \numberwithin{equation}{section}
     '''
 }
+
+# html_footer = "This project is partially supported by the National Science Foundation under Grant No. 2246850 and the collaboration/travel award from the Simons foundation under Award No. 959981."
+
+# html_footer = '''
+# <div class="custom-footer">
+#     <p>This work is supported by the National Science Foundation under Grant No. <a href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=2246850">2246850</a> and the collaboration/travel award from the Simons foundation under Award No. 959981.</p>
+#     <p>&copy; {year} All rights reserved.</p>
+# </div>
+# '''.format(year=datetime.now().year)
