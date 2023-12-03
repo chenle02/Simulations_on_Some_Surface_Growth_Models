@@ -340,7 +340,9 @@ def main():
 
     Example:
 
-        ``ptyhon3 RD_CLI.py -w 100 -e 60 -s 5000 --BD --movie``
+    .. code-block:: bash
+
+        > ptyhon3 RD_CLI.py -w 100 -e 60 -s 5000 --BD --movie
 
     In this example, the script will simulate Ballistic Decomposition on a substrate of size 100x60 for 5000 steps. And the simulation movie will be generated.
 

@@ -12,15 +12,8 @@ Date: 12/2023
 
 import numpy as np
 import random
-import os
-import sys
 import argparse
 # from RD_CLI import Interface_width
-
-# Add the directory containing RD_CLI.py to the Python path
-# script_dir = os.path.dirname(os.path.realpath(__file__))
-# parent_dir = os.path.dirname(script_dir)
-# sys.path.append(parent_dir)
 
 
 def Tetris_Choice():
@@ -28,27 +21,34 @@ def Tetris_Choice():
     Randomly selects a Tetris piece and its orientation.
 
     There are 7 Tetris pieces:
-        - 0 :  the square;
-        - 1 :  the line;
-        - 2 :  the L;
-        - 3 :  J;
-        - 4 :  the T;
-        - 5 :  the S;
-        - 6 :  the Z.
+
+    + 0 :  the square;
+    + 1 :  the line;
+    + 2 :  the L;
+    + 3 :  the J;
+    + 4 :  the T;
+    + 5 :  the S;
+    + 6 :  the Z.
 
     There are 4 orientations for each piece:
-        - 0 is the original orientation;
-        - 1 is the 90 degree rotation;
-        - 2 is the 180 degree rotation;
-        - 3 is the 270 degree rotation.
+
+    - 0 is the original orientation;
+    - 1 is the 90 degree rotation;
+    - 2 is the 180 degree rotation;
+    - 3 is the 270 degree rotation.
 
     Returns:
+
         numpy.ndarray: A 2-element array:
         the first element is the piece type (0-6);
         the second element is the orientation (0-3).
 
-    To-do:
-        - add input file to specify the probability of each piece.
+
+
+    **To-Do's**
+
+    + Add input file to specify the probability of each piece.
+
     """
     choice = np.random.randint(1, [7, 4])
     return choice
@@ -665,7 +665,6 @@ def Tetris_RD(width, height, steps):
     return outputfile
 
 
-
 def main():
     """
 
@@ -681,10 +680,12 @@ def main():
 
     Example:
 
-        ``ptyhon3 tetris_complete.py -w 100 -e 60 -s 5000``
+        .. code-block:: bash
 
-    In this example, the script will simulate Tetris Decomposition on a substrate of size 100x60 for 5000 steps. And the simulation movie will be generated.
+            > ptyhon3 tetris_complete.py -w 100 -e 60 -s 5000
 
+        In this example, the script will simulate Tetris Decomposition on a
+        substrate of size 100x60 for 5000 steps.
     """
 
     parser = argparse.ArgumentParser(description="""
