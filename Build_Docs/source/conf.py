@@ -13,6 +13,17 @@
 
 import os
 import sys
+# import your_package
+
+# version = your_package.__version__
+# release = version
+
+# The short X.Y version.
+version = '1.0'
+
+# The full version, including alpha/beta/rc tags.
+release = '1.0'
+
 sys.path.insert(0, os.path.abspath('../../Ballistic_decomposition/'))
 sys.path.insert(0, os.path.abspath('../../Ballistic_decomposition/Ian_edits/'))
 
@@ -30,7 +41,10 @@ author = 'Le Chen, Mauricio Montes, Ian Ruau'
 # ones.
 extensions = [
     'sphinx.ext.napoleon',
-    # 'sphinx.ext.autodoc',
+    'sphinx.ext.autodoc',
+    'sphinx_markdown_tables',
+    'myst_parser',
+    'sphinxcontrib.bibtex',
 ]
 
 napoleon_google_docstring = True
@@ -53,10 +67,25 @@ exclude_patterns = []
 # Some of the popular built-in themes include 'alabaster', 'classic', 'sphinx_rtd_theme' (Read the Docs theme), 'nature', and 'pyramid'.
 
 # html_theme = 'alabaster'
-html_theme = 'nature'
+# html_theme = 'nature'
+# html_theme = 'pyramid'
+# html_theme = 'classic'
+# html_theme = 'groundwork'
+html_theme = 'press'
 
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+
+myst_enable_extensions = [
+    'colon_fence',
+    'amsmath',
+    'dollarmath',
+    # ... other extensions
+]
+
+bibtex_bibfiles = ['All.bib']
+math_numfig = True
+
