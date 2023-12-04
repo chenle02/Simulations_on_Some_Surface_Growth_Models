@@ -43,6 +43,7 @@ author = 'Le Chen, Mauricio Montes, Ian Ruau'
 extensions = [
     'sphinx.ext.napoleon',
     'sphinx.ext.autodoc',
+    'myst_parser',
     'sphinxcontrib.bibtex',
 ]
 
@@ -85,7 +86,7 @@ myst_enable_extensions = [
     # ... other extensions
 ]
 
-bibtex_bibfiles = ['./doc_rst/All.bib']
+bibtex_bibfiles = ['doc_rst/All.bib']
 math_numfig = True
 
 latex_elements = {
