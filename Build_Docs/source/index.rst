@@ -3,9 +3,6 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-.. |version| replace:: :release:``
-.. |release| replace:: :version:``
-
 Welcome to Surface Growth Models with Tetris Pieces's documentation!  Version |version| (release |release|).
 =============================================================================================================
 
