@@ -43,8 +43,6 @@ author = 'Le Chen, Mauricio Montes, Ian Ruau'
 extensions = [
     'sphinx.ext.napoleon',
     'sphinx.ext.autodoc',
-    'sphinx_markdown_tables',
-    'myst_parser',
     'sphinxcontrib.bibtex',
 ]
 
