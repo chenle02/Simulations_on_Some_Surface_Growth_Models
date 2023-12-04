@@ -14,7 +14,9 @@ def Piece_Selection():  # This gives the 2x1 case
     return choice
 
 
-def ffnz(matrix, height, column):  # ffnz Finds the First NonZero entry in a fixed column
+def ffnz(
+    matrix, height, column
+):  # ffnz Finds the First NonZero entry in a fixed column
     i = 0
     flag = height
     while (flag == height) and (i < height):
@@ -35,28 +37,42 @@ def Random_Deposition_2x1(width, height, steps):
         choice = Piece_Selection()
         # position = 5
 
-        if choice[0] == 0 and choice[1] == 0:  # Horizontal piece, left pivot. As in, the nonpivot is on the right.
+        if (
+            choice[0] == 0 and choice[1] == 0
+        ):  # Horizontal piece, left pivot. As in, the nonpivot is on the right.
             if position != (width - 1):  # Checks if the piece is in the right boundary
-                landing_row = np.minimum(ffnz(substrate, height, position) - 1, ffnz(substrate, height, position + 1) - 1)
+                landing_row = np.minimum(
+                    ffnz(substrate, height, position) - 1,
+                    ffnz(substrate, height, position + 1) - 1,
+                )
                 substrate[landing_row, position] = i + 1
                 substrate[landing_row, position + 1] = i + 1
                 i += 1
             else:
                 continue
 
-        if choice[0] == 0 and choice[1] == 1:  # Horizontal piece, right pivot. As in, the nonpivot is on the left.
+        if (
+            choice[0] == 0 and choice[1] == 1
+        ):  # Horizontal piece, right pivot. As in, the nonpivot is on the left.
             if position != 0:
-                landing_row = np.minimum(ffnz(substrate, height, position - 1) - 1, ffnz(substrate, height, position) - 1)
+                landing_row = np.minimum(
+                    ffnz(substrate, height, position - 1) - 1,
+                    ffnz(substrate, height, position) - 1,
+                )
                 substrate[landing_row, position] = i + 1
                 substrate[landing_row, position - 1] = i + 1
                 i += 1
             else:
                 continue
 
-        if choice[0] == 1:  # Vertical piece. We can safely ignore the pivot and we also don't need to check boundary conditions
+        if (
+            choice[0] == 1
+        ):  # Vertical piece. We can safely ignore the pivot and we also don't need to check boundary conditions
             landing_row = ffnz(substrate, height, position) - 1
             substrate[landing_row, position] = i + 1
-            substrate[landing_row - 1, position] = i + 1  # This places a block above the first one
+            substrate[landing_row - 1, position] = (
+                i + 1
+            )  # This places a block above the first one
             i += 1
 
         if landing_row < topmost:
@@ -72,15 +88,15 @@ def Random_Deposition_2x1(width, height, steps):
     return substrate
 
 
-height_str = input('What is the height?')
-width_str = input('What is the width?')
-steps_str = input('How many blocks?')
+height_str = input("What is the height?")
+width_str = input("What is the width?")
+steps_str = input("How many blocks?")
 height = int(height_str)
 width = int(width_str)
 steps = int(steps_str)
 
 substrate = Random_Deposition_2x1(width, height, steps)
 
-outputfile = f'Substrate_domino_{width}x{height}_Particles={steps}.txt'
-np.savetxt(outputfile, substrate, fmt='%d', delimiter=',')
+outputfile = f"Substrate_domino_{width}x{height}_Particles={steps}.txt"
+np.savetxt(outputfile, substrate, fmt="%d", delimiter=",")
 print(f"{outputfile} saved!")

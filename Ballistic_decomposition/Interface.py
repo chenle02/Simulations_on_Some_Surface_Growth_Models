@@ -14,7 +14,7 @@ import os
 def interface_width(filename, plot_title, reference_slope):
     # Main function to visualize the simulation
     # Load substrate from file
-    substrate = np.loadtxt(filename, delimiter=',')
+    substrate = np.loadtxt(filename, delimiter=",")
 
     # Parameters
     height, width = substrate.shape
@@ -63,26 +63,26 @@ def interface_width(filename, plot_title, reference_slope):
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6))
 
     # First plot: log-log plot of the interface width
-    ax1.loglog(time, interface, '-o', label='Interface Width')
-    ax1.set_xlabel('Log of Time (log(t)')
-    ax1.set_ylabel('Interface Width in log')
-    ax1.set_title('Log-Log plot of Interface Width vs Time')
+    ax1.loglog(time, interface, "-o", label="Interface Width")
+    ax1.set_xlabel("Log of Time (log(t)")
+    ax1.set_ylabel("Interface Width in log")
+    ax1.set_title("Log-Log plot of Interface Width vs Time")
     ax1.grid(True)
 
     # Second plot: slopes
-    ax2.plot(time[quarter_length - 1:], slopes, '-o', label='Computed Slopes')
+    ax2.plot(time[quarter_length - 1 :], slopes, "-o", label="Computed Slopes")
     # ax2.axhline(y=reference_slope, color='r', linestyle='--', label=f'Reference Slope {reference_slope}')
-    ax2.axhline(y=1 / 2, color='r', linestyle='--', label='Reference Slope 1/2')
-    ax2.axhline(y=1 / 3, color='r', linestyle='--', label='Reference Slope 1/3')
-    ax2.axhline(y=1 / 4, color='r', linestyle='--', label='Reference Slope 1/4')
-    ax2.set_xlabel('Time (t)')
-    ax2.set_ylabel('Slope')
-    ax2.set_title('Slope of the log-log plot as a function of log(t)')
+    ax2.axhline(y=1 / 2, color="r", linestyle="--", label="Reference Slope 1/2")
+    ax2.axhline(y=1 / 3, color="r", linestyle="--", label="Reference Slope 1/3")
+    ax2.axhline(y=1 / 4, color="r", linestyle="--", label="Reference Slope 1/4")
+    ax2.set_xlabel("Time (t)")
+    ax2.set_ylabel("Slope")
+    ax2.set_title("Slope of the log-log plot as a function of log(t)")
     ax2.legend()
     ax2.grid(True)
 
     plt.tight_layout()
-    plt.savefig(filename.replace('.txt', '.png'), dpi=300)
+    plt.savefig(filename.replace(".txt", ".png"), dpi=300)
     # plt.show()
 
     return interface
@@ -101,7 +101,8 @@ def Envelop(substrate):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="""
+    parser = argparse.ArgumentParser(
+        description="""
 
     Plot the interface width
     Input: Substrate text file, produced by RD_CLI.py
@@ -111,10 +112,22 @@ def main():
     Date: 2023-10-22
 
 
-                                     """, formatter_class=argparse.RawTextHelpFormatter)
-    parser.add_argument("-f", "--file", type=str, required=True, help="Path to the substrate")
-    parser.add_argument("-t", "--title", type=str, default="", help="Title of the plot (default: None)")
-    parser.add_argument("-s", "--slope", type=float, default=0.333, help="Additional line on the log-lot plot (default: 0.333)")
+                                     """,
+        formatter_class=argparse.RawTextHelpFormatter,
+    )
+    parser.add_argument(
+        "-f", "--file", type=str, required=True, help="Path to the substrate"
+    )
+    parser.add_argument(
+        "-t", "--title", type=str, default="", help="Title of the plot (default: None)"
+    )
+    parser.add_argument(
+        "-s",
+        "--slope",
+        type=float,
+        default=0.333,
+        help="Additional line on the log-lot plot (default: 0.333)",
+    )
     args = parser.parse_args()
 
     interface_width(args.file, args.title, args.slope)

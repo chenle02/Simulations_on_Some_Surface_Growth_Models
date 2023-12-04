@@ -42,8 +42,8 @@ def Random_Deposition(width, height, steps):
             print(f"Stopped at step {step + 1}, Level at {height - topmost}/{height}")
             break
 
-    outputfile = f'Substrate_{width}x{height}_Particles={steps}.txt'
-    np.savetxt(outputfile, substrate, fmt='%d', delimiter=',')
+    outputfile = f"Substrate_{width}x{height}_Particles={steps}.txt"
+    np.savetxt(outputfile, substrate, fmt="%d", delimiter=",")
     print(f"{outputfile} saved!")
     return outputfile
 
@@ -80,10 +80,15 @@ def Random_Deposition_Surface_Relaxation(width, height, steps):
         # Determine the lnading rows for middle, left, and right columns
         landing_row_mid = np.max(np.where(substrate[:, position] == 0))
         landing_row_left = np.max(np.where(substrate[:, max(position - 1, 0)] == 0))
-        landing_row_right = np.max(np.where(substrate[:, min(position + 1, width - 1)] == 0))
+        landing_row_right = np.max(
+            np.where(substrate[:, min(position + 1, width - 1)] == 0)
+        )
 
         # Surface relaxation
-        if landing_row_right > max(landing_row_mid, landing_row_left) and position < width - 1:
+        if (
+            landing_row_right > max(landing_row_mid, landing_row_left)
+            and position < width - 1
+        ):
             # Landing on the right column
             substrate[landing_row_right, position + 1] = step + 1
             landing_row = landing_row_right
@@ -106,8 +111,8 @@ def Random_Deposition_Surface_Relaxation(width, height, steps):
             print(f"Stopped at step {step + 1}, Level at {height - topmost}/{height}")
             break
 
-    outputfile = f'Substrate_{width}x{height}_Particles={steps}_Relaxed.txt'
-    np.savetxt(outputfile, substrate, fmt='%d', delimiter=',')
+    outputfile = f"Substrate_{width}x{height}_Particles={steps}_Relaxed.txt"
+    np.savetxt(outputfile, substrate, fmt="%d", delimiter=",")
     print(f"{outputfile} saved!")
     return outputfile
 
@@ -176,8 +181,8 @@ def Ballistic_Deposition(width, height, steps):
             print(f"Stopped at step {step + 1}, Level at {height - topmost}/{height}")
             break
 
-    outputfile = f'Substrate_{width}x{height}_Particles={steps}_BD.txt'
-    np.savetxt(outputfile, substrate, fmt='%d', delimiter=',')
+    outputfile = f"Substrate_{width}x{height}_Particles={steps}_BD.txt"
+    np.savetxt(outputfile, substrate, fmt="%d", delimiter=",")
     print(f"{outputfile} saved!")
     return outputfile
 
@@ -206,7 +211,7 @@ def interface_width(filename):
     """
 
     # Load substrate from file
-    substrate = np.loadtxt(filename, delimiter=',')
+    substrate = np.loadtxt(filename, delimiter=",")
 
     # Parameters
     height, width = substrate.shape
@@ -255,26 +260,26 @@ def interface_width(filename):
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6))
 
     # First plot: log-log plot of the interface width
-    ax1.loglog(time, interface, '-o', label='Interface Width')
-    ax1.set_xlabel('Log of Time (log(t)')
-    ax1.set_ylabel('Interface Width in log')
-    ax1.set_title('Log-Log plot of Interface Width vs Time')
+    ax1.loglog(time, interface, "-o", label="Interface Width")
+    ax1.set_xlabel("Log of Time (log(t)")
+    ax1.set_ylabel("Interface Width in log")
+    ax1.set_title("Log-Log plot of Interface Width vs Time")
     ax1.grid(True)
 
     # Second plot: slopes
-    ax2.plot(time[quarter_length - 1:], slopes, '-o', label='Computed Slopes')
+    ax2.plot(time[quarter_length - 1 :], slopes, "-o", label="Computed Slopes")
     # ax2.axhline(y=reference_slope, color='r', linestyle='--', label=f'Reference Slope {reference_slope}')
-    ax2.axhline(y=1 / 2, color='r', linestyle='--', label='Reference Slope 1/2')
-    ax2.axhline(y=1 / 3, color='r', linestyle='--', label='Reference Slope 1/3')
-    ax2.axhline(y=1 / 4, color='r', linestyle='--', label='Reference Slope 1/4')
-    ax2.set_xlabel('Time (t)')
-    ax2.set_ylabel('Slope')
-    ax2.set_title('Slope of the log-log plot as a function of log(t)')
+    ax2.axhline(y=1 / 2, color="r", linestyle="--", label="Reference Slope 1/2")
+    ax2.axhline(y=1 / 3, color="r", linestyle="--", label="Reference Slope 1/3")
+    ax2.axhline(y=1 / 4, color="r", linestyle="--", label="Reference Slope 1/4")
+    ax2.set_xlabel("Time (t)")
+    ax2.set_ylabel("Slope")
+    ax2.set_title("Slope of the log-log plot as a function of log(t)")
     ax2.legend()
     ax2.grid(True)
 
     plt.tight_layout()
-    plt.savefig(filename.replace('.txt', '.png'), dpi=300)
+    plt.savefig(filename.replace(".txt", ".png"), dpi=300)
     # plt.show()
 
     return interface
@@ -348,7 +353,8 @@ def main():
 
     """
 
-    parser = argparse.ArgumentParser(description="""
+    parser = argparse.ArgumentParser(
+        description="""
 
     Simulate Random Deposition on a substrate.
     Outputs: 1. Substrate_WIDTHxHEIGHT_Particles=STEPS_[Relaxed/BD].txt
@@ -359,19 +365,56 @@ def main():
     Date: 2023-10-22
 
 
-                                     """, formatter_class=argparse.RawTextHelpFormatter)
-    parser.add_argument("-w", "--width",  type=int,            default=100,  help="Width of the substrate (default: 100)")
-    parser.add_argument("-e", "--height", type=int,            default=60,   help="Maximum height of the substrate (default: 60)")
-    parser.add_argument("-s", "--steps",  type=int,            default=5000, help="Number of particles to drop (default: 5000)")
-    parser.add_argument("-r", "--relax",  action="store_true", help="Surface Relaxation: go to the nearest lowest neighbor (default: False)")
-    parser.add_argument("-b", "--BD",     action="store_true", help="Ballistic decomposition (default: False)")
-    parser.add_argument("-m", "--movie",  action="store_true", help="Generate the mp4 movie (default: False)")
+                                     """,
+        formatter_class=argparse.RawTextHelpFormatter,
+    )
+    parser.add_argument(
+        "-w",
+        "--width",
+        type=int,
+        default=100,
+        help="Width of the substrate (default: 100)",
+    )
+    parser.add_argument(
+        "-e",
+        "--height",
+        type=int,
+        default=60,
+        help="Maximum height of the substrate (default: 60)",
+    )
+    parser.add_argument(
+        "-s",
+        "--steps",
+        type=int,
+        default=5000,
+        help="Number of particles to drop (default: 5000)",
+    )
+    parser.add_argument(
+        "-r",
+        "--relax",
+        action="store_true",
+        help="Surface Relaxation: go to the nearest lowest neighbor (default: False)",
+    )
+    parser.add_argument(
+        "-b",
+        "--BD",
+        action="store_true",
+        help="Ballistic decomposition (default: False)",
+    )
+    parser.add_argument(
+        "-m",
+        "--movie",
+        action="store_true",
+        help="Generate the mp4 movie (default: False)",
+    )
     args = parser.parse_args()
 
     Outputfile = ""
     if args.relax:
         Title = "Random Decomposition with Surface Relaxation"
-        Outputfile = Random_Deposition_Surface_Relaxation(args.width, args.height, args.steps)
+        Outputfile = Random_Deposition_Surface_Relaxation(
+            args.width, args.height, args.steps
+        )
         print(Title)
     elif args.BD:
         Title = "Ballistic Decomposition"
@@ -388,11 +431,14 @@ def main():
     if args.movie:
         print("Generating the movie...")
         cmd = [
-            'python3', 'Visualize_RD.py',
-            '--file', Outputfile,
-            '--title', Title,
-            '--envelop',
-            '--average',
+            "python3",
+            "Visualize_RD.py",
+            "--file",
+            Outputfile,
+            "--title",
+            Title,
+            "--envelop",
+            "--average",
         ]
         subprocess.run(cmd)
     else:
