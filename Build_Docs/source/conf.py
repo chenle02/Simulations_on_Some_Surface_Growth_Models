@@ -65,12 +65,12 @@ exclude_patterns = []
 #
 # Some of the popular built-in themes include 'alabaster', 'classic', 'sphinx_rtd_theme' (Read the Docs theme), 'nature', and 'pyramid'.
 
-html_theme = 'alabaster'
+# html_theme = 'alabaster'
 # html_theme = 'nature'
 # html_theme = 'pyramid'
 # html_theme = 'classic'
 # html_theme = 'groundwork'
-# html_theme = 'press'
+html_theme = 'press'
 
 
 # Add any paths that contain custom static files (such as style sheets) here,
