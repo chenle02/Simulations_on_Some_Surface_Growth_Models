@@ -81,11 +81,15 @@ options:
                         Number of particles to drop (default: 5000)
 
 ```
+
 # Documentation
+
 * Documentation for the simulation on the random surface growth with Tetris pieces:
-    1. [html](http://webhome.auburn.edu/~lzc0090/Simulation_Tetris/html/).
-    2. [pdf](./docs/pdf/surfacegrowthwithrandomtetrispieces.pdf).
-* Documenttation for the simulation on the solid on solid model will come soon.
+    1. Stable version (the main branch) in HTML is hosted on [Le's homepage](http://webhome.auburn.edu/~lzc0090/Simulation_Tetris/html/) or on [Read the Docs](https://simulations-on-some-surface-growth-models.readthedocs.io/main/).
+    2. [Latest version](https://simulations-on-some-surface-growth-models.readthedocs.io/latest/) is pointing to the [Tetris_Domino branch](https://simulations-on-some-surface-growth-models.readthedocs.io/tetris_domino/), both are hosted on `Read the Docs`. 
+    3. You can also download the [pdf](./docs/pdf/surfacegrowthwithrandomtetrispieces.pdf).
+
+* Documentation for the simulation on the solid on solid model will come soon.
 
 # References
 1. Le Chen's Graduate Student Seminar talk on surface growth models: [here](https://github.com/chenle02/Graduate_Student_Seminars_by_Le_Chen/blob/main/2023-11-01/readme.md).
