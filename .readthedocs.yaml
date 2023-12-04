@@ -19,8 +19,8 @@ build:
   os: ubuntu-22.04
   tools:
     python: "3.12"
-    install:
-      - requirements: Build_Docs/requirements.txt
+      install:
+        - requirements: Build_Docs/requirements.txt
 
 # Build documentation in the "docs/" directory with Sphinx
 sphinx:
