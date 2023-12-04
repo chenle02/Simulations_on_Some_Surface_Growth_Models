@@ -3,11 +3,11 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-.. |version| replace:: :release:`
-.. |release| replace:: :version:`
+.. |version| replace:: :release:``
+.. |release| replace:: :version:``
 
 Welcome to Surface Growth Models with Tetris Pieces's documentation!  Version |version| (release |release|).
-====================================================================================================
+=============================================================================================================
 
 :Authors:
     Le Chen
@@ -25,6 +25,7 @@ Welcome to Surface Growth Models with Tetris Pieces's documentation!  Version |v
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
+
 
   doc_rst/Introduction
   doc_rst/RD_CLI
