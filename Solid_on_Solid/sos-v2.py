@@ -32,9 +32,11 @@ def run_simulation(width, steps, prob_deposition):
 
 def main():
     parser = argparse.ArgumentParser(description="Solid-on-Solid Model Simulation")
-    parser.add_argument('-w', '--width', type=int, default=10, help='Width of the grid')
-    parser.add_argument('-s', '--steps', type=int, default=10, help='Number of simulation steps')
-    parser.add_argument('prob_deposition', type=float, help='Probability of deposition')
+    parser.add_argument("-w", "--width", type=int, default=10, help="Width of the grid")
+    parser.add_argument(
+        "-s", "--steps", type=int, default=10, help="Number of simulation steps"
+    )
+    parser.add_argument("prob_deposition", type=float, help="Probability of deposition")
 
     args = parser.parse_args()
 
