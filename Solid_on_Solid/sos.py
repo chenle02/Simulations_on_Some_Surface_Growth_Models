@@ -11,15 +11,15 @@ import time
 
 start_time = time.time()
 
-## Dimensions of the window
+# Dimensions of the window
 h = 100
 w = 500
 
-## Probabilities of the change in interface
+# Probabilities of the change in interface
 p_desorp = 0.05  # desorption
 p_grow = 0.95  # growth
 
-## Initialization
+# Initialization
 base_df = pd.DataFrame(0, index=range(h), columns=range(w))
 
 # 1st row
@@ -35,7 +35,7 @@ base_df.iloc[-2, ::2] = integer_sequence_second_row
 # Next number that will be added to the dataframe.
 particle_no = w + w // 2 + 1
 
-## This wile loop ensures that growth occurs up till top of the window.
+# This wile loop ensures that growth occurs up till top of the window.
 while all(base_df.iloc[2] == 0):
     # These are the probabilities assigned to eith grow or desorp respectively.
     p_plus = random.random()
@@ -98,17 +98,17 @@ while all(base_df.iloc[2] == 0):
                 break
         aa -= 1
 
-## Displaying the surface interface.
+# Displaying the surface interface.
 heatmap = plt.imshow(base_df, cmap="viridis", interpolation="nearest", aspect=3)
 plt.xlabel("x-axis of the window", fontweight="bold")
 plt.title("Interface of the surface : {} x {}".format(h, w), fontweight="bold")
 plt.colorbar(heatmap, orientation="horizontal", label="Colorbar of the values")
 
-## Saving the surface growth as a .txt file.
+# Saving the surface growth as a .txt file.
 file_name = "interface_window_size_{}x{}".format(h, w)
 # base_df.to_csv(file_name, sep='\t', index=False, header=False)
 
-## Calculating the running time of code.
+# Calculating the running time of code.
 end_time = time.time()
 elapsed_time = round((end_time - start_time) / 60, 4)
 print("Window size : {} x {}".format(h, w))
