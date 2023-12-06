@@ -209,12 +209,50 @@ def Tetris_Ballistic(width, height, steps):
                         print(substrate)
 
                 else:
-                    landing_row_outleft = ffnz(substrate, height, position - 1),
-                    landing_row_pivot = ffnz(substrate, height, position),
-                    landing_row_right = ffnz(substrate, height, position + 1),
+                    landing_row_outleft = ffnz(substrate, height, position - 1)
+                    landing_row_pivot = ffnz(substrate, height, position)
+                    landing_row_right = ffnz(substrate, height, position + 1)
                     landing_row_outright = ffnz(substrate, height, position + 2)
 
-                
+                    landing_row = min(landing_row_outleft, landing_row_pivot, landing_row_right, landing_row_outright)
+
+                    if landing_row_outleft < landing_row_pivot and landing_row_outleft < landing_row_right and landing_row_outleft <= landing_row_outright:
+                        substrate[landing_row, position] = i + 1
+                        substrate[landing_row, position + 1] = i + 1
+                        substrate[landing_row - 1, position + 1] = i + 1
+                        substrate[landing_row - 1, position] = i + 1
+
+                        i += 1
+                        print(substrate)
+
+                    if landing_row_outright < landing_row_pivot and landing_row_outright < landing_row_right and landing_row_outright < landing_row_outleft:
+                        substrate[landing_row, position] = i + 1
+                        substrate[landing_row, position + 1] = i + 1
+                        substrate[landing_row - 1, position + 1] = i + 1
+                        substrate[landing_row - 1, position] = i + 1
+
+                        i += 1
+                        print(substrate)
+
+                    if landing_row_pivot <= landing_row_right and landing_row_pivot <= landing_row_outleft and landing_row_pivot <= landing_row_outright:
+                        substrate[landing_row - 1, position] = i + 1
+                        substrate[landing_row - 2, position] = i + 1
+                        substrate[landing_row - 1, position + 1] = i + 1
+                        substrate[landing_row - 2, position + 1] = i + 1
+
+                        i += 1
+
+                        print(substrate)
+
+                    if landing_row_right < landing_row_pivot and landing_row_right < landing_row_outleft and landing_row_right < landing_row_outright:
+                        substrate[landing_row - 1, position] = i + 1
+                        substrate[landing_row - 2, position] = i + 1
+                        substrate[landing_row - 1, position + 1] = i + 1
+                        substrate[landing_row - 2, position + 1] = i + 1
+
+                        i += 1
+
+                        print(substrate)    
 
             else:
                 continue
