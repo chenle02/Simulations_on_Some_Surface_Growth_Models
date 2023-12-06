@@ -76,6 +76,7 @@ def ffnz(matrix, height, column):
             flag = i
     return flag
 
+
 height = 16
 width = 8
 steps = 1
@@ -103,6 +104,7 @@ substrate[10, 5] = 11
 
 print(substrate)
 
+
 def Tetris_Ballistic(width, height, steps):
     """
     This function simulates the Tetris Decomposition model on a substrate.
@@ -124,11 +126,11 @@ def Tetris_Ballistic(width, height, steps):
         if choice[0] == 0 and (
             choice[1] == 0 or choice[1] == 1
         ):  # Square, check right boundary
-            #position = random.randint(0, width - 1)
-            position = width - 2
+            # position = random.randint(0, width - 1)
+            position = 4
             if position != (width - 1):
                 if position == 0:
-                    #landing_row_outleft = ffnz(susbtrate, height, position - 1),
+                    # landing_row_outleft = ffnz(susbtrate, height, position - 1),
                     landing_row_pivot = ffnz(substrate, height, position)
                     landing_row_right = ffnz(substrate, height, position + 1)
                     landing_row_outright = ffnz(substrate, height, position + 2)
@@ -167,13 +169,12 @@ def Tetris_Ballistic(width, height, steps):
                         i += 1
 
                         print(substrate)
-                
+
                 elif position == width - 2:
                     landing_row_outleft = ffnz(substrate, height, position - 1)
                     landing_row_pivot = ffnz(substrate, height, position)
                     landing_row_right = ffnz(substrate, height, position + 1)
-                    #landing_row_outright = ffnz(substrate, height, position + 2)
-
+                    # landing_row_outright = ffnz(substrate, height, position + 2)
 
                     if (landing_row_outleft < landing_row_pivot) and (landing_row_outleft < landing_row_right):
                         landing_row = landing_row_outleft
@@ -195,7 +196,6 @@ def Tetris_Ballistic(width, height, steps):
                         i += 1
 
                         print(substrate)
-
 
                     if (landing_row_right < landing_row_pivot) and (landing_row_right < landing_row_outleft):
                         landing_row = landing_row_right
@@ -252,7 +252,7 @@ def Tetris_Ballistic(width, height, steps):
 
                         i += 1
 
-                        print(substrate)    
+                        print(substrate)
 
             else:
                 continue
@@ -1007,14 +1007,15 @@ def main():
     )
     args = parser.parse_args()
 
-    Outputfile = Tetris_RD(args.width, args.height, args.steps)
+    # Outputfile = Tetris_RD(args.width, args.height, args.steps)
     # print("Computing the interface width...")
     # interface_width(Outputfile)
+
 
 Tetris_Ballistic(width, height, steps)
 
 
-#if __name__ == "__main__":
+# if __name__ == "__main__":
 #    main()
     # height_str = input('What is the height?')
     # width_str = input('What is the width?')
