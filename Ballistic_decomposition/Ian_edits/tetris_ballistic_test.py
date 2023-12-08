@@ -10,7 +10,7 @@ Date: 12/2023
 
 """
 
-import numpy as np
+import numpy as np# {{{
 import random
 import argparse
 
@@ -52,20 +52,37 @@ def Tetris_Choice():
 
     """
     choice = np.random.randint(1, [7, 4])
-    return choice
+    return choice# }}}
 
-user_list= input("Please pick some number")
+# Prebuilt config{{{
+height = 16
+width = 8
+substrate = np.zeros((height, width))
 
-# The function below requires user input to have numbers separated
-# by spaces. THEY MUST BE SEPARATED BY SPACES. NO COMMAS
+i = 0
+steps = 1
+substrate[11, 3] = 11
+substrate[12, 3] = 11
+substrate[13, 3] = 11
+substrate[14, 0] = 11
+substrate[14, 1] = 0
+substrate[14, 3] = 11
+substrate[14, 6] = 11
+substrate[15, 0] = 11
+substrate[15, 1] = 0
+substrate[15, 2] = 11
+substrate[15, 3] = 11
+substrate[15, 4] = 11
+substrate[15, 5] = 11
+substrate[15, 6] = 11
+substrate[12, 2] = 11
+substrate[10, 6] = 0
+substrate[10, 5] = 0
+substrate[10, 4] = 0
+substrate[0, 3] = 11
+print(substrate)# }}}
 
-def User_Choice(user_list):
-    piece_list = [int(x) for x in user_list.split()]
-    choice = [piece_list[random.randint(0, len(piece_list) - 1)], random.randint(0, 3)]
-    return choice
-
-
-def ffnz(matrix, height, column):
+def ffnz(matrix, height, column):# {{{
     """
     Finds the first non-zero entry in a specified column of a matrix.
 
@@ -84,16 +101,7 @@ def ffnz(matrix, height, column):
             i = i + 1
         else:
             flag = i
-    return flag
-
-
-height = 15
-width = 15
-steps = 80
-
-substrate = np.zeros((height, width))
-
-print(substrate)
+    return flag# }}}
 
 
 def Tetris_Ballistic(width, height, steps):
@@ -111,7 +119,7 @@ def Tetris_Ballistic(width, height, steps):
     i = 0
     topmost = height - 1
     while i < steps:
-        choice = User_Choice(user_list)
+        choice = [0,0]
 
         # 0. Square Piece
         if choice[0] == 0 and (
@@ -235,7 +243,7 @@ def Tetris_Ballistic(width, height, steps):
 
                         print(substrate)
 
-                    if landing_row_right < landing_row_pivot and landing_row_right < landing_row_outleft and landing_row_right < landing_row_outright:
+                    if landing_row_right < landing_row_pivot and landing_row_right <= landing_row_outleft and landing_row_right <= landing_row_outright:
                         substrate[landing_row - 1, position] = i + 1
                         substrate[landing_row - 2, position] = i + 1
                         substrate[landing_row - 1, position + 1] = i + 1
@@ -931,10 +939,10 @@ def Tetris_Ballistic(width, height, steps):
             print(f"Stopped at step {steps + 1}, Level at {height - topmost}/{height}")
             break
 
-    outputfile = f"Tetris_Substrate_Choice_{width}x{height}_Particles={steps}.txt"
-    np.savetxt(outputfile, substrate, fmt="%d", delimiter=",")
-    print(f"{outputfile} saved!")
-    return outputfile
+#    outputfile = f"Tetris_Substrate_Choice_{width}x{height}_Particles={steps}.txt"
+#    np.savetxt(outputfile, substrate, fmt="%d", delimiter=",")
+#    print(f"{outputfile} saved!")
+#    return outputfile
 
 
 def main():
