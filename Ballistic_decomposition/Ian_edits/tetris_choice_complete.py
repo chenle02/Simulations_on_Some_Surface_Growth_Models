@@ -10,15 +10,16 @@ Date: 12/2023
 
 """
 
+"""
+This will include piece choice in model creation
+"""
+
 import numpy as np
 import random
 import argparse
 
 # from RD_CLI import Interface_width
-
-
-def Tetris_Choice():
-    """
+"""
     Randomly selects a Tetris piece and its orientation.
 
     There are 7 Tetris pieces:
@@ -43,22 +44,10 @@ def Tetris_Choice():
         numpy.ndarray: A 2-element array:
         the first element is the piece type (0-6);
         the second element is the orientation (0-3).
+**To-Do's**
 
-
-
-    **To-Do's**
-
-    + Add input file to specify the probability of each piece.
-
-    """
-    choice = np.random.randint(1, [7, 4])
-    return choice
-
-user_list= input("Please pick some number")
-
-# The function below requires user input to have numbers separated
-# by spaces. THEY MUST BE SEPARATED BY SPACES. NO COMMAS
-
++ Add input file to specify the probability of each piece.
+"""
 def User_Choice(user_list):
     piece_list = [int(x) for x in user_list.split()]
     choice = [piece_list[random.randint(0, len(piece_list) - 1)], random.randint(0, 3)]
@@ -87,16 +76,7 @@ def ffnz(matrix, height, column):
     return flag
 
 
-height = 15
-width = 15
-steps = 80
-
-substrate = np.zeros((height, width))
-
-print(substrate)
-
-
-def Tetris_Ballistic(width, height, steps):
+def Tetris_RD(width, height, steps):
     """
     This function simulates the Tetris Decomposition model on a substrate.
 
@@ -109,6 +89,7 @@ def Tetris_Ballistic(width, height, steps):
         string : Filename of the output file.
     """
     i = 0
+    substrate = np.zeros((height, width))
     topmost = height - 1
     while i < steps:
         choice = User_Choice(user_list)
@@ -117,133 +98,22 @@ def Tetris_Ballistic(width, height, steps):
         if choice[0] == 0 and (
             choice[1] == 0 or choice[1] == 1
         ):  # Square, check right boundary
-            # position = random.randint(0, width - 1)
-            position = 4
+            position = random.randint(0, width - 1)
             if position != (width - 1):
-                if position == 0:
-                    # landing_row_outleft = ffnz(susbtrate, height, position - 1),
-                    landing_row_pivot = ffnz(substrate, height, position)
-                    landing_row_right = ffnz(substrate, height, position + 1)
-                    landing_row_outright = ffnz(substrate, height, position + 2)
-                    print(landing_row_pivot, landing_row_right, landing_row_outright)
+                landing_row = (
+                    min(
+                        ffnz(substrate, height, position),
+                        ffnz(substrate, height, position + 1),
+                    )
+                    - 1
+                )
 
-                    if (landing_row_outright < landing_row_pivot) and (landing_row_outright < landing_row_right):
-                        landing_row = landing_row_outright
-                        print(landing_row)
-                        substrate[landing_row, position] = i + 1
-                        substrate[landing_row, position + 1] = i + 1
-                        substrate[landing_row - 1, position] = i + 1
-                        substrate[landing_row - 1, position + 1] = i + 1
+                substrate[landing_row - 1, position] = i + 1
+                substrate[landing_row, position] = i + 1
+                substrate[landing_row - 1, position + 1] = i + 1
+                substrate[landing_row, position + 1] = i + 1
 
-                        i += 1
-
-                        print(substrate)
-
-                    elif (landing_row_pivot <= landing_row_right) and (landing_row_pivot <= landing_row_outright):
-                        landing_row = landing_row_pivot
-                        substrate[landing_row - 1, position] = i + 1
-                        substrate[landing_row - 2, position] = i + 1
-                        substrate[landing_row - 1, position + 1] = i + 1
-                        substrate[landing_row - 2, position + 1] = i + 1
-
-                        i += 1
-
-                        print(substrate)
-
-                    elif (landing_row_right < landing_row_pivot) and (landing_row_right < landing_row_outright):
-                        landing_row = landing_row_right
-                        substrate[landing_row - 1, position] = i + 1
-                        substrate[landing_row - 1, position + 1] = i + 1
-                        substrate[landing_row - 2, position] = i + 1
-                        substrate[landing_row - 2, position + 1] = i + 1
-
-                        i += 1
-
-                        print(substrate)
-
-                elif position == width - 2:
-                    landing_row_outleft = ffnz(substrate, height, position - 1)
-                    landing_row_pivot = ffnz(substrate, height, position)
-                    landing_row_right = ffnz(substrate, height, position + 1)
-                    # landing_row_outright = ffnz(substrate, height, position + 2)
-
-                    if (landing_row_outleft < landing_row_pivot) and (landing_row_outleft < landing_row_right):
-                        landing_row = landing_row_outleft
-                        substrate[landing_row, position] = i + 1
-                        substrate[landing_row, position + 1] = i + 1
-                        substrate[landing_row - 1, position + 1] = i + 1
-                        substrate[landing_row - 1, position] = i + 1
-
-                        i += 1
-                        print(substrate)
-
-                    if (landing_row_pivot <= landing_row_right) and (landing_row_pivot <= landing_row_outleft):
-                        landing_row = landing_row_pivot
-                        substrate[landing_row - 1, position] = i + 1
-                        substrate[landing_row - 2, position] = i + 1
-                        substrate[landing_row - 1, position + 1] = i + 1
-                        substrate[landing_row - 2, position + 1] = i + 1
-
-                        i += 1
-
-                        print(substrate)
-
-                    if (landing_row_right < landing_row_pivot) and (landing_row_right < landing_row_outleft):
-                        landing_row = landing_row_right
-                        substrate[landing_row - 1, position] = i + 1
-                        substrate[landing_row - 2, position] = i + 1
-                        substrate[landing_row - 1, position + 1] = i + 1
-                        substrate[landing_row - 2, position + 1] = i + 1
-
-                        i += 1
-
-                        print(substrate)
-
-                else:
-                    landing_row_outleft = ffnz(substrate, height, position - 1)
-                    landing_row_pivot = ffnz(substrate, height, position)
-                    landing_row_right = ffnz(substrate, height, position + 1)
-                    landing_row_outright = ffnz(substrate, height, position + 2)
-
-                    landing_row = min(landing_row_outleft, landing_row_pivot, landing_row_right, landing_row_outright)
-
-                    if landing_row_outleft < landing_row_pivot and landing_row_outleft < landing_row_right and landing_row_outleft <= landing_row_outright:
-                        substrate[landing_row, position] = i + 1
-                        substrate[landing_row, position + 1] = i + 1
-                        substrate[landing_row - 1, position + 1] = i + 1
-                        substrate[landing_row - 1, position] = i + 1
-
-                        i += 1
-                        print(substrate)
-
-                    if landing_row_outright < landing_row_pivot and landing_row_outright < landing_row_right and landing_row_outright < landing_row_outleft:
-                        substrate[landing_row, position] = i + 1
-                        substrate[landing_row, position + 1] = i + 1
-                        substrate[landing_row - 1, position + 1] = i + 1
-                        substrate[landing_row - 1, position] = i + 1
-
-                        i += 1
-                        print(substrate)
-
-                    if landing_row_pivot <= landing_row_right and landing_row_pivot <= landing_row_outleft and landing_row_pivot <= landing_row_outright:
-                        substrate[landing_row - 1, position] = i + 1
-                        substrate[landing_row - 2, position] = i + 1
-                        substrate[landing_row - 1, position + 1] = i + 1
-                        substrate[landing_row - 2, position + 1] = i + 1
-
-                        i += 1
-
-                        print(substrate)
-
-                    if landing_row_right < landing_row_pivot and landing_row_right < landing_row_outleft and landing_row_right < landing_row_outright:
-                        substrate[landing_row - 1, position] = i + 1
-                        substrate[landing_row - 2, position] = i + 1
-                        substrate[landing_row - 1, position + 1] = i + 1
-                        substrate[landing_row - 2, position + 1] = i + 1
-
-                        i += 1
-
-                        print(substrate)
+                i += 1
 
             else:
                 continue
@@ -931,7 +801,7 @@ def Tetris_Ballistic(width, height, steps):
             print(f"Stopped at step {steps + 1}, Level at {height - topmost}/{height}")
             break
 
-    outputfile = f"Tetris_Substrate_Choice_{width}x{height}_Particles={steps}.txt"
+    outputfile = f"Tetris_Substrate_Choice_{result_string}_{width}x{height}_Particles={steps}.txt"
     np.savetxt(outputfile, substrate, fmt="%d", delimiter=",")
     print(f"{outputfile} saved!")
     return outputfile
@@ -998,16 +868,16 @@ def main():
     )
     args = parser.parse_args()
 
-    # Outputfile = Tetris_RD(args.width, args.height, args.steps)
+    Outputfile = Tetris_RD(args.width, args.height, args.steps)
     # print("Computing the interface width...")
     # interface_width(Outputfile)
 
+user_list = input("Enter a list of numbers, 0-6, separated by spaces ")
+user_list_str = [int(x) for x in user_list.split()]
+result_string = ''.join(map(str, user_list_str))
 
-Tetris_Ballistic(width, height, steps)
-
-
-# if __name__ == "__main__":
-#    main()
+if __name__ == "__main__":
+    main()
     # height_str = input('What is the height?')
     # width_str = input('What is the width?')
     # steps_str = input('How many blocks?')
