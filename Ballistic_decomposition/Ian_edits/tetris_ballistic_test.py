@@ -79,7 +79,7 @@ substrate[12, 2] = 11
 substrate[10, 6] = 0
 substrate[10, 5] = 0
 substrate[10, 4] = 0
-substrate[0, 3] = 11
+substrate[10, 3] = 11
 print(substrate)# }}}
 
 def ffnz(matrix, height, column):# {{{
