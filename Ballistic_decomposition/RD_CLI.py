@@ -36,10 +36,12 @@ def Random_Deposition(width, height, steps):
             topmost = landing_row
 
         if (step + 1) % 200 == 0:
-            print(f"Step: {step + 1}/{steps}, Level at {height - topmost}/{height}")
+            print(
+                f"Step: {step + 1}/{steps}, Level at {height - topmost}/{height}")
 
         if topmost < height * 0.10 or topmost <= 2:
-            print(f"Stopped at step {step + 1}, Level at {height - topmost}/{height}")
+            print(
+                f"Stopped at step {step + 1}, Level at {height - topmost}/{height}")
             break
 
     outputfile = f"Substrate_{width}x{height}_Particles={steps}.txt"
@@ -79,7 +81,8 @@ def Random_Deposition_Surface_Relaxation(width, height, steps):
 
         # Determine the lnading rows for middle, left, and right columns
         landing_row_mid = np.max(np.where(substrate[:, position] == 0))
-        landing_row_left = np.max(np.where(substrate[:, max(position - 1, 0)] == 0))
+        landing_row_left = np.max(
+            np.where(substrate[:, max(position - 1, 0)] == 0))
         landing_row_right = np.max(
             np.where(substrate[:, min(position + 1, width - 1)] == 0)
         )
@@ -105,10 +108,12 @@ def Random_Deposition_Surface_Relaxation(width, height, steps):
             topmost = landing_row
 
         if (step + 1) % 200 == 0:
-            print(f"Step: {step + 1}/{steps}, Level at {height - topmost}/{height}")
+            print(
+                f"Step: {step + 1}/{steps}, Level at {height - topmost}/{height}")
 
         if topmost < height * 0.10 or topmost <= 2:
-            print(f"Stopped at step {step + 1}, Level at {height - topmost}/{height}")
+            print(
+                f"Stopped at step {step + 1}, Level at {height - topmost}/{height}")
             break
 
     outputfile = f"Substrate_{width}x{height}_Particles={steps}_Relaxed.txt"
@@ -175,10 +180,12 @@ def Ballistic_Deposition(width, height, steps):
             topmost = landing_row
 
         if (step + 1) % 200 == 0:
-            print(f"Step: {step + 1}/{steps}, Level at {height - topmost}/{height}")
+            print(
+                f"Step: {step + 1}/{steps}, Level at {height - topmost}/{height}")
 
         if topmost < height * 0.10 or topmost <= 2:
-            print(f"Stopped at step {step + 1}, Level at {height - topmost}/{height}")
+            print(
+                f"Stopped at step {step + 1}, Level at {height - topmost}/{height}")
             break
 
     outputfile = f"Substrate_{width}x{height}_Particles={steps}_BD.txt"
@@ -232,7 +239,8 @@ def interface_width(filename):
 
         interface[step - 1] = 0
         for pos in range(width):
-            interface[step - 1] += np.power(top_envelope[pos] - average, 2) / width
+            interface[step -
+                      1] += np.power(top_envelope[pos] - average, 2) / width
         interface[step - 1] = np.sqrt(interface[step - 1])
 
     # Assuming 'time' is your x-axis data and 'interface' is your y-axis data
@@ -267,11 +275,14 @@ def interface_width(filename):
     ax1.grid(True)
 
     # Second plot: slopes
-    ax2.plot(time[quarter_length - 1 :], slopes, "-o", label="Computed Slopes")
+    ax2.plot(time[quarter_length - 1:], slopes, "-o", label="Computed Slopes")
     # ax2.axhline(y=reference_slope, color='r', linestyle='--', label=f'Reference Slope {reference_slope}')
-    ax2.axhline(y=1 / 2, color="r", linestyle="--", label="Reference Slope 1/2")
-    ax2.axhline(y=1 / 3, color="r", linestyle="--", label="Reference Slope 1/3")
-    ax2.axhline(y=1 / 4, color="r", linestyle="--", label="Reference Slope 1/4")
+    ax2.axhline(y=1 / 2, color="r", linestyle="--",
+                label="Reference Slope 1/2")
+    ax2.axhline(y=1 / 3, color="r", linestyle="--",
+                label="Reference Slope 1/3")
+    ax2.axhline(y=1 / 4, color="r", linestyle="--",
+                label="Reference Slope 1/4")
     ax2.set_xlabel("Time (t)")
     ax2.set_ylabel("Slope")
     ax2.set_title("Slope of the log-log plot as a function of log(t)")
@@ -354,18 +365,7 @@ def main():
     """
 
     parser = argparse.ArgumentParser(
-        description="""
-
-    Simulate Random Deposition on a substrate.
-    Outputs: 1. Substrate_WIDTHxHEIGHT_Particles=STEPS_[Relaxed/BD].txt
-                A text file for the substrate.
-             2. Statistical figures, loglog plot for the interface width and the estimated slope.
-
-    Author: Le Chen (le.chen@auburn.edu, chenle02@gmail.com)
-    Date: 2023-10-22
-
-
-                                     """,
+        description=main.__doc__,
         formatter_class=argparse.RawTextHelpFormatter,
     )
     parser.add_argument(

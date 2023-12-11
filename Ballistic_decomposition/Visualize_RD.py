@@ -50,13 +50,15 @@ def visualize_simulation(filename, plot_title, rate, envelop, show_average):
     steps = int(np.max(substrate))
 
     # Create a custom colormap with gray as the background color
-    colors = [(0.8, 0.8, 0.8)] + [plt.cm.viridis(i) for i in range(plt.cm.viridis.N)]
+    colors = [(0.8, 0.8, 0.8)] + [plt.cm.viridis(i)
+                                  for i in range(plt.cm.viridis.N)]
     custom_colormap = mcolors.LinearSegmentedColormap.from_list(
         "custom", colors, N=steps + 1
     )
 
     # Visualization setup
-    fig, ax = plt.subplots(figsize=(12, 8))  # Adjust the width and height as needed
+    # Adjust the width and height as needed
+    fig, ax = plt.subplots(figsize=(12, 8))
     frames = []
 
     # steps = 100  # for debug only
@@ -94,7 +96,8 @@ def visualize_simulation(filename, plot_title, rate, envelop, show_average):
         ax.set_yticks(np.arange(0, height, height // 5))
         ax.set_yticklabels(np.arange(height, 0, -height // 5))
 
-        ax.set_ylabel("Height", rotation=90, labelpad=20, verticalalignment="center")
+        ax.set_ylabel("Height", rotation=90, labelpad=20,
+                      verticalalignment="center")
         ax.set_xlabel("Substrate", labelpad=8)
         ax.set_xticks(np.arange(0, width, width // 5))
 
@@ -143,41 +146,35 @@ def main():
     """
 
     parser = argparse.ArgumentParser(
-        description="""
-
-    Visualization the decomposition of particles on a substrate
-    Input: Substrate text file, produced by RD_CLI.py
-    Output: mp4 video
-
-    Author: Le Chen (le.chen@auburn.edu, chenle02@gmail.com)
-    Date: 2023-10-22
-
-
-                                     """,
+        description=main.__doc__,
         formatter_class=argparse.RawTextHelpFormatter,
     )
     parser.add_argument(
-        "-f", "--file", type=str, required=True, help="Path to the substrate"
+        "-f", "--file",
+        type=str, required=True,
+        help="Path to the substrate"
     )
     parser.add_argument(
-        "-t", "--title", type=str, default="", help="Title of the plot (default: None)"
+        "-t", "--title",
+        type=str, default="", help="Title of the plot (default: None)"
     )
-    parser.add_argument("-r", "--rate", type=int, help="Rate per frame (default: 4)")
     parser.add_argument(
-        "-e",
-        "--envelop",
+        "-r", "--rate",
+        type=int,
+        help="Rate per frame (default: 4)"
+    )
+    parser.add_argument(
+        "-e", "--envelop",
         action="store_true",
         help="Show the top envelop (default: False)",
     )
     parser.add_argument(
-        "-a",
-        "--average",
+        "-a", "--average",
         action="store_true",
         help="Show the average height (default: False)",
     )
     parser.add_argument(
-        "-p",
-        "--play",
+        "-p", "--play",
         action="store_true",
         help="Play the video after generation (default: False)",
     )
