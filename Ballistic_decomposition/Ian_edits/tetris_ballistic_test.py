@@ -80,7 +80,10 @@ substrate[10, 6] = 0
 substrate[10, 5] = 0
 substrate[10, 4] = 0
 substrate[10, 3] = 11
-substrate[7, 7] = 31
+substrate[7, 5] = 31
+substrate[7, 4] = 31
+substrate[7, 3] = 31
+
 print(substrate)# }}}
 
 def ffnz(matrix, height, column):# {{{
@@ -591,9 +594,9 @@ def Tetris_Ballistic(width, height, steps):
         if (
             choice[0] == 4 and choice[1] == 0
         ):  # T case long part on top, check left and right boundaries
-            position = 5
+            position = 4
             if (position != width - 1) and (position != 0):
-                # Pass function through here
+                # check cases when you are at 1 and width - 2
                 landing_row_outleft = ffnz(substrate, height, position - 2)
                 landing_row_left = ffnz(substrate, height, position - 1) 
                 landing_row_center = ffnz(substrate, height, position)
@@ -627,18 +630,40 @@ def Tetris_Ballistic(width, height, steps):
                     i += 1
                     print(substrate)
                 elif (landing_row_left < landing_row_outleft) and (
-                    landing_row_left < landing_row_outright and (
+                    landing_row_left < landing_row_outright) and (
                     landing_row_left <= landing_row_right) and (
                     landing_row_left < landing_row_center
                 ):
-                    substrate[landing_row, position - 1] = i + 1
+                    substrate[landing_row - 1, position - 1] = i + 1
+                    substrate[landing_row - 1, position] = i + 1
+                    substrate[landing_row - 1, position + 1] = i + 1
                     substrate[landing_row, position] = i + 1
-                    substrate[landing_row, position + 1] = i + 1
-                    substrate[landing_row + 1, position] = i + 1
                     i += 1
+                    print(substrate)
 
-                else:
-                    continue
+                elif (landing_row_right < landing_row_outleft) and (
+                    landing_row_right < landing_row_outright) and (
+                    landing_row_right < landing_row_left) and (
+                    landing_row_right < landing_row_center
+                ):
+                    substrate[landing_row - 1, position - 1] = i + 1
+                    substrate[landing_row - 1, position] = i + 1
+                    substrate[landing_row - 1, position + 1] = i + 1
+                    substrate[landing_row, position] = i + 1
+                    i += 1
+                    print(substrate)
+
+                elif (landing_row_center < landing_row_outleft) and (
+                    landing_row_center < landing_row_outright) and (
+                    landing_row_center <= landing_row_left) and (
+                    landing_row_center <= landing_row_right
+                ):
+                    substrate[landing_row - 1, position] = i + 1
+                    substrate[landing_row - 2, position] = i + 1
+                    substrate[landing_row - 2 , position - 1] = i + 1
+                    substrate[landing_row - 2, position + 1] = i + 1
+                    i += 1
+                    print(substrate)
             else:
                 continue
 
