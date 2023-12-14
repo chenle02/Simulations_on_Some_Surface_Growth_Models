@@ -80,6 +80,7 @@ substrate[10, 6] = 0
 substrate[10, 5] = 0
 substrate[10, 4] = 0
 substrate[10, 3] = 11
+substrate[7, 7] = 31
 print(substrate)# }}}
 
 def ffnz(matrix, height, column):# {{{
@@ -119,9 +120,9 @@ def Tetris_Ballistic(width, height, steps):
     i = 0
     topmost = height - 1
     while i < steps:
-        choice = [0,0]
+        choice = [4,0]
 
-        # 0. Square Piece
+       # 0. Square Piece
         if choice[0] == 0 and (
             choice[1] == 0 or choice[1] == 1
         ):  # Square, check right boundary
@@ -590,41 +591,50 @@ def Tetris_Ballistic(width, height, steps):
         if (
             choice[0] == 4 and choice[1] == 0
         ):  # T case long part on top, check left and right boundaries
-            position = random.randint(0, width - 1)
-            # position = 7
+            position = 5
             if (position != width - 1) and (position != 0):
                 # Pass function through here
-                landing_row_left = ffnz(substrate, height, position - 1) - 1
-                landing_row_center = ffnz(substrate, height, position) - 1
-                landing_row_right = ffnz(substrate, height, position + 1) - 1
+                landing_row_outleft = ffnz(substrate, height, position - 2)
+                landing_row_left = ffnz(substrate, height, position - 1) 
+                landing_row_center = ffnz(substrate, height, position)
+                landing_row_right = ffnz(substrate, height, position + 1)
+                landing_row_outright = ffnz(substrate, height, position + 2)
                 landing_row = min(
-                    landing_row_right, landing_row_left, landing_row_center
+                    landing_row_right, landing_row_left, landing_row_center, landing_row_outleft, landing_row_outright
                 )
+                print(landing_row)
 
-                if (landing_row_left < landing_row_center) and (
-                    landing_row_left <= landing_row_right
-                ):
-                    substrate[landing_row_left, position - 1] = i + 1
-                    substrate[landing_row_left, position] = i + 1
-                    substrate[landing_row_left, position + 1] = i + 1
-                    substrate[landing_row_left + 1, position] = i + 1
-
+                if (landing_row_outleft < landing_row_center) and (
+                    landing_row_outleft < landing_row_right ) and (
+                    landing_row_outleft < landing_row_left ) and (
+                    landing_row_outleft <= landing_row_outright
+                ): 
+                    substrate[landing_row, position] = i + 1
+                    substrate[landing_row, position - 1] = i + 1
+                    substrate[landing_row, position + 1] = i + 1
+                    substrate[landing_row + 1, position] = i + 1
                     i += 1
-                elif (landing_row_center <= landing_row_left) and (
-                    landing_row_center <= landing_row_right
+                    print(substrate)
+                elif (landing_row_outright < landing_row_center) and (
+                    landing_row_outright < landing_row_right) and (
+                    landing_row_outright < landing_row_left) and (
+                    landing_row_outright < landing_row_outleft
                 ):
-                    substrate[landing_row_center, position] = i + 1
-                    substrate[landing_row_center - 1, position - 1] = i + 1
-                    substrate[landing_row_center - 1, position] = i + 1
-                    substrate[landing_row_center - 1, position + 1] = i + 1
+                    substrate[landing_row, position] = i + 1
+                    substrate[landing_row, position - 1] = i + 1
+                    substrate[landing_row, position + 1] = i + 1
+                    substrate[landing_row + 1, position] = i + 1
                     i += 1
-                elif (landing_row_right <= landing_row_left) and (
-                    landing_row_right < landing_row_center
+                    print(substrate)
+                elif (landing_row_left < landing_row_outleft) and (
+                    landing_row_left < landing_row_outright and (
+                    landing_row_left <= landing_row_right) and (
+                    landing_row_left < landing_row_center
                 ):
-                    substrate[landing_row_right, position - 1] = i + 1
-                    substrate[landing_row_right, position] = i + 1
-                    substrate[landing_row_right, position + 1] = i + 1
-                    substrate[landing_row_right + 1, position] = i + 1
+                    substrate[landing_row, position - 1] = i + 1
+                    substrate[landing_row, position] = i + 1
+                    substrate[landing_row, position + 1] = i + 1
+                    substrate[landing_row + 1, position] = i + 1
                     i += 1
 
                 else:
