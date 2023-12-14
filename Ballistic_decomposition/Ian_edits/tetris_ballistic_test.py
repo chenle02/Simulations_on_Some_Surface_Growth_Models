@@ -10,7 +10,7 @@ Date: 12/2023
 
 """
 
-import numpy as np# {{{
+import numpy as np  # {{{
 import random
 import argparse
 
@@ -52,7 +52,8 @@ def Tetris_Choice():
 
     """
     choice = np.random.randint(1, [7, 4])
-    return choice# }}}
+    return choice  # }}}
+
 
 # Prebuilt config{{{
 height = 16
@@ -84,9 +85,10 @@ substrate[7, 5] = 31
 substrate[7, 4] = 31
 substrate[7, 3] = 31
 
-print(substrate)# }}}
+print(substrate)  # }}}
 
-def ffnz(matrix, height, column):# {{{
+
+def ffnz(matrix, height, column):  # {{{
     """
     Finds the first non-zero entry in a specified column of a matrix.
 
@@ -105,7 +107,7 @@ def ffnz(matrix, height, column):# {{{
             i = i + 1
         else:
             flag = i
-    return flag# }}}
+    return flag  # }}}
 
 
 def Tetris_Ballistic(width, height, steps):
@@ -123,9 +125,9 @@ def Tetris_Ballistic(width, height, steps):
     i = 0
     topmost = height - 1
     while i < steps:
-        choice = [4,0]
+        choice = [4, 0]
 
-       # 0. Square Piece
+        # 0. Square Piece
         if choice[0] == 0 and (
             choice[1] == 0 or choice[1] == 1
         ):  # Square, check right boundary
@@ -139,7 +141,9 @@ def Tetris_Ballistic(width, height, steps):
                     landing_row_outright = ffnz(substrate, height, position + 2)
                     print(landing_row_pivot, landing_row_right, landing_row_outright)
 
-                    if (landing_row_outright < landing_row_pivot) and (landing_row_outright < landing_row_right):
+                    if (landing_row_outright < landing_row_pivot) and (
+                        landing_row_outright < landing_row_right
+                    ):
                         landing_row = landing_row_outright
                         print(landing_row)
                         substrate[landing_row, position] = i + 1
@@ -151,7 +155,9 @@ def Tetris_Ballistic(width, height, steps):
 
                         print(substrate)
 
-                    elif (landing_row_pivot <= landing_row_right) and (landing_row_pivot <= landing_row_outright):
+                    elif (landing_row_pivot <= landing_row_right) and (
+                        landing_row_pivot <= landing_row_outright
+                    ):
                         landing_row = landing_row_pivot
                         substrate[landing_row - 1, position] = i + 1
                         substrate[landing_row - 2, position] = i + 1
@@ -162,7 +168,9 @@ def Tetris_Ballistic(width, height, steps):
 
                         print(substrate)
 
-                    elif (landing_row_right < landing_row_pivot) and (landing_row_right < landing_row_outright):
+                    elif (landing_row_right < landing_row_pivot) and (
+                        landing_row_right < landing_row_outright
+                    ):
                         landing_row = landing_row_right
                         substrate[landing_row - 1, position] = i + 1
                         substrate[landing_row - 1, position + 1] = i + 1
@@ -179,7 +187,9 @@ def Tetris_Ballistic(width, height, steps):
                     landing_row_right = ffnz(substrate, height, position + 1)
                     # landing_row_outright = ffnz(substrate, height, position + 2)
 
-                    if (landing_row_outleft < landing_row_pivot) and (landing_row_outleft < landing_row_right):
+                    if (landing_row_outleft < landing_row_pivot) and (
+                        landing_row_outleft < landing_row_right
+                    ):
                         landing_row = landing_row_outleft
                         substrate[landing_row, position] = i + 1
                         substrate[landing_row, position + 1] = i + 1
@@ -189,7 +199,9 @@ def Tetris_Ballistic(width, height, steps):
                         i += 1
                         print(substrate)
 
-                    if (landing_row_pivot <= landing_row_right) and (landing_row_pivot <= landing_row_outleft):
+                    if (landing_row_pivot <= landing_row_right) and (
+                        landing_row_pivot <= landing_row_outleft
+                    ):
                         landing_row = landing_row_pivot
                         substrate[landing_row - 1, position] = i + 1
                         substrate[landing_row - 2, position] = i + 1
@@ -200,7 +212,9 @@ def Tetris_Ballistic(width, height, steps):
 
                         print(substrate)
 
-                    if (landing_row_right < landing_row_pivot) and (landing_row_right < landing_row_outleft):
+                    if (landing_row_right < landing_row_pivot) and (
+                        landing_row_right < landing_row_outleft
+                    ):
                         landing_row = landing_row_right
                         substrate[landing_row - 1, position] = i + 1
                         substrate[landing_row - 2, position] = i + 1
@@ -217,9 +231,18 @@ def Tetris_Ballistic(width, height, steps):
                     landing_row_right = ffnz(substrate, height, position + 1)
                     landing_row_outright = ffnz(substrate, height, position + 2)
 
-                    landing_row = min(landing_row_outleft, landing_row_pivot, landing_row_right, landing_row_outright)
+                    landing_row = min(
+                        landing_row_outleft,
+                        landing_row_pivot,
+                        landing_row_right,
+                        landing_row_outright,
+                    )
 
-                    if landing_row_outleft < landing_row_pivot and landing_row_outleft < landing_row_right and landing_row_outleft <= landing_row_outright:
+                    if (
+                        landing_row_outleft < landing_row_pivot
+                        and landing_row_outleft < landing_row_right
+                        and landing_row_outleft <= landing_row_outright
+                    ):
                         substrate[landing_row, position] = i + 1
                         substrate[landing_row, position + 1] = i + 1
                         substrate[landing_row - 1, position + 1] = i + 1
@@ -228,7 +251,11 @@ def Tetris_Ballistic(width, height, steps):
                         i += 1
                         print(substrate)
 
-                    if landing_row_outright < landing_row_pivot and landing_row_outright < landing_row_right and landing_row_outright < landing_row_outleft:
+                    if (
+                        landing_row_outright < landing_row_pivot
+                        and landing_row_outright < landing_row_right
+                        and landing_row_outright < landing_row_outleft
+                    ):
                         substrate[landing_row, position] = i + 1
                         substrate[landing_row, position + 1] = i + 1
                         substrate[landing_row - 1, position + 1] = i + 1
@@ -237,7 +264,11 @@ def Tetris_Ballistic(width, height, steps):
                         i += 1
                         print(substrate)
 
-                    if landing_row_pivot <= landing_row_right and landing_row_pivot <= landing_row_outleft and landing_row_pivot <= landing_row_outright:
+                    if (
+                        landing_row_pivot <= landing_row_right
+                        and landing_row_pivot <= landing_row_outleft
+                        and landing_row_pivot <= landing_row_outright
+                    ):
                         substrate[landing_row - 1, position] = i + 1
                         substrate[landing_row - 2, position] = i + 1
                         substrate[landing_row - 1, position + 1] = i + 1
@@ -247,7 +278,11 @@ def Tetris_Ballistic(width, height, steps):
 
                         print(substrate)
 
-                    if landing_row_right < landing_row_pivot and landing_row_right <= landing_row_outleft and landing_row_right <= landing_row_outright:
+                    if (
+                        landing_row_right < landing_row_pivot
+                        and landing_row_right <= landing_row_outleft
+                        and landing_row_right <= landing_row_outright
+                    ):
                         substrate[landing_row - 1, position] = i + 1
                         substrate[landing_row - 2, position] = i + 1
                         substrate[landing_row - 1, position + 1] = i + 1
@@ -598,30 +633,24 @@ def Tetris_Ballistic(width, height, steps):
             if (position != width - 1) and (position != 0):
                 # check cases when you are at 1 and width - 2
                 landing_row_outleft = ffnz(substrate, height, position - 2)
-                landing_row_left = ffnz(substrate, height, position - 1) 
+                landing_row_left = ffnz(substrate, height, position - 1)
                 landing_row_center = ffnz(substrate, height, position)
                 landing_row_right = ffnz(substrate, height, position + 1)
                 landing_row_outright = ffnz(substrate, height, position + 2)
                 landing_row = min(
-                    landing_row_right, landing_row_left, landing_row_center, landing_row_outleft, landing_row_outright
+                    landing_row_right,
+                    landing_row_left,
+                    landing_row_center,
+                    landing_row_outleft,
+                    landing_row_outright,
                 )
                 print(landing_row)
 
-                if (landing_row_outleft < landing_row_center) and (
-                    landing_row_outleft < landing_row_right ) and (
-                    landing_row_outleft < landing_row_left ) and (
-                    landing_row_outleft <= landing_row_outright
-                ): 
-                    substrate[landing_row, position] = i + 1
-                    substrate[landing_row, position - 1] = i + 1
-                    substrate[landing_row, position + 1] = i + 1
-                    substrate[landing_row + 1, position] = i + 1
-                    i += 1
-                    print(substrate)
-                elif (landing_row_outright < landing_row_center) and (
-                    landing_row_outright < landing_row_right) and (
-                    landing_row_outright < landing_row_left) and (
-                    landing_row_outright < landing_row_outleft
+                if (
+                    (landing_row_outleft < landing_row_center)
+                    and (landing_row_outleft < landing_row_right)
+                    and (landing_row_outleft < landing_row_left)
+                    and (landing_row_outleft <= landing_row_outright)
                 ):
                     substrate[landing_row, position] = i + 1
                     substrate[landing_row, position - 1] = i + 1
@@ -629,10 +658,23 @@ def Tetris_Ballistic(width, height, steps):
                     substrate[landing_row + 1, position] = i + 1
                     i += 1
                     print(substrate)
-                elif (landing_row_left < landing_row_outleft) and (
-                    landing_row_left < landing_row_outright) and (
-                    landing_row_left <= landing_row_right) and (
-                    landing_row_left < landing_row_center
+                elif (
+                    (landing_row_outright < landing_row_center)
+                    and (landing_row_outright < landing_row_right)
+                    and (landing_row_outright < landing_row_left)
+                    and (landing_row_outright < landing_row_outleft)
+                ):
+                    substrate[landing_row, position] = i + 1
+                    substrate[landing_row, position - 1] = i + 1
+                    substrate[landing_row, position + 1] = i + 1
+                    substrate[landing_row + 1, position] = i + 1
+                    i += 1
+                    print(substrate)
+                elif (
+                    (landing_row_left < landing_row_outleft)
+                    and (landing_row_left < landing_row_outright)
+                    and (landing_row_left <= landing_row_right)
+                    and (landing_row_left < landing_row_center)
                 ):
                     substrate[landing_row - 1, position - 1] = i + 1
                     substrate[landing_row - 1, position] = i + 1
@@ -641,10 +683,11 @@ def Tetris_Ballistic(width, height, steps):
                     i += 1
                     print(substrate)
 
-                elif (landing_row_right < landing_row_outleft) and (
-                    landing_row_right < landing_row_outright) and (
-                    landing_row_right < landing_row_left) and (
-                    landing_row_right < landing_row_center
+                elif (
+                    (landing_row_right < landing_row_outleft)
+                    and (landing_row_right < landing_row_outright)
+                    and (landing_row_right < landing_row_left)
+                    and (landing_row_right < landing_row_center)
                 ):
                     substrate[landing_row - 1, position - 1] = i + 1
                     substrate[landing_row - 1, position] = i + 1
@@ -653,14 +696,15 @@ def Tetris_Ballistic(width, height, steps):
                     i += 1
                     print(substrate)
 
-                elif (landing_row_center < landing_row_outleft) and (
-                    landing_row_center < landing_row_outright) and (
-                    landing_row_center <= landing_row_left) and (
-                    landing_row_center <= landing_row_right
+                elif (
+                    (landing_row_center < landing_row_outleft)
+                    and (landing_row_center < landing_row_outright)
+                    and (landing_row_center <= landing_row_left)
+                    and (landing_row_center <= landing_row_right)
                 ):
                     substrate[landing_row - 1, position] = i + 1
                     substrate[landing_row - 2, position] = i + 1
-                    substrate[landing_row - 2 , position - 1] = i + 1
+                    substrate[landing_row - 2, position - 1] = i + 1
                     substrate[landing_row - 2, position + 1] = i + 1
                     i += 1
                     print(substrate)
@@ -974,6 +1018,7 @@ def Tetris_Ballistic(width, height, steps):
             print(f"Stopped at step {steps + 1}, Level at {height - topmost}/{height}")
             break
 
+
 #    outputfile = f"Tetris_Substrate_Choice_{width}x{height}_Particles={steps}.txt"
 #    np.savetxt(outputfile, substrate, fmt="%d", delimiter=",")
 #    print(f"{outputfile} saved!")
@@ -1051,10 +1096,10 @@ Tetris_Ballistic(width, height, steps)
 
 # if __name__ == "__main__":
 #    main()
-    # height_str = input('What is the height?')
-    # width_str = input('What is the width?')
-    # steps_str = input('How many blocks?')
-    # height = int(height_str)
-    # width = int(width_str)
-    # steps = int(steps_str)
-    # Tetris_RD(width, height, steps)
+# height_str = input('What is the height?')
+# width_str = input('What is the width?')
+# steps_str = input('How many blocks?')
+# height = int(height_str)
+# width = int(width_str)
+# steps = int(steps_str)
+# Tetris_RD(width, height, steps)
