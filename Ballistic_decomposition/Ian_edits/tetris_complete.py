@@ -23,7 +23,7 @@ def Tetris_Choice():
 
     There are 7 Tetris pieces:
 
-    + 0 :  the square;
+    + 0 :  I made this change!
     + 1 :  the line;
     + 2 :  the L;
     + 3 :  the J;
