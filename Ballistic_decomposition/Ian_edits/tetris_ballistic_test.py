@@ -61,7 +61,7 @@ width = 8
 substrate = np.zeros((height, width))
 
 i = 0
-steps = 1
+steps = 6
 substrate[11, 3] = 11
 substrate[12, 3] = 11
 substrate[13, 3] = 11
@@ -81,9 +81,15 @@ substrate[10, 6] = 0
 substrate[10, 5] = 0
 substrate[10, 4] = 0
 substrate[10, 3] = 11
-substrate[7, 0] = 31
-substrate[7, 1] = 31
-substrate[7, 4] = 31
+
+#substrate[6, 4] = 31
+#substrate[6, 3] = 31
+#substrate[6, 2] = 31
+#substrate[6, 1] = 31
+#substrate[6, 5] = 31
+#substrate[6, 6] = 31
+#substrate[6, 0] = 31
+
 
 print(substrate)  # }}}
 
@@ -629,9 +635,8 @@ def Tetris_Ballistic(width, height, steps):
         if (
             choice[0] == 4 and choice[1] == 0
         ):  # T case long part on top, check left and right boundaries
-            position = 6
+            position = random.randint(0, width - 1)
             if (position != width - 1) and (position != 0):
-                print("howdy")
                 if position == 1:
                     landing_row_left = ffnz(substrate, height, position - 1)
                     landing_row_center = ffnz(substrate, height, position)
@@ -681,7 +686,7 @@ def Tetris_Ballistic(width, height, steps):
                         print(substrate)
 
                     elif (
-                        (landing_row_center < landing_row_outright)
+                        (landing_row_center <= landing_row_outright)
                         and (landing_row_center <= landing_row_left)
                         and (landing_row_center <= landing_row_right)
                     ):
@@ -741,7 +746,7 @@ def Tetris_Ballistic(width, height, steps):
                         print(substrate)
 
                     elif (
-                        (landing_row_center < landing_row_outleft)
+                        (landing_row_center <= landing_row_outleft)
                         and (landing_row_center <= landing_row_left)
                         and (landing_row_center <= landing_row_right)
                     ):
@@ -817,7 +822,7 @@ def Tetris_Ballistic(width, height, steps):
                         print(substrate)
 
                     elif (
-                        (landing_row_center < landing_row_outleft)
+                        (landing_row_center <= landing_row_outleft)
                         and (landing_row_center < landing_row_outright)
                         and (landing_row_center <= landing_row_left)
                         and (landing_row_center <= landing_row_right)
