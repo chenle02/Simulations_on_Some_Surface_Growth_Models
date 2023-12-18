@@ -82,13 +82,13 @@ substrate[10, 5] = 0
 substrate[10, 4] = 0
 substrate[10, 3] = 11
 
-#substrate[6, 4] = 31
-#substrate[6, 3] = 31
-#substrate[6, 2] = 31
-#substrate[6, 1] = 31
-#substrate[6, 5] = 31
-#substrate[6, 6] = 31
-#substrate[6, 0] = 31
+# substrate[6, 4] = 31
+# substrate[6, 3] = 31
+# substrate[6, 2] = 31
+# substrate[6, 1] = 31
+# substrate[6, 5] = 31
+# substrate[6, 6] = 31
+# substrate[6, 0] = 31
 
 
 print(substrate)  # }}}
