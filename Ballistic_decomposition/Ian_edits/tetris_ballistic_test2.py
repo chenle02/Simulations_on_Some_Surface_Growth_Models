@@ -83,12 +83,12 @@ steps = 1
 
 substrate = np.zeros((height, width))
 
-substrate[5, 0] = 11
-substrate[5, 1] = 11
-substrate[5, 2] = 11
-substrate[5, 3] = 11
-substrate[5, 4] = 11
-substrate[12, 3] = 0
+substrate[7, 0] = 0
+substrate[6, 1] = 0
+substrate[0, 2] = 11
+substrate[2, 3] = 11
+substrate[3, 4] = 11
+substrate[1, 5] = 11
 
 substrate[13, 3] = 11
 substrate[14, 0] = 11
@@ -103,9 +103,9 @@ substrate[15, 4] = 11
 substrate[15, 5] = 11
 substrate[15, 6] = 11
 substrate[12, 2] = 0
-substrate[8, 7] = 11
-substrate[9, 6] = 11
-substrate[9, 5] = 11
+substrate[0, 5] = 0
+substrate[5, 6] = 0
+substrate[3, 7] = 0
 substrate[10, 5] = 11
 print(substrate)
 
@@ -125,7 +125,7 @@ def Tetris_Ballistic(width, height, steps):
     i = 0
     topmost = height - 1
     while i < steps:
-        choice = [2, 0]
+        choice = [2, 2]
 
         # 0. Square Piece{{{
         if choice[0] == 0 and (choice[1] == 0 or choice[1]
@@ -746,31 +746,144 @@ def Tetris_Ballistic(width, height, steps):
                 continue
 
         if choice[0] == 2 and choice[
-                1] == 2:  # L case standing up, check left boundary
-            position = random.randint(0, width - 1)
+                1] == 2:  # L case with long part on the right.
+            # position = random.randint(0, width - 1)
+            position = 4
             if position != 0:
-                landing_row_right = ffnz(substrate, height, position) - 1
-                landing_row_left = ffnz(substrate, height, position - 1) - 1
-                landing_row = min(landing_row_right, landing_row_left)
+                if position == 1:  # Here the piece falls on the left side
+                    landing_row_pivot = ffnz(substrate, height, position)
+                    landing_row_right = ffnz(substrate, height, position + 1)
+                    landing_row_left = ffnz(substrate, height, position - 1)
+                    print(landing_row_left,
+                          landing_row_pivot, landing_row_right)
 
-                if min(landing_row_right, landing_row_left) <= 2:
-                    break
+                    if min(landing_row_left, landing_row_pivot - 1, landing_row_right) >= 2:  # This prevents the piece to overpass the upper border
+                        if (landing_row_left < landing_row_pivot) and (landing_row_left < landing_row_right):
+                            landing_row = landing_row_left
+                            substrate[landing_row, position] = i + 1
+                            substrate[landing_row - 1, position] = i + 1
+                            substrate[landing_row - 2, position] = i + 1
+                            substrate[landing_row - 2, position - 1] = i + 1
 
-                elif landing_row_left < landing_row_right - 1:
-                    substrate[landing_row_left, position - 1] = i + 1
-                    substrate[landing_row_left, position] = i + 1
-                    substrate[landing_row_left + 1, position] = i + 1
-                    substrate[landing_row_left + 2, position] = i + 1
+                            i += 1
 
-                    i += 1
+                            print(substrate)
+                        if (landing_row_pivot <= landing_row_left) and (landing_row_pivot <= landing_row_right):
+                            landing_row = landing_row_pivot
+                            substrate[landing_row - 1, position] = i + 1
+                            substrate[landing_row - 2, position] = i + 1
+                            substrate[landing_row - 3, position] = i + 1
+                            substrate[landing_row - 3, position - 1] = i + 1
 
-                else:
-                    substrate[landing_row_right, position] = i + 1
-                    substrate[landing_row_right - 1, position] = i + 1
-                    substrate[landing_row_right - 2, position] = i + 1
-                    substrate[landing_row_right - 2, position - 1] = i + 1
+                            i += 1
 
-                    i += 1
+                            print(substrate)
+
+                        if (landing_row_right <= landing_row_left) and (landing_row_right < landing_row_pivot):
+                            landing_row = landing_row_right
+                            substrate[landing_row, position] = i + 1
+                            substrate[landing_row - 1, position] = i + 1
+                            substrate[landing_row - 2, position] = i + 1
+                            substrate[landing_row - 2, position - 1] = i + 1
+
+                            i += 1
+
+                            print(substrate)
+
+                elif position == width - 1:  # Here the piece falls on the right side
+                    landing_row_left = ffnz(substrate, height, position - 1)
+                    landing_row_pivot = ffnz(substrate, height, position)
+                    landing_row_outleft = ffnz(substrate, height, position - 2)
+                    print(landing_row_outleft,
+                          landing_row_left, landing_row_pivot)
+
+                    if min(landing_row_outleft, landing_row_left - 2, landing_row_pivot - 3) >= 0:  # This prevents the piece to overpass the upper border
+                        if (landing_row_outleft < landing_row_left - 1) and (landing_row_outleft < landing_row_pivot - 2):
+                            landing_row = landing_row_outleft
+                            substrate[landing_row, position - 1] = i + 1
+                            substrate[landing_row, position] = i + 1
+                            substrate[landing_row + 1, position] = i + 1
+                            substrate[landing_row + 2, position] = i + 1
+
+                            i += 1
+
+                            print(substrate)
+
+                        if (landing_row_left <= landing_row_outleft + 1) and (landing_row_left < landing_row_pivot):
+                            landing_row = landing_row_left
+                            substrate[landing_row, position] = i + 1
+                            substrate[landing_row - 1, position] = i + 1
+                            substrate[landing_row - 2, position] = i + 1
+                            substrate[landing_row - 2, position - 1] = i + 1
+
+                            i += 1
+
+                            print(substrate)
+
+                        if (landing_row_pivot <= landing_row_outleft + 2) and (landing_row_pivot <= landing_row_left):
+                            landing_row = landing_row_pivot
+                            substrate[landing_row - 1, position] = i + 1
+                            substrate[landing_row - 2, position] = i + 1
+                            substrate[landing_row - 3, position] = i + 1
+                            substrate[landing_row - 3, position - 1] = i + 1
+
+                            i += 1
+
+                            print(substrate)
+
+                else:  # Here the piece falls not at the borders
+                    landing_row_outleft = ffnz(substrate, height, position - 2)
+                    landing_row_left = ffnz(substrate, height, position - 1)
+                    landing_row_pivot = ffnz(substrate, height, position)
+                    landing_row_right = ffnz(substrate, height, position + 1)
+
+                    if min(landing_row_outleft, landing_row_left - 2, landing_row_pivot - 3, landing_row_right - 2) >= 0:  # This prevents the piece to overpass the upper border
+
+                        if (landing_row_outleft < landing_row_left - 1) and (landing_row_outleft < landing_row_pivot - 2) and (landing_row_outleft < landing_row_right - 1):
+                            landing_row = landing_row_outleft
+                            substrate[landing_row, position - 1] = i + 1
+                            substrate[landing_row, position] = i + 1
+                            substrate[landing_row + 1, position] = i + 1
+                            substrate[landing_row + 2, position] = i + 1
+
+                            i += 1
+                            print(substrate)
+
+                        if (landing_row_left <= landing_row_outleft + 1) and (landing_row_left < landing_row_pivot) and (landing_row_left <= landing_row_right):
+                            landing_row = landing_row_left
+                            substrate[landing_row, position] = i + 1
+                            substrate[landing_row - 1, position] = i + 1
+                            substrate[landing_row - 2, position] = i + 1
+                            substrate[landing_row - 2, position - 1] = i + 1
+
+                            i += 1
+                            print(substrate)
+
+                        if (landing_row_pivot <= landing_row_outleft + 2) and (landing_row_pivot <= landing_row_left) and (landing_row_pivot <= landing_row_right):
+                            landing_row = landing_row_pivot
+                            substrate[landing_row - 1, position] = i + 1
+                            substrate[landing_row - 2, position] = i + 1
+                            substrate[landing_row - 3, position] = i + 1
+                            substrate[landing_row - 3, position - 1] = i + 1
+
+                            i += 1
+
+                            print(substrate)
+
+                        if (landing_row_right <= landing_row_outleft + 1) and (landing_row_right < landing_row_left) and (landing_row_right < landing_row_pivot):
+                            landing_row = landing_row_right
+                            substrate[landing_row, position] = i + 1
+                            substrate[landing_row - 1, position] = i + 1
+                            substrate[landing_row - 2, position] = i + 1
+                            substrate[landing_row - 2, position - 1] = i + 1
+
+                            i += 1
+
+                            print(substrate)
+
+                    else:
+                        continue
+
             else:
                 continue
 
@@ -935,8 +1048,7 @@ def Tetris_Ballistic(width, height, steps):
                 continue
 
         # 4. T Piece
-        if (choice[0] == 4 and choice[1] == 0
-            ):  # T case long part on top, check left and right boundaries
+        if (choice[0] == 4 and choice[1] == 0):  # T case long part on top, check left and right boundaries
             position = random.randint(0, width - 1)
             # position = 7
             if (position != width - 1) and (position != 0):
