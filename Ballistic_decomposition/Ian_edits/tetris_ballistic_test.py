@@ -587,7 +587,6 @@ def Tetris_Ballistic(width, height, steps):
                     substrate[landing_row, position - 1] = i + 1
                     substrate[landing_row, position - 2] = i + 1
                     substrate[landing_row, position - 3] = i + 1
-                    print("This was the outright case")
 
                     i += 1
                     print(substrate)
@@ -597,7 +596,6 @@ def Tetris_Ballistic(width, height, steps):
                     substrate[landing_row - 1, position - 1] = i + 1
                     substrate[landing_row - 1, position - 2] = i + 1
                     substrate[landing_row - 1, position - 3] = i + 1
-                    print("this was the other case")
                     i += 1
                     print(substrate)
 
@@ -625,7 +623,6 @@ def Tetris_Ballistic(width, height, steps):
                     substrate[landing_row, position - 1] = i + 1
                     substrate[landing_row, position - 2] = i + 1
                     substrate[landing_row, position - 3] = i + 1
-                    print("This was the outleft case")
 
                     i += 1
                     print(substrate)
