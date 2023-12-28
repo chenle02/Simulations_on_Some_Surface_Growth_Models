@@ -61,7 +61,7 @@ width = 8
 substrate = np.zeros((height, width))
 
 i = 0
-steps = 5
+steps = 4
 substrate[11, 3] = 11
 substrate[12, 3] = 11
 substrate[13, 3] = 11
@@ -132,7 +132,7 @@ def Tetris_Ballistic(width, height, steps):
     i = 0
     topmost = height - 1
     while i < steps:
-        choice = [1, 0]
+        choice = [1, 1]
 
         # 0. Square Piece{{{
         if choice[0] == 0 and (
@@ -563,7 +563,7 @@ def Tetris_Ballistic(width, height, steps):
             choice[0] == 1 and choice[1] == 1
         ):  # Line with right pivot, check left boundary
             position = random.randint(0, width - 1)
-            if position - 3 >= 0:
+            if (position - 3 >= 0) and (position != width - 1):
                 landing_row_pivot = ffnz(substrate, height, position)
                 landing_row_left3 = ffnz(substrate, height, position - 3)
                 landing_row_left2 = ffnz(substrate, height, position - 2)
@@ -578,19 +578,66 @@ def Tetris_Ballistic(width, height, steps):
                 )
 
                 if (
-                    (landing_row_outright <= landing_row_pivot)
-                    and (landing_row_outright <= landing_row_left)
-                    and (landing_row_outright <= landing_row_left2)
-                    and (landing_row_outright <= landing_row_left3)
+                    (landing_row_outright < landing_row_pivot)
+                    and (landing_row_outright < landing_row_left)
+                    and (landing_row_outright < landing_row_left2)
+                    and (landing_row_outright < landing_row_left3)
                 ):
                     substrate[landing_row, position] = i + 1
                     substrate[landing_row, position - 1] = i + 1
                     substrate[landing_row, position - 2] = i + 1
                     substrate[landing_row, position - 3] = i + 1
+                    print("This was the outright case")
 
                     i += 1
-            else:
-                continue
+                    print(substrate)
+
+                else:
+                    substrate[landing_row - 1, position] = i + 1
+                    substrate[landing_row - 1, position - 1] = i + 1
+                    substrate[landing_row - 1, position - 2] = i + 1
+                    substrate[landing_row - 1, position - 3] = i + 1
+                    print("this was the other case")
+                    i += 1
+                    print(substrate)
+
+            elif position == width - 1:
+                landing_row_pivot = ffnz(substrate, height, position)
+                landing_row_left3 = ffnz(substrate, height, position - 3)
+                landing_row_left2 = ffnz(substrate, height, position - 2)
+                landing_row_left = ffnz(substrate, height, position - 1)
+                landing_row_outleft = ffnz(substrate, height, position - 4)
+                landing_row = min(
+                    landing_row_pivot,
+                    landing_row_left,
+                    landing_row_left2,
+                    landing_row_left3,
+                    landing_row_outleft,
+                )
+
+                if (
+                    (landing_row_outleft < landing_row_pivot)
+                    and (landing_row_outleft < landing_row_left)
+                    and (landing_row_outleft < landing_row_left2)
+                    and (landing_row_outleft < landing_row_left3)
+                ):
+                    substrate[landing_row , position] = i + 1
+                    substrate[landing_row, position - 1] = i + 1
+                    substrate[landing_row, position - 2] = i + 1
+                    substrate[landing_row, position - 3] = i + 1
+                    print("This was the outleft case")
+
+                    i += 1
+                    print(substrate)
+
+                else:
+                    substrate[landing_row - 1, position] = i + 1
+                    substrate[landing_row - 1, position - 1] = i + 1
+                    substrate[landing_row - 1, position - 2] = i + 1
+                    substrate[landing_row - 1, position - 3] = i + 1
+
+                    i += 1
+                    print(substrate)
 
         if (
             choice[0] == 1 and choice[1] == 3
