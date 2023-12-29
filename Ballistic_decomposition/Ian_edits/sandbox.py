@@ -1,14 +1,6 @@
-"""
+#Here we will try to convert everything into a function
 
-This module simulates the surface growth by Tetris pieces. It includes
-functions to generate random Tetris pieces, calculate their landing positions
-on a substrate, and simulate a game of Tetris for a given number of steps and a
-defined grid size.
 
-By Ian Ruau (iir0001@auburn.edu) and Mauricio Montes (mauricio.montes@auburn.edu)
-Date: 12/2023
-
-"""
 
 import numpy as np  # {{{
 import random
@@ -61,7 +53,7 @@ width = 8
 substrate = np.zeros((height, width))
 
 i = 0
-steps = 4
+steps = 5
 substrate[11, 3] = 11
 substrate[12, 3] = 11
 substrate[13, 3] = 11
@@ -117,6 +109,158 @@ def ffnz(matrix, height, column):  # {{{
     return flag  # }}}
 
 
+def Square_Ballistic(substrate, orientation, step):# {{{
+    height = substrate.shape[0]
+    width = substrate.shape[1]
+    i = step
+    if orientation == 0 or orientation == 1:
+        position = random.randint(0, width - 1)
+        if position != (width - 1):
+            if position == 0:
+                landing_row_pivot = ffnz(substrate, height, position)
+                landing_row_right = ffnz(substrate, height, position + 1)
+                landing_row_outright = ffnz(substrate, height, position + 2)
+                landing_row = min(landing_row_pivot, landing_row_right, landing_row_outright)
+
+                if (landing_row_outright < landing_row_pivot) and (
+                    landing_row_outright < landing_row_right
+                ):
+                    substrate[landing_row, position] = i + 1
+                    substrate[landing_row, position + 1] = i + 1
+                    substrate[landing_row - 1, position] = i + 1
+                    substrate[landing_row - 1, position + 1] = i + 1
+
+                    return substrate
+
+
+                elif (landing_row_pivot <= landing_row_right) and (
+                    landing_row_pivot <= landing_row_outright
+                ):
+                    substrate[landing_row - 1, position] = i + 1
+                    substrate[landing_row - 2, position] = i + 1
+                    substrate[landing_row - 1, position + 1] = i + 1
+                    substrate[landing_row - 2, position + 1] = i + 1
+
+                    return substrate
+
+
+                elif (landing_row_right < landing_row_pivot) and (
+                    landing_row_right < landing_row_outright
+                ):
+                    substrate[landing_row - 1, position] = i + 1
+                    substrate[landing_row - 1, position + 1] = i + 1
+                    substrate[landing_row - 2, position] = i + 1
+                    substrate[landing_row - 2, position + 1] = i + 1
+
+                    return substrate
+
+
+            elif position == width - 2:
+                landing_row_outleft = ffnz(substrate, height, position - 1)
+                landing_row_pivot = ffnz(substrate, height, position)
+                landing_row_right = ffnz(substrate, height,position + 1)
+                landing_row = min(landing_row_outleft, landing_row_pivot, landing_row_right)
+
+                if (landing_row_outleft < landing_row_pivot) and (
+                    landing_row_outleft < landing_row_right
+                ):
+                    substrate[landing_row, position] = i + 1
+                    substrate[landing_row, position + 1] = i + 1
+                    substrate[landing_row - 1, position + 1] = i + 1
+                    substrate[landing_row - 1, position] = i + 1
+
+                    return substrate
+
+                if (landing_row_pivot <= landing_row_right) and (
+                    landing_row_pivot <= landing_row_outleft
+                ):
+                    substrate[landing_row - 1, position] = i + 1
+                    substrate[landing_row - 2, position] = i + 1
+                    substrate[landing_row - 1, position + 1] = i + 1
+                    substrate[landing_row - 2, position + 1] = i + 1
+
+                    return substrate 
+
+                if (landing_row_right < landing_row_pivot) and (
+                    landing_row_right < landing_row_outleft
+                ):
+                    substrate[landing_row - 1, position] = i + 1
+                    substrate[landing_row - 2, position] = i + 1
+                    substrate[landing_row - 1, position + 1] = i + 1
+                    substrate[landing_row - 2, position + 1] = i + 1
+
+                    return substrate
+
+            else:
+                landing_row_outleft = ffnz(substrate, height,position - 1)
+                landing_row_pivot = ffnz(substrate, height, position)
+                landing_row_right = ffnz(substrate, height, position + 1)
+                landing_row_outright = ffnz(substrate, height, position + 2)
+
+                landing_row = min(
+                    landing_row_outleft,
+                    landing_row_pivot,
+                    landing_row_right,
+                    landing_row_outright,
+                )
+
+                if (
+                    landing_row_outleft < landing_row_pivot
+                    and landing_row_outleft < landing_row_right
+                    and landing_row_outleft <= landing_row_outright
+                ):
+                    substrate[landing_row, position] = i + 1
+                    substrate[landing_row, position + 1] = i + 1
+                    substrate[landing_row - 1, position + 1] = i + 1
+                    substrate[landing_row - 1, position] = i + 1
+
+                    return substrate
+
+
+                elif (
+                    landing_row_outright < landing_row_pivot
+                    and landing_row_outright < landing_row_right
+                    and landing_row_outright < landing_row_outleft
+                ):
+                    substrate[landing_row, position] = i + 1
+                    substrate[landing_row, position + 1] = i + 1
+                    substrate[landing_row - 1, position + 1] = i + 1
+                    substrate[landing_row - 1, position] = i + 1
+
+                    return substrate
+
+                elif (
+                    landing_row_pivot <= landing_row_right
+                    and landing_row_pivot <= landing_row_outleft
+                    and landing_row_pivot <= landing_row_outright
+                ):
+                    substrate[landing_row - 1, position] = i + 1
+                    substrate[landing_row - 2, position] = i + 1
+                    substrate[landing_row - 1, position + 1] = i + 1
+                    substrate[landing_row - 2, position + 1] = i + 1
+
+
+                    return substrate
+
+                elif (
+                    landing_row_right < landing_row_pivot
+                    and landing_row_right <= landing_row_outleft
+                    and landing_row_right <= landing_row_outright
+                ):
+                    substrate[landing_row - 1, position] = i + 1
+                    substrate[landing_row - 2, position] = i + 1
+                    substrate[landing_row - 1, position + 1] = i + 1
+                    substrate[landing_row - 2, position + 1] = i + 1
+
+
+                    return substrate
+
+        else:
+            print("There was a miss on step, ", i)
+            return None # }}}
+
+
+
 def Tetris_Ballistic(width, height, steps):
     """
     This function simulates the Tetris Decomposition model on a substrate.
@@ -132,704 +276,80 @@ def Tetris_Ballistic(width, height, steps):
     i = 0
     topmost = height - 1
     while i < steps:
-        choice = [1, 3]
+        choice = [0, 0]
 
-        # 0. Square Piece{{{
-        if choice[0] == 0 and (
-            choice[1] == 0 or choice[1] == 1
-        ):  # Square, check right boundary
-            position = random.randint(0, width - 1)
-            if position != (width - 1):
-                if position == 0:
-                    # landing_row_outleft = ffnz(susbtrate, height, position - 1),
-                    landing_row_pivot = ffnz(substrate, height, position)
-                    landing_row_right = ffnz(substrate, height, position + 1)
-                    landing_row_outright = ffnz(substrate, height, position + 2)
-                    print(landing_row_pivot, landing_row_right, landing_row_outright)
-
-                    if (landing_row_outright < landing_row_pivot) and (
-                        landing_row_outright < landing_row_right
-                    ):
-                        landing_row = landing_row_outright
-                        print(landing_row)
-                        substrate[landing_row, position] = i + 1
-                        substrate[landing_row, position + 1] = i + 1
-                        substrate[landing_row - 1, position] = i + 1
-                        substrate[landing_row - 1, position + 1] = i + 1
-
-                        i += 1
-
-                        print(substrate)
-
-                    elif (landing_row_pivot <= landing_row_right) and (
-                        landing_row_pivot <= landing_row_outright
-                    ):
-                        landing_row = landing_row_pivot
-                        substrate[landing_row - 1, position] = i + 1
-                        substrate[landing_row - 2, position] = i + 1
-                        substrate[landing_row - 1, position + 1] = i + 1
-                        substrate[landing_row - 2, position + 1] = i + 1
-
-                        i += 1
-
-                        print(substrate)
-
-                    elif (landing_row_right < landing_row_pivot) and (
-                        landing_row_right < landing_row_outright
-                    ):
-                        landing_row = landing_row_right
-                        substrate[landing_row - 1, position] = i + 1
-                        substrate[landing_row - 1, position + 1] = i + 1
-                        substrate[landing_row - 2, position] = i + 1
-                        substrate[landing_row - 2, position + 1] = i + 1
-
-                        i += 1
-
-                        print(substrate)
-
-                elif position == width - 2:
-                    landing_row_outleft = ffnz(substrate, height, position - 1)
-                    landing_row_pivot = ffnz(substrate, height, position)
-                    landing_row_right = ffnz(substrate, height, position + 1)
-                    # landing_row_outright = ffnz(substrate, height, position + 2)
-
-                    if (landing_row_outleft < landing_row_pivot) and (
-                        landing_row_outleft < landing_row_right
-                    ):
-                        landing_row = landing_row_outleft
-                        substrate[landing_row, position] = i + 1
-                        substrate[landing_row, position + 1] = i + 1
-                        substrate[landing_row - 1, position + 1] = i + 1
-                        substrate[landing_row - 1, position] = i + 1
-
-                        i += 1
-                        print(substrate)
-
-                    if (landing_row_pivot <= landing_row_right) and (
-                        landing_row_pivot <= landing_row_outleft
-                    ):
-                        landing_row = landing_row_pivot
-                        substrate[landing_row - 1, position] = i + 1
-                        substrate[landing_row - 2, position] = i + 1
-                        substrate[landing_row - 1, position + 1] = i + 1
-                        substrate[landing_row - 2, position + 1] = i + 1
-
-                        i += 1
-
-                        print(substrate)
-
-                    if (landing_row_right < landing_row_pivot) and (
-                        landing_row_right < landing_row_outleft
-                    ):
-                        landing_row = landing_row_right
-                        substrate[landing_row - 1, position] = i + 1
-                        substrate[landing_row - 2, position] = i + 1
-                        substrate[landing_row - 1, position + 1] = i + 1
-                        substrate[landing_row - 2, position + 1] = i + 1
-
-                        i += 1
-
-                        print(substrate)
-
-                else:
-                    landing_row_outleft = ffnz(substrate, height, position - 1)
-                    landing_row_pivot = ffnz(substrate, height, position)
-                    landing_row_right = ffnz(substrate, height, position + 1)
-                    landing_row_outright = ffnz(substrate, height, position + 2)
-
-                    landing_row = min(
-                        landing_row_outleft,
-                        landing_row_pivot,
-                        landing_row_right,
-                        landing_row_outright,
-                    )
-
-                    if (
-                        landing_row_outleft < landing_row_pivot
-                        and landing_row_outleft < landing_row_right
-                        and landing_row_outleft <= landing_row_outright
-                    ):
-                        substrate[landing_row, position] = i + 1
-                        substrate[landing_row, position + 1] = i + 1
-                        substrate[landing_row - 1, position + 1] = i + 1
-                        substrate[landing_row - 1, position] = i + 1
-
-                        i += 1
-                        print(substrate)
-
-                    elif (
-                        landing_row_outright < landing_row_pivot
-                        and landing_row_outright < landing_row_right
-                        and landing_row_outright < landing_row_outleft
-                    ):
-                        substrate[landing_row, position] = i + 1
-                        substrate[landing_row, position + 1] = i + 1
-                        substrate[landing_row - 1, position + 1] = i + 1
-                        substrate[landing_row - 1, position] = i + 1
-
-                        i += 1
-                        print(substrate)
-
-                    elif (
-                        landing_row_pivot <= landing_row_right
-                        and landing_row_pivot <= landing_row_outleft
-                        and landing_row_pivot <= landing_row_outright
-                    ):
-                        substrate[landing_row - 1, position] = i + 1
-                        substrate[landing_row - 2, position] = i + 1
-                        substrate[landing_row - 1, position + 1] = i + 1
-                        substrate[landing_row - 2, position + 1] = i + 1
-
-                        i += 1
-
-                        print(substrate)
-
-                    elif (
-                        landing_row_right < landing_row_pivot
-                        and landing_row_right <= landing_row_outleft
-                        and landing_row_right <= landing_row_outright
-                    ):
-                        substrate[landing_row - 1, position] = i + 1
-                        substrate[landing_row - 2, position] = i + 1
-                        substrate[landing_row - 1, position + 1] = i + 1
-                        substrate[landing_row - 2, position + 1] = i + 1
-
-                        i += 1
-
-                        print(substrate)
-
+        # 0. Square Piece
+        if choice[0] == 0:
+            if type(Square_Ballistic(substrate, choice[1], i)) != None:
+                print(type(Square_Ballistic(substrate, choice[1], i)))
+                print(substrate)
+                i += 1
+        
             else:
                 continue
-
-        if choice[0] == 0 and (
-            choice[1] == 2 or choice[1] == 3
-        ):  # Square, check left boundary
-            position = random.randint(0, width - 1)
-            if position != 0:
-                if position == 1:
-                    # landing_row_outleft = ffnz(susbtrate, height, position - 1),
-                    landing_row_pivot = ffnz(substrate, height, position)
-                    landing_row_left = ffnz(substrate, height, position - 1)
-                    landing_row_outright = ffnz(substrate, height, position + 1)
-                    landing_row = min(
-                        landing_row_pivot, landing_row_left, landing_row_outright
-                    )
-
-                    if (landing_row_outright < landing_row_pivot) and (
-                        landing_row_outright < landing_row_left
-                    ):
-                        substrate[landing_row, position] = i + 1
-                        substrate[landing_row, position - 1] = i + 1
-                        substrate[landing_row - 1, position] = i + 1
-                        substrate[landing_row - 1, position - 1] = i + 1
-
-                        i += 1
-
-                        print(substrate)
-
-                    elif (landing_row_pivot <= landing_row_left) and (
-                        landing_row_pivot <= landing_row_outright
-                    ):
-                        substrate[landing_row - 1, position] = i + 1
-                        substrate[landing_row - 2, position] = i + 1
-                        substrate[landing_row - 1, position - 1] = i + 1
-                        substrate[landing_row - 2, position - 1] = i + 1
-
-                        i += 1
-
-                        print(substrate)
-
-                    elif (landing_row_left < landing_row_pivot) and (
-                        landing_row_left < landing_row_outright
-                    ):
-                        substrate[landing_row - 1, position] = i + 1
-                        substrate[landing_row - 1, position - 1] = i + 1
-                        substrate[landing_row - 2, position] = i + 1
-                        substrate[landing_row - 2, position - 1] = i + 1
-
-                        i += 1
-
-                        print(substrate)
-
-                elif position == width - 1:
-                    landing_row_outleft = ffnz(substrate, height, position - 2)
-                    landing_row_pivot = ffnz(substrate, height, position)
-                    landing_row_left = ffnz(substrate, height, position - 1)
-                    landing_row = min(
-                        landing_row_outleft, landing_row_pivot, landing_row_left
-                    )
-
-                    if (landing_row_outleft < landing_row_pivot) and (
-                        landing_row_outleft < landing_row_left
-                    ):
-                        substrate[landing_row, position] = i + 1
-                        substrate[landing_row, position - 1] = i + 1
-                        substrate[landing_row - 1, position - 1] = i + 1
-                        substrate[landing_row - 1, position] = i + 1
-
-                        i += 1
-                        print(substrate)
-
-                    elif (landing_row_pivot <= landing_row_left) and (
-                        landing_row_pivot <= landing_row_outleft
-                    ):
-                        substrate[landing_row - 1, position] = i + 1
-                        substrate[landing_row - 2, position] = i + 1
-                        substrate[landing_row - 1, position - 1] = i + 1
-                        substrate[landing_row - 2, position - 1] = i + 1
-
-                        i += 1
-
-                        print(substrate)
-
-                    elif (landing_row_left < landing_row_pivot) and (
-                        landing_row_left < landing_row_outleft
-                    ):
-                        substrate[landing_row - 1, position] = i + 1
-                        substrate[landing_row - 2, position] = i + 1
-                        substrate[landing_row - 1, position - 1] = i + 1
-                        substrate[landing_row - 2, position - 1] = i + 1
-
-                        i += 1
-
-                        print(substrate)
-
-                else:
-                    landing_row_outleft = ffnz(substrate, height, position - 2)
-                    landing_row_pivot = ffnz(substrate, height, position)
-                    landing_row_left = ffnz(substrate, height, position - 1)
-                    landing_row_outright = ffnz(substrate, height, position + 1)
-
-                    landing_row = min(
-                        landing_row_outleft,
-                        landing_row_pivot,
-                        landing_row_left,
-                        landing_row_outright,
-                    )
-
-                    if (
-                        landing_row_outleft < landing_row_pivot
-                        and landing_row_outleft < landing_row_left
-                        and landing_row_outleft <= landing_row_outright
-                    ):
-                        substrate[landing_row, position] = i + 1
-                        substrate[landing_row, position - 1] = i + 1
-                        substrate[landing_row - 1, position - 1] = i + 1
-                        substrate[landing_row - 1, position] = i + 1
-
-                        i += 1
-                        print(substrate)
-
-                    elif (
-                        landing_row_outright < landing_row_pivot
-                        and landing_row_outright < landing_row_left
-                        and landing_row_outright < landing_row_outleft
-                    ):
-                        substrate[landing_row, position] = i + 1
-                        substrate[landing_row, position + 1] = i + 1
-                        substrate[landing_row - 1, position + 1] = i + 1
-                        substrate[landing_row - 1, position] = i + 1
-
-                        i += 1
-                        print(substrate)
-
-                    elif (
-                        landing_row_pivot <= landing_row_left
-                        and landing_row_pivot <= landing_row_outleft
-                        and landing_row_pivot <= landing_row_outright
-                    ):
-                        substrate[landing_row - 1, position] = i + 1
-                        substrate[landing_row - 2, position] = i + 1
-                        substrate[landing_row - 1, position - 1] = i + 1
-                        substrate[landing_row - 2, position - 1] = i + 1
-
-                        i += 1
-
-                        print(substrate)
-
-                    elif (
-                        landing_row_left < landing_row_pivot
-                        and landing_row_left <= landing_row_outleft
-                        and landing_row_left <= landing_row_outright
-                    ):
-                        substrate[landing_row - 1, position] = i + 1
-                        substrate[landing_row - 2, position] = i + 1
-                        substrate[landing_row - 1, position - 1] = i + 1
-                        substrate[landing_row - 2, position - 1] = i + 1
-
-                        i += 1
-
-                        print(substrate)
-
-            else:
-                continue  # }}}
 
         # 1. Line Piece
         if choice[0] == 1 and (
             choice[1] == 0 or choice[1] == 2
         ):  # Vertical, check ceiling case
             position = random.randint(0, width - 1)
-
-            if position == 0:
-                landing_row_pivot = ffnz(substrate, height, position)
-                landing_row_outright = ffnz(substrate, height, position + 1)
-                landing_row = min(landing_row_pivot, landing_row_outright)
-                if landing_row_pivot <= landing_row_outright:
-                    if landing_row >= 4:
-                        substrate[landing_row - 1, position] = i + 1
-                        substrate[landing_row - 2, position] = i + 1
-                        substrate[landing_row - 3, position] = i + 1
-                        substrate[landing_row - 4, position] = i + 1
-                        print(substrate)
-                        i += 1
-
-                    else:
-                        break
-
-                else:
-                    if landing_row >= 4:
-                        substrate[landing_row, position] = i + 1
-                        substrate[landing_row - 1, position] = i + 1
-                        substrate[landing_row - 2, position] = i + 1
-                        substrate[landing_row - 3, position] = i + 1
-                        print(substrate)
-                        i += 1
-
-                    else:
-                        break
-
-            elif position == width - 1:
-                landing_row_pivot = ffnz(substrate, height, position)
-                landing_row_outleft = ffnz(substrate, height, position - 1)
-                landing_row = min(landing_row_pivot, landing_row_outleft)
-                if landing_row_pivot <= landing_row_outleft:
-                    if landing_row >= 4:
-                        substrate[landing_row - 1, position] = i + 1
-                        substrate[landing_row - 2, position] = i + 1
-                        substrate[landing_row - 3, position] = i + 1
-                        substrate[landing_row - 4, position] = i + 1
-                        print(substrate)
-                        i += 1
-
-                    else:
-                        break
-                else:
-                    if landing_row >= 4:
-                        substrate[landing_row, position] = i + 1
-                        substrate[landing_row - 1, position] = i + 1
-                        substrate[landing_row - 2, position] = i + 1
-                        substrate[landing_row - 3, position] = i + 1
-                        print(substrate)
-                        i += 1
-
-                    else:
-                        break
-
+            landing_row = ffnz(substrate, height, position) - 1
+            if landing_row >= 3:
+                substrate[landing_row, position] = i + 1
+                substrate[landing_row - 1, position] = i + 1
+                substrate[landing_row - 2, position] = i + 1
+                substrate[landing_row - 3, position] = i + 1
+                i += 1
             else:
-                landing_row_pivot = ffnz(substrate, height, position)
-                landing_row_outright = ffnz(substrate, height, position + 1)
-                landing_row_outleft = ffnz(substrate, height, position - 1)
-                landing_row = min(
-                    landing_row_pivot, landing_row_outleft, landing_row_outright
-                )
+                break
 
-                if (landing_row_pivot <= landing_row_outright) and (
-                    landing_row_pivot <= landing_row_outleft
-                ):
-                    if landing_row >= 4:
-                        substrate[landing_row - 1, position] = i + 1
-                        substrate[landing_row - 2, position] = i + 1
-                        substrate[landing_row - 3, position] = i + 1
-                        substrate[landing_row - 4, position] = i + 1
-                        print(substrate)
-                        i += 1
-                    else:
-                        break
-
-                elif (landing_row_outright < landing_row_pivot) or (
-                    landing_row_outleft < landing_row_pivot
-                ):
-                    if landing_row >= 4:
-                        substrate[landing_row, position] = i + 1
-                        substrate[landing_row - 1, position] = i + 1
-                        substrate[landing_row - 2, position] = i + 1
-                        substrate[landing_row - 3, position] = i + 1
-                        print(substrate)
-                        i += 1
-                    else:
-                        break
-
+        # 2. L Piece
         if (
             choice[0] == 1 and choice[1] == 1
         ):  # Line with right pivot, check left boundary
-            # Need to fix left collision
             position = random.randint(0, width - 1)
-
-            if position == 3:
-                landing_row_pivot = ffnz(substrate, height, position)
-                landing_row_left3 = ffnz(substrate, height, position - 3)
-                landing_row_left2 = ffnz(substrate, height, position - 2)
-                landing_row_left = ffnz(substrate, height, position - 1)
-                landing_row_outright = ffnz(substrate, height, position + 1)
-                landing_row = min(
-                    landing_row_pivot,
-                    landing_row_left,
-                    landing_row_left2,
-                    landing_row_left3,
-                    landing_row_outright,
+            if position - 3 >= 0:
+                landing_row = (
+                    min(
+                        ffnz(substrate, height, position),
+                        ffnz(substrate, height, position - 1),
+                        ffnz(substrate, height, position - 2),
+                        ffnz(substrate, height, position - 3),
+                    )
+                    - 1
                 )
+                substrate[landing_row, position] = i + 1
+                substrate[landing_row, position - 1] = i + 1
+                substrate[landing_row, position - 2] = i + 1
+                substrate[landing_row, position - 3] = i + 1
 
-                if (
-                    (landing_row_outright < landing_row_pivot)
-                    and (landing_row_outright < landing_row_left)
-                    and (landing_row_outright < landing_row_left2)
-                    and (landing_row_outright < landing_row_left3)
-                ):
-                    substrate[landing_row, position] = i + 1
-                    substrate[landing_row, position - 1] = i + 1
-                    substrate[landing_row, position - 2] = i + 1
-                    substrate[landing_row, position - 3] = i + 1
-
-                    i += 1
-                    print(substrate)
-
-                else:
-                    substrate[landing_row - 1, position] = i + 1
-                    substrate[landing_row - 1, position - 1] = i + 1
-                    substrate[landing_row - 1, position - 2] = i + 1
-                    substrate[landing_row - 1, position - 3] = i + 1
-
-                    i += 1
-                    print(substrate)
-
-            elif position == width - 1:
-                landing_row_pivot = ffnz(substrate, height, position)
-                landing_row_left3 = ffnz(substrate, height, position - 3)
-                landing_row_left2 = ffnz(substrate, height, position - 2)
-                landing_row_left = ffnz(substrate, height, position - 1)
-                landing_row_outleft = ffnz(substrate, height, position - 4)
-                landing_row = min(
-                    landing_row_pivot,
-                    landing_row_left,
-                    landing_row_left2,
-                    landing_row_left3,
-                    landing_row_outleft,
-                )
-
-                if (
-                    (landing_row_outleft < landing_row_pivot)
-                    and (landing_row_outleft < landing_row_left)
-                    and (landing_row_outleft < landing_row_left2)
-                    and (landing_row_outleft < landing_row_left3)
-                ):
-                    substrate[landing_row, position] = i + 1
-                    substrate[landing_row, position - 1] = i + 1
-                    substrate[landing_row, position - 2] = i + 1
-                    substrate[landing_row, position - 3] = i + 1
-
-                    i += 1
-                    print(substrate)
-
-                else:
-                    substrate[landing_row - 1, position] = i + 1
-                    substrate[landing_row - 1, position - 1] = i + 1
-                    substrate[landing_row - 1, position - 2] = i + 1
-                    substrate[landing_row - 1, position - 3] = i + 1
-
-                    i += 1
-                    print(substrate)
-
+                i += 1
             else:
-                landing_row_pivot = ffnz(substrate, height, position)
-                landing_row_right3 = ffnz(substrate, height, position + 3)
-                landing_row_right2 = ffnz(substrate, height, position + 2)
-                landing_row_right = ffnz(substrate, height, position + 1)
-                landing_row_outleft = ffnz(substrate, height, position - 1)
-                landing_row_outright = ffnz(substrate, height, position + 4)
-                landing_row = min(
-                    landing_row_pivot,
-                    landing_row_right,
-                    landing_row_right2,
-                    landing_row_right3,
-                    landing_row_outleft,
-                    landing_row_outright,
-                )
-                if (
-                    (landing_row_outleft < landing_row_pivot)
-                    and (landing_row_outleft < landing_row_left)
-                    and (landing_row_outleft < landing_row_left2)
-                    and (landing_row_outleft < landing_row_left3)
-                    and (landing_row_outleft <= landing_row_outright)
-                ):
-                    substrate[landing_row, position] = i + 1
-                    substrate[landing_row, position + 1] = i + 1
-                    substrate[landing_row, position + 2] = i + 1
-                    substrate[landing_row, position + 3] = i + 1
-
-                    i += 1
-                    print(substrate)
-
-                elif (
-                    (landing_row_outright < landing_row_pivot)
-                    and (landing_row_outright < landing_row_left)
-                    and (landing_row_outright < landing_row_left2)
-                    and (landing_row_outright < landing_row_left3)
-                    and (landing_row_outright < landing_row_outleft)
-                ):
-                    substrate[landing_row, position] = i + 1
-                    substrate[landing_row, position + 1] = i + 1
-                    substrate[landing_row, position + 2] = i + 1
-                    substrate[landing_row, position + 3] = i + 1
-
-                    i += 1
-                    print(substrate)
-
-                else:
-                    substrate[landing_row - 1, position] = i + 1
-                    substrate[landing_row - 1, position + 1] = i + 1
-                    substrate[landing_row - 1, position + 2] = i + 1
-                    substrate[landing_row - 1, position + 3] = i + 1
-
-                    i += 1
-                    print(substrate)
+                continue
 
         if (
             choice[0] == 1 and choice[1] == 3
         ):  # Line with left pivot, check right boundary
             position = random.randint(0, width - 1)
-
-            if (position + 3 > width - 1):
-                continue
-
-
-            elif position == 0:
-                landing_row_pivot = ffnz(substrate, height, position)
-                landing_row_right3 = ffnz(substrate, height, position + 3)
-                landing_row_right2 = ffnz(substrate, height, position + 2)
-                landing_row_right = ffnz(substrate, height, position + 1)
-                landing_row_outright = ffnz(substrate, height, position + 4)
-                landing_row = min(
-                    landing_row_pivot,
-                    landing_row_right,
-                    landing_row_right2,
-                    landing_row_right3,
-                    landing_row_outright,
+            if position + 3 <= width - 1:
+                landing_row = (
+                    min(
+                        ffnz(substrate, height, position),
+                        ffnz(substrate, height, position + 1),
+                        ffnz(substrate, height, position + 2),
+                        ffnz(substrate, height, position + 3),
+                    )
+                    - 1
                 )
 
-                if (
-                    (landing_row_outright < landing_row_pivot)
-                    and (landing_row_outright < landing_row_right)
-                    and (landing_row_outright < landing_row_right2)
-                    and (landing_row_outright < landing_row_right3)
-                ):
-                    substrate[landing_row, position] = i + 1
-                    substrate[landing_row, position + 1] = i + 1
-                    substrate[landing_row, position + 2] = i + 1
-                    substrate[landing_row, position + 3] = i + 1
+                substrate[landing_row, position] = i + 1
+                substrate[landing_row, position + 1] = i + 1
+                substrate[landing_row, position + 2] = i + 1
+                substrate[landing_row, position + 3] = i + 1
 
-                    i += 1
-                    print("pos 0")
-                    print(substrate)
-
-                else:
-                    substrate[landing_row - 1, position] = i + 1
-                    substrate[landing_row - 1, position + 1] = i + 1
-                    substrate[landing_row - 1, position + 2] = i + 1
-                    substrate[landing_row - 1, position + 3] = i + 1
-
-                    i += 1
-                    print(substrate)
-
-            elif position == width - 4:
-                landing_row_pivot = ffnz(substrate, height, position)
-                landing_row_right3 = ffnz(substrate, height, position + 3)
-                landing_row_right2 = ffnz(substrate, height, position + 2)
-                landing_row_right = ffnz(substrate, height, position + 1)
-                landing_row_outleft = ffnz(substrate, height, position - 1)
-                landing_row = min(
-                    landing_row_pivot,
-                    landing_row_right,
-                    landing_row_right2,
-                    landing_row_right3,
-                    landing_row_outleft,
-                )
-
-                if (
-                    (landing_row_outleft < landing_row_pivot)
-                    and (landing_row_outleft < landing_row_right)
-                    and (landing_row_outleft < landing_row_right2)
-                    and (landing_row_outleft < landing_row_right3)
-                ):
-                    substrate[landing_row, position] = i + 1
-                    substrate[landing_row, position + 1] = i + 1
-                    substrate[landing_row, position + 2] = i + 1
-                    substrate[landing_row, position + 3] = i + 1
-
-                    i += 1
-                    print(substrate)
-
-                else:
-                    substrate[landing_row - 1, position] = i + 1
-                    substrate[landing_row - 1, position + 1] = i + 1
-                    substrate[landing_row - 1, position + 2] = i + 1
-                    substrate[landing_row - 1, position + 3] = i + 1
-
-                    i += 1
-                    print(substrate)
-
+                i += 1
             else:
-                landing_row_pivot = ffnz(substrate, height, position)
-                landing_row_right3 = ffnz(substrate, height, position + 3)
-                landing_row_right2 = ffnz(substrate, height, position + 2)
-                landing_row_right = ffnz(substrate, height, position + 1)
-                landing_row_outleft = ffnz(substrate, height, position - 1)
-                landing_row_outright = ffnz(substrate, height, position + 4)
-                landing_row = min(
-                    landing_row_pivot,
-                    landing_row_right,
-                    landing_row_right2,
-                    landing_row_right3,
-                    landing_row_outleft,
-                    landing_row_outright,
-                )
-                if (
-                    (landing_row_outleft < landing_row_pivot)
-                    and (landing_row_outleft < landing_row_right)
-                    and (landing_row_outleft < landing_row_right2)
-                    and (landing_row_outleft < landing_row_right3)
-                    and (landing_row_outleft <= landing_row_outright)
-                ):
-                    substrate[landing_row, position] = i + 1
-                    substrate[landing_row, position + 1] = i + 1
-                    substrate[landing_row, position + 2] = i + 1
-                    substrate[landing_row, position + 3] = i + 1
-
-                    i += 1
-                    print(substrate)
-
-                elif (
-                    (landing_row_outright < landing_row_pivot)
-                    and (landing_row_outright < landing_row_right)
-                    and (landing_row_outright < landing_row_right2)
-                    and (landing_row_outright < landing_row_right3)
-                    and (landing_row_outright < landing_row_outleft)
-                ):
-                    substrate[landing_row, position] = i + 1
-                    substrate[landing_row, position + 1] = i + 1
-                    substrate[landing_row, position + 2] = i + 1
-                    substrate[landing_row, position + 3] = i + 1
-
-                    i += 1
-                    print(substrate)
-
-                else:
-                    substrate[landing_row - 1, position] = i + 1
-                    substrate[landing_row - 1, position + 1] = i + 1
-                    substrate[landing_row - 1, position + 2] = i + 1
-                    substrate[landing_row - 1, position + 3] = i + 1
-
-                    i += 1
-                    print(substrate)
+                continue
 
         # L Case
         if choice[0] == 2 and choice[1] == 0:  # L case upright, check right boundary
@@ -1728,7 +1248,7 @@ def Tetris_Ballistic(width, height, steps):
 
                     elif (
                         (landing_row_left <= landing_row_outleft)
-                        and (landing_row_left < landing_row_center)
+                        and (landing_row_left  < landing_row_center)
                         and (landing_row_left <= landing_row_outright)
                     ):
                         substrate[landing_row, position] = i + 1
