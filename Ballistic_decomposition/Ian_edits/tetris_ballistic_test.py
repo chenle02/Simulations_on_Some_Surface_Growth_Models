@@ -464,7 +464,7 @@ def Tetris_Ballistic(width, height, steps):
             else:
                 continue  # }}}
 
-        # 1. Line Piece
+        # 1. Line Piece{{{
         if choice[0] == 1 and (
             choice[1] == 0 or choice[1] == 2
         ):  # Vertical, check ceiling case
@@ -698,9 +698,8 @@ def Tetris_Ballistic(width, height, steps):
         ):  # Line with left pivot, check right boundary
             position = random.randint(0, width - 1)
 
-            if (position + 3 > width - 1):
+            if position + 3 > width - 1:
                 continue
-
 
             elif position == 0:
                 landing_row_pivot = ffnz(substrate, height, position)
@@ -830,6 +829,7 @@ def Tetris_Ballistic(width, height, steps):
 
                     i += 1
                     print(substrate)
+        # }}}
 
         # L Case
         if choice[0] == 2 and choice[1] == 0:  # L case upright, check right boundary
@@ -1076,7 +1076,7 @@ def Tetris_Ballistic(width, height, steps):
             else:
                 continue
 
-        # 4. T Piece
+        # 4. T Piece{{{
         if (
             choice[0] == 4 and choice[1] == 0
         ):  # T case long part on top, check left and right boundaries
@@ -1747,7 +1747,7 @@ def Tetris_Ballistic(width, height, steps):
                         print(substrate)
 
         else:
-            continue
+            continue# }}}
 
         # 5. S Piece
         if choice[0] == 5 and (
