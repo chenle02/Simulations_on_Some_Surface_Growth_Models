@@ -1961,7 +1961,7 @@ def Tetris_Ballistic(width, height, steps):
         if (
             choice[0] == 5 and choice[1] == 1
         ):  # S case standing up, pivot on the right, check left boundary SEE Z CASE
-            position = width - 1
+            position = random.randint(0, width - 1)
 
             if position == 0:
                 continue
@@ -2062,6 +2062,58 @@ def Tetris_Ballistic(width, height, steps):
                     landing_row_outright,
                     landing_row_outleft,
                 )
+
+                if (
+                    (landing_row_pivot <= landing_row_left)
+                    and (landing_row_pivot <= landing_row_outright)
+                    and (landing_row_pivot <= landing_row_outleft)
+                ):
+                    substrate[landing_row - 1, position] = i + 1
+                    substrate[landing_row - 2, position] = i + 1
+                    substrate[landing_row - 2, position - 1] = i + 1
+                    substrate[landing_row - 3, position - 1] = i + 1
+
+                    i += 1
+                    print(substrate)
+
+                elif (
+                    (landing_row_left < landing_row_pivot)
+                    and (landing_row_left <= landing_row_outright)
+                    and (landing_row_left <= landing_row_outleft)
+                ):
+                    substrate[landing_row, position] = i + 1
+                    substrate[landing_row - 1, position] = i + 1
+                    substrate[landing_row - 1, position - 1] = i + 1
+                    substrate[landing_row - 2, position - 1] = i + 1
+
+                    i += 1
+                    print(substrate)
+
+                elif (
+                    (landing_row_outright <= landing_row_pivot)
+                    and (landing_row_outright <= landing_row_left)
+                    and (landing_row_outright < landing_row_outleft)
+                ):
+                    substrate[landing_row, position] = i + 1
+                    substrate[landing_row - 1, position] = i + 1
+                    substrate[landing_row - 1, position - 1] = i + 1
+                    substrate[landing_row - 2, position - 1] = i + 1
+
+                    i += 1
+                    print(substrate)
+
+                elif (
+                    (landing_row_outleft < landing_row_pivot)
+                    and (landing_row_outleft <= landing_row_left)
+                    and (landing_row_outleft < landing_row_outright)
+                ):
+                    substrate[landing_row, position] = i + 1
+                    substrate[landing_row, position - 1] = i + 1
+                    substrate[landing_row - 1, position - 1] = i + 1
+                    substrate[landing_row + 1, position] = i + 1
+
+                    i += 1
+                    print(substrate)
 
         if (
             choice[0] == 5 and choice[1] == 3
