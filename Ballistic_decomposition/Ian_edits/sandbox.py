@@ -1,4 +1,11 @@
-#Here we will try to convert everything into a function
+# This is a sandbox file, not really meant to be part of the end product 
+
+# Here we will try to convert everything in the ballistic case into a function
+
+# Here I also will have implemented a DFS algorithm for identifying the
+# number of islands of zeroes. This is equivalent to finding the number
+# of holes, the rank of the first homology of our surface model. 
+# This was done using the assistance of chatgpt
 
 
 
@@ -86,7 +93,6 @@ substrate[10, 3] = 11
 
 print(substrate)  # }}}
 
-
 def ffnz(matrix, height, column):  # {{{
     """
     Finds the first non-zero entry in a specified column of a matrix.
@@ -107,7 +113,6 @@ def ffnz(matrix, height, column):  # {{{
         else:
             flag = i
     return flag  # }}}
-
 
 def Square_Ballistic(substrate, orientation, step):# {{{
     height = substrate.shape[0]
@@ -259,6 +264,39 @@ def Square_Ballistic(substrate, orientation, step):# {{{
             print("There was a miss on step, ", i)
             return None # }}}
 
+def num_islands_within_range(substrate, start_row = 0, end_row = substrate.shape[0]):# {{{
+    
+    def dfs(i,j):
+        if start_row <= i <= end_row - 1  and 0 <= j <= substrate.shape[1] -1  and substrate[i,j] == 0:
+
+            if j == substrate.shape[1]:
+                substrate[i,j] = 58
+                dfs(i+1,j)
+                dfs(i-1,j)
+                dfs(i,j-1)
+
+            elif j == 0:
+                substrate[i,j] = 58
+                dfs(i+1,j)
+                dfs(i-1,j)
+                dfs(i,j+1)
+            else:
+                substrate[i,j] = 58
+                dfs(i+1,j)
+                dfs(i-1,j)
+                dfs(i,j+1)
+                dfs(i,j-1)
+
+    island_count = 0
+
+    for i in range(start_row, end_row):
+        for j in range(substrate.shape[1]):
+            if substrate[i,j] == 0:
+                island_count += 1
+                dfs(i,j)
+
+    
+    return island_count - 1# }}}
 
 
 def Tetris_Ballistic(width, height, steps):
@@ -276,7 +314,7 @@ def Tetris_Ballistic(width, height, steps):
     i = 0
     topmost = height - 1
     while i < steps:
-        choice = [0, 0]
+        choice = [1, 0]
 
         # 0. Square Piece
         if choice[0] == 0:
@@ -1557,6 +1595,10 @@ def main():
 
 
 Tetris_Ballistic(width, height, steps)
+
+result = num_islands_within_range(substrate)
+
+print("The number of holes in the substrate is:", result)
 
 
 # if __name__ == "__main__":
