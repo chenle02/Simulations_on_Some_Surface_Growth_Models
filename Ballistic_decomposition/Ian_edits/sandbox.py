@@ -12,6 +12,9 @@
 import numpy as np  # {{{
 import random
 import argparse
+import sys
+
+
 
 # from RD_CLI import Interface_width
 
@@ -53,33 +56,32 @@ def Tetris_Choice():
     choice = np.random.randint(1, [7, 4])
     return choice  # }}}
 
-
 # Prebuilt config{{{
-height = 16
-width = 8
+height = 100
+width = 100
 substrate = np.zeros((height, width))
-
+sys.setrecursionlimit( height * width + 10)
 i = 0
-steps = 5
-substrate[11, 3] = 11
-substrate[12, 3] = 11
-substrate[13, 3] = 11
-substrate[14, 0] = 11
-substrate[14, 1] = 0
-substrate[14, 3] = 11
-substrate[14, 6] = 11
-substrate[15, 0] = 11
-substrate[15, 1] = 0
-substrate[15, 2] = 11
-substrate[15, 3] = 11
-substrate[15, 4] = 11
-substrate[15, 5] = 11
-substrate[15, 6] = 11
-substrate[12, 2] = 11
-substrate[10, 6] = 0
-substrate[10, 5] = 0
-substrate[10, 4] = 0
-substrate[10, 3] = 11
+steps = 500
+#substrate[11, 3] = 11
+#substrate[12, 3] = 11
+#substrate[13, 3] = 11
+#substrate[14, 0] = 11
+#substrate[14, 1] = 0
+#substrate[14, 3] = 11
+#substrate[14, 6] = 11
+#substrate[15, 0] = 11
+#substrate[15, 1] = 0
+#substrate[15, 2] = 11
+#substrate[15, 3] = 11
+#substrate[15, 4] = 11
+#substrate[15, 5] = 11
+#substrate[15, 6] = 11
+#substrate[12, 2] = 11
+#substrate[10, 6] = 0
+#substrate[10, 5] = 0
+#substrate[10, 4] = 0
+#substrate[10, 3] = 11
 
 
 # substrate[6, 4] = 31
@@ -274,7 +276,6 @@ def num_islands_within_range(substrate, start_row = 0, end_row = substrate.shape
                 dfs(i+1,j)
                 dfs(i-1,j)
                 dfs(i,j-1)
-
             elif j == 0:
                 substrate[i,j] = 58
                 dfs(i+1,j)
@@ -314,7 +315,7 @@ def Tetris_Ballistic(width, height, steps):
     i = 0
     topmost = height - 1
     while i < steps:
-        choice = [1, 0]
+        choice = [random.randint(1,6), random.randint(0,3)]
 
         # 0. Square Piece
         if choice[0] == 0:
