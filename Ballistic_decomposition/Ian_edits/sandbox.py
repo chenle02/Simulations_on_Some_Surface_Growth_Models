@@ -57,12 +57,12 @@ def Tetris_Choice():
     return choice  # }}}
 
 # Prebuilt config{{{
-height = 100
-width = 100
+height = 17
+width = 10
 substrate = np.zeros((height, width))
 sys.setrecursionlimit( height * width + 10)
 i = 0
-steps = 500
+steps = 1
 #substrate[11, 3] = 11
 #substrate[12, 3] = 11
 #substrate[13, 3] = 11
@@ -116,12 +116,12 @@ def ffnz(matrix, height, column):  # {{{
             flag = i
     return flag  # }}}
 
-def Square_Ballistic(substrate, orientation, step):# {{{
+def Square_Ballistic(substrate, orientation, step, drop):# {{{
     height = substrate.shape[0]
     width = substrate.shape[1]
     i = step
     if orientation == 0 or orientation == 1:
-        position = random.randint(0, width - 1)
+        position = drop
         if position != (width - 1):
             if position == 0:
                 landing_row_pivot = ffnz(substrate, height, position)
@@ -220,6 +220,7 @@ def Square_Ballistic(substrate, orientation, step):# {{{
                     substrate[landing_row, position + 1] = i + 1
                     substrate[landing_row - 1, position + 1] = i + 1
                     substrate[landing_row - 1, position] = i + 1
+                    print("check here 3")
 
                     return substrate
 
@@ -233,6 +234,7 @@ def Square_Ballistic(substrate, orientation, step):# {{{
                     substrate[landing_row, position + 1] = i + 1
                     substrate[landing_row - 1, position + 1] = i + 1
                     substrate[landing_row - 1, position] = i + 1
+                    print("check here 2")
 
                     return substrate
 
@@ -245,8 +247,8 @@ def Square_Ballistic(substrate, orientation, step):# {{{
                     substrate[landing_row - 2, position] = i + 1
                     substrate[landing_row - 1, position + 1] = i + 1
                     substrate[landing_row - 2, position + 1] = i + 1
-
-
+                    print(substrate)
+                    print("check here")
                     return substrate
 
                 elif (
@@ -258,9 +260,13 @@ def Square_Ballistic(substrate, orientation, step):# {{{
                     substrate[landing_row - 2, position] = i + 1
                     substrate[landing_row - 1, position + 1] = i + 1
                     substrate[landing_row - 2, position + 1] = i + 1
+                    print("here too")
 
 
                     return substrate
+
+                else:
+                    return None
 
         else:
             print("There was a miss on step, ", i)
@@ -315,17 +321,15 @@ def Tetris_Ballistic(width, height, steps):
     i = 0
     topmost = height - 1
     while i < steps:
-        choice = [random.randint(1,6), random.randint(0,3)]
+        choice = [0, 0, 1]
+        # choice picks a piece, an orientation, and a drop zone
 
         # 0. Square Piece
         if choice[0] == 0:
-            if type(Square_Ballistic(substrate, choice[1], i)) != None:
-                print(type(Square_Ballistic(substrate, choice[1], i)))
-                print(substrate)
-                i += 1
-        
-            else:
-                continue
+            Square_Ballistic(substrate, choice[1], i, width - 1)
+            Square_Ballistic(substrate, choice[1], i, choice[2])
+            i += 1
+            print(i)
 
         # 1. Line Piece
         if choice[0] == 1 and (
@@ -1597,9 +1601,9 @@ def main():
 
 Tetris_Ballistic(width, height, steps)
 
-result = num_islands_within_range(substrate)
+# result = num_islands_within_range(substrate)
 
-print("The number of holes in the substrate is:", result)
+# print("The number of holes in the substrate is:", result)
 
 
 # if __name__ == "__main__":
