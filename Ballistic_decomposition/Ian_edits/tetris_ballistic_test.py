@@ -58,34 +58,37 @@ def Tetris_Choice():
 
 
 # Prebuilt config{{{
-height = 16
-width = 8
+height = 15
+width = 15
 substrate = np.zeros((height, width))
 
 i = 0
-steps = 2
-substrate[11, 3] = 11
-substrate[12, 3] = 11
-substrate[13, 3] = 11
-substrate[14, 0] = 11
-substrate[14, 1] = 0
-substrate[14, 3] = 11
-substrate[14, 6] = 11
-substrate[15, 0] = 11
-substrate[15, 1] = 0
-substrate[15, 2] = 11
-substrate[15, 3] = 11
-substrate[15, 4] = 11
-substrate[15, 5] = 11
-substrate[15, 6] = 11
-substrate[12, 2] = 11
-substrate[10, 6] = 0
-substrate[10, 5] = 0
-substrate[10, 4] = 0
-substrate[10, 3] = 11
+steps = 20
+
+# Use select : s/^/# 
+
+# substrate[11, 3] = 11
+# substrate[12, 3] = 11
+# substrate[13, 3] = 11
+# substrate[14, 0] = 11
+# substrate[14, 1] = 0
+# substrate[14, 3] = 11
+# substrate[14, 6] = 11
+# substrate[15, 0] = 11
+# substrate[15, 1] = 0
+# substrate[15, 2] = 11
+# substrate[15, 3] = 11
+# substrate[15, 4] = 11
+# substrate[15, 5] = 11
+# substrate[15, 6] = 11
+# substrate[12, 2] = 11
+# substrate[10, 6] = 0
+# substrate[10, 5] = 0
+# substrate[10, 4] = 0
+# substrate[10, 3] = 11
 
 
-substrate[6, 6] = 31
+# substrate[6, 6] = 31
 # substrate[6, 3] = 31
 # substrate[6, 2] = 31
 # substrate[6, 1] = 31
@@ -135,7 +138,11 @@ def Tetris_Ballistic(width, height, steps):
     my_list = [0, 1, 4, 5, 6]
     topmost = height - 1
     while i < steps:
-        choice = [6, 3]
+        choice = [random.choice(my_list), 1]
+
+        # TODO: Line piece on rot 1, S piece on rot 1
+        # TODO: Error on 683, 653
+        # TODO: 
 
         # 0. Square Piece{{{
         if choice[0] == 0 and (
@@ -659,9 +666,9 @@ def Tetris_Ballistic(width, height, steps):
                 )
                 if (
                     (landing_row_outleft < landing_row_pivot)
-                    and (landing_row_outleft < landing_row_left)
-                    and (landing_row_outleft < landing_row_left2)
-                    and (landing_row_outleft < landing_row_left3)
+                    and (landing_row_outleft < landing_row_right)
+                    and (landing_row_outleft < landing_row_right2)
+                    and (landing_row_outleft < landing_row_right3)
                     and (landing_row_outleft <= landing_row_outright)
                 ):
                     substrate[landing_row, position] = i + 1
@@ -674,9 +681,9 @@ def Tetris_Ballistic(width, height, steps):
 
                 elif (
                     (landing_row_outright < landing_row_pivot)
-                    and (landing_row_outright < landing_row_left)
-                    and (landing_row_outright < landing_row_left2)
-                    and (landing_row_outright < landing_row_left3)
+                    and (landing_row_outright < landing_row_right)
+                    and (landing_row_outright < landing_row_right2)
+                    and (landing_row_outright < landing_row_right3)
                     and (landing_row_outright < landing_row_outleft)
                 ):
                     substrate[landing_row, position] = i + 1
