@@ -8,7 +8,7 @@ defined grid size.
 By Ian Ruau (iir0001@auburn.edu) and Mauricio Montes (mauricio.montes@auburn.edu)
 Date: 12/2023
 
-Hello world!
+HI world!
 
 """
 
