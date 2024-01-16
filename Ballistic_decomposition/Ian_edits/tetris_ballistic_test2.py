@@ -1032,9 +1032,9 @@ def Tetris_Ballistic(width, height, steps):
                 continue
 
         if choice[0] == 2 and choice[1] == 3:  # L case long part on top
-            position = width - 3
+            position = width - 4
             # print('position = ', position)
-            if position == 0:  #The piece falls on the left border
+            if position == 0:  # The piece falls on the left border
                 landing_row_pivot = ffnz(substrate, height, position)
                 landing_row_right = ffnz(substrate, height, position + 1)
                 landing_row_right2 = ffnz(substrate, height, position + 2)
@@ -1198,99 +1198,100 @@ def Tetris_Ballistic(width, height, steps):
                         print(substrate)
 
             else:  # Here the piece falls not at the borders
-                landing_row_outoutleft = ffnz(substrate, height, position - 3)
-                landing_row_outleft = ffnz(substrate, height, position - 2)
-                landing_row_left = ffnz(substrate, height, position - 1)
+                landing_row_outleft = ffnz(substrate, height, position - 1)
                 landing_row_pivot = ffnz(substrate, height, position)
                 landing_row_right = ffnz(substrate, height, position + 1)
+                landing_row_right2 = ffnz(substrate, height, position + 2)
+                landing_row_outright = ffnz(substrate, height, position + 3)
 
                 landing_row = min(
-                    landing_row_outoutleft,
                     landing_row_outleft,
-                    landing_row_left,
                     landing_row_pivot,
                     landing_row_right,
+                    landing_row_right2,
+                    landing_row_outright,
                 )
 
                 if (
                     min(
-                        landing_row_outoutleft,
                         landing_row_outleft - 1,
-                        landing_row_left - 1,
-                        landing_row_pivot - 1,
-                        landing_row_right,
+                        landing_row_pivot - 2,
+                        landing_row_right - 1,
+                        landing_row_right2 - 1,
+                        landing_row_outright,
                     )
-                    >= 1
+                    >= 0
                 ):  # This prevents the piece to overpass the upper border
 
                     if (
-                        (landing_row_outoutleft < landing_row_outleft)
-                        and (landing_row_outoutleft < landing_row_left)
-                        and (landing_row_outoutleft < landing_row_pivot)
-                        and (landing_row_outoutleft <= landing_row_right)
-                    ):
-                        substrate[landing_row, position - 2] = i + 1
-                        substrate[landing_row, position - 1] = i + 1
-                        substrate[landing_row, position] = i + 1
-                        substrate[landing_row - 1, position] = i + 1
-
-                        i += 1
-                        print(substrate)
-
-                    if (
-                        (landing_row_outleft <= landing_row_outoutleft)
-                        and (landing_row_outleft <= landing_row_left)
-                        and (landing_row_outleft <= landing_row_pivot)
+                        (landing_row_outleft <= landing_row_pivot - 1)
                         and (landing_row_outleft <= landing_row_right)
+                        and (landing_row_outleft <= landing_row_right2)
+                        and (landing_row_outleft <= landing_row_outright + 1)
                     ):
-                        substrate[landing_row - 1, position - 2] = i + 1
-                        substrate[landing_row - 1, position - 1] = i + 1
-                        substrate[landing_row - 1, position] = i + 1
-                        substrate[landing_row - 2, position] = i + 1
-
-                        i += 1
-                        print(substrate)
-
-                    if (
-                        (landing_row_left <= landing_row_outoutleft)
-                        and (landing_row_left < landing_row_outleft)
-                        and (landing_row_left <= landing_row_pivot)
-                        and (landing_row_left <= landing_row_pivot)
-                    ):
-                        substrate[landing_row - 1, position - 2] = i + 1
-                        substrate[landing_row - 1, position - 1] = i + 1
-                        substrate[landing_row - 1, position] = i + 1
-                        substrate[landing_row - 2, position] = i + 1
-
-                        i += 1
-
-                        print(substrate)
-
-                    if (
-                        (landing_row_pivot <= landing_row_outoutleft)
-                        and (landing_row_pivot < landing_row_outleft)
-                        and (landing_row_pivot < landing_row_left)
-                        and (landing_row_pivot <= landing_row_right)
-                    ):
-                        substrate[landing_row - 1, position - 2] = i + 1
-                        substrate[landing_row - 1, position - 1] = i + 1
-                        substrate[landing_row - 1, position] = i + 1
-                        substrate[landing_row - 2, position] = i + 1
-
-                        i += 1
-
-                        print(substrate)
-
-                    if (
-                        (landing_row_right < landing_row_outoutleft)
-                        and (landing_row_right < landing_row_outleft)
-                        and (landing_row_right < landing_row_left)
-                        and (landing_row_right < landing_row_pivot)
-                    ):
-                        substrate[landing_row, position - 2] = i + 1
-                        substrate[landing_row, position - 1] = i + 1
+                        landing_row = landing_row_outleft
                         substrate[landing_row, position] = i + 1
                         substrate[landing_row - 1, position] = i + 1
+                        substrate[landing_row - 1, position + 1] = i + 1
+                        substrate[landing_row - 1, position + 2] = i + 1
+
+                        i += 1
+                        print(substrate)
+
+                    if (
+                        (landing_row_pivot <= landing_row_outleft)
+                        and (landing_row_pivot <= landing_row_right + 1)
+                        and (landing_row_pivot <= landing_row_right2 + 1)
+                        and (landing_row_pivot <= landing_row_outright + 2)
+                    ):
+                        substrate[landing_row - 1, position] = i + 1
+                        substrate[landing_row - 2, position] = i + 1
+                        substrate[landing_row - 2, position + 1] = i + 1
+                        substrate[landing_row - 2, position + 2] = i + 1
+
+                        i += 1
+                        print(substrate)
+
+                    if (
+                        (landing_row_right < landing_row_outleft)
+                        and (landing_row_right < landing_row_pivot - 1)
+                        and (landing_row_right <= landing_row_right2)
+                        and (landing_row_right <= landing_row_outright + 1)
+                    ):
+                        substrate[landing_row, position] = i + 1
+                        substrate[landing_row - 1, position] = i + 1
+                        substrate[landing_row - 1, position + 1] = i + 1
+                        substrate[landing_row - 1, position + 2] = i + 1
+
+                        i += 1
+
+                        print(substrate)
+
+                    if (
+                        (landing_row_right2 < landing_row_outleft)
+                        and (landing_row_right2 < landing_row_pivot - 1)
+                        and (landing_row_right2 < landing_row_right)
+                        and (landing_row_right2 <= landing_row_outright + 1)
+                    ):
+                        substrate[landing_row, position] = i + 1
+                        substrate[landing_row - 1, position] = i + 1
+                        substrate[landing_row - 1, position + 1] = i + 1
+                        substrate[landing_row - 1, position + 2] = i + 1
+
+                        i += 1
+
+                        print(substrate)
+
+                    if (
+                        (landing_row_outright < landing_row_outleft - 1)
+                        and (landing_row_outright < landing_row_pivot - 2)
+                        and (landing_row_outright < landing_row_right)
+                        and (landing_row_outright < landing_row_right2)
+                    ):
+                        substrate[landing_row + 1, position] = i + 1
+                        substrate[landing_row, position] = i + 1
+                        substrate[landing_row, position + 1] = i + 1
+                        substrate[landing_row, position + 2] = i + 1
 
                         i += 1
 
