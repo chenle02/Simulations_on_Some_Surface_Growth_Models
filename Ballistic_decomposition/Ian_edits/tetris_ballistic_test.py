@@ -132,6 +132,7 @@ def Tetris_Ballistic(width, height, steps):
         string : Filename of the output file.
     """
     i = 0
+    my_list = [0, 1, 4, 5, 6]
     topmost = height - 1
     while i < steps:
         choice = [6, 3]
@@ -2274,7 +2275,7 @@ def Tetris_Ballistic(width, height, steps):
                     substrate[landing_row + 1, position + 1] = i + 1
 
                     i += 1
-                    print(substrate)# }}}
+                    print(substrate)  # }}}
 
         # 6. Z Case{{{
         if choice[0] == 6 and (
@@ -2484,7 +2485,7 @@ def Tetris_Ballistic(width, height, steps):
                     substrate[landing_row - 1, position] = i + 1
                     substrate[landing_row, position + 1] = i + 1
                     i += 1
-                    print(substrate)           
+                    print(substrate)
 
         if (
             choice[0] == 6 and choice[1] == 1
@@ -2796,7 +2797,7 @@ def Tetris_Ballistic(width, height, steps):
                     substrate[landing_row - 2, position + 1] = i + 1
 
                     i += 1
-                    print(substrate)           # }}}
+                    print(substrate)  # }}}
 
         if landing_row < topmost:
             topmost = landing_row
