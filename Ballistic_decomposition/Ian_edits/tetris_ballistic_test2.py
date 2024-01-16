@@ -86,10 +86,11 @@ substrate = np.zeros((height, width))
 
 substrate[7, 0] = 0
 substrate[6, 1] = 0
-substrate[0, 2] = 11
-substrate[2, 3] = 11
-substrate[3, 4] = 11
-substrate[1, 5] = 11
+substrate[0, 2] = 0
+substrate[2, 3] = 0
+substrate[3, 4] = 0
+substrate[1, 5] = 0
+substrate[10, 3] = 11
 
 substrate[13, 3] = 11
 substrate[14, 0] = 11
@@ -103,7 +104,6 @@ substrate[15, 3] = 11
 substrate[15, 4] = 11
 substrate[15, 5] = 11
 substrate[15, 6] = 11
-substrate[12, 2] = 0
 substrate[0, 5] = 0
 substrate[5, 6] = 0
 substrate[3, 7] = 0
@@ -126,7 +126,7 @@ def Tetris_Ballistic(width, height, steps):
     i = 0
     topmost = height - 1
     while i < steps:
-        choice = [2, 2]
+        choice = [2, 3]
 
         # 0. Square Piece{{{
         if choice[0] == 0 and (
@@ -1033,7 +1033,7 @@ def Tetris_Ballistic(width, height, steps):
 
         if choice[0] == 2 and choice[1] == 3:  # L case long part on top
             position = 0
-            if position == 0:
+            if position == 0:  #The piece falls on the left border
                 landing_row_pivot = ffnz(substrate, height, position)
                 landing_row_right = ffnz(substrate, height, position + 1)
                 landing_row_right2 = ffnz(substrate, height, position + 2)
@@ -1045,10 +1045,10 @@ def Tetris_Ballistic(width, height, steps):
                     landing_row_outright,
                 )
                 print(
-                    landing_row_outleft,
-                    landing_row_left,
                     landing_row_pivot,
                     landing_row_right,
+                    landing_row_right2,
+                    landing_row_outright,
                 )
 
                 if (
@@ -1058,12 +1058,12 @@ def Tetris_Ballistic(width, height, steps):
                         landing_row_pivot - 2,
                         landing_row_right2 - 1,
                     )
-                    >= 1
+                    >= 0
                 ):  # This prevents the piece to overpass the upper border
                     if (
-                        (landing_row_pivot <= landing_row_right - 1)
-                        and (landing_row_pivot <= landing_row_right2 - 1)
-                        and (landing_row_pivot <= landing_row_outright - 2)
+                        (landing_row_pivot <= landing_row_right + 1)
+                        and (landing_row_pivot <= landing_row_right2 + 1)
+                        and (landing_row_pivot <= landing_row_outright + 2)
                     ):
                         substrate[landing_row - 1, position] = i + 1
                         substrate[landing_row - 2, position] = i + 1
@@ -1076,7 +1076,7 @@ def Tetris_Ballistic(width, height, steps):
                     if (
                         (landing_row_right < landing_row_pivot + 1)
                         and (landing_row_right <= landing_row_right2)
-                        and (landing_row_right <= landing_row_outright - 1)
+                        and (landing_row_right <= landing_row_outright + 1)
                     ):
                         substrate[landing_row, position] = i + 1
                         substrate[landing_row - 1, position] = i + 1
@@ -1088,11 +1088,10 @@ def Tetris_Ballistic(width, height, steps):
                         print(substrate)
 
                     if (
-                        (landing_row_right2 < landing_row_pivot + 1)
+                        (landing_row_right2 < landing_row_pivot - 1)
                         and (landing_row_right2 < landing_row_right)
-                        and (landing_row_right <= landing_row_outright - 1)
+                        and (landing_row_right2 <= landing_row_outright + 1)
                     ):
-                        landing_row = landing_row_left
                         substrate[landing_row, position] = i + 1
                         substrate[landing_row - 1, position] = i + 1
                         substrate[landing_row - 1, position + 1] = i + 1
