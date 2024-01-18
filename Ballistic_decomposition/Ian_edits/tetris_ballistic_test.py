@@ -138,7 +138,7 @@ def Tetris_Ballistic(width, height, steps):
     my_list = [0, 1, 4, 5, 6]
     topmost = height - 1
     while i < steps:
-        choice = [random.choice(my_list), 1]
+        choice = [random.choice(my_list), 0]
 
         # TODO: Line piece on rot 1, S piece on rot 1
         # TODO: Error on 683, 653
