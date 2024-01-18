@@ -58,7 +58,7 @@ def Tetris_Choice():
 
 
 # Prebuilt config{{{
-height = 15
+height = 25
 width = 15
 substrate = np.zeros((height, width))
 
@@ -140,7 +140,7 @@ def Tetris_Ballistic(width, height, steps):
     topmost = height - 1
     
     while i < steps:
-        choice = [random.choice(my_list), 4]
+        choice = [random.choice(my_list), 3]
 
         # TODO: Line piece on rot 1, S piece on rot 1
         # TODO: Error on 683, 653, 654, 2608, 2785
@@ -2818,7 +2818,7 @@ def Tetris_Ballistic(width, height, steps):
         if (steps + 1) % 200 == 0:
             print(f"Step: {steps + 1}/{steps}, Level at {height - topmost}/{height}")
 
-        if topmost < height * 0.05 or topmost <= 3:
+        if substrate[3, : width - 1].any() != 0:
             print(f"Stopped at step {steps + 1}, Level at {height - topmost}/{height}")
             break
 
