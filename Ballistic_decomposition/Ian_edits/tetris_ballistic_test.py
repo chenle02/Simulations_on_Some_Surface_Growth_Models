@@ -440,8 +440,8 @@ def Tetris_Ballistic(width, height, steps):
                         and landing_row_outright < landing_row_outleft
                     ):
                         substrate[landing_row, position] = i + 1
-                        substrate[landing_row, position + 1] = i + 1
-                        substrate[landing_row - 1, position + 1] = i + 1
+                        substrate[landing_row, position - 1] = i + 1
+                        substrate[landing_row - 1, position - 1] = i + 1
                         substrate[landing_row - 1, position] = i + 1
 
                         i += 1
@@ -2811,9 +2811,6 @@ def Tetris_Ballistic(width, height, steps):
 
                     i += 1
                     print(substrate)  # }}}
-
-        if landing_row - 4 <= height:
-            topmost = landing_row
 
         if (steps + 1) % 200 == 0:
             print(f"Step: {steps + 1}/{steps}, Level at {height - topmost}/{height}")
