@@ -632,4 +632,10 @@ def Update_Z(i, rot):
     return next
 
 
-Tetris_Ballistic(width, height, steps)
+# Tetris_Ballistic(width, height, steps)
+
+i = 0
+while i < steps:
+    i = Update_Q(i, 0)
+
+print(substrate)
