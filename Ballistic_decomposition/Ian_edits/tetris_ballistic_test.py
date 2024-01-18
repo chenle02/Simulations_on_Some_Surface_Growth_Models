@@ -136,13 +136,17 @@ def Tetris_Ballistic(width, height, steps):
     """
     i = 0
     my_list = [0, 1, 4, 5, 6]
+
     topmost = height - 1
+    
     while i < steps:
-        choice = [random.choice(my_list), 0]
+        choice = [random.choice(my_list), 4]
 
         # TODO: Line piece on rot 1, S piece on rot 1
-        # TODO: Error on 683, 653
-        # TODO: 
+        # TODO: Error on 683, 653, 654, 2608, 2785
+        # TODO: Square on the right erases below on rot 2
+        # TODO: Fix ceiling issues / develop ceiling check?
+        # TODO: Z piece on rot 3
 
         # 0. Square Piece{{{
         if choice[0] == 0 and (
@@ -1662,6 +1666,7 @@ def Tetris_Ballistic(width, height, steps):
                         substrate[landing_row - 1, position] = i + 1
                         substrate[landing_row, position - 1] = i + 1
                         i += 1
+                        print(substrate[landing_row + 1, position])
                         print(substrate)
 
                 elif position == width - 1:
@@ -2755,7 +2760,7 @@ def Tetris_Ballistic(width, height, steps):
                 )
 
                 if (
-                    (landing_row_pivot < landing_row_right)
+                    (landing_row_pivot <= landing_row_right)
                     and (landing_row_pivot <= landing_row_outright)
                     and (landing_row_pivot <= landing_row_outleft)
                 ):
@@ -2768,7 +2773,7 @@ def Tetris_Ballistic(width, height, steps):
                     print(substrate)
 
                 elif (
-                    (landing_row_right <= landing_row_pivot)
+                    (landing_row_right < landing_row_pivot)
                     and (landing_row_right <= landing_row_outright)
                     and (landing_row_right <= landing_row_outleft)
                 ):
@@ -2778,6 +2783,7 @@ def Tetris_Ballistic(width, height, steps):
                     substrate[landing_row - 1, position] = i + 1
 
                     i += 1
+                    print(substrate[landing_row, position])
                     print(substrate)
 
                 elif (
@@ -2806,13 +2812,13 @@ def Tetris_Ballistic(width, height, steps):
                     i += 1
                     print(substrate)  # }}}
 
-        if landing_row < topmost:
+        if landing_row - 4 <= height:
             topmost = landing_row
 
         if (steps + 1) % 200 == 0:
             print(f"Step: {steps + 1}/{steps}, Level at {height - topmost}/{height}")
 
-        if topmost < height * 0.05 or topmost <= 2:
+        if topmost < height * 0.05 or topmost <= 3:
             print(f"Stopped at step {steps + 1}, Level at {height - topmost}/{height}")
             break
 
