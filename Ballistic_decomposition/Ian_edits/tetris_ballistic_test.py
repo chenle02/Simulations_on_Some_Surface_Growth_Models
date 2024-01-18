@@ -53,7 +53,7 @@ def Tetris_Choice():
     + Add input file to specify the probability of each piece.
 
     """
-    choice = np.random.randint(1, [7, 4])
+    choice = np.random.randint(0, [7, 4])
     return choice  # }}}
 
 
@@ -65,7 +65,7 @@ substrate = np.zeros((height, width))
 i = 0
 steps = 20
 
-# Use select : s/^/# 
+# Use select : s/^/#
 
 # substrate[11, 3] = 11
 # substrate[12, 3] = 11
@@ -142,7 +142,7 @@ def Tetris_Ballistic(width, height, steps):
 
         # TODO: Line piece on rot 1, S piece on rot 1
         # TODO: Error on 683, 653
-        # TODO: 
+        # TODO:
 
         # 0. Square Piece{{{
         if choice[0] == 0 and (
