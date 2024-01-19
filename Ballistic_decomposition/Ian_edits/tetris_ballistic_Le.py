@@ -187,6 +187,37 @@ def Tetris_Ballistic(width, height, steps):
     print(substrate)
 
 
+def place_square(substrate, position, landing_row, i):
+    substrate[landing_row - 1, position] = i + 1
+    substrate[landing_row - 2, position] = i + 1
+    substrate[landing_row - 1, position + 1] = i + 1
+    substrate[landing_row - 2, position + 1] = i + 1
+
+
+def Update_Q2(i, rot, substrate, width, height):
+    position = random.randint(0, width - 1)
+    next = i
+
+    if rot in [0, 1, 2, 3]:  # Check for all rotations
+        landing_row_outleft = ffnz(substrate, height, position - 2) if position > 1 else float('inf')
+        landing_row_pivot = ffnz(substrate, height, position)
+        landing_row_right = ffnz(substrate, height, position + 1) if position < width - 1 else float('inf')
+        landing_row_outright = ffnz(substrate, height, position + 2) if position < width - 2 else float('inf')
+        landing_row_left = ffnz(substrate, height, position - 1) if position > 0 else float('inf')
+
+        # Find minimum landing row
+        landing_row = min(landing_row_outleft, landing_row_pivot, landing_row_right, landing_row_left, landing_row_outright)
+
+        # Place square based on the minimum landing row
+        place_square(substrate, position, landing_row, i)
+        next = i + 1
+
+    if next == i:
+        print("No landing position found")
+
+    return next
+
+
 def Update_Q(i, rot):
     """
     Updates the substrate with a square piece.
@@ -371,7 +402,6 @@ def Update_Q(i, rot):
 
                     next = i + 1
                     print(substrate)
-
 
     # Square, check left boundary
     if rot == 2 or rot == 3:
@@ -636,6 +666,6 @@ def Update_Z(i, rot):
 
 i = 0
 while i < steps:
-    i = Update_Q(i, 0)
+    i = Update_Q2(i, 0)
 
 print(substrate)
