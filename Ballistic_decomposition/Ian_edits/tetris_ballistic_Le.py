@@ -530,7 +530,7 @@ def Update_L(i, rot):
     match rot:
         case 0:
             # Check the two boundaries
-            if position < 0 or position > width - 2:
+            if position > width - 2:
                 print("Discard the piece due to the boundary")
                 return i
 
@@ -553,7 +553,31 @@ def Update_L(i, rot):
             next = i + 1
             place_L(position, landing_row, next, rot)
         case 1:
-            print("case 1")
+            # Check the two boundaries
+            if position < 2:
+                print("Discard the piece due to the boundary")
+                return i
+
+            landing_row_outright = ffnz(substrate, height, position + 1) + 1 if position < width -1 else height
+            landing_row_pivot = ffnz(substrate, height, position)
+            landing_row_left1 = ffnz(substrate, height, position - 1) if position > 1 else height
+            landing_row_left2 = ffnz(substrate, height, position - 2) if position > 2 else height
+            landing_row_outleft = ffnz(substrate, height, position - 3) + 1 if position > 3 else height
+
+            # Find minimum landing row
+            landing_row = min(
+                landing_row_outleft,
+                landing_row_pivot,
+                landing_row_left1,
+                landing_row_left2,
+                landing_row_outright)
+
+            if landing_row < 2:
+                return -1
+
+            # Place square based on the minimum landing row
+            next = i + 1
+            place_L(position, landing_row, next, rot)
         case 2:
             print("case 2")
         case 3:
@@ -569,7 +593,7 @@ def Test_L():
     i = 0
     steps = 30
     global substrate
-    for rot in range(1):
+    for rot in range(2):
         print("Test rotation ", rot)
         # Reset the substrate
         substrate = np.zeros((height, width))
