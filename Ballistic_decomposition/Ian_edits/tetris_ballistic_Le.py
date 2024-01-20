@@ -259,7 +259,7 @@ def Update_Q(i, rot):
         landing_row_right,
         landing_row_outright)
 
-    print("Step:", i, "position:", position, "landing_row:", landing_row)
+    print("Step:", i + 1, "position:", position, "landing_row:", landing_row)
 
     if landing_row < 3:
         next = -1
@@ -280,6 +280,8 @@ def Test_Q():
     global substrate
     for rot in range(4):
         print("Test rotation ", rot)
+        # Reset the substrate
+        substrate = np.zeros((height, width))
         while i < steps:
             i = Update_Q(i, rot)
             if i == -1:
@@ -289,7 +291,41 @@ def Test_Q():
         input("")
 
 
-Test_Q()
+# Test_Q()
+
+
+def place_I(position, landing_row, i, rot):
+    """
+    Place a square with pivot at the bottom left corner on the global substrate:
+        1000
+        or
+        0
+        0
+        0
+        1
+    Args:
+        position (int): The position of the pivot.
+        landing_row (int): The landing row of the pivot.
+        i (int): The step number.
+        rot (int): The rotation of the piece; 0 and 2 for horizontal, 1 and 3 for vertical.
+
+    Return:
+        None
+    """
+    global substrate
+
+    if rot in [0, 2]:
+        # Horizontal
+        substrate[landing_row - 1, position] = i
+        substrate[landing_row - 1, position + 1] = i
+        substrate[landing_row - 1, position + 2] = i
+        substrate[landing_row - 1, position + 3] = i
+    elif rot in [1, 3]:
+        # Vertical
+        substrate[landing_row - 1, position] = i
+        substrate[landing_row - 2, position] = i
+        substrate[landing_row - 3, position] = i
+        substrate[landing_row - 4, position] = i
 
 
 def Update_I(i, rot):
@@ -299,14 +335,114 @@ def Update_I(i, rot):
     Args:
         i (int): The step number.
         rot (int): The rotation of the piece.
+            + rot = 0
+                1000
+            + rot = 1
+                0
+                0
+                0
+                1
+            + rot = 2
+                0001
+            + rot = 3
+                1
+                0
+                0
+                0
 
     Returns:
-        numpy.ndarray: The updated substrate.
+        int: The particle ID or the step number that has been placed in this step.
+            + If the value is -1, it means it reaches to the top.
+            + If it returns the same value as the input, it means it cannot find a landing position.
     """
     global substrate
+    # print("Update a line piece")
+    [width, height] = substrate.shape
+    position = random.randint(0, width - 1)
+
+    # Reduce case 2 to 0, so that the pivot is always at the left and bottom.
+    if rot == 2:
+        position -= 3
+
     next = i
-    print("Update a line piece")
+
+    if rot in [0, 2]:
+
+        # Check the two boundaries
+        if position < 0 or position > width - 4:
+            print("Discard the piece due to the boundary")
+            return i
+
+        landing_row_outleft = ffnz(substrate, height, position - 1) + 1 if position > 0 else height
+        landing_row_pivot = ffnz(substrate, height, position)
+        landing_row_right1 = ffnz(substrate, height, position + 1) if position < width - 1 else height
+        landing_row_right2 = ffnz(substrate, height, position + 2) if position < width - 2 else height
+        landing_row_right3 = ffnz(substrate, height, position + 3) if position < width - 3 else height
+        landing_row_outright = ffnz(substrate, height, position + 4) + 1 if position < width - 4 else height
+
+        # Find minimum landing row
+        landing_row = min(
+            landing_row_outleft,
+            landing_row_pivot,
+            landing_row_right1,
+            landing_row_right2,
+            landing_row_right3,
+            landing_row_outright)
+
+        if landing_row < 1:
+            return -1
+
+        # Place square based on the minimum landing row
+        next = i + 1
+        place_I(position, landing_row, next, rot)
+
+    elif rot in [1, 3]:
+        landing_row_outleft = ffnz(substrate, height, position - 1) + 1 if position > 0 else height
+        landing_row_pivot = ffnz(substrate, height, position)
+        landing_row_outright = ffnz(substrate, height, position + 1) + 1 if position < width - 2 else height
+
+        # Check the two boundaries
+        if position < 0 or position > width - 1:
+            print("Discard the piece due to the boundary")
+            return i
+
+        # Find minimum landing row
+        landing_row = min(
+            landing_row_outleft,
+            landing_row_pivot,
+            landing_row_outright)
+
+        if landing_row < 4:
+            return -1
+
+        # Place square based on the minimum landing row
+        next = i + 1
+        place_I(position, landing_row, next, rot)
+
     return next
+
+
+def Test_I():
+    """
+    This is a test function for the Line piece.
+    """
+    i = 0
+    steps = 30
+    global substrate
+    for rot in range(4):
+        print("Test rotation ", rot)
+        # Reset the substrate
+        substrate = np.zeros((height, width))
+        while i < steps:
+            i = Update_I(i, rot)
+            if i == -1:
+                print("Game Over, reached to the top")
+                break
+        print(substrate)
+        input("")
+
+
+Test_I()
 
 
 def Update_L(i, rot):
