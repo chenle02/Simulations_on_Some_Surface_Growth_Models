@@ -442,12 +442,77 @@ def Test_I():
         input("")
 
 
-Test_I()
+# Test_I()
+
+
+def place_L(position, landing_row, i, rot):
+    """
+    Place an L with pivot at the corner.
+    + rot = 0
+        0
+        0
+        10
+    + rot = 1
+          0
+        001
+    + rot = 2
+        01
+         0
+         0
+    + rot = 3
+        100
+        0
+    Args:
+        position (int): The position or column of the pivot.
+        landing_row (int): The landing row of the pivot.
+        i (int): The step number.
+        rot (int): The rotation of the piece as described above.
+
+    Return:
+        None
+    """
+    global substrate
+
+    match rot:
+        case 0:
+            substrate[landing_row - 1, position] = i
+            substrate[landing_row - 2, position] = i
+            substrate[landing_row - 3, position] = i
+            substrate[landing_row - 1, position + 1] = i
+        case 1:
+            substrate[landing_row - 1, position] = i
+            substrate[landing_row - 1, position - 1] = i
+            substrate[landing_row - 1, position - 2] = i
+            substrate[landing_row - 2, position] = i
+        case 2:
+            substrate[landing_row - 1, position] = i
+            substrate[landing_row - 1, position - 1] = i
+            substrate[landing_row + 0, position] = i
+            substrate[landing_row + 1, position] = i
+        case 3:
+            substrate[landing_row - 1, position] = i
+            substrate[landing_row + 1, position] = i
+            substrate[landing_row - 1, position + 1] = i
+            substrate[landing_row - 1, position + 2] = i
 
 
 def Update_L(i, rot):
     """
     Updates the substrate with an L piece.
+    + rot = 0
+        0
+        0
+        10
+    + rot = 1
+          0
+        001
+    + rot = 2
+        01
+         0
+         0
+    + rot = 3
+        100
+        0
 
     Args:
         i (int): The step number.
@@ -457,9 +522,67 @@ def Update_L(i, rot):
         numpy.ndarray: The updated substrate.
     """
     global substrate
+    # print("Update an L piece")
+    [width, height] = substrate.shape
+    position = random.randint(0, width - 1)
+
     next = i
-    print("Update an L piece")
+    match rot:
+        case 0:
+            # Check the two boundaries
+            if position < 0 or position > width - 2:
+                print("Discard the piece due to the boundary")
+                return i
+
+            landing_row_outleft = ffnz(substrate, height, position - 1) + 1 if position > 0 else height
+            landing_row_pivot = ffnz(substrate, height, position)
+            landing_row_right = ffnz(substrate, height, position + 1) if position < width - 1 else height
+            landing_row_outright = ffnz(substrate, height, position + 2) + 1 if position < width - 3 else height
+
+            # Find minimum landing row
+            landing_row = min(
+                landing_row_outleft,
+                landing_row_pivot,
+                landing_row_right,
+                landing_row_outright)
+
+            if landing_row < 3:
+                return -1
+
+            # Place square based on the minimum landing row
+            next = i + 1
+            place_L(position, landing_row, next, rot)
+        case 1:
+            print("case 1")
+        case 2:
+            print("case 2")
+        case 3:
+            print("case 3")
+
     return next
+
+
+def Test_L():
+    """
+    This is a test function for the L piece.
+    """
+    i = 0
+    steps = 30
+    global substrate
+    for rot in range(1):
+        print("Test rotation ", rot)
+        # Reset the substrate
+        substrate = np.zeros((height, width))
+        while i < steps:
+            i = Update_L(i, rot)
+            if i == -1:
+                print("Game Over, reached to the top")
+                break
+        print(substrate)
+        input("")
+
+
+Test_L()
 
 
 def Update_J(i, rot):
