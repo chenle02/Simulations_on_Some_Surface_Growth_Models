@@ -13,7 +13,7 @@ Date: 12/2023
 
 import numpy as np  # {{{
 import random
-import argparse
+# import argparse
 
 # from RD_CLI import Interface_width
 
@@ -558,7 +558,7 @@ def Update_L(i, rot):
                 print("Discard the piece due to the boundary")
                 return i
 
-            landing_row_outright = ffnz(substrate, height, position + 1) + 1 if position < width -1 else height
+            landing_row_outright = ffnz(substrate, height, position + 1) + 1 if position < width - 1 else height
             landing_row_pivot = ffnz(substrate, height, position)
             landing_row_left1 = ffnz(substrate, height, position - 1) if position > 1 else height
             landing_row_left2 = ffnz(substrate, height, position - 2) if position > 2 else height
@@ -584,7 +584,7 @@ def Update_L(i, rot):
                 print("Discard the piece due to the boundary")
                 return i
 
-            landing_row_outright = ffnz(substrate, height, position + 1) + 1 if position < width -1 else height
+            landing_row_outright = ffnz(substrate, height, position + 1) + 1 if position < width - 1 else height
             landing_row_pivot = ffnz(substrate, height, position)
             landing_row_outleft1 = ffnz(substrate, height, position - 1) + 1 if position > 1 else height
             landing_row_outleft2 = ffnz(substrate, height, position - 2) + 3 if position > 2 else height
@@ -615,7 +615,7 @@ def Test_L():
     i = 0
     steps = 30
     global substrate
-    for rot in range(3):
+    for rot in range(4):
         print("Test rotation ", rot)
         # Reset the substrate
         substrate = np.zeros((height, width))
@@ -700,5 +700,3 @@ def Update_Z(i, rot):
 
 
 # Tetris_Ballistic(width, height, steps)
-
-
