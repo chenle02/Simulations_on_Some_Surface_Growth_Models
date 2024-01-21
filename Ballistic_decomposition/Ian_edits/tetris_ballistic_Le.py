@@ -911,7 +911,7 @@ def place_T(position, landing_row, i, rot):
         case 2:
             substrate[landing_row - 1, position] = i
             substrate[landing_row - 1, position + 1] = i
-            substrate[landing_row + 0, position - 1] = i
+            substrate[landing_row - 1, position - 1] = i
             substrate[landing_row - 2, position] = i
         case 3:
             substrate[landing_row - 1, position] = i
@@ -967,7 +967,7 @@ def Update_T(i, rot):
             next = i + 1
             place_T(position, landing_row - 1, next, rot)
         case 1:
-            # Check the two boundaries
+            # Check the right boundary
             if position > width - 2:
                 print("Discard the piece due to the right boundary")
                 return i
@@ -992,28 +992,30 @@ def Update_T(i, rot):
             place_T(position, landing_row - 1, next, rot)
         case 2:
             # Check the two boundaries
-            if position > width - 2:
-                print("Discard the piece due to the right boundary")
+            if position < 2 or position > width - 2:
+                print("Discard the piece due to the both boundaries")
                 return i
 
-            landing_row_outright1 = ffnz(substrate, height, position + 1) + 1 if position < width - 1 else height
-            landing_row_outright2 = ffnz(substrate, height, position + 2) + 3 if position < width - 2 else height
+            landing_row_outright = ffnz(substrate, height, position + 2) + 1 if position < width - 2 else height
+            landing_row_right = ffnz(substrate, height, position + 1) if position < width - 1 else height
             landing_row_pivot = ffnz(substrate, height, position)
-            landing_row_outleft = ffnz(substrate, height, position - 1) + 1 if position > 1 else height
+            landing_row_left = ffnz(substrate, height, position - 1) if position > 1 else height
+            landing_row_outleft = ffnz(substrate, height, position - 2) + 1 if position > 2 else height
 
             # Find minimum landing row
             landing_row = min(
                 landing_row_outleft,
+                landing_row_left,
                 landing_row_pivot,
-                landing_row_outright1,
-                landing_row_outright2)
+                landing_row_right,
+                landing_row_outright)
 
             if landing_row < 3:
                 return -1
 
             # Place square based on the minimum landing row
             next = i + 1
-            place_J(position, landing_row - 2, next, rot)
+            place_T(position, landing_row, next, rot)
         case 3:
             # Check the two boundaries
             if position > width - 3:
@@ -1051,7 +1053,7 @@ def Test_T():
     i = 0
     steps = 30
     global substrate
-    for rot in range(2):
+    for rot in range(3):
         print("Test rotation ", rot)
         # Reset the substrate
         substrate = np.zeros((height, width))
