@@ -747,7 +747,7 @@ def Update_J(i, rot):
                 print("Discard the piece due to the left boundary")
                 return i
 
-            landing_row_outleft = ffnz(substrate, height, position - 2) + 1 if position > 1 else height
+            landing_row_outleft = ffnz(substrate, height, position - 2) + 1 if position > 2 else height
             landing_row_left = ffnz(substrate, height, position - 1) if position > 1 else height
             landing_row_pivot = ffnz(substrate, height, position)
             landing_row_outright = ffnz(substrate, height, position + 1) + 1 if position < width - 1 else height
@@ -865,7 +865,59 @@ def Test_J():
         input("")
 
 
-Test_J()
+# Test_J()
+
+
+def place_T(position, landing_row, i, rot):
+    """
+    Place a T with pivot at the center:
+    + rot = 0
+        010
+         0
+    + rot = 1
+        0
+        10
+        0
+    + rot = 2
+         0
+        010
+    + rot = 3
+         0
+        01
+         0
+
+    Args:
+        position (int): The position or column of the pivot.
+        landing_row (int): The landing row of the pivot.
+        i (int): The step number.
+        rot (int): The rotation of the piece as described above.
+
+    Return:
+        None
+    """
+    global substrate
+
+    match rot:
+        case 0:
+            substrate[landing_row - 1, position] = i
+            substrate[landing_row - 1, position + 1] = i
+            substrate[landing_row - 1, position - 1] = i
+            substrate[landing_row - 0, position] = i
+        case 1:
+            substrate[landing_row - 1, position] = i
+            substrate[landing_row - 2, position] = i
+            substrate[landing_row - 0, position] = i
+            substrate[landing_row - 1, position + 1] = i
+        case 2:
+            substrate[landing_row - 1, position] = i
+            substrate[landing_row - 1, position + 1] = i
+            substrate[landing_row + 0, position - 1] = i
+            substrate[landing_row - 2, position] = i
+        case 3:
+            substrate[landing_row - 1, position] = i
+            substrate[landing_row - 1, position - 1] = i
+            substrate[landing_row - 2, position] = i
+            substrate[landing_row - 0, position] = i
 
 
 def Update_T(i, rot):
@@ -877,12 +929,144 @@ def Update_T(i, rot):
         rot (int): The rotation of the piece.
 
     Returns:
-        numpy.ndarray: The updated substrate.
+        int: The particle ID or the step number that has been placed in this step.
+            + If the value is -1, it means it reaches to the top.
+            + If it returns the same value as the input, it means it cannot find a landing position.
     """
     global substrate
+    # print("Update a T piece")
+    [width, height] = substrate.shape
+    position = random.randint(0, width - 1)
+
     next = i
-    print("Update a T piece")
+    match rot:
+        case 0:
+            # Check the two boundaries
+            if position < 2 or position > width - 2:
+                print("Discard the piece due to the both boundaries")
+                return i
+
+            landing_row_outleft = ffnz(substrate, height, position - 2) + 2 if position > 2 else height
+            landing_row_left = ffnz(substrate, height, position - 1) + 1 if position > 1 else height
+            landing_row_pivot = ffnz(substrate, height, position)
+            landing_row_right = ffnz(substrate, height, position + 1) + 1 if position < width - 1 else height
+            landing_row_outright = ffnz(substrate, height, position + 2) + 2 if position < width - 2 else height
+
+            # Find minimum landing row
+            landing_row = min(
+                landing_row_outleft,
+                landing_row_left,
+                landing_row_pivot,
+                landing_row_right,
+                landing_row_outright)
+
+            if landing_row < 2:
+                return -1
+
+            # Place square based on the minimum landing row
+            next = i + 1
+            place_T(position, landing_row - 1, next, rot)
+        case 1:
+            # Check the two boundaries
+            if position < 2:
+                print("Discard the piece due to the left boundary")
+                return i
+
+            landing_row_outright = ffnz(substrate, height, position + 1) + 1 if position < width - 1 else height
+            landing_row_pivot = ffnz(substrate, height, position)
+            landing_row_left1 = ffnz(substrate, height, position - 1) if position > 1 else height
+            landing_row_left2 = ffnz(substrate, height, position - 2) if position > 2 else height
+            landing_row_outleft = ffnz(substrate, height, position - 3) + 2 if position > 3 else height
+
+            # Find minimum landing row
+            landing_row = min(
+                landing_row_outleft,
+                landing_row_pivot,
+                landing_row_left1,
+                landing_row_left2,
+                landing_row_outright)
+
+            if landing_row < 2:
+                return -1
+
+            # Place square based on the minimum landing row
+            next = i + 1
+            place_J(position, landing_row - 1, next, rot)
+        case 2:
+            # Check the two boundaries
+            if position > width - 2:
+                print("Discard the piece due to the right boundary")
+                return i
+
+            landing_row_outright1 = ffnz(substrate, height, position + 1) + 1 if position < width - 1 else height
+            landing_row_outright2 = ffnz(substrate, height, position + 2) + 3 if position < width - 2 else height
+            landing_row_pivot = ffnz(substrate, height, position)
+            landing_row_outleft = ffnz(substrate, height, position - 1) + 1 if position > 1 else height
+
+            # Find minimum landing row
+            landing_row = min(
+                landing_row_outleft,
+                landing_row_pivot,
+                landing_row_outright1,
+                landing_row_outright2)
+
+            if landing_row < 3:
+                return -1
+
+            # Place square based on the minimum landing row
+            next = i + 1
+            place_J(position, landing_row - 2, next, rot)
+        case 3:
+            # Check the two boundaries
+            if position > width - 3:
+                print("Discard the piece due to the boundary")
+                return i
+
+            landing_row_outright = ffnz(substrate, height, position + 3) + 1 if position < width - 3 else height
+            landing_row_right1 = ffnz(substrate, height, position + 1) if position < width - 1 else height
+            landing_row_right2 = ffnz(substrate, height, position + 2) if position < width - 2 else height
+            landing_row_pivot = ffnz(substrate, height, position)
+            landing_row_outleft = ffnz(substrate, height, position - 1) + 1 if position > 1 else height
+
+            # Find minimum landing row
+            landing_row = min(
+                landing_row_outleft,
+                landing_row_pivot,
+                landing_row_outright,
+                landing_row_right1,
+                landing_row_right2)
+
+            if landing_row < 2:
+                return -1
+
+            # Place square based on the minimum landing row
+            next = i + 1
+            place_J(position, landing_row, next, rot)
+
     return next
+
+
+def Test_T():
+    """
+    This is a test function for the J piece.
+    """
+    i = 0
+    steps = 30
+    global substrate
+    for rot in range(1):
+        print("Test rotation ", rot)
+        # Reset the substrate
+        substrate = np.zeros((height, width))
+        while i < steps:
+            i = Update_T(i, rot)
+            if i == -1:
+                print("Game Over, reached to the top")
+                break
+        print(substrate)
+        input("")
+
+
+Test_T()
 
 
 def Update_S(i, rot):
