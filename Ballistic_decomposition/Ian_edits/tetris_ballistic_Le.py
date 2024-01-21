@@ -518,8 +518,9 @@ def Update_L(i, rot):
         i (int): The step number.
         rot (int): The rotation of the piece.
 
-    Returns:
-        numpy.ndarray: The updated substrate.
+    int: The particle ID or the step number that has been placed in this step.
+        + If the value is -1, it means it reaches to the top.
+        + If it returns the same value as the input, it means it cannot find a landing position.
     """
     global substrate
     # print("Update an L piece")
@@ -694,7 +695,7 @@ def place_J(position, landing_row, i, rot):
             substrate[landing_row - 1, position] = i
             substrate[landing_row - 1, position - 1] = i
             substrate[landing_row - 1, position - 2] = i
-            substrate[landing_row + 0, position] = i
+            substrate[landing_row - 0, position] = i
         case 2:
             substrate[landing_row - 1, position] = i
             substrate[landing_row - 1, position + 1] = i
@@ -729,8 +730,9 @@ def Update_J(i, rot):
         i (int): The step number.
         rot (int): The rotation of the piece.
 
-    Returns:
-        numpy.ndarray: The updated substrate.
+    int: The particle ID or the step number that has been placed in this step.
+        + If the value is -1, it means it reaches to the top.
+        + If it returns the same value as the input, it means it cannot find a landing position.
     """
     global substrate
     # print("Update an L piece")
@@ -766,14 +768,14 @@ def Update_J(i, rot):
         case 1:
             # Check the two boundaries
             if position < 2:
-                print("Discard the piece due to the boundary")
+                print("Discard the piece due to the left boundary")
                 return i
 
             landing_row_outright = ffnz(substrate, height, position + 1) + 1 if position < width - 1 else height
             landing_row_pivot = ffnz(substrate, height, position)
             landing_row_left1 = ffnz(substrate, height, position - 1) if position > 1 else height
             landing_row_left2 = ffnz(substrate, height, position - 2) if position > 2 else height
-            landing_row_outleft = ffnz(substrate, height, position - 3) + 1 if position > 3 else height
+            landing_row_outleft = ffnz(substrate, height, position - 3) + 2 if position > 3 else height
 
             # Find minimum landing row
             landing_row = min(
@@ -788,7 +790,7 @@ def Update_J(i, rot):
 
             # Place square based on the minimum landing row
             next = i + 1
-            place_L(position, landing_row, next, rot)
+            place_J(position, landing_row - 1, next, rot)
         case 2:
             # Check the two boundaries
             if position < 1:
@@ -841,7 +843,6 @@ def Update_J(i, rot):
             place_L(position, landing_row - 1, next, rot)
 
     return next
-    return next
 
 
 def Test_J():
@@ -851,7 +852,7 @@ def Test_J():
     i = 0
     steps = 30
     global substrate
-    for rot in range(1):
+    for rot in range(2):
         print("Test rotation ", rot)
         # Reset the substrate
         substrate = np.zeros((height, width))
