@@ -285,7 +285,7 @@ def Test_Q():
         while i < steps:
             i = Update_Q(i, rot)
             if i == -1:
-                print("Game Over, reached to the top")
+                print("Game Over, reach the top")
                 break
         print(substrate)
         input("")
@@ -436,7 +436,7 @@ def Test_I():
         while i < steps:
             i = Update_I(i, rot)
             if i == -1:
-                print("Game Over, reached to the top")
+                print("Game Over, reach the top")
                 break
         print(substrate)
         input("")
@@ -647,7 +647,7 @@ def Test_L():
         while i < steps:
             i = Update_L(i, rot)
             if i == -1:
-                print("Game Over, reached to the top")
+                print("Game Over, reach the top")
                 break
         print(substrate)
         input("")
@@ -859,7 +859,7 @@ def Test_J():
         while i < steps:
             i = Update_J(i, rot)
             if i == -1:
-                print("Game Over, reached to the top")
+                print("Game Over, reach the top")
                 break
         print(substrate)
         input("")
@@ -1017,31 +1017,29 @@ def Update_T(i, rot):
             next = i + 1
             place_T(position, landing_row, next, rot)
         case 3:
-            # Check the two boundaries
-            if position > width - 3:
-                print("Discard the piece due to the boundary")
+            # Check the left boundary
+            if position < 2:
+                print("Discard the piece due to the left boundary")
                 return i
 
-            landing_row_outright = ffnz(substrate, height, position + 3) + 1 if position < width - 3 else height
-            landing_row_right1 = ffnz(substrate, height, position + 1) if position < width - 1 else height
-            landing_row_right2 = ffnz(substrate, height, position + 2) if position < width - 2 else height
+            landing_row_outright = ffnz(substrate, height, position + 1) + 1 if position < width - 1 else height
             landing_row_pivot = ffnz(substrate, height, position)
-            landing_row_outleft = ffnz(substrate, height, position - 1) + 1 if position > 1 else height
+            landing_row_left = ffnz(substrate, height, position - 1) if position > 1 else height
+            landing_row_outleft = ffnz(substrate, height, position - 2) + 1 if position > 2 else height
 
             # Find minimum landing row
             landing_row = min(
                 landing_row_outleft,
+                landing_row_left,
                 landing_row_pivot,
-                landing_row_outright,
-                landing_row_right1,
-                landing_row_right2)
+                landing_row_outright)
 
-            if landing_row < 2:
+            if landing_row < 3:
                 return -1
 
             # Place square based on the minimum landing row
             next = i + 1
-            place_J(position, landing_row, next, rot)
+            place_T(position, landing_row - 1, next, rot)
 
     return next
 
@@ -1053,14 +1051,14 @@ def Test_T():
     i = 0
     steps = 30
     global substrate
-    for rot in range(3):
+    for rot in range(4):
         print("Test rotation ", rot)
         # Reset the substrate
         substrate = np.zeros((height, width))
         while i < steps:
             i = Update_T(i, rot)
             if i == -1:
-                print("Game Over, reached to the top")
+                print("Game Over, reach the top")
                 break
         print(substrate)
         input("")
