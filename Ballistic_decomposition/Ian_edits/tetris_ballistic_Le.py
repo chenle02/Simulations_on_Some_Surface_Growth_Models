@@ -793,28 +793,28 @@ def Update_J(i, rot):
             place_J(position, landing_row - 1, next, rot)
         case 2:
             # Check the two boundaries
-            if position < 1:
-                print("Discard the piece due to the boundary")
+            if position > width - 2 :
+                print("Discard the piece due to the right boundary")
                 return i
 
-            landing_row_outright = ffnz(substrate, height, position + 1) + 1 if position < width - 1 else height
+            landing_row_outright1 = ffnz(substrate, height, position + 1) + 1 if position < width - 1 else height
+            landing_row_outright2 = ffnz(substrate, height, position + 2) + 3 if position < width - 2 else height
             landing_row_pivot = ffnz(substrate, height, position)
-            landing_row_outleft1 = ffnz(substrate, height, position - 1) + 1 if position > 1 else height
-            landing_row_outleft2 = ffnz(substrate, height, position - 2) + 3 if position > 2 else height
+            landing_row_outleft = ffnz(substrate, height, position - 1) + 1 if position > 1 else height
 
             # Find minimum landing row
             landing_row = min(
-                landing_row_outleft1,
-                landing_row_outleft2,
+                landing_row_outleft,
                 landing_row_pivot,
-                landing_row_outright)
+                landing_row_outright1,
+                landing_row_outright2)
 
             if landing_row < 3:
                 return -1
 
             # Place square based on the minimum landing row
             next = i + 1
-            place_L(position, landing_row - 2, next, rot)
+            place_J(position, landing_row - 2, next, rot)
         case 3:
             # Check the two boundaries
             if position > width - 3:
@@ -852,7 +852,7 @@ def Test_J():
     i = 0
     steps = 30
     global substrate
-    for rot in range(2):
+    for rot in range(3):
         print("Test rotation ", rot)
         # Reset the substrate
         substrate = np.zeros((height, width))
