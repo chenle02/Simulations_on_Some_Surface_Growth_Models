@@ -732,7 +732,6 @@ def Update_J(i, rot):
 
     int: The particle ID or the step number that has been placed in this step.
         + If the value is -1, it means it reaches to the top.
-        + If it returns the same value as the input, it means it cannot find a landing position.
     """
     global substrate
     [width, height] = substrate.shape
@@ -918,7 +917,6 @@ def Update_T(i, rot):
     Returns:
         int: The particle ID or the step number that has been placed in this step.
             + If the value is -1, it means it reaches to the top.
-            + If it returns the same value as the input, it means it cannot find a landing position.
     """
     global substrate
     [width, height] = substrate.shape
