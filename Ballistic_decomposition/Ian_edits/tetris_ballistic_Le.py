@@ -793,7 +793,7 @@ def Update_J(i, rot):
             place_J(position, landing_row - 1, next, rot)
         case 2:
             # Check the two boundaries
-            if position > width - 2 :
+            if position > width - 2:
                 print("Discard the piece due to the right boundary")
                 return i
 
@@ -821,9 +821,9 @@ def Update_J(i, rot):
                 print("Discard the piece due to the boundary")
                 return i
 
-            landing_row_outright = ffnz(substrate, height, position + 3) + 2 if position < width - 3 else height
-            landing_row_right1 = ffnz(substrate, height, position + 1) + 1 if position < width - 1 else height
-            landing_row_right2 = ffnz(substrate, height, position + 2) + 1 if position < width - 2 else height
+            landing_row_outright = ffnz(substrate, height, position + 3) + 1 if position < width - 3 else height
+            landing_row_right1 = ffnz(substrate, height, position + 1) if position < width - 1 else height
+            landing_row_right2 = ffnz(substrate, height, position + 2) if position < width - 2 else height
             landing_row_pivot = ffnz(substrate, height, position)
             landing_row_outleft = ffnz(substrate, height, position - 1) + 1 if position > 1 else height
 
@@ -840,7 +840,7 @@ def Update_J(i, rot):
 
             # Place square based on the minimum landing row
             next = i + 1
-            place_L(position, landing_row - 1, next, rot)
+            place_J(position, landing_row, next, rot)
 
     return next
 
@@ -852,7 +852,7 @@ def Test_J():
     i = 0
     steps = 30
     global substrate
-    for rot in range(3):
+    for rot in range(4):
         print("Test rotation ", rot)
         # Reset the substrate
         substrate = np.zeros((height, width))
