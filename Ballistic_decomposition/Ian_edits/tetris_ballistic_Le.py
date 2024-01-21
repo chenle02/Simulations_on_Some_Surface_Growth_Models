@@ -353,71 +353,56 @@ def Update_I(i, rot):
     Returns:
         int: The particle ID or the step number that has been placed in this step.
             + If the value is -1, it means it reaches to the top.
-            + If it returns the same value as the input, it means it cannot find a landing position.
     """
     global substrate
-    # print("Update a line piece")
     [width, height] = substrate.shape
-    position = random.randint(0, width - 1)
-
-    # Reduce case 2 to 0, so that the pivot is always at the left and bottom.
-    if rot == 2:
-        position -= 3
 
     next = i
 
-    if rot in [0, 2]:
+    match rot:
+        case 0 | 2:
+            position = random.randint(0, width - 4)
 
-        # Check the two boundaries
-        if position < 0 or position > width - 4:
-            print("Discard the piece due to the boundary")
-            return i
+            landing_row_outleft = ffnz(substrate, height, position - 1) + 1 if position > 1 else height
+            landing_row_pivot = ffnz(substrate, height, position)
+            landing_row_right1 = ffnz(substrate, height, position + 1) if position < width - 1 else height
+            landing_row_right2 = ffnz(substrate, height, position + 2) if position < width - 2 else height
+            landing_row_right3 = ffnz(substrate, height, position + 3) if position < width - 3 else height
+            landing_row_outright = ffnz(substrate, height, position + 4) + 1 if position < width - 4 else height
 
-        landing_row_outleft = ffnz(substrate, height, position - 1) + 1 if position > 0 else height
-        landing_row_pivot = ffnz(substrate, height, position)
-        landing_row_right1 = ffnz(substrate, height, position + 1) if position < width - 1 else height
-        landing_row_right2 = ffnz(substrate, height, position + 2) if position < width - 2 else height
-        landing_row_right3 = ffnz(substrate, height, position + 3) if position < width - 3 else height
-        landing_row_outright = ffnz(substrate, height, position + 4) + 1 if position < width - 4 else height
+            # Find minimum landing row
+            landing_row = min(
+                landing_row_outleft,
+                landing_row_pivot,
+                landing_row_right1,
+                landing_row_right2,
+                landing_row_right3,
+                landing_row_outright)
 
-        # Find minimum landing row
-        landing_row = min(
-            landing_row_outleft,
-            landing_row_pivot,
-            landing_row_right1,
-            landing_row_right2,
-            landing_row_right3,
-            landing_row_outright)
+            if landing_row < 1:
+                return -1
 
-        if landing_row < 1:
-            return -1
+            next = i + 1
+            place_I(position, landing_row, next, rot)
 
-        # Place square based on the minimum landing row
-        next = i + 1
-        place_I(position, landing_row, next, rot)
+        case 1 | 3:
+            position = random.randint(0, width - 1)
 
-    elif rot in [1, 3]:
-        landing_row_outleft = ffnz(substrate, height, position - 1) + 1 if position > 0 else height
-        landing_row_pivot = ffnz(substrate, height, position)
-        landing_row_outright = ffnz(substrate, height, position + 1) + 1 if position < width - 2 else height
+            landing_row_outleft = ffnz(substrate, height, position - 1) + 1 if position > 1 else height
+            landing_row_pivot = ffnz(substrate, height, position)
+            landing_row_outright = ffnz(substrate, height, position + 1) + 1 if position < width - 1 else height
 
-        # Check the two boundaries
-        if position < 0 or position > width - 1:
-            print("Discard the piece due to the boundary")
-            return i
+            # Find minimum landing row
+            landing_row = min(
+                landing_row_outleft,
+                landing_row_pivot,
+                landing_row_outright)
 
-        # Find minimum landing row
-        landing_row = min(
-            landing_row_outleft,
-            landing_row_pivot,
-            landing_row_outright)
+            if landing_row < 4:
+                return -1
 
-        if landing_row < 4:
-            return -1
-
-        # Place square based on the minimum landing row
-        next = i + 1
-        place_I(position, landing_row, next, rot)
+            next = i + 1
+            place_I(position, landing_row, next, rot)
 
     return next
 
@@ -442,7 +427,7 @@ def Test_I():
         input("")
 
 
-# Test_I()
+Test_I()
 
 
 def place_L(position, landing_row, i, rot):
@@ -638,7 +623,7 @@ def Test_L():
         input("")
 
 
-Test_L()
+# Test_L()
 
 
 def place_J(position, landing_row, i, rot):
