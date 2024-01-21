@@ -735,17 +735,13 @@ def Update_J(i, rot):
         + If it returns the same value as the input, it means it cannot find a landing position.
     """
     global substrate
-    # print("Update an L piece")
     [width, height] = substrate.shape
     position = random.randint(0, width - 1)
 
     next = i
     match rot:
         case 0:
-            # Check the two boundaries
-            if position < 1:
-                print("Discard the piece due to the left boundary")
-                return i
+            position = random.randint(1, width - 1)
 
             landing_row_outleft = ffnz(substrate, height, position - 2) + 1 if position > 2 else height
             landing_row_left = ffnz(substrate, height, position - 1) if position > 1 else height
@@ -766,10 +762,7 @@ def Update_J(i, rot):
             next = i + 1
             place_J(position, landing_row, next, rot)
         case 1:
-            # Check the two boundaries
-            if position < 2:
-                print("Discard the piece due to the left boundary")
-                return i
+            position = random.randint(2, width - 1)
 
             landing_row_outright = ffnz(substrate, height, position + 1) + 1 if position < width - 1 else height
             landing_row_pivot = ffnz(substrate, height, position)
@@ -792,10 +785,7 @@ def Update_J(i, rot):
             next = i + 1
             place_J(position, landing_row - 1, next, rot)
         case 2:
-            # Check the two boundaries
-            if position > width - 2:
-                print("Discard the piece due to the right boundary")
-                return i
+            position = random.randint(0, width - 2)
 
             landing_row_outright1 = ffnz(substrate, height, position + 1) + 1 if position < width - 1 else height
             landing_row_outright2 = ffnz(substrate, height, position + 2) + 3 if position < width - 2 else height
@@ -816,10 +806,7 @@ def Update_J(i, rot):
             next = i + 1
             place_J(position, landing_row - 2, next, rot)
         case 3:
-            # Check the two boundaries
-            if position > width - 3:
-                print("Discard the piece due to the boundary")
-                return i
+            position = random.randint(0, width - 3)
 
             landing_row_outright = ffnz(substrate, height, position + 3) + 1 if position < width - 3 else height
             landing_row_right1 = ffnz(substrate, height, position + 1) if position < width - 1 else height
@@ -865,7 +852,7 @@ def Test_J():
         input("")
 
 
-# Test_J()
+Test_J()
 
 
 def place_T(position, landing_row, i, rot):
@@ -1050,7 +1037,7 @@ def Test_T():
         input("")
 
 
-Test_T()
+# Test_T()
 
 
 def Update_S(i, rot):
