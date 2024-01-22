@@ -497,7 +497,7 @@ def Update_L(i, rot):
             landing_row_outleft = ffnz(substrate, height, position - 1) + 1 if position > 0 else height
             landing_row_pivot = ffnz(substrate, height, position)
             landing_row_right = ffnz(substrate, height, position + 1) if position < width - 1 else height
-            landing_row_outright = ffnz(substrate, height, position + 2) + 1 if position < width - 3 else height
+            landing_row_outright = ffnz(substrate, height, position + 2) + 1 if position < width - 2 else height
 
             # Find minimum landing row
             landing_row = min(
