@@ -118,20 +118,21 @@ def ffnz(matrix, height, column):  # {{{
     return flag  # }}}
 
 
-def Tetris_Ballistic(width, height, steps):
+def Tetris_Ballistic(steps):
     """
     This function simulates the Tetris Decomposition model on a substrate.
 
     Args:
-        width (int):  The with of the matrix.
-        height (int): The height of the matrix.
         steps  (int): The steps to simulate.
 
-    Returns:
-        string : Filename of the output file.
+    Return:
+        None (print the final substrate)
     """
+    global substrate
+    [width, height] = substrate.shape
+
     # my_list = [0, 1, 4, 5, 6]
-    my_list = [0]
+    my_list = [0, 1, 2, 3, 4, 5, 6]
     """
     + 0 :  the square;
     + 1 :  the line;
@@ -141,7 +142,7 @@ def Tetris_Ballistic(width, height, steps):
     + 5 :  the S;
     + 6 :  the Z.
     """
-    rotation_list = [1]
+    rotation_list = [0, 1, 2, 3]
     """
     + 0 is the original orientation;
     + 1 is the 90 degree rotation;
@@ -157,7 +158,6 @@ def Tetris_Ballistic(width, height, steps):
             case 0:
                 # Square case
                 i = Update_Q(i, choice[1])
-                print(i)
             case 1:
                 # Line case
                 i = Update_I(i, choice[1])
@@ -179,6 +179,10 @@ def Tetris_Ballistic(width, height, steps):
             case _:
                 # Error
                 print("Wrong Choice of the Pieces")
+
+        if i == -1:
+            print("Game Over, reach the top")
+            break
 
     print(substrate)
 
@@ -1249,6 +1253,6 @@ def Test_Z():
         input("")
 
 
-Test_Z()
+# Test_Z()
 
-# Tetris_Ballistic(width, height, steps)
+Tetris_Ballistic(30)
