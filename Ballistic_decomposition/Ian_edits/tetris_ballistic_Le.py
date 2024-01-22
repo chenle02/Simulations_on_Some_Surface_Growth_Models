@@ -209,53 +209,29 @@ def place_O(position, landing_row, i):
     substrate[landing_row - 2, position + 1] = i
 
 
-def Update_O(i, rot):
+def Update_O(i, rot=0):
     """
     Updates the substrate with a square piece.
 
     Args:
         i (int): The step number.
-        rot (int): The rotation of the piece.
-            + rot = 0
-                10
-                00
-            + rot = 1
-                00
-                10
-            + rot = 2
-                00
-                01
-            + rot = 3
-                01
-                00
+        rot (int): The rotation of the piece. By symmetry, all rotation will be treated as
+            00
+            10
 
     Returns:
         int: The particle ID or the step number that has been placed in this step.
             + If the value is -1, it means it reaches to the top.
-            + If it returns the same value as the input, it means it cannot find a landing position.
     """
-    # print("Update a square piece")
     global substrate
     [width, height] = substrate.shape
-    position = random.randint(0, width - 1)
-
-    # Reduce all four rotation cases to to case rot = 1
-    if rot in [2, 3]:
-        position -= 1
-    elif rot not in [0, 1]:
-        print("Wrong rotation value")
-        return i
-
-    # Check the two boundaries
-    if position < 0 or position > width - 2:
-        print("Discard the piece due to the boundary")
-        return i
+    position = random.randint(0, width - 2)
 
     next = i
 
-    landing_row_outleft = ffnz(substrate, height, position - 1) + 1 if position > 0 else height
+    landing_row_outleft = ffnz(substrate, height, position - 1) + 1 if position > 1 else height
     landing_row_pivot = ffnz(substrate, height, position)
-    landing_row_right = ffnz(substrate, height, position + 1)
+    landing_row_right = ffnz(substrate, height, position + 1) if position < width - 1 else height
     landing_row_outright = ffnz(substrate, height, position + 2) + 1 if position < width - 2 else height
 
     # Find minimum landing row
@@ -265,14 +241,12 @@ def Update_O(i, rot):
         landing_row_right,
         landing_row_outright)
 
-    print("Step:", i + 1, "position:", position, "landing_row:", landing_row)
+    if landing_row < 2:
+        return -1
 
-    if landing_row < 3:
-        next = -1
-    else:
-        # Place square based on the minimum landing row
-        next = i + 1
-        place_O(position, landing_row, next)
+    # Place square based on the minimum landing row
+    next = i + 1
+    place_O(position, landing_row, next)
 
     return next
 
@@ -297,7 +271,7 @@ def Test_O():
         input("")
 
 
-# Test_O()
+Test_O()
 
 
 def place_I(position, landing_row, i, rot):
