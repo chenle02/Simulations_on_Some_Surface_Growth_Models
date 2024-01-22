@@ -31,7 +31,7 @@ class Tetris_Ballistic:
         self.width, self.height = grid_size
         self.substrate = np.zeros(grid_size)  # Example initialization
 
-    def Tetris_Choice():
+    def Tetris_Choice(self):
         """
         Randomly selects a Tetris piece and its orientation.
 
@@ -131,7 +131,7 @@ class Tetris_Ballistic:
 
     def place_O(self, position, landing_row, i):
         """
-        Place a square with pivot at the bottom left corner on the global substrate:
+        Place a square with pivot at the bottom left corner on the :
             00
             10
         Args:
@@ -193,11 +193,11 @@ class Tetris_Ballistic:
         i = 0
         steps = 30
         for rot in range(4):
-            print("Test rotation ", rot=0)
+            print("Test rotation ", rot)
             # Reset the substrate
             self.substrate = np.zeros((self.height, self.width))
             while i < steps:
-                i = self.Update_O(i, rot=0)
+                i = self.Update_O(i, rot)
                 if i == -1:
                     print("Game Over, reach the top")
                     break
@@ -270,9 +270,9 @@ class Tetris_Ballistic:
                 landing_row_outleft = self.ffnz(position - 1) + 1 if position > 1 else self.height
                 landing_row_pivot = self.ffnz(position)
                 landing_row_right1 = self.ffnz(position + 1) if position < self.width - 1 else self.height
-                landing_row_right2  = self.ffnz(position + 2) if position < self.width - 2 else self.height
-                landing_row_right3  = self.ffnz(position + 3) if position < self.width - 3 else self.height
-                landing_row_outright  = self.ffnz(position + 4) + 1 if position < self.width - 4 else self.height
+                landing_row_right2 = self.ffnz(position + 2) if position < self.width - 2 else self.height
+                landing_row_right3 = self.ffnz(position + 3) if position < self.width - 3 else self.height
+                landing_row_outright = self.ffnz(position + 4) + 1 if position < self.width - 4 else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -287,14 +287,14 @@ class Tetris_Ballistic:
                     return -1
 
                 next = i + 1
-                place_I(position, landing_row, next, rot=0)
+                self.place_I(position, landing_row, next, rot)
 
             case 1 | 3:
-                position = random.randint(0, width - 1)
+                position = random.randint(0, self.width - 1)
 
-                landing_row_outleft  = self.ffnz(position - 1) + 1 if position > 1 else self.height
-                landing_row_pivot  = self.ffnz(position)
-                landing_row_outright  = self.ffnz(position + 1) + 1 if position < self.width - 1 else self.height
+                landing_row_outleft = self.ffnz(position - 1) + 1 if position > 1 else self.height
+                landing_row_pivot = self.ffnz(position)
+                landing_row_outright = self.ffnz(position + 1) + 1 if position < self.width - 1 else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -306,7 +306,7 @@ class Tetris_Ballistic:
                     return -1
 
                 next = i + 1
-                place_I(position, landing_row, next, rot=0)
+                self.place_I(position, landing_row, next, rot)
 
         return next
 
@@ -316,13 +316,12 @@ class Tetris_Ballistic:
         """
         i = 0
         steps = 30
-        global substrate
         for rot in range(4):
-            print("Test rotation ", rot=0)
+            print("Test rotation ", rot)
             # Reset the substrate
-            substrate = np.zeros((height, width))
+            self.substrate = np.zeros((self.height, self.width))
             while i < steps:
-                i = Update_I(i, rot=0)
+                i = self.Update_I(i, rot)
                 if i == -1:
                     print("Game Over, reach the top")
                     break
@@ -355,29 +354,27 @@ class Tetris_Ballistic:
         Return:
             None
         """
-        global substrate
-
         match rot:
             case 0:
-                substrate[landing_row - 1, position] = i
-                substrate[landing_row - 2, position] = i
-                substrate[landing_row - 3, position] = i
-                substrate[landing_row - 1, position + 1] = i
+                self.substrate[landing_row - 1, position] = i
+                self.substrate[landing_row - 2, position] = i
+                self.substrate[landing_row - 3, position] = i
+                self.substrate[landing_row - 1, position + 1] = i
             case 1:
-                substrate[landing_row - 1, position] = i
-                substrate[landing_row - 1, position - 1] = i
-                substrate[landing_row - 1, position - 2] = i
-                substrate[landing_row - 2, position] = i
+                self.substrate[landing_row - 1, position] = i
+                self.substrate[landing_row - 1, position - 1] = i
+                self.substrate[landing_row - 1, position - 2] = i
+                self.substrate[landing_row - 2, position] = i
             case 2:
-                substrate[landing_row - 1, position] = i
-                substrate[landing_row - 1, position - 1] = i
-                substrate[landing_row + 0, position] = i
-                substrate[landing_row + 1, position] = i
+                self.substrate[landing_row - 1, position] = i
+                self.substrate[landing_row - 1, position - 1] = i
+                self.substrate[landing_row + 0, position] = i
+                self.substrate[landing_row + 1, position] = i
             case 3:
-                substrate[landing_row - 1, position] = i
-                substrate[landing_row, position] = i
-                substrate[landing_row - 1, position + 1] = i
-                substrate[landing_row - 1, position + 2] = i
+                self.substrate[landing_row - 1, position] = i
+                self.substrate[landing_row, position] = i
+                self.substrate[landing_row - 1, position + 1] = i
+                self.substrate[landing_row - 1, position + 2] = i
 
     def Update_L(self, i, rot=0):
         """
@@ -404,18 +401,15 @@ class Tetris_Ballistic:
         int: The particle ID or the step number that has been placed in this step.
             + If the value is -1, it means it reaches to the top.
         """
-        global substrate
-        [width, height] = substrate.shape
-
         next = i
         match rot:
             case 0:
-                position = random.randint(0, width - 2)
+                position = random.randint(0, self.width - 2)
 
-                landing_row_outleft  = self.ffnz(position - 1) + 1 if position > 0 else self.height
-                landing_row_pivot  = self.ffnz(position)
-                landing_row_right  = self.ffnz(position + 1) if position < self.width - 1 else self.height
-                landing_row_outright  = self.ffnz(position + 2) + 1 if position < self.width - 2 else self.height
+                landing_row_outleft = self.ffnz(position - 1) + 1 if position > 0 else self.height
+                landing_row_pivot = self.ffnz(position)
+                landing_row_right = self.ffnz(position + 1) if position < self.width - 1 else self.height
+                landing_row_outright = self.ffnz(position + 2) + 1 if position < self.width - 2 else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -429,15 +423,15 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                place_L(position, landing_row, next, rot=0)
+                self.place_L(position, landing_row, next, rot)
             case 1:
-                position = random.randint(2, width - 1)
+                position = random.randint(2, self.width - 1)
 
-                landing_row_outright  = self.ffnz(position + 1) + 1 if position < self.width - 1 else self.height
-                landing_row_pivot  = self.ffnz(position)
-                landing_row_left1  = self.ffnz(position - 1) if position > 1 else self.height
-                landing_row_left2  = self.ffnz(position - 2) if position > 2 else self.height
-                landing_row_outleft  = self.ffnz(position - 3) + 1 if position > 3 else self.height
+                landing_row_outright = self.ffnz(position + 1) + 1 if position < self.width - 1 else self.height
+                landing_row_pivot = self.ffnz(position)
+                landing_row_left1 = self.ffnz(position - 1) if position > 1 else self.height
+                landing_row_left2 = self.ffnz(position - 2) if position > 2 else self.height
+                landing_row_outleft = self.ffnz(position - 3) + 1 if position > 3 else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -452,14 +446,14 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                place_L(position, landing_row, next, rot=0)
+                self.place_L(position, landing_row, next, rot)
             case 2:
-                position = random.randint(1, width - 1)
+                position = random.randint(1, self.width - 1)
 
-                landing_row_outright  = self.ffnz(position + 1) + 1 if position < self.width - 1 else self.height
-                landing_row_pivot  = self.ffnz(position)
-                landing_row_outleft1  = self.ffnz(position - 1) + 1 if position > 1 else self.height
-                landing_row_outleft2  = self.ffnz(position - 2) + 3 if position > 2 else self.height
+                landing_row_outright = self.ffnz(position + 1) + 1 if position < self.width - 1 else self.height
+                landing_row_pivot = self.ffnz(position)
+                landing_row_outleft1 = self.ffnz(position - 1) + 1 if position > 1 else self.height
+                landing_row_outleft2 = self.ffnz(position - 2) + 3 if position > 2 else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -473,15 +467,15 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                place_L(position, landing_row - 2, next, rot=0)
+                self.place_L(position, landing_row - 2, next, rot)
             case 3:
-                position = random.randint(0, width - 3)
+                position = random.randint(0, self.width - 3)
 
-                landing_row_outright  = self.ffnz(position + 3) + 2 if position < self.width - 3 else self.height
-                landing_row_right1  = self.ffnz(position + 1) + 1 if position < self.width - 1 else self.height
-                landing_row_right2  = self.ffnz(position + 2) + 1 if position < self.width - 2 else self.height
-                landing_row_pivot  = self.ffnz(position)
-                landing_row_outleft  = self.ffnz(position - 1) + 1 if position > 1 else self.height
+                landing_row_outright = self.ffnz(position + 3) + 2 if position < self.width - 3 else self.height
+                landing_row_right1 = self.ffnz(position + 1) + 1 if position < self.width - 1 else self.height
+                landing_row_right2 = self.ffnz(position + 2) + 1 if position < self.width - 2 else self.height
+                landing_row_pivot = self.ffnz(position)
+                landing_row_outleft = self.ffnz(position - 1) + 1 if position > 1 else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -496,7 +490,7 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                place_L(position, landing_row - 1, next, rot=0)
+                self.place_L(position, landing_row - 1, next, rot)
 
         return next
 
@@ -506,13 +500,12 @@ class Tetris_Ballistic:
         """
         i = 0
         steps = 30
-        global substrate
         for rot in range(4):
-            print("Test rotation ", rot=0)
+            print("Test rotation ", rot)
             # Reset the substrate
-            substrate = np.zeros((height, width))
+            self.substrate = np.zeros((self.height, self.width))
             while i < steps:
-                i = Update_L(i, rot=0)
+                i = self.Update_L(i, rot)
                 if i == -1:
                     print("Game Over, reach the top")
                     break
@@ -546,29 +539,27 @@ class Tetris_Ballistic:
         Return:
             None
         """
-        global substrate
-
         match rot:
             case 0:
-                substrate[landing_row - 1, position] = i
-                substrate[landing_row - 2, position] = i
-                substrate[landing_row - 3, position] = i
-                substrate[landing_row - 1, position - 1] = i
+                self.substrate[landing_row - 1, position] = i
+                self.substrate[landing_row - 2, position] = i
+                self.substrate[landing_row - 3, position] = i
+                self.substrate[landing_row - 1, position - 1] = i
             case 1:
-                substrate[landing_row - 1, position] = i
-                substrate[landing_row - 1, position - 1] = i
-                substrate[landing_row - 1, position - 2] = i
-                substrate[landing_row - 0, position] = i
+                self.substrate[landing_row - 1, position] = i
+                self.substrate[landing_row - 1, position - 1] = i
+                self.substrate[landing_row - 1, position - 2] = i
+                self.substrate[landing_row - 0, position] = i
             case 2:
-                substrate[landing_row - 1, position] = i
-                substrate[landing_row - 1, position + 1] = i
-                substrate[landing_row + 0, position] = i
-                substrate[landing_row + 1, position] = i
+                self.substrate[landing_row - 1, position] = i
+                self.substrate[landing_row - 1, position + 1] = i
+                self.substrate[landing_row + 0, position] = i
+                self.substrate[landing_row + 1, position] = i
             case 3:
-                substrate[landing_row - 1, position] = i
-                substrate[landing_row - 2, position] = i
-                substrate[landing_row - 1, position + 1] = i
-                substrate[landing_row - 1, position + 2] = i
+                self.substrate[landing_row - 1, position] = i
+                self.substrate[landing_row - 2, position] = i
+                self.substrate[landing_row - 1, position + 1] = i
+                self.substrate[landing_row - 1, position + 2] = i
 
     def Update_J(self, i, rot=0):
         """
@@ -595,19 +586,17 @@ class Tetris_Ballistic:
         int: The particle ID or the step number that has been placed in this step.
             + If the value is -1, it means it reaches to the top.
         """
-        global substrate
-        [width, height] = substrate.shape
-        position = random.randint(0, width - 1)
+        position = random.randint(0, self.width - 1)
 
         next = i
         match rot:
             case 0:
-                position = random.randint(1, width - 1)
+                position = random.randint(1, self.width - 1)
 
-                landing_row_outleft  = self.ffnz(position - 2) + 1 if position > 2 else self.height
-                landing_row_left  = self.ffnz(position - 1) if position > 1 else self.height
-                landing_row_pivot  = self.ffnz(position)
-                landing_row_outright  = self.ffnz(position + 1) + 1 if position < self.width - 1 else self.height
+                landing_row_outleft = self.ffnz(position - 2) + 1 if position > 2 else self.height
+                landing_row_left = self.ffnz(position - 1) if position > 1 else self.height
+                landing_row_pivot = self.ffnz(position)
+                landing_row_outright = self.ffnz(position + 1) + 1 if position < self.width - 1 else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -621,15 +610,15 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                place_J(position, landing_row, next, rot=0)
+                self.place_J(position, landing_row, next, rot)
             case 1:
-                position = random.randint(2, width - 1)
+                position = random.randint(2, self.width - 1)
 
-                landing_row_outright  = self.ffnz(position + 1) + 1 if position < self.width - 1 else self.height
-                landing_row_pivot  = self.ffnz(position)
-                landing_row_left1  = self.ffnz(position - 1) if position > 1 else self.height
-                landing_row_left2  = self.ffnz(position - 2) if position > 2 else self.height
-                landing_row_outleft  = self.ffnz(position - 3) + 2 if position > 3 else self.height
+                landing_row_outright = self.ffnz(position + 1) + 1 if position < self.width - 1 else self.height
+                landing_row_pivot = self.ffnz(position)
+                landing_row_left1 = self.ffnz(position - 1) if position > 1 else self.height
+                landing_row_left2 = self.ffnz(position - 2) if position > 2 else self.height
+                landing_row_outleft = self.ffnz(position - 3) + 2 if position > 3 else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -644,14 +633,14 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                place_J(position, landing_row - 1, next, rot=0)
+                self.place_J(position, landing_row - 1, next, rot)
             case 2:
-                position = random.randint(0, width - 2)
+                position = random.randint(0, self.width - 2)
 
-                landing_row_outright1  = self.ffnz(position + 1) + 1 if position < self.width - 1 else self.height
-                landing_row_outright2  = self.ffnz(position + 2) + 3 if position < self.width - 2 else self.height
-                landing_row_pivot  = self.ffnz(position)
-                landing_row_outleft  = self.ffnz(position - 1) + 1 if position > 1 else self.height
+                landing_row_outright1 = self.ffnz(position + 1) + 1 if position < self.width - 1 else self.height
+                landing_row_outright2 = self.ffnz(position + 2) + 3 if position < self.width - 2 else self.height
+                landing_row_pivot = self.ffnz(position)
+                landing_row_outleft = self.ffnz(position - 1) + 1 if position > 1 else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -665,15 +654,15 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                place_J(position, landing_row - 2, next, rot=0)
+                self.place_J(position, landing_row - 2, next, rot)
             case 3:
-                position = random.randint(0, width - 3)
+                position = random.randint(0, self.width - 3)
 
-                landing_row_outright  = self.ffnz(position + 3) + 1 if position < self.width - 3 else self.height
-                landing_row_right1  = self.ffnz(position + 1) if position < self.width - 1 else self.height
-                landing_row_right2  = self.ffnz(position + 2) if position < self.width - 2 else self.height
-                landing_row_pivot  = self.ffnz(position)
-                landing_row_outleft  = self.ffnz(position - 1) + 1 if position > 1 else self.height
+                landing_row_outright = self.ffnz(position + 3) + 1 if position < self.width - 3 else self.height
+                landing_row_right1 = self.ffnz(position + 1) if position < self.width - 1 else self.height
+                landing_row_right2 = self.ffnz(position + 2) if position < self.width - 2 else self.height
+                landing_row_pivot = self.ffnz(position)
+                landing_row_outleft = self.ffnz(position - 1) + 1 if position > 1 else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -688,7 +677,7 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                place_J(position, landing_row, next, rot=0)
+                self.place_J(position, landing_row, next, rot)
 
         return next
 
@@ -698,13 +687,12 @@ class Tetris_Ballistic:
         """
         i = 0
         steps = 30
-        global substrate
         for rot in range(4):
-            print("Test rotation ", rot=0)
+            print("Test rotation ", rot)
             # Reset the substrate
-            substrate = np.zeros((height, width))
+            self.substrate = np.zeros((self.height, self.width))
             while i < steps:
-                i = Update_J(i, rot=0)
+                i = self.Update_J(i, rot)
                 if i == -1:
                     print("Game Over, reach the top")
                     break
@@ -738,29 +726,27 @@ class Tetris_Ballistic:
         Return:
             None
         """
-        global substrate
-
         match rot:
             case 0:
-                substrate[landing_row - 1, position] = i
-                substrate[landing_row - 1, position + 1] = i
-                substrate[landing_row - 1, position - 1] = i
-                substrate[landing_row - 0, position] = i
+                self.substrate[landing_row - 1, position] = i
+                self.substrate[landing_row - 1, position + 1] = i
+                self.substrate[landing_row - 1, position - 1] = i
+                self.substrate[landing_row - 0, position] = i
             case 1:
-                substrate[landing_row - 1, position] = i
-                substrate[landing_row - 2, position] = i
-                substrate[landing_row - 0, position] = i
-                substrate[landing_row - 1, position + 1] = i
+                self.substrate[landing_row - 1, position] = i
+                self.substrate[landing_row - 2, position] = i
+                self.substrate[landing_row - 0, position] = i
+                self.substrate[landing_row - 1, position + 1] = i
             case 2:
-                substrate[landing_row - 1, position] = i
-                substrate[landing_row - 1, position + 1] = i
-                substrate[landing_row - 1, position - 1] = i
-                substrate[landing_row - 2, position] = i
+                self.substrate[landing_row - 1, position] = i
+                self.substrate[landing_row - 1, position + 1] = i
+                self.substrate[landing_row - 1, position - 1] = i
+                self.substrate[landing_row - 2, position] = i
             case 3:
-                substrate[landing_row - 1, position] = i
-                substrate[landing_row - 1, position - 1] = i
-                substrate[landing_row - 2, position] = i
-                substrate[landing_row - 0, position] = i
+                self.substrate[landing_row - 1, position] = i
+                self.substrate[landing_row - 1, position - 1] = i
+                self.substrate[landing_row - 2, position] = i
+                self.substrate[landing_row - 0, position] = i
 
     def Update_T(self, i, rot=0):
         """
@@ -774,19 +760,16 @@ class Tetris_Ballistic:
             int: The particle ID or the step number that has been placed in this step.
                 + If the value is -1, it means it reaches to the top.
         """
-        global substrate
-        [width, height] = substrate.shape
-
         next = i
         match rot:
             case 0:
-                position = random.randint(1, width - 2)
+                position = random.randint(1, self.width - 2)
 
-                landing_row_outleft  = self.ffnz(position - 2) + 2 if position > 2 else self.height
-                landing_row_left  = self.ffnz(position - 1) + 1 if position > 1 else self.height
-                landing_row_pivot  = self.ffnz(position)
-                landing_row_right  = self.ffnz(position + 1) + 1 if position < self.width - 1 else self.height
-                landing_row_outright  = self.ffnz(position + 2) + 2 if position < self.width - 2 else self.height
+                landing_row_outleft = self.ffnz(position - 2) + 2 if position > 2 else self.height
+                landing_row_left = self.ffnz(position - 1) + 1 if position > 1 else self.height
+                landing_row_pivot = self.ffnz(position)
+                landing_row_right = self.ffnz(position + 1) + 1 if position < self.width - 1 else self.height
+                landing_row_outright = self.ffnz(position + 2) + 2 if position < self.width - 2 else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -801,14 +784,14 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                place_T(position, landing_row - 1, next, rot=0)
+                self.place_T(position, landing_row - 1, next, rot)
             case 1:
-                position = random.randint(0, width - 2)
+                position = random.randint(0, self.width - 2)
 
-                landing_row_outright  = self.ffnz(position + 2) + 2 if position < self.width - 2 else self.height
-                landing_row_right  = self.ffnz(position + 1) + 1 if position < self.width - 1 else self.height
-                landing_row_pivot  = self.ffnz(position)
-                landing_row_outleft  = self.ffnz(position - 1) + 1 if position > 1 else self.height
+                landing_row_outright = self.ffnz(position + 2) + 2 if position < self.width - 2 else self.height
+                landing_row_right = self.ffnz(position + 1) + 1 if position < self.width - 1 else self.height
+                landing_row_pivot = self.ffnz(position)
+                landing_row_outleft = self.ffnz(position - 1) + 1 if position > 1 else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -822,15 +805,15 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                place_T(position, landing_row - 1, next, rot=0)
+                self.place_T(position, landing_row - 1, next, rot)
             case 2:
-                position = random.randint(1, width - 2)
+                position = random.randint(1, self.width - 2)
 
-                landing_row_outright  = self.ffnz(position + 2) + 1 if position < self.width - 2 else self.height
-                landing_row_right  = self.ffnz(position + 1) if position < self.width - 1 else self.height
-                landing_row_pivot  = self.ffnz(position)
-                landing_row_left  = self.ffnz(position - 1) if position > 1 else self.height
-                landing_row_outleft  = self.ffnz(position - 2) + 1 if position > 2 else self.height
+                landing_row_outright = self.ffnz(position + 2) + 1 if position < self.width - 2 else self.height
+                landing_row_right = self.ffnz(position + 1) if position < self.width - 1 else self.height
+                landing_row_pivot = self.ffnz(position)
+                landing_row_left = self.ffnz(position - 1) if position > 1 else self.height
+                landing_row_outleft = self.ffnz(position - 2) + 1 if position > 2 else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -845,14 +828,14 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                place_T(position, landing_row, next, rot=0)
+                self.place_T(position, landing_row, next, rot)
             case 3:
-                position = random.randint(1, width - 1)
+                position = random.randint(1, self.width - 1)
 
-                landing_row_outright  = self.ffnz(position + 1) + 1 if position < self.width - 1 else self.height
-                landing_row_pivot  = self.ffnz(position)
-                landing_row_left  = self.ffnz(position - 1) if position > 1 else self.height
-                landing_row_outleft  = self.ffnz(position - 2) + 1 if position > 2 else self.height
+                landing_row_outright = self.ffnz(position + 1) + 1 if position < self.width - 1 else self.height
+                landing_row_pivot = self.ffnz(position)
+                landing_row_left = self.ffnz(position - 1) if position > 1 else self.height
+                landing_row_outleft = self.ffnz(position - 2) + 1 if position > 2 else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -866,7 +849,7 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                place_T(position, landing_row - 1, next, rot=0)
+                self.place_T(position, landing_row - 1, next, rot)
 
         return next
 
@@ -876,13 +859,13 @@ class Tetris_Ballistic:
         """
         i = 0
         steps = 30
-        global substrate
+
         for rot in range(4):
-            print("Test rotation ", rot=0)
+            print("Test rotation ", rot)
             # Reset the substrate
-            substrate = np.zeros((height, width))
+            self.substrate = np.zeros((self.height, self.width))
             while i < steps:
-                i = Update_T(i, rot=0)
+                i = self.Update_T(i, rot)
                 if i == -1:
                     print("Game Over, reach the top")
                     break
@@ -909,19 +892,17 @@ class Tetris_Ballistic:
         Return:
             None
         """
-        global substrate
-
         match rot:
             case 0 | 2:
-                substrate[landing_row - 1, position] = i
-                substrate[landing_row - 1, position - 1] = i
-                substrate[landing_row - 2, position + 1] = i
-                substrate[landing_row - 2, position] = i
+                self.substrate[landing_row - 1, position] = i
+                self.substrate[landing_row - 1, position - 1] = i
+                self.substrate[landing_row - 2, position + 1] = i
+                self.substrate[landing_row - 2, position] = i
             case 1 | 3:
-                substrate[landing_row - 1, position] = i
-                substrate[landing_row - 0, position] = i
-                substrate[landing_row - 1, position - 1] = i
-                substrate[landing_row - 2, position - 1] = i
+                self.substrate[landing_row - 1, position] = i
+                self.substrate[landing_row - 0, position] = i
+                self.substrate[landing_row - 1, position - 1] = i
+                self.substrate[landing_row - 2, position - 1] = i
 
     def Update_S(self, i, rot=0):
         """
@@ -934,19 +915,16 @@ class Tetris_Ballistic:
         Returns:
             numpy.ndarray: The updated substrate.
         """
-        global substrate
-        [width, height] = substrate.shape
-
         next = i
         match rot:
             case 0 | 2:
-                position = random.randint(1, width - 2)
+                position = random.randint(1, self.width - 2)
 
-                landing_row_outleft  = self.ffnz(position - 2) + 1 if position > 2 else self.height
-                landing_row_left  = self.ffnz(position - 1) if position > 1 else self.height
-                landing_row_pivot  = self.ffnz(position)
-                landing_row_outright1  = self.ffnz(position + 1) + 1 if position < self.width - 1 else self.height
-                landing_row_outright2  = self.ffnz(position + 2) + 2 if position < self.width - 2 else self.height
+                landing_row_outleft = self.ffnz(position - 2) + 1 if position > 2 else self.height
+                landing_row_left = self.ffnz(position - 1) if position > 1 else self.height
+                landing_row_pivot = self.ffnz(position)
+                landing_row_outright1 = self.ffnz(position + 1) + 1 if position < self.width - 1 else self.height
+                landing_row_outright2 = self.ffnz(position + 2) + 2 if position < self.width - 2 else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -961,14 +939,14 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                place_S(position, landing_row, next, rot=0)
+                self.place_S(position, landing_row, next, rot)
             case 1 | 3:
-                position = random.randint(1, width - 1)
+                position = random.randint(1, self.width - 1)
 
-                landing_row_outleft2  = self.ffnz(position - 2) + 2 if position > 2 else self.height
-                landing_row_outleft1  = self.ffnz(position - 1) + 1 if position > 1 else self.height
-                landing_row_pivot  = self.ffnz(position)
-                landing_row_outright  = self.ffnz(position + 1) + 1 if position < self.width - 1 else self.height
+                landing_row_outleft2 = self.ffnz(position - 2) + 2 if position > 2 else self.height
+                landing_row_outleft1 = self.ffnz(position - 1) + 1 if position > 1 else self.height
+                landing_row_pivot = self.ffnz(position)
+                landing_row_outright = self.ffnz(position + 1) + 1 if position < self.width - 1 else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -982,7 +960,7 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                place_S(position, landing_row - 1, next, rot=0)
+                self.place_S(position, landing_row - 1, next, rot)
 
         return next
 
@@ -992,13 +970,13 @@ class Tetris_Ballistic:
         """
         i = 0
         steps = 30
-        global substrate
+
         for rot in range(4):
-            print("Test rotation ", rot=0)
+            print("Test rotation ", rot)
             # Reset the substrate
-            substrate = np.zeros((height, width))
+            self.substrate = np.zeros((self.height, self.width))
             while i < steps:
-                i = Update_S(i, rot=0)
+                i = self.Update_S(i, rot)
                 if i == -1:
                     print("Game Over, reach the top")
                     break
@@ -1025,19 +1003,17 @@ class Tetris_Ballistic:
         Return:
             None
         """
-        global substrate
-
         match rot:
             case 0 | 2:
-                substrate[landing_row - 1, position] = i
-                substrate[landing_row - 1, position + 1] = i
-                substrate[landing_row - 2, position - 1] = i
-                substrate[landing_row - 2, position] = i
+                self.substrate[landing_row - 1, position] = i
+                self.substrate[landing_row - 1, position + 1] = i
+                self.substrate[landing_row - 2, position - 1] = i
+                self.substrate[landing_row - 2, position] = i
             case 1 | 3:
-                substrate[landing_row - 1, position] = i
-                substrate[landing_row - 2, position] = i
-                substrate[landing_row - 1, position - 1] = i
-                substrate[landing_row - 0, position - 1] = i
+                self.substrate[landing_row - 1, position] = i
+                self.substrate[landing_row - 2, position] = i
+                self.substrate[landing_row - 1, position - 1] = i
+                self.substrate[landing_row - 0, position - 1] = i
 
     def Update_Z(self, i, rot=0):
         """
@@ -1050,19 +1026,16 @@ class Tetris_Ballistic:
         Returns:
             numpy.ndarray: The updated substrate.
         """
-        global substrate
-        [width, height] = substrate.shape
-
         next = i
         match rot:
             case 0 | 2:
-                position = random.randint(1, width - 2)
+                position = random.randint(1, self.width - 2)
 
-                landing_row_outleft2  = self.ffnz(position - 2) + 2 if position > 2 else self.height
-                landing_row_outleft1  = self.ffnz(position - 1) + 1 if position > 1 else self.height
-                landing_row_pivot  = self.ffnz(position)
-                landing_row_right  = self.ffnz(position + 1) if position < self.width - 1 else self.height
-                landing_row_outright  = self.ffnz(position + 2) + 1 if position < self.width - 2 else self.height
+                landing_row_outleft2 = self.ffnz(position - 2) + 2 if position > 2 else self.height
+                landing_row_outleft1 = self.ffnz(position - 1) + 1 if position > 1 else self.height
+                landing_row_pivot = self.ffnz(position)
+                landing_row_right = self.ffnz(position + 1) if position < self.width - 1 else self.height
+                landing_row_outright = self.ffnz(position + 2) + 1 if position < self.width - 2 else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -1077,14 +1050,14 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                place_Z(position, landing_row, next, rot=0)
+                self.place_Z(position, landing_row, next, rot)
             case 1 | 3:
-                position = random.randint(1, width - 1)
+                position = random.randint(1, self.width - 1)
 
-                landing_row_outleft  = self.ffnz(position - 2) + 1 if position > 2 else self.height
-                landing_row_left  = self.ffnz(position - 1) if position > 1 else self.height
-                landing_row_pivot  = self.ffnz(position) + 1
-                landing_row_outright  = self.ffnz(position + 1) + 2 if position < self.width - 1 else self.height
+                landing_row_outleft = self.ffnz(position - 2) + 1 if position > 2 else self.height
+                landing_row_left = self.ffnz(position - 1) if position > 1 else self.height
+                landing_row_pivot = self.ffnz(position) + 1
+                landing_row_outright = self.ffnz(position + 1) + 2 if position < self.width - 1 else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -1098,7 +1071,7 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                place_Z(position, landing_row - 1, next, rot=0)
+                self.place_Z(position, landing_row - 1, next, rot)
 
         return next
 
@@ -1108,92 +1081,85 @@ class Tetris_Ballistic:
         """
         i = 0
         steps = 30
-        global substrate
         for rot in range(4):
-            print("Test rotation ", rot=0)
+            print("Test rotation ", rot)
             # Reset the substrate
-            substrate = np.zeros((height, width))
+            self.substrate = np.zeros((self.height, self.width))
             while i < steps:
-                i = Update_Z(i, rot=0)
+                i = self.Update_Z(i, rot)
                 if i == -1:
                     print("Game Over, reach the top")
                     break
             print(self.substrate)
             input("")
 
+    def Test_All(self, steps):
+        """
+        This function simulates the Tetris Decomposition model on a substrate.
+
+        Args:
+            steps  (int): The steps to simulate.
+
+        Return:
+            None (print the final substrate)
+        """
+        # my_list = [0, 1, 4, 5, 6]
+        my_list = [0, 1, 2, 3, 4, 5, 6]
+        """
+        + 0 :  the square;
+        + 1 :  the line;
+        + 2 :  the L;
+        + 3 :  the J;
+        + 4 :  the T;
+        + 5 :  the S;
+        + 6 :  the Z.
+        """
+        rotation_list = [0, 1, 2, 3]
+        """
+        + 0 is the original orientation;
+        + 1 is the 90 degree rotation;
+        + 2 is the 180 degree rotation;
+        + 3 is the 270 degree rotation.
+        """
+        i = 0
+        print("i:", i, "steps:", steps)
+        while i < steps:
+            choice = [random.choice(my_list), random.choice(rotation_list)]
+
+            match choice[0]:
+                case 0:
+                    # Square case
+                    i = self.Update_O(i, choice[1])
+                case 1:
+                    # Line case
+                    i = self.Update_I(i, choice[1])
+                case 2:
+                    # L case
+                    i = self.Update_L(i, choice[1])
+                case 3:
+                    # J case
+                    i = self.Update_J(i, choice[1])
+                case 4:
+                    # T case
+                    i = self.Update_T(i, choice[1])
+                case 5:
+                    # S case
+                    i = self.Update_S(i, choice[1])
+                case 6:
+                    # Z case
+                    i = self.Update_Z(i, choice[1])
+                case _:
+                    # Error
+                    print("Wrong Choice of the Pieces")
+
+            if i == -1:
+                print("Game Over, reach the top")
+                break
+
+        print(self.substrate)
+
 
 # Example usage
-tetris_simulator = Tetris_Ballistic(grid_size=(10, 20), steps=100)
-tetris_simulator.simulate()
-
-
-def Tetris_Ballistic_backup(steps):
-    """
-    This function simulates the Tetris Decomposition model on a substrate.
-
-    Args:
-        steps  (int): The steps to simulate.
-
-    Return:
-        None (print the final substrate)
-    """
-    global substrate
-    [width, height] = substrate.shape
-
-    # my_list = [0, 1, 4, 5, 6]
-    my_list = [0, 1, 2, 3, 4, 5, 6]
-    """
-    + 0 :  the square;
-    + 1 :  the line;
-    + 2 :  the L;
-    + 3 :  the J;
-    + 4 :  the T;
-    + 5 :  the S;
-    + 6 :  the Z.
-    """
-    rotation_list = [0, 1, 2, 3]
-    """
-    + 0 is the original orientation;
-    + 1 is the 90 degree rotation;
-    + 2 is the 180 degree rotation;
-    + 3 is the 270 degree rotation.
-    """
-    i = 0
-    print("i:", i, "steps:", steps)
-    while i < steps:
-        choice = [random.choice(my_list), random.choice(rotation_list)]
-
-        match choice[0]:
-            case 0:
-                # Square case
-                i = Update_O(i, choice[1])
-            case 1:
-                # Line case
-                i = Update_I(i, choice[1])
-            case 2:
-                # L case
-                i = Update_L(i, choice[1])
-            case 3:
-                # J case
-                i = Update_J(i, choice[1])
-            case 4:
-                # T case
-                i = Update_T(i, choice[1])
-            case 5:
-                # S case
-                i = Update_S(i, choice[1])
-            case 6:
-                # Z case
-                i = Update_Z(i, choice[1])
-            case _:
-                # Error
-                print("Wrong Choice of the Pieces")
-
-        if i == -1:
-            print("Game Over, reach the top")
-            break
-
-    print(self.substrate)
-
-
-Tetris_Ballistic(30)
+tetris_simulator = Tetris_Ballistic(grid_size=(20, 20), steps=1000)
+tetris_simulator.Test_O()
+tetris_simulator.Test_L()
