@@ -1083,7 +1083,7 @@ def Update_S(i, rot):
             next = i + 1
             place_S(position, landing_row, next, rot)
         case 1 | 3:
-            position = random.randint(1, width - 2)
+            position = random.randint(1, width - 1)
 
             landing_row_outleft2 = ffnz(substrate, height, position - 2) + 2 if position > 2 else height
             landing_row_outleft1 = ffnz(substrate, height, position - 1) + 1 if position > 1 else height
@@ -1097,7 +1097,7 @@ def Update_S(i, rot):
                 landing_row_pivot,
                 landing_row_outright)
 
-            if landing_row < 2:
+            if landing_row < 3:
                 return -1
 
             # Place square based on the minimum landing row
@@ -1127,7 +1127,42 @@ def Test_S():
         input("")
 
 
-Test_S()
+# Test_S()
+
+
+def place_Z(position, landing_row, i, rot):
+    """
+    Place a Z with pivot given as follows:
+    + rot = 0 or 2
+       00
+        10
+    + rot = 1 or 3
+         0
+        01
+        0
+
+    Args:
+        position (int): The position or column of the pivot.
+        landing_row (int): The landing row of the pivot.
+        i (int): The step number.
+        rot (int): The rotation of the piece as described above.
+
+    Return:
+        None
+    """
+    global substrate
+
+    match rot:
+        case 0 | 2:
+            substrate[landing_row - 1, position] = i
+            substrate[landing_row - 1, position + 1] = i
+            substrate[landing_row - 2, position - 1] = i
+            substrate[landing_row - 2, position] = i
+        case 1 | 3:
+            substrate[landing_row - 1, position] = i
+            substrate[landing_row - 2, position] = i
+            substrate[landing_row - 1, position - 1] = i
+            substrate[landing_row - 0, position - 1] = i
 
 
 def Update_Z(i, rot):
@@ -1142,9 +1177,78 @@ def Update_Z(i, rot):
         numpy.ndarray: The updated substrate.
     """
     global substrate
+    [width, height] = substrate.shape
+
     next = i
-    print("Update a Z piece")
+    match rot:
+        case 0 | 2:
+            position = random.randint(1, width - 2)
+
+            landing_row_outleft2 = ffnz(substrate, height, position - 2) + 2 if position > 2 else height
+            landing_row_outleft1 = ffnz(substrate, height, position - 1) + 1 if position > 1 else height
+            landing_row_pivot = ffnz(substrate, height, position)
+            landing_row_right = ffnz(substrate, height, position + 1) if position < width - 1 else height
+            landing_row_outright = ffnz(substrate, height, position + 2) + 1 if position < width - 2 else height
+
+            # Find minimum landing row
+            landing_row = min(
+                landing_row_outleft2,
+                landing_row_outleft1,
+                landing_row_pivot,
+                landing_row_right,
+                landing_row_outright)
+
+            if landing_row < 2:
+                return -1
+
+            # Place square based on the minimum landing row
+            next = i + 1
+            place_Z(position, landing_row, next, rot)
+        case 1 | 3:
+            position = random.randint(1, width - 1)
+
+            landing_row_outleft = ffnz(substrate, height, position - 2) + 1 if position > 2 else height
+            landing_row_left = ffnz(substrate, height, position - 1) if position > 1 else height
+            landing_row_pivot = ffnz(substrate, height, position) + 1
+            landing_row_outright = ffnz(substrate, height, position + 1) + 2 if position < width - 1 else height
+
+            # Find minimum landing row
+            landing_row = min(
+                landing_row_outleft,
+                landing_row_left,
+                landing_row_pivot,
+                landing_row_outright)
+
+            if landing_row < 3:
+                return -1
+
+            # Place square based on the minimum landing row
+            next = i + 1
+            place_Z(position, landing_row - 1, next, rot)
+
     return next
 
+
+def Test_Z():
+    """
+    This is a test function for the Z piece.
+    """
+    i = 0
+    steps = 30
+    global substrate
+    for rot in range(4):
+        print("Test rotation ", rot)
+        # Reset the substrate
+        substrate = np.zeros((height, width))
+        while i < steps:
+            i = Update_Z(i, rot)
+            if i == -1:
+                print("Game Over, reach the top")
+                break
+        print(substrate)
+        input("")
+
+
+Test_Z()
 
 # Tetris_Ballistic(width, height, steps)
