@@ -6,6 +6,8 @@ functions to generate random Tetris pieces, calculate their landing positions
 on a substrate, and simulate a game of Tetris for a given number of steps and a
 defined grid size.
 
+https://en.wikipedia.org/wiki/Tetromino
+
 By Ian Ruau (iir0001@auburn.edu) and Mauricio Montes (mauricio.montes@auburn.edu)
 Date: 12/2023
 
@@ -157,7 +159,7 @@ def Tetris_Ballistic(steps):
         match choice[0]:
             case 0:
                 # Square case
-                i = Update_Q(i, choice[1])
+                i = Update_O(i, choice[1])
             case 1:
                 # Line case
                 i = Update_I(i, choice[1])
@@ -187,7 +189,7 @@ def Tetris_Ballistic(steps):
     print(substrate)
 
 
-def place_Q(position, landing_row, i):
+def place_O(position, landing_row, i):
     """
     Place a square with pivot at the bottom left corner on the global substrate:
         00
@@ -207,7 +209,7 @@ def place_Q(position, landing_row, i):
     substrate[landing_row - 2, position + 1] = i
 
 
-def Update_Q(i, rot):
+def Update_O(i, rot):
     """
     Updates the substrate with a square piece.
 
@@ -270,12 +272,12 @@ def Update_Q(i, rot):
     else:
         # Place square based on the minimum landing row
         next = i + 1
-        place_Q(position, landing_row, next)
+        place_O(position, landing_row, next)
 
     return next
 
 
-def Test_Q():
+def Test_O():
     """
     This is a test function for the square piece.
     """
@@ -287,7 +289,7 @@ def Test_Q():
         # Reset the substrate
         substrate = np.zeros((height, width))
         while i < steps:
-            i = Update_Q(i, rot)
+            i = Update_O(i, rot)
             if i == -1:
                 print("Game Over, reach the top")
                 break
@@ -295,7 +297,7 @@ def Test_Q():
         input("")
 
 
-# Test_Q()
+# Test_O()
 
 
 def place_I(position, landing_row, i, rot):
