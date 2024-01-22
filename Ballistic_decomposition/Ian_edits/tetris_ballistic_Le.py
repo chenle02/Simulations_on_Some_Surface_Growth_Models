@@ -1083,7 +1083,26 @@ def Update_S(i, rot):
             next = i + 1
             place_S(position, landing_row, next, rot)
         case 1 | 3:
-            pass
+            position = random.randint(1, width - 2)
+
+            landing_row_outleft2 = ffnz(substrate, height, position - 2) + 2 if position > 2 else height
+            landing_row_outleft1 = ffnz(substrate, height, position - 1) + 1 if position > 1 else height
+            landing_row_pivot = ffnz(substrate, height, position)
+            landing_row_outright = ffnz(substrate, height, position + 1) + 1 if position < width - 1 else height
+
+            # Find minimum landing row
+            landing_row = min(
+                landing_row_outleft1,
+                landing_row_outleft2,
+                landing_row_pivot,
+                landing_row_outright)
+
+            if landing_row < 2:
+                return -1
+
+            # Place square based on the minimum landing row
+            next = i + 1
+            place_S(position, landing_row - 1, next, rot)
 
     return next
 
@@ -1095,7 +1114,7 @@ def Test_S():
     i = 0
     steps = 30
     global substrate
-    for rot in range(1):
+    for rot in range(4):
         print("Test rotation ", rot)
         # Reset the substrate
         substrate = np.zeros((height, width))
