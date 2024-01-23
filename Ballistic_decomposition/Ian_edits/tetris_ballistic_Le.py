@@ -18,18 +18,23 @@ import random
 
 
 class Tetris_Ballistic:
-    def __init__(self, grid_size=[15, 15], steps=30):
+    def __init__(self, grid_size=[15, 15], steps=30, seed=None):
         """
         Initializes the Tetris_Ballistic simulation.
 
         Args:
             grid_size (tuple): The size of the grid (width, height).
             steps (int): The number of steps to simulate.
+            seed (int, optional): The seed for random number generation. If None, randomness is not controlled.
         """
         self.grid_size = grid_size
         self.steps = steps
         self.width, self.height = grid_size
         self.substrate = np.zeros(grid_size)  # Example initialization
+
+        if seed is not None:
+            random.seed(seed)
+            np.random.seed(seed)
 
     def Tetris_Choice(self):
         """
