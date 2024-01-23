@@ -165,7 +165,7 @@ class Tetris_Ballistic:
         self.substrate[landing_row - 1, position + 1] = i
         self.substrate[landing_row - 2, position + 1] = i
 
-    def Update_O(self, i):
+    def Update_O(self, i, sticky=True):
         """
         Updates the substrate with a square piece.
             00
@@ -173,6 +173,7 @@ class Tetris_Ballistic:
 
         Args:
             i (int): The step number.
+            sticky (bool): Whether the piece is sticky or not.
 
         Returns:
             int: The particle ID or the step number that has been placed in this step.
@@ -182,10 +183,10 @@ class Tetris_Ballistic:
 
         next = i
 
-        landing_row_outleft = self.ffnz(position - 1) + 1 if position > 1 else self.height
+        landing_row_outleft = self.ffnz(position - 1) + 1 if position > 1 and sticky else self.height
         landing_row_pivot = self.ffnz(position)
         landing_row_right = self.ffnz(position + 1) if position < self.width - 1 else self.height
-        landing_row_outright = self.ffnz(position + 2) + 1 if position < self.width - 2 else self.height
+        landing_row_outright = self.ffnz(position + 2) + 1 if position < self.width - 2 and sticky else self.height
 
         # Find minimum landing row
         landing_row = min(
@@ -214,7 +215,7 @@ class Tetris_Ballistic:
             self.reset()
             i = 0
             while i < self.steps:
-                i = self.Update_O(i)
+                i = self.Update_O(i, sticky=False)
                 if i == -1:
                     print("Game Over, reach the top")
                     break

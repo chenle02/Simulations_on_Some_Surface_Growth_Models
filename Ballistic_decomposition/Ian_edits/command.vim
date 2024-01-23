@@ -1,1 +1,1 @@
-set foldmethod=indent foldlevel=0 foldcolumn=0
+" set foldmethod=indent foldlevel=0 foldcolumn=0
