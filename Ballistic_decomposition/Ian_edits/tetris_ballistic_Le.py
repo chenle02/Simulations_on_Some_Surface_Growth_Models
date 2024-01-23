@@ -18,7 +18,7 @@ import random
 
 
 class Tetris_Ballistic:
-    def __init__(self, grid_size=[15, 15], steps=30, seed=None):
+    def __init__(self, width=16, height=32, steps=30, seed=None):
         """
         Initializes the Tetris_Ballistic simulation.
 
@@ -27,14 +27,21 @@ class Tetris_Ballistic:
             steps (int): The number of steps to simulate.
             seed (int, optional): The seed for random number generation. If None, randomness is not controlled.
         """
-        self.grid_size = grid_size
         self.steps = steps
-        self.width, self.height = grid_size
-        self.substrate = np.zeros(grid_size)  # Example initialization
+        self.width = width
+        self.height = height
+        self.substrate = np.zeros((self.height, self.width))
 
         if seed is not None:
             random.seed(seed)
             np.random.seed(seed)
+
+    def reset(self):
+        """
+        Resets the substrate to all zeros.
+        """
+        self.substrate = np.zeros((self.height, self.width))
+        print("Substrate has been reset to all zeros.")
 
     def Tetris_Choice(self):
         """
@@ -127,8 +134,8 @@ class Tetris_Ballistic:
         """
         # Check if the column index is within the valid range
         if column < 0 or column >= self.width:
-            raise ValueError("Column index is out of bounds")
             print("Column index is out of bounds")
+            raise ValueError("Column index is out of bounds")
 
         i = 0
         flag = self.height
@@ -193,6 +200,8 @@ class Tetris_Ballistic:
         # Place square based on the minimum landing row
         next = i + 1
         self.Place_O(position, landing_row, next)
+        # print(self.substrate)
+        # input("")
 
         return next
 
@@ -200,11 +209,9 @@ class Tetris_Ballistic:
         """
         This is a test function for the square piece.
         """
-        i = 0
         for rot in range(4):
             print("O piece, Test rotation ", rot)
-            # Reset the substrate
-            self.substrate = np.zeros((self.height, self.width))
+            self.reset()
             i = 0
             while i < self.steps:
                 i = self.Update_O(i)
@@ -326,8 +333,7 @@ class Tetris_Ballistic:
         """
         for rot in range(4):
             print("I piece, Test rotation ", rot)
-            # Reset the substrate
-            self.substrate = np.zeros((self.height, self.width))
+            self.reset()
             i = 0
             while i < self.steps:
                 i = self.Update_I(i, rot)
@@ -509,8 +515,7 @@ class Tetris_Ballistic:
         """
         for rot in range(4):
             print("L piece, Test rotation ", rot)
-            # Reset the substrate
-            self.substrate = np.zeros((self.height, self.width))
+            self.reset()
             i = 0
             while i < self.steps:
                 i = self.Update_L(i, rot)
@@ -695,8 +700,7 @@ class Tetris_Ballistic:
         """
         for rot in range(4):
             print("J piece, Test rotation ", rot)
-            # Reset the substrate
-            self.substrate = np.zeros((self.height, self.width))
+            self.reset()
             i = 0
             while i < self.steps:
                 i = self.Update_J(i, rot)
@@ -866,8 +870,7 @@ class Tetris_Ballistic:
         """
         for rot in range(4):
             print("T piece, Test rotation ", rot)
-            # Reset the substrate
-            self.substrate = np.zeros((self.height, self.width))
+            self.reset()
             i = 0
             while i < self.steps:
                 i = self.Update_T(i, rot)
@@ -976,8 +979,7 @@ class Tetris_Ballistic:
         """
         for rot in range(4):
             print("S piece, Test rotation ", rot)
-            # Reset the substrate
-            self.substrate = np.zeros((self.height, self.width))
+            self.reset()
             i = 0
             while i < self.steps:
                 i = self.Update_S(i, rot)
@@ -1086,8 +1088,7 @@ class Tetris_Ballistic:
         """
         for rot in range(4):
             print("Z piece, Test rotation ", rot)
-            # Reset the substrate
-            self.substrate = np.zeros((self.height, self.width))
+            self.reset()
             i = 0
             while i < self.steps:
                 i = self.Update_Z(i, rot)
@@ -1126,11 +1127,8 @@ class Tetris_Ballistic:
         + 2 is the 180 degree rotation;
         + 3 is the 270 degree rotation.
         """
-        # Reset the substrate
-        self.substrate = np.zeros((self.height, self.width))
+        self.reset()
         i = 0
-        # print("i:", i, "steps:", self.steps)
-        print(self.substrate)
         while i < self.steps:
             choice = [random.choice(my_list), random.choice(rotation_list)]
             match choice[0]:
@@ -1151,12 +1149,12 @@ class Tetris_Ballistic:
 
 
 # Example usage
-tetris_simulator = Tetris_Ballistic(grid_size=(16, 32), steps=1000, seed=42)
-# tetris_simulator.Test_O()
-# tetris_simulator.Test_I()
-# tetris_simulator.Test_L()
-# tetris_simulator.Test_J()
-# tetris_simulator.Test_T()
-# tetris_simulator.Test_S()
-# tetris_simulator.Test_Z()
+tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=1000, seed=42)
+tetris_simulator.Test_O()
+tetris_simulator.Test_I()
+tetris_simulator.Test_L()
+tetris_simulator.Test_J()
+tetris_simulator.Test_T()
+tetris_simulator.Test_S()
+tetris_simulator.Test_Z()
 tetris_simulator.Test_All()
