@@ -18,18 +18,30 @@ import random
 
 
 class Tetris_Ballistic:
-    def __init__(self, grid_size=[15, 15], steps=30):
+    def __init__(self, width=16, height=32, steps=30, seed=None):
         """
         Initializes the Tetris_Ballistic simulation.
 
         Args:
             grid_size (tuple): The size of the grid (width, height).
             steps (int): The number of steps to simulate.
+            seed (int, optional): The seed for random number generation. If None, randomness is not controlled.
         """
-        self.grid_size = grid_size
         self.steps = steps
-        self.width, self.height = grid_size
-        self.substrate = np.zeros(grid_size)  # Example initialization
+        self.width = width
+        self.height = height
+        self.substrate = np.zeros((self.height, self.width))
+
+        if seed is not None:
+            random.seed(seed)
+            np.random.seed(seed)
+
+    def reset(self):
+        """
+        Resets the substrate to all zeros.
+        """
+        self.substrate = np.zeros((self.height, self.width))
+        print("Substrate has been reset to all zeros.")
 
     def Tetris_Choice(self):
         """
@@ -120,6 +132,11 @@ class Tetris_Ballistic:
                 column contains only zeros, returns the value of self.height,
                 which indicates that no non-zero entry was found.
         """
+        # Check if the column index is within the valid range
+        if column < 0 or column >= self.width:
+            print("Column index is out of bounds")
+            raise ValueError("Column index is out of bounds")
+
         i = 0
         flag = self.height
         while (flag == self.height) and (i < self.height):
@@ -127,9 +144,10 @@ class Tetris_Ballistic:
                 i = i + 1
             else:
                 flag = i
+
         return flag
 
-    def place_O(self, position, landing_row, i):
+    def Place_O(self, position, landing_row, i):
         """
         Place a square with pivot at the bottom left corner on the :
             00
@@ -147,15 +165,14 @@ class Tetris_Ballistic:
         self.substrate[landing_row - 1, position + 1] = i
         self.substrate[landing_row - 2, position + 1] = i
 
-    def Update_O(self, i, rot=0):
+    def Update_O(self, i):
         """
         Updates the substrate with a square piece.
+            00
+            10
 
         Args:
             i (int): The step number.
-            rot (int): The rotation of the piece. By symmetry, all rotation will be treated as
-                00
-                10
 
         Returns:
             int: The particle ID or the step number that has been placed in this step.
@@ -182,7 +199,9 @@ class Tetris_Ballistic:
 
         # Place square based on the minimum landing row
         next = i + 1
-        self.place_O(position, landing_row, next)
+        self.Place_O(position, landing_row, next)
+        # print(self.substrate)
+        # input("")
 
         return next
 
@@ -190,21 +209,19 @@ class Tetris_Ballistic:
         """
         This is a test function for the square piece.
         """
-        i = 0
-        steps = 30
         for rot in range(4):
-            print("Test rotation ", rot)
-            # Reset the substrate
-            self.substrate = np.zeros((self.height, self.width))
-            while i < steps:
-                i = self.Update_O(i, rot)
+            print("O piece, Test rotation ", rot)
+            self.reset()
+            i = 0
+            while i < self.steps:
+                i = self.Update_O(i)
                 if i == -1:
                     print("Game Over, reach the top")
                     break
             print(self.substrate)
             input("")
 
-    def place_I(self, position, landing_row, i, rot=0):
+    def Place_I(self, position, landing_row, i, rot=0):
         """
         Place a square with pivot at the bottom left corner on the substrate:
             1000
@@ -287,7 +304,7 @@ class Tetris_Ballistic:
                     return -1
 
                 next = i + 1
-                self.place_I(position, landing_row, next, rot)
+                self.Place_I(position, landing_row, next, rot)
 
             case 1 | 3:
                 position = random.randint(0, self.width - 1)
@@ -306,7 +323,7 @@ class Tetris_Ballistic:
                     return -1
 
                 next = i + 1
-                self.place_I(position, landing_row, next, rot)
+                self.Place_I(position, landing_row, next, rot)
 
         return next
 
@@ -314,13 +331,11 @@ class Tetris_Ballistic:
         """
         This is a test function for the Line piece.
         """
-        i = 0
-        steps = 30
         for rot in range(4):
-            print("Test rotation ", rot)
-            # Reset the substrate
-            self.substrate = np.zeros((self.height, self.width))
-            while i < steps:
+            print("I piece, Test rotation ", rot)
+            self.reset()
+            i = 0
+            while i < self.steps:
                 i = self.Update_I(i, rot)
                 if i == -1:
                     print("Game Over, reach the top")
@@ -328,7 +343,7 @@ class Tetris_Ballistic:
             print(self.substrate)
             input("")
 
-    def place_L(self, position, landing_row, i, rot=0):
+    def Place_L(self, position, landing_row, i, rot=0):
         """
         Place an L with pivot at the corner.
         + rot = 0
@@ -423,7 +438,7 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                self.place_L(position, landing_row, next, rot)
+                self.Place_L(position, landing_row, next, rot)
             case 1:
                 position = random.randint(2, self.width - 1)
 
@@ -446,7 +461,7 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                self.place_L(position, landing_row, next, rot)
+                self.Place_L(position, landing_row, next, rot)
             case 2:
                 position = random.randint(1, self.width - 1)
 
@@ -467,7 +482,7 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                self.place_L(position, landing_row - 2, next, rot)
+                self.Place_L(position, landing_row - 2, next, rot)
             case 3:
                 position = random.randint(0, self.width - 3)
 
@@ -490,7 +505,7 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                self.place_L(position, landing_row - 1, next, rot)
+                self.Place_L(position, landing_row - 1, next, rot)
 
         return next
 
@@ -498,13 +513,11 @@ class Tetris_Ballistic:
         """
         This is a test function for the L piece.
         """
-        i = 0
-        steps = 30
         for rot in range(4):
-            print("Test rotation ", rot)
-            # Reset the substrate
-            self.substrate = np.zeros((self.height, self.width))
-            while i < steps:
+            print("L piece, Test rotation ", rot)
+            self.reset()
+            i = 0
+            while i < self.steps:
                 i = self.Update_L(i, rot)
                 if i == -1:
                     print("Game Over, reach the top")
@@ -512,7 +525,7 @@ class Tetris_Ballistic:
             print(self.substrate)
             input("")
 
-    def place_J(self, position, landing_row, i, rot=0):
+    def Place_J(self, position, landing_row, i, rot=0):
         """
         Place a J with pivot at the corner.
         + rot = 0
@@ -610,7 +623,7 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                self.place_J(position, landing_row, next, rot)
+                self.Place_J(position, landing_row, next, rot)
             case 1:
                 position = random.randint(2, self.width - 1)
 
@@ -633,7 +646,7 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                self.place_J(position, landing_row - 1, next, rot)
+                self.Place_J(position, landing_row - 1, next, rot)
             case 2:
                 position = random.randint(0, self.width - 2)
 
@@ -654,7 +667,7 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                self.place_J(position, landing_row - 2, next, rot)
+                self.Place_J(position, landing_row - 2, next, rot)
             case 3:
                 position = random.randint(0, self.width - 3)
 
@@ -677,7 +690,7 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                self.place_J(position, landing_row, next, rot)
+                self.Place_J(position, landing_row, next, rot)
 
         return next
 
@@ -685,13 +698,11 @@ class Tetris_Ballistic:
         """
         This is a test function for the J piece.
         """
-        i = 0
-        steps = 30
         for rot in range(4):
-            print("Test rotation ", rot)
-            # Reset the substrate
-            self.substrate = np.zeros((self.height, self.width))
-            while i < steps:
+            print("J piece, Test rotation ", rot)
+            self.reset()
+            i = 0
+            while i < self.steps:
                 i = self.Update_J(i, rot)
                 if i == -1:
                     print("Game Over, reach the top")
@@ -699,7 +710,7 @@ class Tetris_Ballistic:
             print(self.substrate)
             input("")
 
-    def place_T(self, position, landing_row, i, rot=0):
+    def Place_T(self, position, landing_row, i, rot=0):
         """
         Place a T with pivot at the center:
         + rot = 0
@@ -784,7 +795,7 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                self.place_T(position, landing_row - 1, next, rot)
+                self.Place_T(position, landing_row - 1, next, rot)
             case 1:
                 position = random.randint(0, self.width - 2)
 
@@ -805,7 +816,7 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                self.place_T(position, landing_row - 1, next, rot)
+                self.Place_T(position, landing_row - 1, next, rot)
             case 2:
                 position = random.randint(1, self.width - 2)
 
@@ -828,7 +839,7 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                self.place_T(position, landing_row, next, rot)
+                self.Place_T(position, landing_row, next, rot)
             case 3:
                 position = random.randint(1, self.width - 1)
 
@@ -849,7 +860,7 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                self.place_T(position, landing_row - 1, next, rot)
+                self.Place_T(position, landing_row - 1, next, rot)
 
         return next
 
@@ -857,14 +868,11 @@ class Tetris_Ballistic:
         """
         This is a test function for the J piece.
         """
-        i = 0
-        steps = 30
-
         for rot in range(4):
-            print("Test rotation ", rot)
-            # Reset the substrate
-            self.substrate = np.zeros((self.height, self.width))
-            while i < steps:
+            print("T piece, Test rotation ", rot)
+            self.reset()
+            i = 0
+            while i < self.steps:
                 i = self.Update_T(i, rot)
                 if i == -1:
                     print("Game Over, reach the top")
@@ -872,16 +880,16 @@ class Tetris_Ballistic:
             print(self.substrate)
             input("")
 
-    def place_S(self, position, landing_row, i, rot=0):
+    def Place_S(self, position, landing_row, i, rot=0):
         """
         Place an S with pivot given as follows:
         + rot = 0 or 2
-            00
-        01
+             00
+            01
         + rot = 1 or 3
             0
             01
-            0
+             0
 
         Args:
             position (int): The position or column of the pivot.
@@ -913,7 +921,8 @@ class Tetris_Ballistic:
             rot (int): The rotation of the piece.
 
         Returns:
-            numpy.ndarray: The updated substrate.
+            int: The particle ID or the step number that has been placed in this step.
+                + If the value is -1, it means it reaches to the top.
         """
         next = i
         match rot:
@@ -939,7 +948,7 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                self.place_S(position, landing_row, next, rot)
+                self.Place_S(position, landing_row, next, rot)
             case 1 | 3:
                 position = random.randint(1, self.width - 1)
 
@@ -960,7 +969,7 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                self.place_S(position, landing_row - 1, next, rot)
+                self.Place_S(position, landing_row - 1, next, rot)
 
         return next
 
@@ -968,14 +977,11 @@ class Tetris_Ballistic:
         """
         This is a test function for the S piece.
         """
-        i = 0
-        steps = 30
-
         for rot in range(4):
-            print("Test rotation ", rot)
-            # Reset the substrate
-            self.substrate = np.zeros((self.height, self.width))
-            while i < steps:
+            print("S piece, Test rotation ", rot)
+            self.reset()
+            i = 0
+            while i < self.steps:
                 i = self.Update_S(i, rot)
                 if i == -1:
                     print("Game Over, reach the top")
@@ -983,7 +989,7 @@ class Tetris_Ballistic:
             print(self.substrate)
             input("")
 
-    def place_Z(self, position, landing_row, i, rot=0):
+    def Place_Z(self, position, landing_row, i, rot=0):
         """
         Place a Z with pivot given as follows:
         + rot = 0 or 2
@@ -1024,7 +1030,8 @@ class Tetris_Ballistic:
             rot (int): The rotation of the piece.
 
         Returns:
-            numpy.ndarray: The updated substrate.
+            int: The particle ID or the step number that has been placed in this step.
+                + If the value is -1, it means it reaches to the top.
         """
         next = i
         match rot:
@@ -1050,7 +1057,7 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                self.place_Z(position, landing_row, next, rot)
+                self.Place_Z(position, landing_row, next, rot)
             case 1 | 3:
                 position = random.randint(1, self.width - 1)
 
@@ -1071,7 +1078,7 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                self.place_Z(position, landing_row - 1, next, rot)
+                self.Place_Z(position, landing_row - 1, next, rot)
 
         return next
 
@@ -1079,13 +1086,11 @@ class Tetris_Ballistic:
         """
         This is a test function for the Z piece.
         """
-        i = 0
-        steps = 30
         for rot in range(4):
-            print("Test rotation ", rot)
-            # Reset the substrate
-            self.substrate = np.zeros((self.height, self.width))
-            while i < steps:
+            print("Z piece, Test rotation ", rot)
+            self.reset()
+            i = 0
+            while i < self.steps:
                 i = self.Update_Z(i, rot)
                 if i == -1:
                     print("Game Over, reach the top")
@@ -1093,7 +1098,7 @@ class Tetris_Ballistic:
             print(self.substrate)
             input("")
 
-    def Test_All(self, steps):
+    def Test_All(self):
         """
         This function simulates the Tetris Decomposition model on a substrate.
 
@@ -1104,6 +1109,7 @@ class Tetris_Ballistic:
             None (print the final substrate)
         """
         # my_list = [0, 1, 4, 5, 6]
+        print("Test all pieces now ...")
         my_list = [0, 1, 2, 3, 4, 5, 6]
         """
         + 0 :  the square;
@@ -1121,36 +1127,19 @@ class Tetris_Ballistic:
         + 2 is the 180 degree rotation;
         + 3 is the 270 degree rotation.
         """
+        self.reset()
         i = 0
-        print("i:", i, "steps:", steps)
-        while i < steps:
+        while i < self.steps:
             choice = [random.choice(my_list), random.choice(rotation_list)]
-
             match choice[0]:
-                case 0:
-                    # Square case
-                    i = self.Update_O(i, choice[1])
-                case 1:
-                    # Line case
-                    i = self.Update_I(i, choice[1])
-                case 2:
-                    # L case
-                    i = self.Update_L(i, choice[1])
-                case 3:
-                    # J case
-                    i = self.Update_J(i, choice[1])
-                case 4:
-                    # T case
-                    i = self.Update_T(i, choice[1])
-                case 5:
-                    # S case
-                    i = self.Update_S(i, choice[1])
-                case 6:
-                    # Z case
-                    i = self.Update_Z(i, choice[1])
-                case _:
-                    # Error
-                    print("Wrong Choice of the Pieces")
+                case 0: i = self.Update_O(i)
+                case 1: i = self.Update_I(i, choice[1])
+                case 2: i = self.Update_L(i, choice[1])
+                case 3: i = self.Update_J(i, choice[1])
+                case 4: i = self.Update_T(i, choice[1])
+                case 5: i = self.Update_S(i, choice[1])
+                case 6: i = self.Update_Z(i, choice[1])
+                case _: print("Wrong Choice of the Pieces")
 
             if i == -1:
                 print("Game Over, reach the top")
@@ -1160,6 +1149,12 @@ class Tetris_Ballistic:
 
 
 # Example usage
-tetris_simulator = Tetris_Ballistic(grid_size=(20, 20), steps=1000)
+tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=1000, seed=42)
 tetris_simulator.Test_O()
+tetris_simulator.Test_I()
 tetris_simulator.Test_L()
+tetris_simulator.Test_J()
+tetris_simulator.Test_T()
+tetris_simulator.Test_S()
+tetris_simulator.Test_Z()
+tetris_simulator.Test_All()
