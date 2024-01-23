@@ -125,6 +125,11 @@ class Tetris_Ballistic:
                 column contains only zeros, returns the value of self.height,
                 which indicates that no non-zero entry was found.
         """
+        # Check if the column index is within the valid range
+        if column < 0 or column >= self.width:
+            raise ValueError("Column index is out of bounds")
+            print("Column index is out of bounds")
+
         i = 0
         flag = self.height
         while (flag == self.height) and (i < self.height):
@@ -132,6 +137,7 @@ class Tetris_Ballistic:
                 i = i + 1
             else:
                 flag = i
+
         return flag
 
     def Place_O(self, position, landing_row, i):
@@ -198,8 +204,8 @@ class Tetris_Ballistic:
         for rot in range(4):
             print("O piece, Test rotation ", rot)
             # Reset the substrate
-            i = 0
             self.substrate = np.zeros((self.height, self.width))
+            i = 0
             while i < self.steps:
                 i = self.Update_O(i)
                 if i == -1:
@@ -875,12 +881,12 @@ class Tetris_Ballistic:
         """
         Place an S with pivot given as follows:
         + rot = 0 or 2
-            00
-        01
+             00
+            01
         + rot = 1 or 3
             0
             01
-            0
+             0
 
         Args:
             position (int): The position or column of the pivot.
@@ -912,7 +918,8 @@ class Tetris_Ballistic:
             rot (int): The rotation of the piece.
 
         Returns:
-            numpy.ndarray: The updated substrate.
+            int: The particle ID or the step number that has been placed in this step.
+                + If the value is -1, it means it reaches to the top.
         """
         next = i
         match rot:
@@ -1021,7 +1028,8 @@ class Tetris_Ballistic:
             rot (int): The rotation of the piece.
 
         Returns:
-            numpy.ndarray: The updated substrate.
+            int: The particle ID or the step number that has been placed in this step.
+                + If the value is -1, it means it reaches to the top.
         """
         next = i
         match rot:
@@ -1100,6 +1108,7 @@ class Tetris_Ballistic:
             None (print the final substrate)
         """
         # my_list = [0, 1, 4, 5, 6]
+        print("Test all pieces now ...")
         my_list = [0, 1, 2, 3, 4, 5, 6]
         """
         + 0 :  the square;
@@ -1117,36 +1126,22 @@ class Tetris_Ballistic:
         + 2 is the 180 degree rotation;
         + 3 is the 270 degree rotation.
         """
+        # Reset the substrate
+        self.substrate = np.zeros((self.height, self.width))
         i = 0
         # print("i:", i, "steps:", self.steps)
+        print(self.substrate)
         while i < self.steps:
             choice = [random.choice(my_list), random.choice(rotation_list)]
-
             match choice[0]:
-                case 0:
-                    # Square case
-                    i = self.Update_O(i)
-                case 1:
-                    # Line case
-                    i = self.Update_I(i, choice[1])
-                case 2:
-                    # L case
-                    i = self.Update_L(i, choice[1])
-                case 3:
-                    # J case
-                    i = self.Update_J(i, choice[1])
-                case 4:
-                    # T case
-                    i = self.Update_T(i, choice[1])
-                case 5:
-                    # S case
-                    i = self.Update_S(i, choice[1])
-                case 6:
-                    # Z case
-                    i = self.Update_Z(i, choice[1])
-                case _:
-                    # Error
-                    print("Wrong Choice of the Pieces")
+                case 0: i = self.Update_O(i)
+                case 1: i = self.Update_I(i, choice[1])
+                case 2: i = self.Update_L(i, choice[1])
+                case 3: i = self.Update_J(i, choice[1])
+                case 4: i = self.Update_T(i, choice[1])
+                case 5: i = self.Update_S(i, choice[1])
+                case 6: i = self.Update_Z(i, choice[1])
+                case _: print("Wrong Choice of the Pieces")
 
             if i == -1:
                 print("Game Over, reach the top")
