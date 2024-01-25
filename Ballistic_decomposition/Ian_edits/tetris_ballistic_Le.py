@@ -18,7 +18,7 @@ import random
 
 
 class Tetris_Ballistic:
-    def __init__(self, width=16, height=32, steps=30, seed=None, sticky = True):
+    def __init__(self, width=16, height=32, steps=30, seed=None, sticky=True):
         """
         Initializes the Tetris_Ballistic simulation.
 
@@ -254,7 +254,7 @@ class Tetris_Ballistic:
             self.substrate[landing_row - 3, position] = i
             self.substrate[landing_row - 4, position] = i
 
-    def Update_I(self, i, rot=0, sticky = True):
+    def Update_I(self, i, rot=0, sticky=True):
         """
         Updates the substrate with a line piece.
 
@@ -393,7 +393,7 @@ class Tetris_Ballistic:
                 self.substrate[landing_row - 1, position + 1] = i
                 self.substrate[landing_row - 1, position + 2] = i
 
-    def Update_L(self, i, rot=0, sticky = True):
+    def Update_L(self, i, rot=0, sticky=True):
         """
         Updates the substrate with an L piece.
         + rot = 0
@@ -576,7 +576,7 @@ class Tetris_Ballistic:
                 self.substrate[landing_row - 1, position + 1] = i
                 self.substrate[landing_row - 1, position + 2] = i
 
-    def Update_J(self, i, rot=0, sticky = True):
+    def Update_J(self, i, rot=0, sticky=True):
         """
         Updates the substrate with a J piece.
         + rot = 0
@@ -761,7 +761,7 @@ class Tetris_Ballistic:
                 self.substrate[landing_row - 2, position] = i
                 self.substrate[landing_row - 0, position] = i
 
-    def Update_T(self, i, rot=0, sticky = True):
+    def Update_T(self, i, rot=0, sticky=True):
         """
         Updates the substrate with a T piece.
 
@@ -914,7 +914,7 @@ class Tetris_Ballistic:
                 self.substrate[landing_row - 1, position - 1] = i
                 self.substrate[landing_row - 2, position - 1] = i
 
-    def Update_S(self, i, rot=0, sticky =True):
+    def Update_S(self, i, rot=0, sticky=True):
         """
         Updates the substrate with an S piece.
 
@@ -1023,7 +1023,7 @@ class Tetris_Ballistic:
                 self.substrate[landing_row - 1, position - 1] = i
                 self.substrate[landing_row - 0, position - 1] = i
 
-    def Update_Z(self, i, rot=0, sticky = True):
+    def Update_Z(self, i, rot=0, sticky=True):
         """
         Updates the substrate with a Z piece.
 
