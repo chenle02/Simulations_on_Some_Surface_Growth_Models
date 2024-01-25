@@ -14,11 +14,12 @@ By Le Chen, Mauricio Montes and Ian Ruau
 
 import numpy as np
 import random
+import yaml
 # import argparse
 
 
 class Tetris_Ballistic:
-    def __init__(self, width=16, height=32, steps=30, seed=None, sticky=True):
+    def __init__(self, width=16, height=32, steps=30, seed=None, sticky=True, config_file=None):
         """
         Initializes the Tetris_Ballistic simulation.
 
@@ -32,10 +33,55 @@ class Tetris_Ballistic:
         self.width = width
         self.height = height
         self.substrate = np.zeros((self.height, self.width))
+        if config_file is not None and self.load_config(config_file):
+            # Configuration successfully loaded by load_config
+            print(f"Configure file {config_file} loaded successfully.")
+        else:
+            # Set default configuration if no file is provided or if load_config fails
+            print("No configure file, uniform distribution is set.")
+            self.config_data = np.ones(38)
 
         if seed is not None:
             random.seed(seed)
             np.random.seed(seed)
+
+    def load_config(self, filename):
+        """
+        Loads configuration data from a specified YAML file into the `config_data` attribute.
+
+        This method attempts to open and read the contents of the YAML file specified by `filename`. It then validates whether the file contains exactly 38 entries. If the file does not meet this requirement, a ValueError is raised. In case of a successful load, the configuration data is stored in the `config_data` attribute of the class instance.
+
+        Parameters:
+        filename (str): The path to the YAML configuration file to be loaded.
+
+        Returns:
+        bool: True if the file is successfully loaded and contains the correct number of entries, False otherwise.
+
+        Raises:
+        ValueError: If the YAML file does not contain exactly 38 entries.
+        yaml.YAMLError: If there is an error parsing the YAML file.
+
+        """
+        try:
+            with open(filename, 'r') as file:
+                raw_data = yaml.safe_load(file)
+                # Validate that the data contains 38 key-value pairs
+                if isinstance(raw_data, dict):
+                    self.config_data = {k: float(v) for k, v in raw_data.items()}
+                    print(f"Loaded: {self.config_data}")
+                    return True
+                else:
+                    print(f"Fail to load from {filename}")
+                    return False
+        except FileNotFoundError:
+            print(f"File not found: {filename}")
+            return False
+        except ValueError as ve:
+            print(f"Value error in configuration file: {ve}")
+            return False
+        except yaml.YAMLError as exc:
+            print(f"Error in configuration file: {exc}")
+            return False
 
     def reset(self):
         """
@@ -1151,12 +1197,13 @@ class Tetris_Ballistic:
 
 
 # Example usage
-tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=1000, seed=42)
-tetris_simulator.Test_O()
-tetris_simulator.Test_I()
-tetris_simulator.Test_L()
-tetris_simulator.Test_J()
-tetris_simulator.Test_T()
-tetris_simulator.Test_S()
-tetris_simulator.Test_Z()
-tetris_simulator.Test_All()
+# tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=1000, seed=42)
+tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=1000, seed=42, config_file="config.json")
+# tetris_simulator.Test_O()
+# tetris_simulator.Test_I()
+# tetris_simulator.Test_L()
+# tetris_simulator.Test_J()
+# tetris_simulator.Test_T()
+# tetris_simulator.Test_S()
+# tetris_simulator.Test_Z()
+# tetris_simulator.Test_All()
