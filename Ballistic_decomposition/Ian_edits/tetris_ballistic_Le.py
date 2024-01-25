@@ -28,22 +28,28 @@ class Tetris_Ballistic:
             steps (int): The number of steps to simulate.
             seed (int, optional): The seed for random number generation. If None, randomness is not controlled.
         """
-        self.sticky = sticky
-        self.steps = steps
-        self.width = width
-        self.height = height
-        self.substrate = np.zeros((self.height, self.width))
         if config_file is not None and self.load_config(config_file):
             # Configuration successfully loaded by load_config
             print(f"Configure file {config_file} loaded successfully.")
+            self.sticky = sticky
+            self.steps = int(self.config_data['steps'])
+            self.width = int(self.config_data['width'])
+            self.height = int(self.config_data['height'])
+            self.seed = self.config_data['seed']
         else:
             # Set default configuration if no file is provided or if load_config fails
             print("No configure file, uniform distribution is set.")
             self.config_data = np.ones(38)
+            self.sticky = sticky
+            self.steps = steps
+            self.width = width
+            self.height = height
+            if seed is not None:
+                random.seed(seed)
+                np.random.seed(seed)
 
-        if seed is not None:
-            random.seed(seed)
-            np.random.seed(seed)
+        self.substrate = np.zeros((self.height, self.width))
+
 
     def load_config(self, filename):
         """
@@ -1198,7 +1204,11 @@ class Tetris_Ballistic:
 
 # Example usage
 # tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=1000, seed=42)
-tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=1000, seed=42, config_file="config.json")
+tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=1000, seed=42)
+tetris_simulator.Test_All()
+tetris_simulator = Tetris_Ballistic(config_file="config.json")
+tetris_simulator.Test_All()
+
 # tetris_simulator.Test_O()
 # tetris_simulator.Test_I()
 # tetris_simulator.Test_L()
@@ -1206,4 +1216,4 @@ tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=1000, seed=42, co
 # tetris_simulator.Test_T()
 # tetris_simulator.Test_S()
 # tetris_simulator.Test_Z()
-# tetris_simulator.Test_All()
+tetris_simulator.Test_All()
