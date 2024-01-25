@@ -18,7 +18,7 @@ import random
 
 
 class Tetris_Ballistic:
-    def __init__(self, width=16, height=32, steps=30, seed=None):
+    def __init__(self, width=16, height=32, steps=30, seed=None, sticky = True):
         """
         Initializes the Tetris_Ballistic simulation.
 
@@ -27,6 +27,7 @@ class Tetris_Ballistic:
             steps (int): The number of steps to simulate.
             seed (int, optional): The seed for random number generation. If None, randomness is not controlled.
         """
+        self.sticky = sticky
         self.steps = steps
         self.width = width
         self.height = height
