@@ -14,11 +14,12 @@ By Le Chen, Mauricio Montes and Ian Ruau
 
 import numpy as np
 import random
+import yaml
 # import argparse
 
 
 class Tetris_Ballistic:
-    def __init__(self, width=16, height=32, steps=30, seed=None):
+    def __init__(self, width=16, height=32, steps=30, seed=None, sticky=True, config_file=None):
         """
         Initializes the Tetris_Ballistic simulation.
 
@@ -27,14 +28,65 @@ class Tetris_Ballistic:
             steps (int): The number of steps to simulate.
             seed (int, optional): The seed for random number generation. If None, randomness is not controlled.
         """
-        self.steps = steps
-        self.width = width
-        self.height = height
+        if config_file is not None and self.load_config(config_file):
+            # Configuration successfully loaded by load_config
+            print(f"Configure file {config_file} loaded successfully.")
+            self.sticky = sticky
+            self.steps = int(self.config_data['steps'])
+            self.width = int(self.config_data['width'])
+            self.height = int(self.config_data['height'])
+            self.seed = self.config_data['seed']
+        else:
+            # Set default configuration if no file is provided or if load_config fails
+            print("No configure file, uniform distribution is set.")
+            self.config_data = {f"Key-{i + 1}": 1 for i in range(38)}
+            self.sticky = sticky
+            self.steps = steps
+            self.width = width
+            self.height = height
+            if seed is not None:
+                random.seed(seed)
+                np.random.seed(seed)
+
         self.substrate = np.zeros((self.height, self.width))
 
-        if seed is not None:
-            random.seed(seed)
-            np.random.seed(seed)
+    def load_config(self, filename):
+        """
+        Loads configuration data from a specified YAML file into the `config_data` attribute.
+
+        This method attempts to open and read the contents of the YAML file specified by `filename`. It then validates whether the file contains exactly 38 entries. If the file does not meet this requirement, a ValueError is raised. In case of a successful load, the configuration data is stored in the `config_data` attribute of the class instance.
+
+        Parameters:
+        filename (str): The path to the YAML configuration file to be loaded.
+
+        Returns:
+        bool: True if the file is successfully loaded and contains the correct number of entries, False otherwise.
+
+        Raises:
+        ValueError: If the YAML file does not contain exactly 38 entries.
+        yaml.YAMLError: If there is an error parsing the YAML file.
+
+        """
+        try:
+            with open(filename, 'r') as file:
+                raw_data = yaml.safe_load(file)
+                # Validate that the data contains 38 key-value pairs
+                if isinstance(raw_data, dict):
+                    self.config_data = {k: float(v) for k, v in raw_data.items()}
+                    print(f"Loaded: {self.config_data}")
+                    return True
+                else:
+                    print(f"Fail to load from {filename}")
+                    return False
+        except FileNotFoundError:
+            print(f"File not found: {filename}")
+            return False
+        except ValueError as ve:
+            print(f"Value error in configuration file: {ve}")
+            return False
+        except yaml.YAMLError as exc:
+            print(f"Error in configuration file: {exc}")
+            return False
 
     def reset(self):
         """
@@ -42,6 +94,28 @@ class Tetris_Ballistic:
         """
         self.substrate = np.zeros((self.height, self.width))
         print("Substrate has been reset to all zeros.")
+
+    def Sample_Tetris(self):
+        """
+        Samples a Tetris piece given the probability distribution specified in the configuration file.
+
+        Returns:
+            numpy.ndarray: A 2-element array:
+            the first element is the piece type (0-6);
+            the second element is the orientation (0-3).
+
+        """
+        # Normalize the vector
+        probabilities = np.array([self.config_data[f"Key-{i+1}"] for i in range(38)])
+
+        # Normalize the vector
+        normalized_probabilities = probabilities / np.sum(probabilities)
+
+        # Use normalized probabilities for sampling
+        sample = np.random.choice(38, size=1, p=normalized_probabilities)
+
+        print(f"Sampled: {sample}")
+        return sample
 
     def Tetris_Choice(self):
         """
@@ -253,7 +327,7 @@ class Tetris_Ballistic:
             self.substrate[landing_row - 3, position] = i
             self.substrate[landing_row - 4, position] = i
 
-    def Update_I(self, i, rot=0):
+    def Update_I(self, i, rot=0, sticky=True):
         """
         Updates the substrate with a line piece.
 
@@ -285,12 +359,12 @@ class Tetris_Ballistic:
             case 0 | 2:
                 position = random.randint(0, self.width - 4)
 
-                landing_row_outleft = self.ffnz(position - 1) + 1 if position > 1 else self.height
+                landing_row_outleft = self.ffnz(position - 1) + 1 if position > 1 and sticky else self.height
                 landing_row_pivot = self.ffnz(position)
                 landing_row_right1 = self.ffnz(position + 1) if position < self.width - 1 else self.height
                 landing_row_right2 = self.ffnz(position + 2) if position < self.width - 2 else self.height
                 landing_row_right3 = self.ffnz(position + 3) if position < self.width - 3 else self.height
-                landing_row_outright = self.ffnz(position + 4) + 1 if position < self.width - 4 else self.height
+                landing_row_outright = self.ffnz(position + 4) + 1 if position < self.width - 4 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -310,9 +384,9 @@ class Tetris_Ballistic:
             case 1 | 3:
                 position = random.randint(0, self.width - 1)
 
-                landing_row_outleft = self.ffnz(position - 1) + 1 if position > 1 else self.height
+                landing_row_outleft = self.ffnz(position - 1) + 1 if position > 1 and sticky else self.height
                 landing_row_pivot = self.ffnz(position)
-                landing_row_outright = self.ffnz(position + 1) + 1 if position < self.width - 1 else self.height
+                landing_row_outright = self.ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -392,7 +466,7 @@ class Tetris_Ballistic:
                 self.substrate[landing_row - 1, position + 1] = i
                 self.substrate[landing_row - 1, position + 2] = i
 
-    def Update_L(self, i, rot=0):
+    def Update_L(self, i, rot=0, sticky=True):
         """
         Updates the substrate with an L piece.
         + rot = 0
@@ -400,12 +474,12 @@ class Tetris_Ballistic:
             0
             10
         + rot = 1
-            0
+              0
             001
         + rot = 2
             01
-            0
-            0
+             0
+             0
         + rot = 3
             100
             0
@@ -422,10 +496,10 @@ class Tetris_Ballistic:
             case 0:
                 position = random.randint(0, self.width - 2)
 
-                landing_row_outleft = self.ffnz(position - 1) + 1 if position > 0 else self.height
+                landing_row_outleft = self.ffnz(position - 1) + 1 if position > 0 and sticky else self.height
                 landing_row_pivot = self.ffnz(position)
                 landing_row_right = self.ffnz(position + 1) if position < self.width - 1 else self.height
-                landing_row_outright = self.ffnz(position + 2) + 1 if position < self.width - 2 else self.height
+                landing_row_outright = self.ffnz(position + 2) + 1 if position < self.width - 2 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -443,11 +517,11 @@ class Tetris_Ballistic:
             case 1:
                 position = random.randint(2, self.width - 1)
 
-                landing_row_outright = self.ffnz(position + 1) + 1 if position < self.width - 1 else self.height
+                landing_row_outright = self.ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self.height
                 landing_row_pivot = self.ffnz(position)
                 landing_row_left1 = self.ffnz(position - 1) if position > 1 else self.height
                 landing_row_left2 = self.ffnz(position - 2) if position > 2 else self.height
-                landing_row_outleft = self.ffnz(position - 3) + 1 if position > 3 else self.height
+                landing_row_outleft = self.ffnz(position - 3) + 1 if position > 3 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -466,10 +540,10 @@ class Tetris_Ballistic:
             case 2:
                 position = random.randint(1, self.width - 1)
 
-                landing_row_outright = self.ffnz(position + 1) + 1 if position < self.width - 1 else self.height
+                landing_row_outright = self.ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self.height
                 landing_row_pivot = self.ffnz(position)
-                landing_row_outleft1 = self.ffnz(position - 1) + 1 if position > 1 else self.height
-                landing_row_outleft2 = self.ffnz(position - 2) + 3 if position > 2 else self.height
+                landing_row_outleft1 = self.ffnz(position - 1) + 1 if position > 1 and sticky else self.height
+                landing_row_outleft2 = self.ffnz(position - 2) + 3 if position > 2 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -487,11 +561,11 @@ class Tetris_Ballistic:
             case 3:
                 position = random.randint(0, self.width - 3)
 
-                landing_row_outright = self.ffnz(position + 3) + 2 if position < self.width - 3 else self.height
+                landing_row_outright = self.ffnz(position + 3) + 2 if position < self.width - 3 and sticky else self.height
                 landing_row_right1 = self.ffnz(position + 1) + 1 if position < self.width - 1 else self.height
                 landing_row_right2 = self.ffnz(position + 2) + 1 if position < self.width - 2 else self.height
                 landing_row_pivot = self.ffnz(position)
-                landing_row_outleft = self.ffnz(position - 1) + 1 if position > 1 else self.height
+                landing_row_outleft = self.ffnz(position - 1) + 1 if position > 1 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -575,16 +649,16 @@ class Tetris_Ballistic:
                 self.substrate[landing_row - 1, position + 1] = i
                 self.substrate[landing_row - 1, position + 2] = i
 
-    def Update_J(self, i, rot=0):
+    def Update_J(self, i, rot=0, sticky=True):
         """
         Updates the substrate with a J piece.
         + rot = 0
-            0
-            0
+             0
+             0
             01
         + rot = 1
             001
-            0
+              0
         + rot = 2
             10
             0
@@ -607,10 +681,10 @@ class Tetris_Ballistic:
             case 0:
                 position = random.randint(1, self.width - 1)
 
-                landing_row_outleft = self.ffnz(position - 2) + 1 if position > 2 else self.height
+                landing_row_outleft = self.ffnz(position - 2) + 1 if position > 2 and sticky else self.height
                 landing_row_left = self.ffnz(position - 1) if position > 1 else self.height
                 landing_row_pivot = self.ffnz(position)
-                landing_row_outright = self.ffnz(position + 1) + 1 if position < self.width - 1 else self.height
+                landing_row_outright = self.ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -628,11 +702,11 @@ class Tetris_Ballistic:
             case 1:
                 position = random.randint(2, self.width - 1)
 
-                landing_row_outright = self.ffnz(position + 1) + 1 if position < self.width - 1 else self.height
+                landing_row_outright = self.ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self.height
                 landing_row_pivot = self.ffnz(position)
                 landing_row_left1 = self.ffnz(position - 1) if position > 1 else self.height
                 landing_row_left2 = self.ffnz(position - 2) if position > 2 else self.height
-                landing_row_outleft = self.ffnz(position - 3) + 2 if position > 3 else self.height
+                landing_row_outleft = self.ffnz(position - 3) + 2 if position > 3 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -651,10 +725,10 @@ class Tetris_Ballistic:
             case 2:
                 position = random.randint(0, self.width - 2)
 
-                landing_row_outright1 = self.ffnz(position + 1) + 1 if position < self.width - 1 else self.height
-                landing_row_outright2 = self.ffnz(position + 2) + 3 if position < self.width - 2 else self.height
+                landing_row_outright1 = self.ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self.height
+                landing_row_outright2 = self.ffnz(position + 2) + 3 if position < self.width - 2 and sticky else self.height
                 landing_row_pivot = self.ffnz(position)
-                landing_row_outleft = self.ffnz(position - 1) + 1 if position > 1 else self.height
+                landing_row_outleft = self.ffnz(position - 1) + 1 if position > 1 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -672,11 +746,11 @@ class Tetris_Ballistic:
             case 3:
                 position = random.randint(0, self.width - 3)
 
-                landing_row_outright = self.ffnz(position + 3) + 1 if position < self.width - 3 else self.height
+                landing_row_outright = self.ffnz(position + 3) + 1 if position < self.width - 3 and sticky else self.height
                 landing_row_right1 = self.ffnz(position + 1) if position < self.width - 1 else self.height
                 landing_row_right2 = self.ffnz(position + 2) if position < self.width - 2 else self.height
                 landing_row_pivot = self.ffnz(position)
-                landing_row_outleft = self.ffnz(position - 1) + 1 if position > 1 else self.height
+                landing_row_outleft = self.ffnz(position - 1) + 1 if position > 1 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -760,7 +834,7 @@ class Tetris_Ballistic:
                 self.substrate[landing_row - 2, position] = i
                 self.substrate[landing_row - 0, position] = i
 
-    def Update_T(self, i, rot=0):
+    def Update_T(self, i, rot=0, sticky=True):
         """
         Updates the substrate with a T piece.
 
@@ -777,11 +851,11 @@ class Tetris_Ballistic:
             case 0:
                 position = random.randint(1, self.width - 2)
 
-                landing_row_outleft = self.ffnz(position - 2) + 2 if position > 2 else self.height
+                landing_row_outleft = self.ffnz(position - 2) + 2 if position > 2 and sticky else self.height
                 landing_row_left = self.ffnz(position - 1) + 1 if position > 1 else self.height
                 landing_row_pivot = self.ffnz(position)
                 landing_row_right = self.ffnz(position + 1) + 1 if position < self.width - 1 else self.height
-                landing_row_outright = self.ffnz(position + 2) + 2 if position < self.width - 2 else self.height
+                landing_row_outright = self.ffnz(position + 2) + 2 if position < self.width - 2 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -800,10 +874,10 @@ class Tetris_Ballistic:
             case 1:
                 position = random.randint(0, self.width - 2)
 
-                landing_row_outright = self.ffnz(position + 2) + 2 if position < self.width - 2 else self.height
+                landing_row_outright = self.ffnz(position + 2) + 2 if position < self.width - 2 and sticky else self.height
                 landing_row_right = self.ffnz(position + 1) + 1 if position < self.width - 1 else self.height
                 landing_row_pivot = self.ffnz(position)
-                landing_row_outleft = self.ffnz(position - 1) + 1 if position > 1 else self.height
+                landing_row_outleft = self.ffnz(position - 1) + 1 if position > 1 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -821,11 +895,11 @@ class Tetris_Ballistic:
             case 2:
                 position = random.randint(1, self.width - 2)
 
-                landing_row_outright = self.ffnz(position + 2) + 1 if position < self.width - 2 else self.height
+                landing_row_outright = self.ffnz(position + 2) + 1 if position < self.width - 2 and sticky else self.height
                 landing_row_right = self.ffnz(position + 1) if position < self.width - 1 else self.height
                 landing_row_pivot = self.ffnz(position)
                 landing_row_left = self.ffnz(position - 1) if position > 1 else self.height
-                landing_row_outleft = self.ffnz(position - 2) + 1 if position > 2 else self.height
+                landing_row_outleft = self.ffnz(position - 2) + 1 if position > 2 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -844,10 +918,10 @@ class Tetris_Ballistic:
             case 3:
                 position = random.randint(1, self.width - 1)
 
-                landing_row_outright = self.ffnz(position + 1) + 1 if position < self.width - 1 else self.height
+                landing_row_outright = self.ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self.height
                 landing_row_pivot = self.ffnz(position)
                 landing_row_left = self.ffnz(position - 1) if position > 1 else self.height
-                landing_row_outleft = self.ffnz(position - 2) + 1 if position > 2 else self.height
+                landing_row_outleft = self.ffnz(position - 2) + 1 if position > 2 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -913,7 +987,7 @@ class Tetris_Ballistic:
                 self.substrate[landing_row - 1, position - 1] = i
                 self.substrate[landing_row - 2, position - 1] = i
 
-    def Update_S(self, i, rot=0):
+    def Update_S(self, i, rot=0, sticky=True):
         """
         Updates the substrate with an S piece.
 
@@ -930,11 +1004,11 @@ class Tetris_Ballistic:
             case 0 | 2:
                 position = random.randint(1, self.width - 2)
 
-                landing_row_outleft = self.ffnz(position - 2) + 1 if position > 2 else self.height
+                landing_row_outleft = self.ffnz(position - 2) + 1 if position > 2 and sticky else self.height
                 landing_row_left = self.ffnz(position - 1) if position > 1 else self.height
                 landing_row_pivot = self.ffnz(position)
                 landing_row_outright1 = self.ffnz(position + 1) + 1 if position < self.width - 1 else self.height
-                landing_row_outright2 = self.ffnz(position + 2) + 2 if position < self.width - 2 else self.height
+                landing_row_outright2 = self.ffnz(position + 2) + 2 if position < self.width - 2 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -953,10 +1027,10 @@ class Tetris_Ballistic:
             case 1 | 3:
                 position = random.randint(1, self.width - 1)
 
-                landing_row_outleft2 = self.ffnz(position - 2) + 2 if position > 2 else self.height
+                landing_row_outleft2 = self.ffnz(position - 2) + 2 if position > 2 and sticky else self.height
                 landing_row_outleft1 = self.ffnz(position - 1) + 1 if position > 1 else self.height
                 landing_row_pivot = self.ffnz(position)
-                landing_row_outright = self.ffnz(position + 1) + 1 if position < self.width - 1 else self.height
+                landing_row_outright = self.ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -1022,7 +1096,7 @@ class Tetris_Ballistic:
                 self.substrate[landing_row - 1, position - 1] = i
                 self.substrate[landing_row - 0, position - 1] = i
 
-    def Update_Z(self, i, rot=0):
+    def Update_Z(self, i, rot=0, sticky=True):
         """
         Updates the substrate with a Z piece.
 
@@ -1039,11 +1113,11 @@ class Tetris_Ballistic:
             case 0 | 2:
                 position = random.randint(1, self.width - 2)
 
-                landing_row_outleft2 = self.ffnz(position - 2) + 2 if position > 2 else self.height
+                landing_row_outleft2 = self.ffnz(position - 2) + 2 if position > 2 and sticky else self.height
                 landing_row_outleft1 = self.ffnz(position - 1) + 1 if position > 1 else self.height
                 landing_row_pivot = self.ffnz(position)
                 landing_row_right = self.ffnz(position + 1) if position < self.width - 1 else self.height
-                landing_row_outright = self.ffnz(position + 2) + 1 if position < self.width - 2 else self.height
+                landing_row_outright = self.ffnz(position + 2) + 1 if position < self.width - 2 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -1062,10 +1136,10 @@ class Tetris_Ballistic:
             case 1 | 3:
                 position = random.randint(1, self.width - 1)
 
-                landing_row_outleft = self.ffnz(position - 2) + 1 if position > 2 else self.height
+                landing_row_outleft = self.ffnz(position - 2) + 1 if position > 2 and sticky else self.height
                 landing_row_left = self.ffnz(position - 1) if position > 1 else self.height
                 landing_row_pivot = self.ffnz(position) + 1
-                landing_row_outright = self.ffnz(position + 1) + 2 if position < self.width - 1 else self.height
+                landing_row_outright = self.ffnz(position + 1) + 2 if position < self.width - 1 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -1150,12 +1224,25 @@ class Tetris_Ballistic:
 
 
 # Example usage
+# tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=1000, seed=42)
 tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=1000, seed=42)
-tetris_simulator.Test_O()
-tetris_simulator.Test_I()
-tetris_simulator.Test_L()
-tetris_simulator.Test_J()
-tetris_simulator.Test_T()
-tetris_simulator.Test_S()
-tetris_simulator.Test_Z()
-tetris_simulator.Test_All()
+# tetris_simulator.Test_All()
+tetris_simulator.Sample_Tetris()
+tetris_simulator.Sample_Tetris()
+tetris_simulator.Sample_Tetris()
+tetris_simulator.Sample_Tetris()
+tetris_simulator.Sample_Tetris()
+tetris_simulator = Tetris_Ballistic(config_file="config.json")
+tetris_simulator.Sample_Tetris()
+tetris_simulator.Sample_Tetris()
+tetris_simulator.Sample_Tetris()
+tetris_simulator.Sample_Tetris()
+tetris_simulator.Sample_Tetris()
+# tetris_simulator.Test_O()
+# tetris_simulator.Test_I()
+# tetris_simulator.Test_L()
+# tetris_simulator.Test_J()
+# tetris_simulator.Test_T()
+# tetris_simulator.Test_S()
+# tetris_simulator.Test_Z()
+# tetris_simulator.Test_All()
