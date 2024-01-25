@@ -49,6 +49,26 @@ class Tetris_Ballistic:
                 np.random.seed(seed)
 
         self.substrate = np.zeros((self.height, self.width))
+        self.PieceMap = [[-1, -1] for _ in range(19)]
+        self.PieceMap[0] = [0, 0]
+        self.PieceMap[1] = [1, 0]
+        self.PieceMap[2] = [1, 1]
+        self.PieceMap[3] = [2, 0]
+        self.PieceMap[4] = [2, 1]
+        self.PieceMap[5] = [2, 2]
+        self.PieceMap[6] = [2, 3]
+        self.PieceMap[7] = [3, 0]
+        self.PieceMap[8] = [3, 1]
+        self.PieceMap[9] = [3, 2]
+        self.PieceMap[10] = [3, 3]
+        self.PieceMap[11] = [4, 0]
+        self.PieceMap[12] = [4, 1]
+        self.PieceMap[13] = [4, 2]
+        self.PieceMap[14] = [4, 3]
+        self.PieceMap[15] = [5, 0]
+        self.PieceMap[16] = [5, 1]
+        self.PieceMap[17] = [6, 0]
+        self.PieceMap[18] = [6, 1]
 
     def load_config(self, filename):
         """
@@ -116,6 +136,27 @@ class Tetris_Ballistic:
 
         print(f"Sampled: {sample}")
         return sample
+
+    def Test_WhichPiece(self):
+        print(self.PieceMap[0])
+        print(self.PieceMap[1])
+        print(self.PieceMap[2])
+        print(self.PieceMap[3])
+        print(self.PieceMap[4])
+        print(self.PieceMap[5])
+        print(self.PieceMap[6])
+        print(self.PieceMap[7])
+        print(self.PieceMap[8])
+        print(self.PieceMap[9])
+        print(self.PieceMap[10])
+        print(self.PieceMap[11])
+        print(self.PieceMap[12])
+        print(self.PieceMap[13])
+        print(self.PieceMap[14])
+        print(self.PieceMap[15])
+        print(self.PieceMap[16])
+        print(self.PieceMap[17])
+        print(self.PieceMap[18])
 
     def Tetris_Choice(self):
         """
@@ -1222,22 +1263,49 @@ class Tetris_Ballistic:
 
         print(self.substrate)
 
+        def WhichPiece(self, id):
+            """
+            Determines the board position of a chess piece based on its unique identifier.
+
+            This method takes an integer 'id' as input, representing the unique identifier of a chess piece.
+            It returns the position of the piece on the chessboard if the identifier is valid (between 0 and 37, inclusive).
+            If the identifier is not valid, it prints an error message and returns a list containing [-1, -1].
+
+            Args:
+                id (int): A unique identifier for a chess piece, expected to be in the range of 0 to 37.
+
+            Returns:
+                list: A two-element list representing the position of the piece on the chessboard. Each element is an integer.
+                    If the id is invalid, it returns [-1, -1].
+
+            Note:
+                The chessboard positions are mapped in the `PieceMap` attribute of the class. This method looks up the
+                position in `PieceMap` based on the provided id.
+            """
+            if id < 38 and id >= 0:
+                return self.PieceMap[id]
+            else:
+                print("Wrong ID")
+                return [-1, -1]
+
 
 # Example usage
 # tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=1000, seed=42)
 tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=1000, seed=42)
+tetris_simulator.Test_WhichPiece()
+
 # tetris_simulator.Test_All()
-tetris_simulator.Sample_Tetris()
-tetris_simulator.Sample_Tetris()
-tetris_simulator.Sample_Tetris()
-tetris_simulator.Sample_Tetris()
-tetris_simulator.Sample_Tetris()
-tetris_simulator = Tetris_Ballistic(config_file="config.json")
-tetris_simulator.Sample_Tetris()
-tetris_simulator.Sample_Tetris()
-tetris_simulator.Sample_Tetris()
-tetris_simulator.Sample_Tetris()
-tetris_simulator.Sample_Tetris()
+# tetris_simulator.Sample_Tetris()
+# tetris_simulator.Sample_Tetris()
+# tetris_simulator.Sample_Tetris()
+# tetris_simulator.Sample_Tetris()
+# tetris_simulator.Sample_Tetris()
+# tetris_simulator = Tetris_Ballistic(config_file="config.json")
+# tetris_simulator.Sample_Tetris()
+# tetris_simulator.Sample_Tetris()
+# tetris_simulator.Sample_Tetris()
+# tetris_simulator.Sample_Tetris()
+# tetris_simulator.Sample_Tetris()
 # tetris_simulator.Test_O()
 # tetris_simulator.Test_I()
 # tetris_simulator.Test_L()
