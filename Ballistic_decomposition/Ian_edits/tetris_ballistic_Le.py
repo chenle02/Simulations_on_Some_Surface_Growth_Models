@@ -39,7 +39,7 @@ class Tetris_Ballistic:
         else:
             # Set default configuration if no file is provided or if load_config fails
             print("No configure file, uniform distribution is set.")
-            self.config_data = np.ones(38)
+            self.config_data = {f"Key-{i + 1}": 1 for i in range(38)}
             self.sticky = sticky
             self.steps = steps
             self.width = width
@@ -49,7 +49,6 @@ class Tetris_Ballistic:
                 np.random.seed(seed)
 
         self.substrate = np.zeros((self.height, self.width))
-
 
     def load_config(self, filename):
         """
@@ -95,6 +94,28 @@ class Tetris_Ballistic:
         """
         self.substrate = np.zeros((self.height, self.width))
         print("Substrate has been reset to all zeros.")
+
+    def Sample_Tetris(self):
+        """
+        Samples a Tetris piece given the probability distribution specified in the configuration file.
+
+        Returns:
+            numpy.ndarray: A 2-element array:
+            the first element is the piece type (0-6);
+            the second element is the orientation (0-3).
+
+        """
+        # Normalize the vector
+        probabilities = np.array([self.config_data[f"Key-{i+1}"] for i in range(38)])
+
+        # Normalize the vector
+        normalized_probabilities = probabilities / np.sum(probabilities)
+
+        # Use normalized probabilities for sampling
+        sample = np.random.choice(38, size=1, p=normalized_probabilities)
+
+        print(f"Sampled: {sample}")
+        return sample
 
     def Tetris_Choice(self):
         """
@@ -1205,10 +1226,18 @@ class Tetris_Ballistic:
 # Example usage
 # tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=1000, seed=42)
 tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=1000, seed=42)
-tetris_simulator.Test_All()
+# tetris_simulator.Test_All()
+tetris_simulator.Sample_Tetris()
+tetris_simulator.Sample_Tetris()
+tetris_simulator.Sample_Tetris()
+tetris_simulator.Sample_Tetris()
+tetris_simulator.Sample_Tetris()
 tetris_simulator = Tetris_Ballistic(config_file="config.json")
-tetris_simulator.Test_All()
-
+tetris_simulator.Sample_Tetris()
+tetris_simulator.Sample_Tetris()
+tetris_simulator.Sample_Tetris()
+tetris_simulator.Sample_Tetris()
+tetris_simulator.Sample_Tetris()
 # tetris_simulator.Test_O()
 # tetris_simulator.Test_I()
 # tetris_simulator.Test_L()
@@ -1216,4 +1245,4 @@ tetris_simulator.Test_All()
 # tetris_simulator.Test_T()
 # tetris_simulator.Test_S()
 # tetris_simulator.Test_Z()
-tetris_simulator.Test_All()
+# tetris_simulator.Test_All()
