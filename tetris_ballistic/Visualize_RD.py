@@ -11,7 +11,7 @@ import matplotlib.colors as mcolors
 import imageio
 import argparse
 import os
-from RD_CLI import Envelop
+from tetris_ballistic.RD_CLI import Envelop
 
 
 def visualize_simulation(filename, plot_title, rate, envelop, show_average):
