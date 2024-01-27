@@ -15,11 +15,11 @@ By Le Chen, Mauricio Montes and Ian Ruau
 import numpy as np
 import random
 import yaml
-# import argparse
+from . import Envelop, interface_width
 
 
 class Tetris_Ballistic:
-    def __init__(self, width=16, height=32, steps=30, seed=None, sticky=True, config_file=None):
+    def __init__(self, width=16, height=32, steps=30, seed=None, config_file=None):
         """
         Initializes the Tetris_Ballistic simulation.
 
@@ -27,11 +27,11 @@ class Tetris_Ballistic:
             grid_size (tuple): The size of the grid (width, height).
             steps (int): The number of steps to simulate.
             seed (int, optional): The seed for random number generation. If None, randomness is not controlled.
+            config_file (str, optional): The path to the YAML configuration file to be loaded (default None). The values set in the configuration file will override the default values.
         """
         if config_file is not None and self.load_config(config_file):
             # Configuration successfully loaded by load_config
             print(f"Configure file {config_file} loaded successfully.")
-            self.sticky = sticky
             self.steps = int(self.config_data['steps'])
             self.width = int(self.config_data['width'])
             self.height = int(self.config_data['height'])
@@ -40,7 +40,6 @@ class Tetris_Ballistic:
             # Set default configuration if no file is provided or if load_config fails
             print("No configure file, uniform distribution is set.")
             self.config_data = {f"Key-{i + 1}": 1 for i in range(38)}
-            self.sticky = sticky
             self.steps = steps
             self.width = width
             self.height = height
@@ -72,9 +71,15 @@ class Tetris_Ballistic:
 
     def load_config(self, filename):
         """
-        Loads configuration data from a specified YAML file into the `config_data` attribute.
+        Loads configuration data from a specified YAML file into the
+        `config_data` attribute.
 
-        This method attempts to open and read the contents of the YAML file specified by `filename`. It then validates whether the file contains exactly 38 entries. If the file does not meet this requirement, a ValueError is raised. In case of a successful load, the configuration data is stored in the `config_data` attribute of the class instance.
+            This method attempts to open and read the contents of the YAML file
+            specified by `filename`. It then validates whether the file
+            contains exactly 38 entries. If the file does not meet this
+            requirement, a ValueError is raised. In case of a successful load,
+            the configuration data is stored in the `config_data` attribute of
+            the class instance.
 
         Parameters:
         filename (str): The path to the YAML configuration file to be loaded.
@@ -83,14 +88,12 @@ class Tetris_Ballistic:
         bool: True if the file is successfully loaded and contains the correct number of entries, False otherwise.
 
         Raises:
-        ValueError: If the YAML file does not contain exactly 38 entries.
         yaml.YAMLError: If there is an error parsing the YAML file.
 
         """
         try:
             with open(filename, 'r') as file:
                 raw_data = yaml.safe_load(file)
-                # Validate that the data contains 38 key-value pairs
                 if isinstance(raw_data, dict):
                     self.config_data = {k: float(v) for k, v in raw_data.items()}
                     print(f"Loaded: {self.config_data}")
