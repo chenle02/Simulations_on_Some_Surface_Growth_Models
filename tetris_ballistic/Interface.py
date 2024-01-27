@@ -8,7 +8,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import argparse
-import os
+from . import Envelop
 
 
 def interface_width(filename, plot_title, reference_slope):
@@ -86,18 +86,6 @@ def interface_width(filename, plot_title, reference_slope):
     # plt.show()
 
     return interface
-
-
-def Envelop(substrate):
-    # Compute the envelop of the substrate
-    height, width = substrate.shape
-    top_envelope = np.zeros(width)
-    for pos in range(width):
-        if np.any(substrate[:, pos] > 0):  # If there's any nonzero value in the column
-            top_envelope[pos] = np.argmax(substrate[:, pos] > 0) - 3
-        else:
-            top_envelope[pos] = height - 2
-    return top_envelope
 
 
 def main():
