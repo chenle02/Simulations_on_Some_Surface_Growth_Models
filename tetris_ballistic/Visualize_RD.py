@@ -14,26 +14,34 @@ import os
 from tetris_ballistic.RD_CLI import Envelop
 
 
-def visualize_simulation(filename, plot_title, rate, envelop, show_average):
+def visualize_simulation(substrate_source,
+                         plot_title="",
+                         rate=4,
+                         envelop=False,
+                         show_average=False):
     """
     Visualize the particle deposition simulation and generate a video.
 
-        This function loads the substrate data from a file and visualizes the
-        deposition process as an animation. It supports visualizing the top
-        envelope and average height of the deposited particles. The final
-        output is saved as an mp4 video file.
+    This function visualizes the deposition process as an animation. It can
+    accept either the path to a substrate data file or the substrate data
+    directly as a NumPy array. When a filename is provided as a string, it
+    loads the substrate data from the file. The function supports visualizing
+    the top envelope and average height of the deposited particles. The final
+    output is saved as an mp4 video file.
 
     Parameters
     ----------
-    filename : str
-        The path to the substrate data file.
-    plot_title : str
+    substrate_source : str or numpy.ndarray
+        The source of the substrate data. This can be either a string
+        specifying the path to the substrate data file, or the substrate data
+        itself as a NumPy array.
+    plot_title : str, optional (default: "")
         The title of the plot.
-    rate : int
+    rate : int, optional (default: 4)
         The frame rate for the video.
-    envelop : bool
+    envelop : bool, optional (default: False)
         Flag to indicate whether to show the top envelope.
-    show_average : bool
+    show_average : bool, optional (default: False)
         Flag to indicate whether to show the average height.
 
     Returns
@@ -41,9 +49,12 @@ def visualize_simulation(filename, plot_title, rate, envelop, show_average):
     str
         The filename of the generated mp4 video.
     """
-
-    # Load substrate from file
-    substrate = np.loadtxt(filename, delimiter=",")
+    # Load substrate
+    if isinstance(substrate_source, str):
+        filename = substrate_source
+        substrate = np.loadtxt(filename, delimiter=",")
+    else:
+        substrate = substrate_source
 
     # Parameters
     height, width = substrate.shape
