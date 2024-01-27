@@ -11,7 +11,7 @@ import matplotlib.colors as mcolors
 import imageio
 import argparse
 import os
-from tetris_ballistic.RD_CLI import Envelop
+from . import Envelop
 
 
 def visualize_simulation(substrate_source,
