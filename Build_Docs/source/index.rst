@@ -27,7 +27,8 @@ Welcome to Surface Growth Models with Tetris Pieces's documentation!  Version |v
    doc_rst/Introduction
    doc_rst/RD_CLI
    doc_rst/Visualize_RD
-   doc_rst/tetris_ballistic_Le
+   doc_rst/tetris_ballistic
+   doc_rst/cli
 
 
 Indices and tables

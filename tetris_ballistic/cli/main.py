@@ -9,7 +9,8 @@ import click
 import os
 
 # from ..Visualize_RD import visualize_simulation
-from tetris_ballistic.Visualize_RD import visualize_simulation
+# from tetris_ballistic.Visualize_RD import visualize_simulation
+from Visualize_RD import visualize_simulation
 # ... other subcommands if any ...
 
 
@@ -38,6 +39,14 @@ def visualize(file, title, rate, envelop, average, play):
 
 
 cli.add_command(visualize)
+
+
+def main():
+    """
+    This is the main function
+    """
+    pass
+
 
 if __name__ == '__main__':
     cli()

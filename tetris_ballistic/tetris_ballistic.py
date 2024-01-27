@@ -15,7 +15,7 @@ By Le Chen, Mauricio Montes and Ian Ruau
 import numpy as np
 import random
 import yaml
-from . import Envelop, interface_width
+from RD_CLI import Envelop, interface_width
 
 
 class Tetris_Ballistic:
@@ -1294,8 +1294,8 @@ class Tetris_Ballistic:
 
 # Example usage
 # tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=1000, seed=42)
-tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=1000, seed=42)
-tetris_simulator.Test_WhichPiece()
+# tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=1000, seed=42)
+# tetris_simulator.Test_WhichPiece()
 
 # tetris_simulator.Test_All()
 # tetris_simulator.Sample_Tetris()
