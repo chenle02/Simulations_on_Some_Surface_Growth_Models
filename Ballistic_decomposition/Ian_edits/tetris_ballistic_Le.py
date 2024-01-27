@@ -19,7 +19,7 @@ import yaml
 
 
 class Tetris_Ballistic:
-    def __init__(self, width=16, height=32, steps=30, seed=None, sticky=True, config_file=None):
+    def __init__(self, width=16, height=32, steps=30, seed=None, sticky=True, config_file=None, holes = True):
         """
         Initializes the Tetris_Ballistic simulation.
 
@@ -31,6 +31,7 @@ class Tetris_Ballistic:
         if config_file is not None and self.load_config(config_file):
             # Configuration successfully loaded by load_config
             print(f"Configure file {config_file} loaded successfully.")
+            self.holes = holes
             self.sticky = sticky
             self.steps = int(self.config_data['steps'])
             self.width = int(self.config_data['width'])
@@ -44,6 +45,7 @@ class Tetris_Ballistic:
             self.steps = steps
             self.width = width
             self.height = height
+            self.holes = holes
             if seed is not None:
                 random.seed(seed)
                 np.random.seed(seed)
@@ -261,6 +263,40 @@ class Tetris_Ballistic:
                 flag = i
 
         return flag
+
+    def count_holes(self, substrate):
+        """
+        Counts the number of holes in the substrate.
+
+        A hole is defined as a collection of zero entries in the substrate that
+        has a boundary of nonzero entries surrounding it.
+
+        Args:
+            substrate (numpy.ndarray): The substrate to count the holes in.
+
+        Returns:
+            int: The number of holes in the substrate.
+        """
+        def depth_first_search(row, col):
+            # Checking boundaries and if cell is a 0
+            if 0 <= row < len(substrate_copy) and 0 <= col < len(substrate_copy[0]) and substrate_copy[row][col] == 0:
+                substrate_copy[row][col] = -1
+                depth_first_search(row + 1, col)
+                depth_first_search(row - 1, col)
+                depth_first_search(row, col + 1)
+                depth_first_search(row, col - 1)
+
+
+        hole_counter = 0
+        substrate_copy = substrate.copy()
+
+        for i in range(len(substrate_copy)):
+            for j in range(len(substrate_copy[0])):
+                if substrate_copy[i][j] == 0:
+                    depth_first_search(i, j)
+                    hole_counter += 1
+
+        return hole_counter
 
     def Place_O(self, position, landing_row, i):
         """
@@ -1259,7 +1295,7 @@ class Tetris_Ballistic:
 
             if i == -1:
                 print("Game Over, reach the top")
-                break
+                return self.substrate
 
         print(self.substrate)
 
@@ -1291,10 +1327,13 @@ class Tetris_Ballistic:
 
 # Example usage
 # tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=1000, seed=42)
-tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=1000, seed=42)
-tetris_simulator.Test_WhichPiece()
+tetris_simulator = Tetris_Ballistic(width=10, height=10, steps=1000, holes = True)
+# tetris_simulator.Test_WhichPiece()
+matrix = tetris_simulator.Test_All()
+rent = tetris_simulator.count_holes(matrix)
+print(matrix)
+print(rent)
 
-# tetris_simulator.Test_All()
 # tetris_simulator.Sample_Tetris()
 # tetris_simulator.Sample_Tetris()
 # tetris_simulator.Sample_Tetris()
@@ -1313,4 +1352,3 @@ tetris_simulator.Test_WhichPiece()
 # tetris_simulator.Test_T()
 # tetris_simulator.Test_S()
 # tetris_simulator.Test_Z()
-# tetris_simulator.Test_All()
