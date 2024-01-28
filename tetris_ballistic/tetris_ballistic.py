@@ -44,6 +44,7 @@ class Tetris_Ballistic:
             # Set default configuration if no file is provided or if load_config fails
             print("No configure file, uniform distribution is set.")
             self.config_data = {f"Piece-{i}": [0, 1] for i in range(19)}
+            self.config_data["Piece-19"] = [0, 1]  # 1x1 piece
             self.steps = steps
             self.width = width
             self.height = height
@@ -52,7 +53,7 @@ class Tetris_Ballistic:
                 np.random.seed(seed)
 
         self.substrate = np.zeros((self.height, self.width))
-        self.PieceMap = [[-1, -1] for _ in range(19)]
+        self.PieceMap = [[-1, -1] for _ in range(20)]
         self.PieceMap[0] = [0, 0]
         self.PieceMap[1] = [1, 0]
         self.PieceMap[2] = [1, 1]
@@ -72,6 +73,7 @@ class Tetris_Ballistic:
         self.PieceMap[16] = [5, 1]
         self.PieceMap[17] = [6, 0]
         self.PieceMap[18] = [6, 1]
+        self.PieceMap[19] = [7, 0]  # 1x1 piece
 
     def load_config(self, filename):
         """
@@ -108,6 +110,7 @@ class Tetris_Ballistic:
            Piece-16: [1,  1]
            Piece-17: [1,  1]
            Piece-18: [1,  1]
+           Piece-19: [0,  0]
 
         The method stores these entries in the `config_data` attribute of the
         class instance. Single-value entries are converted to floats, while
@@ -115,7 +118,7 @@ class Tetris_Ballistic:
         first entry refers to the frequency of the non-sticky piece and the
         second entry refers to the frequency of the sticky piece.
 
-        If the file does not contain exactly 23 entries, a ValueError is
+        If the file does not contain exactly 24 entries, a ValueError is
         raised.
 
         Args:
@@ -143,7 +146,7 @@ class Tetris_Ballistic:
                             self.config_data[k] = float(v)  # Convert other values to float
 
                     # Check for the total number of entries
-                    if len(self.config_data) != 23:
+                    if len(self.config_data) != 24:
                         raise ValueError("Incorrect number of entries in the configuration file.")
 
                     print(f"Loaded: {self.config_data}")
@@ -221,6 +224,10 @@ class Tetris_Ballistic:
         + 5 :  the S;
         + 6 :  the Z.
 
+        We add the 1x1 piece as the 8th piece.
+
+        + 7 :  the 1x1.
+
         There are 4 orientations for each piece:
 
         - 0 is the original orientation;
@@ -231,17 +238,10 @@ class Tetris_Ballistic:
         Returns:
 
             numpy.ndarray: A 2-element array:
-            the first element is the piece type (0-6);
+            the first element is the piece type (0-7);
             the second element is the orientation (0-3).
-
-
-
-        **To-Do's**
-
-        + Add input file to specify the probability of each piece.
-
         """
-        choice = np.random.randint(0, [7, 4])
+        choice = np.random.randint(0, [8, 4])
         return choice
 
     def Initialize_Substrate(self):
@@ -340,7 +340,7 @@ class Tetris_Ballistic:
 
         Args:
             i (int): The step number.
-            sticky (bool): Whether the piece is sticky or not.
+            sticky (bool): Whether the piece is sticky or not. (Default: True)
 
         Returns:
             int: The particle ID or the step number that has been placed in this step.
@@ -412,7 +412,7 @@ class Tetris_Ballistic:
         Args:
             i (int): The step number.
             rot (int): The rotation of the piece.
-            sticky (bool): Whether the piece is sticky or not.
+            sticky (bool): Whether the piece is sticky or not. (Default: True)
 
                + rot = 0
                   - 1000
@@ -554,7 +554,7 @@ class Tetris_Ballistic:
         Args:
             i (int): The step number.
             rot (int): The rotation of the piece.
-            sticky (bool): Whether the piece is sticky or not.
+            sticky (bool): Whether the piece is sticky or not. (Default: True)
 
         int: The particle ID or the step number that has been placed in this step.
             + If the value is -1, it means it reaches to the top.
@@ -724,7 +724,7 @@ class Tetris_Ballistic:
         Args:
             i (int): The step number.
             rot (int): The rotation of the piece.
-            sticky (bool): Whether the piece is sticky or not.
+            sticky (bool): Whether the piece is sticky or not. (Default: True)
 
         int: The particle ID or the step number that has been placed in this step.
             + If the value is -1, it means it reaches to the top.
@@ -896,7 +896,7 @@ class Tetris_Ballistic:
         Args:
             i (int): The step number.
             rot (int): The rotation of the piece.
-            sticky (bool): Whether the piece is sticky or not.
+            sticky (bool): Whether the piece is sticky or not. (Default: True)
 
         Returns:
             int: The particle ID or the step number that has been placed in this step.
@@ -1043,7 +1043,7 @@ class Tetris_Ballistic:
         Args:
             i (int): The step number.
             rot (int): The rotation of the piece.
-            sticky (bool): Whether the piece is sticky or not.
+            sticky (bool): Whether the piece is sticky or not. (Default: True)
 
         Returns:
             int: The particle ID or the step number that has been placed in this step.
@@ -1146,7 +1146,7 @@ class Tetris_Ballistic:
         Args:
             i (int): The step number.
             rot (int): The rotation of the piece.
-            sticky (bool): Whether the piece is sticky or not.
+            sticky (bool): Whether the piece is sticky or not. (Default: True)
 
         Returns:
             int: The particle ID or the step number that has been placed in this step.
@@ -1201,6 +1201,56 @@ class Tetris_Ballistic:
 
         return next
 
+    def Place_1x1(self, position, landing_row, i):
+        """
+        Place a 1x1 piece.
+
+        Args:
+            position (int): The position of the pivot.
+            landing_row (int): The landing row of the pivot.
+            i (int): The step number.
+
+        Return:
+            None
+        """
+        self.substrate[landing_row - 1, position] = i
+
+    def Update_1x1(self, i, sticky=True):
+        """
+        Updates the substrate with a 1x1 piece.
+
+        Args:
+            i (int): The step number.
+            sticky (bool): Whether the piece is sticky or not. (Default: True)
+
+        Returns:
+            int: The particle ID or the step number that has been placed in this step.
+                + If the value is -1, it means it reaches to the top.
+        """
+        position = random.randint(0, self.width - 1)
+
+        next = i
+
+        landing_row_outleft = self.ffnz(position - 1) + 1 if position > 1 and sticky else self.height
+        landing_row_pivot = self.ffnz(position)
+        landing_row_outright = self.ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self.height
+
+        # Find minimum landing row
+        landing_row = min(
+            landing_row_outleft,
+            landing_row_pivot,
+            landing_row_outright)
+
+        if landing_row < 2:
+            return -1
+
+        # Place square based on the minimum landing row
+        next = i + 1
+        self.Place_1x1(position, landing_row, next)
+        # print(self.substrate)
+        # input("")
+
+        return next
     def Test_All(self):
         """
         This function simulates the Tetris Decomposition model on a substrate.
