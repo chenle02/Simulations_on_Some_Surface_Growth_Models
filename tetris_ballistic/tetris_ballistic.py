@@ -1213,22 +1213,6 @@ class Tetris_Ballistic:
 
         return next
 
-    def Test_Z(self):
-        """
-        This is a test function for the Z piece.
-        """
-        for rot in range(4):
-            print("Z piece, Test rotation ", rot)
-            self.reset()
-            i = 0
-            while i < self.steps:
-                i = self.Update_Z(i, rot)
-                if i == -1:
-                    print("Game Over, reach the top")
-                    break
-            print(self.substrate)
-            input("")
-
     def Test_All(self):
         """
         This function simulates the Tetris Decomposition model on a substrate.
