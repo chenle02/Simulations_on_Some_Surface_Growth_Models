@@ -23,6 +23,10 @@ class Tetris_Ballistic:
         """
         Initializes the Tetris_Ballistic simulation.
 
+        If config_file is not None, the configuration data is loaded from the
+        specified YAML file. Otherwise, the default configuration is used. By
+        default, all pieces are sticky.
+
         Args:
             grid_size (tuple): The size of the grid (width, height).
             steps (int): The number of steps to simulate.
@@ -39,7 +43,7 @@ class Tetris_Ballistic:
         else:
             # Set default configuration if no file is provided or if load_config fails
             print("No configure file, uniform distribution is set.")
-            self.config_data = {f"Piece-{i + 1}": 1 for i in range(38)}
+            self.config_data = {f"Piece-{i}": [0, 1] for i in range(19)}
             self.steps = steps
             self.width = width
             self.height = height
@@ -1275,8 +1279,6 @@ class Tetris_Ballistic:
 # Example usage
 # tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=1000, seed=42)
 # tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=1000, seed=42)
-# tetris_simulator.Test_WhichPiece()
-
 # tetris_simulator.Test_All()
 # tetris_simulator.Sample_Tetris()
 # tetris_simulator.Sample_Tetris()
