@@ -820,22 +820,6 @@ class Tetris_Ballistic:
 
         return next
 
-    def Test_J(self):
-        """
-        This is a test function for the J piece.
-        """
-        for rot in range(4):
-            print("J piece, Test rotation ", rot)
-            self.reset()
-            i = 0
-            while i < self.steps:
-                i = self.Update_J(i, rot)
-                if i == -1:
-                    print("Game Over, reach the top")
-                    break
-            print(self.substrate)
-            input("")
-
     def Place_T(self, position, landing_row, i, rot=0):
         """
         Place a T with pivot at the center:
@@ -1305,11 +1289,4 @@ class Tetris_Ballistic:
 # tetris_simulator.Sample_Tetris()
 # tetris_simulator.Sample_Tetris()
 # tetris_simulator.Sample_Tetris()
-# tetris_simulator.Test_O()
-# tetris_simulator.Test_I()
-# tetris_simulator.Test_L()
-# tetris_simulator.Test_J()
-# tetris_simulator.Test_T()
-# tetris_simulator.Test_S()
-# tetris_simulator.Test_Z()
 # tetris_simulator.Test_All()
