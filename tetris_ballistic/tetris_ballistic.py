@@ -161,6 +161,9 @@ class Tetris_Ballistic:
     def reset(self):
         """
         Resets the substrate to all zeros.
+
+        Returns:
+            None
         """
         self.substrate = np.zeros((self.height, self.width))
         print("Substrate has been reset to all zeros.")
@@ -171,22 +174,34 @@ class Tetris_Ballistic:
         the configuration file.
 
         Returns:
-            numpy.ndarray: A 2-element array:
-            the first element is the piece type (0-6);
-            the second element is the orientation (0-3).
-
+            Piece_id (int): The ID of the sampled piece (0-6).
+            rot (int): rotation of the sampled piece (0-3).
+            Sticky (bool): Whether the).
         """
         # Normalize the vector
-        probabilities = np.array([self.config_data[f"Piece-{i+1}"] for i in range(38)])
+        probabilities = np.array([self.config_data[f"Piece-{i}"] for i in range(19)])
 
-        # Normalize the vector
-        normalized_probabilities = probabilities / np.sum(probabilities)
+        # Flatten the matrix to a 1D array for sampling
+        flattened_probabilities = probabilities.flatten()
+
+        # Normalize the flattened vector
+        normalized_probabilities = flattened_probabilities / np.sum(flattened_probabilities)
 
         # Use normalized probabilities for sampling
-        sample = np.random.choice(38, size=1, p=normalized_probabilities)
+        sample_index = np.random.choice(38, p=normalized_probabilities)
 
-        print(f"Sampled: {sample}")
-        return sample
+        # Convert flat index back to 2D index
+        piece_type = sample_index // 2  # integer division to get row index
+        column = sample_index % 2  # modulo to get column index
+        if column == 0:
+            Sticky = False
+        else:
+            Sticky = True
+
+        Piece_id, rot = self.PieceMap[piece_type]
+
+        print(f"Sampled (Piece, rot, Sticky): {Piece_id}, {rot}, {Sticky}")
+        return Piece_id, rot, Sticky
 
     def Test_WhichPiece(self):
         print(self.PieceMap[0])
@@ -1395,12 +1410,12 @@ class Tetris_Ballistic:
 # tetris_simulator.Sample_Tetris()
 # tetris_simulator.Sample_Tetris()
 # tetris_simulator.Sample_Tetris()
-# tetris_simulator = Tetris_Ballistic(config_file="config.yaml")
-# tetris_simulator.Sample_Tetris()
-# tetris_simulator.Sample_Tetris()
-# tetris_simulator.Sample_Tetris()
-# tetris_simulator.Sample_Tetris()
-# tetris_simulator.Sample_Tetris()
+tetris_simulator = Tetris_Ballistic(config_file="config.yaml")
+tetris_simulator.Sample_Tetris()
+tetris_simulator.Sample_Tetris()
+tetris_simulator.Sample_Tetris()
+tetris_simulator.Sample_Tetris()
+tetris_simulator.Sample_Tetris()
 # tetris_simulator.Test_O()
 # tetris_simulator.Test_I()
 # tetris_simulator.Test_L()
