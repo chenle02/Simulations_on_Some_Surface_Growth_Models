@@ -28,8 +28,9 @@ def test_1x1():
             if i == -1:
                 print("Game Over, reach the top")
                 break
-        print(TB.substrate)
-        print(TB.HeightDynamics)
+        TB.PrintStatus()
+        # print(TB.substrate)
+        # print(TB.HeightDynamics)
 
         print("Second, the non-sticky case of 1x1 piece:")
         TB.reset()
@@ -39,5 +40,6 @@ def test_1x1():
             if i == -1:
                 print("Game Over, reach the top")
                 break
-        print(TB.substrate)
-        print(TB.HeightDynamics)
+        TB.PrintStatus()
+        # print(TB.substrate)
+        # print(TB.HeightDynamics)

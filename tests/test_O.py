@@ -30,8 +30,9 @@ def test_O():
                 if i == -1:
                     print("Game Over, reach the top")
                     break
-            print(TB.substrate)
-            print(TB.HeightDynamics)
+            # print(TB.substrate)
+            # print(TB.HeightDynamics)
+            TB.PrintStatus()
 
         print("Second, the non-sticky case:")
         for rot in range(4):
@@ -43,5 +44,6 @@ def test_O():
                 if i == -1:
                     print("Game Over, reach the top")
                     break
-            print(TB.substrate)
-            print(TB.HeightDynamics)
+            # print(TB.substrate)
+            # print(TB.HeightDynamics)
+            TB.PrintStatus()

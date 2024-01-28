@@ -82,6 +82,8 @@ class Tetris_Ballistic:
         self.PieceMap[19] = [7, 0]  # 1x1 piece
 
         self.HeightDynamics = np.zeros((self.steps, self.width))
+        self.Fluctuation = np.zeros((self.steps))
+        self.AvergeHeight = np.zeros((self.steps))
 
     def load_config(self, filename):
         """
@@ -378,7 +380,7 @@ class Tetris_Ballistic:
         self.Place_O(position, landing_row, next)
         # print(self.substrate)
         # input("")
-        self._Envelop(i)
+        self._Compute_Statistics(i)
 
         return next
 
@@ -489,7 +491,7 @@ class Tetris_Ballistic:
                 next = i + 1
                 self.Place_I(position, landing_row, next, rot)
 
-        self._Envelop(i)
+        self._Compute_Statistics(i)
         return next
 
     def Place_L(self, position, landing_row, i, rot=0):
@@ -660,7 +662,7 @@ class Tetris_Ballistic:
                 next = i + 1
                 self.Place_L(position, landing_row - 1, next, rot)
 
-        self._Envelop(i)
+        self._Compute_Statistics(i)
         return next
 
     def Place_J(self, position, landing_row, i, rot=0):
@@ -833,7 +835,7 @@ class Tetris_Ballistic:
                 next = i + 1
                 self.Place_J(position, landing_row, next, rot)
 
-        self._Envelop(i)
+        self._Compute_Statistics(i)
         return next
 
     def Place_T(self, position, landing_row, i, rot=0):
@@ -1005,7 +1007,7 @@ class Tetris_Ballistic:
                 next = i + 1
                 self.Place_T(position, landing_row - 1, next, rot)
 
-        self._Envelop(i)
+        self._Compute_Statistics(i)
         return next
 
     def Place_S(self, position, landing_row, i, rot=0):
@@ -1109,7 +1111,7 @@ class Tetris_Ballistic:
                 next = i + 1
                 self.Place_S(position, landing_row - 1, next, rot)
 
-        self._Envelop(i)
+        self._Compute_Statistics(i)
         return next
 
     def Place_Z(self, position, landing_row, i, rot=0):
@@ -1213,7 +1215,7 @@ class Tetris_Ballistic:
                 next = i + 1
                 self.Place_Z(position, landing_row - 1, next, rot)
 
-        self._Envelop(i)
+        self._Compute_Statistics(i)
         return next
 
     def Place_1x1(self, position, landing_row, i):
@@ -1265,7 +1267,7 @@ class Tetris_Ballistic:
         # print(self.substrate)
         # input("")
 
-        self._Envelop(i)
+        self._Compute_Statistics(i)
         return next
 
     def Test_All(self):
@@ -1342,13 +1344,13 @@ class Tetris_Ballistic:
                 print("Wrong ID")
                 return [-1, -1]
 
-    def _Envelop(self, step):
+    def _Compute_Statistics(self, step):
         """
         Compute the top envelope of a substrate.
 
         This function calculates the highest particle position in each column
-        of the substrate. It is used to visualize the top envelope of the
-        substrate in the simulation.
+        of the substrate. Update the both HeightDynamics and Fluctuation
+        attributes of the substrate.
 
         Parameters
         ----------
@@ -1358,7 +1360,7 @@ class Tetris_Ballistic:
         Returns
         -------
             None
-            Update the top_envelope attribute of the substrate.
+
         """
         top_envelope = np.zeros(self.width)
         for pos in range(self.width):
@@ -1368,6 +1370,27 @@ class Tetris_Ballistic:
                 top_envelope[pos] = self.height - 1
 
         self.HeightDynamics[step] = top_envelope
+        average = np.mean(top_envelope)
+        self.AvergeHeight[step] = average
+
+        self.Fluctuation[step] = 0
+        for pos in range(self.width):
+            self.Fluctuation[step] += np.power(top_envelope[pos] - average, 2) / self.width
+        self.Fluctuation[step] = np.sqrt(self.Fluctuation[step])
+
+    def PrintStatus(self):
+        """
+        This function prints out the status of the substrate.
+        """
+        print("Status of the substrate:")
+        print(f"Width:  {self.width}")
+        print(f"Height: {self.height}")
+        print(f"Steps: {self.steps}")
+        print(f"Substrate:\n {self.substrate}")
+        print(f"Height Dynamics:\n {self.HeightDynamics}")
+        print(f"Average Height:\n {self.AvergeHeight}")
+        print(f"Fluctuation:\n {self.Fluctuation}")
+
 
 # Example usage
 # tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=1000, seed=42)
