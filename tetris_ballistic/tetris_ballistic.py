@@ -176,7 +176,7 @@ class Tetris_Ballistic:
         Returns:
             Piece_id (int): The ID of the sampled piece (0-6).
             rot (int): rotation of the sampled piece (0-3).
-            Sticky (bool): Whether the).
+            Sticky (bool): Whether the sampled piece is sticky or not.
         """
         # Normalize the vector
         probabilities = np.array([self.config_data[f"Piece-{i}"] for i in range(19)])
@@ -445,6 +445,7 @@ class Tetris_Ballistic:
         Args:
             i (int): The step number.
             rot (int): The rotation of the piece.
+            sticky (bool): Whether the piece is sticky or not.
 
                + rot = 0
                   - 1000
@@ -602,6 +603,7 @@ class Tetris_Ballistic:
         Args:
             i (int): The step number.
             rot (int): The rotation of the piece.
+            sticky (bool): Whether the piece is sticky or not.
 
         int: The particle ID or the step number that has been placed in this step.
             + If the value is -1, it means it reaches to the top.
@@ -787,6 +789,7 @@ class Tetris_Ballistic:
         Args:
             i (int): The step number.
             rot (int): The rotation of the piece.
+            sticky (bool): Whether the piece is sticky or not.
 
         int: The particle ID or the step number that has been placed in this step.
             + If the value is -1, it means it reaches to the top.
@@ -974,6 +977,7 @@ class Tetris_Ballistic:
         Args:
             i (int): The step number.
             rot (int): The rotation of the piece.
+            sticky (bool): Whether the piece is sticky or not.
 
         Returns:
             int: The particle ID or the step number that has been placed in this step.
@@ -1136,6 +1140,7 @@ class Tetris_Ballistic:
         Args:
             i (int): The step number.
             rot (int): The rotation of the piece.
+            sticky (bool): Whether the piece is sticky or not.
 
         Returns:
             int: The particle ID or the step number that has been placed in this step.
@@ -1254,6 +1259,7 @@ class Tetris_Ballistic:
         Args:
             i (int): The step number.
             rot (int): The rotation of the piece.
+            sticky (bool): Whether the piece is sticky or not.
 
         Returns:
             int: The particle ID or the step number that has been placed in this step.
