@@ -1363,9 +1363,9 @@ class Tetris_Ballistic:
         top_envelope = np.zeros(self.width)
         for pos in range(self.width):
             if np.any(self.substrate[:, pos] > 0):  # If there's any nonzero value in the column
-                top_envelope[pos] = np.argmax(self.substrate[:, pos] > 0) - 3
+                top_envelope[pos] = np.argmax(self.substrate[:, pos] > 0) - 1
             else:
-                top_envelope[pos] = self.height - 2
+                top_envelope[pos] = self.height - 1
 
         self.HeightDynamics[step] = top_envelope
 
