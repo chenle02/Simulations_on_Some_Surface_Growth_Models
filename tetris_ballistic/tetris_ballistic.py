@@ -268,8 +268,10 @@ class Tetris_Ballistic:
     def Place_O(self, position, landing_row, i):
         """
         Place a square with pivot at the bottom left corner on the :
-            00
-            10
+
+           - 00
+           - 10
+
         Args:
             position (int): The position of the pivot.
             landing_row (int): The landing row of the pivot.
@@ -286,8 +288,9 @@ class Tetris_Ballistic:
     def Update_O(self, i, sticky=True):
         """
         Updates the substrate with a square piece.
-            00
-            10
+
+           - 00
+           - 10
 
         Args:
             i (int): The step number.
@@ -343,12 +346,13 @@ class Tetris_Ballistic:
     def Place_I(self, position, landing_row, i, rot=0):
         """
         Place a square with pivot at the bottom left corner on the substrate:
-            1000
-            or
-            0
-            0
-            0
-            1
+           - 1000
+        or
+           - 0
+           - 0
+           - 0
+           - 0
+           - 1
         Args:
             position (int): The position of the pivot.
             landing_row (int): The landing row of the pivot.
@@ -378,20 +382,21 @@ class Tetris_Ballistic:
         Args:
             i (int): The step number.
             rot (int): The rotation of the piece.
-                + rot = 0
-                    1000
-                + rot = 1
-                    0
-                    0
-                    0
-                    1
-                + rot = 2
-                    0001
-                + rot = 3
-                    1
-                    0
-                    0
-                    0
+
+               + rot = 0
+                  - 1000
+               + rot = 1
+                  - 0
+                  - 0
+                  - 0
+                  - 1
+               + rot = 2
+                  - 0001
+               + rot = 3
+                  - 1
+                  - 0
+                  - 0
+                  - 0
 
         Returns:
             int: The particle ID or the step number that has been placed in this step.
@@ -465,20 +470,22 @@ class Tetris_Ballistic:
     def Place_L(self, position, landing_row, i, rot=0):
         """
         Place an L with pivot at the corner.
+
         + rot = 0
-            0
-            0
-            10
+           - 0
+           - 0
+           - 10
         + rot = 1
-            0
-            001
+           - XX0
+           - 001
         + rot = 2
-            01
-            0
-            0
+           - 10
+           - 0
+           - 0
         + rot = 3
-            100
-            0
+           - 100
+           - 0
+
         Args:
             position (int): The position or column of the pivot.
             landing_row (int): The landing row of the pivot.
@@ -513,20 +520,21 @@ class Tetris_Ballistic:
     def Update_L(self, i, rot=0, sticky=True):
         """
         Updates the substrate with an L piece.
+
         + rot = 0
-            0
-            0
-            10
+           - 0
+           - 0
+           - 10
         + rot = 1
-              0
-            001
+           - XX0
+           - 001
         + rot = 2
-            01
-             0
-             0
+           - 10
+           - 0
+           - 0
         + rot = 3
-            100
-            0
+           - 100
+           - 0
 
         Args:
             i (int): The step number.
@@ -647,20 +655,21 @@ class Tetris_Ballistic:
     def Place_J(self, position, landing_row, i, rot=0):
         """
         Place a J with pivot at the corner.
+
         + rot = 0
-            0
-            0
-            01
+           - X0
+           - X0
+           - 01
         + rot = 1
-            001
-            0
+           - 001
+           - XX0
         + rot = 2
-            10
-            0
-            0
+           - 10
+           - 0
+           - 0
         + rot = 3
-            0
-            100
+           - 0
+           - 100
 
         Args:
             position (int): The position or column of the pivot.
@@ -696,20 +705,21 @@ class Tetris_Ballistic:
     def Update_J(self, i, rot=0, sticky=True):
         """
         Updates the substrate with a J piece.
+
         + rot = 0
-             0
-             0
-            01
+           - X0
+           - X0
+           - 01
         + rot = 1
-            001
-              0
+           - 001
+           - XX0
         + rot = 2
-            10
-            0
-            0
+           - 10
+           - 0
+           - 0
         + rot = 3
-            0
-            100
+           - 0
+           - 100
 
         Args:
             i (int): The step number.
@@ -832,20 +842,21 @@ class Tetris_Ballistic:
     def Place_T(self, position, landing_row, i, rot=0):
         """
         Place a T with pivot at the center:
+
         + rot = 0
-            010
-            0
+           - 010
+           - X0X
         + rot = 1
-            0
-            10
-            0
+           - 0
+           - 10
+           - 0
         + rot = 2
-            0
-            010
+           - X0
+           - 010
         + rot = 3
-            0
-            01
-            0
+           - 0
+           - 01
+           - 0
 
         Args:
             position (int): The position or column of the pivot.
@@ -881,6 +892,21 @@ class Tetris_Ballistic:
     def Update_T(self, i, rot=0, sticky=True):
         """
         Updates the substrate with a T piece.
+
+        + rot = 0
+           - 010
+           - X0X
+        + rot = 1
+           - 0
+           - 10
+           - 0
+        + rot = 2
+           - X0
+           - 010
+        + rot = 3
+           - 0
+           - 01
+           - 0
 
         Args:
             i (int): The step number.
@@ -985,7 +1011,7 @@ class Tetris_Ballistic:
 
     def Test_T(self):
         """
-        This is a test function for the J piece.
+        This is a test function for the T piece.
         """
         for rot in range(4):
             print("T piece, Test rotation ", rot)
@@ -1002,13 +1028,14 @@ class Tetris_Ballistic:
     def Place_S(self, position, landing_row, i, rot=0):
         """
         Place an S with pivot given as follows:
+
         + rot = 0 or 2
-             00
-            01
+           - X00
+           - 01
         + rot = 1 or 3
-            0
-            01
-             0
+           - 0
+           - 01
+           - X0
 
         Args:
             position (int): The position or column of the pivot.
@@ -1034,6 +1061,14 @@ class Tetris_Ballistic:
     def Update_S(self, i, rot=0, sticky=True):
         """
         Updates the substrate with an S piece.
+
+        + rot = 0 or 2
+           - X00
+           - 01
+        + rot = 1 or 3
+           - 0
+           - 01
+           - X0
 
         Args:
             i (int): The step number.
@@ -1111,13 +1146,14 @@ class Tetris_Ballistic:
     def Place_Z(self, position, landing_row, i, rot=0):
         """
         Place a Z with pivot given as follows:
+
         + rot = 0 or 2
-        00
-            10
+           - 00
+           - X10
         + rot = 1 or 3
-            0
-            01
-            0
+           - X0
+           - 01
+           - 0
 
         Args:
             position (int): The position or column of the pivot.
@@ -1143,6 +1179,14 @@ class Tetris_Ballistic:
     def Update_Z(self, i, rot=0, sticky=True):
         """
         Updates the substrate with a Z piece.
+
+        + rot = 0 or 2
+           - 00
+           - X10
+        + rot = 1 or 3
+           - X0
+           - 01
+           - 0
 
         Args:
             i (int): The step number.
