@@ -1110,22 +1110,6 @@ class Tetris_Ballistic:
 
         return next
 
-    def Test_S(self):
-        """
-        This is a test function for the S piece.
-        """
-        for rot in range(4):
-            print("S piece, Test rotation ", rot)
-            self.reset()
-            i = 0
-            while i < self.steps:
-                i = self.Update_S(i, rot)
-                if i == -1:
-                    print("Game Over, reach the top")
-                    break
-            print(self.substrate)
-            input("")
-
     def Place_Z(self, position, landing_row, i, rot=0):
         """
         Place a Z with pivot given as follows:
