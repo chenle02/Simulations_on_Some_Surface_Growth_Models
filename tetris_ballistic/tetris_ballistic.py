@@ -478,22 +478,6 @@ class Tetris_Ballistic:
 
         return next
 
-    def Test_I(self):
-        """
-        This is a test function for the Line piece.
-        """
-        for rot in range(4):
-            print("I piece, Test rotation ", rot)
-            self.reset()
-            i = 0
-            while i < self.steps:
-                i = self.Update_I(i, rot)
-                if i == -1:
-                    print("Game Over, reach the top")
-                    break
-            print(self.substrate)
-            input("")
-
     def Place_L(self, position, landing_row, i, rot=0):
         """
         Place an L with pivot at the corner.
