@@ -27,6 +27,7 @@ index             (id, rot)                                 Name                
 16                (5, 1) (5, 3)                             S-piece, Vertical       .. image:: ../images/Tetromino_S_Vertical.png
 17                (6, 0) (6, 2)                             Z-piece, Horizontal     .. image:: ../images/Tetromino_Z_Horizontal.png
 18                (6, 1) (6, 3)                             Z-piece, Vertical       .. image:: ../images/Tetromino_Z_Vertical.png
+19                (7, 0) (7, 1) (7, 2) (7, 3)               1x1-piece               .. image:: ../images/Tetromino_1x1_Single.png
 ================  ========================================  =====================  =========================================================
 
 .. .. list-table::
