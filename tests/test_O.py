@@ -9,7 +9,7 @@ import pytest
 from tetris_ballistic.tetris_ballistic import Tetris_Ballistic
 
 
-def Test_O(self):
+def test_O():
     """
     This is a test function for the square piece.
     """
@@ -25,7 +25,7 @@ def Test_O(self):
             if i == -1:
                 print("Game Over, reach the top")
                 break
-        print(self.substrate)
+        print(TB.substrate)
         input("")
 
     print("Second, the non-sticky case:")
@@ -38,5 +38,5 @@ def Test_O(self):
             if i == -1:
                 print("Game Over, reach the top")
                 break
-        print(self.substrate)
+        print(TB.substrate)
         input("")
