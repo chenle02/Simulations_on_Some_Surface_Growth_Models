@@ -369,22 +369,6 @@ class Tetris_Ballistic:
 
         return next
 
-    def Test_O(self):
-        """
-        This is a test function for the square piece.
-        """
-        for rot in range(4):
-            print("O piece, Test rotation ", rot)
-            self.reset()
-            i = 0
-            while i < self.steps:
-                i = self.Update_O(i, sticky=False)
-                if i == -1:
-                    print("Game Over, reach the top")
-                    break
-            print(self.substrate)
-            input("")
-
     def Place_I(self, position, landing_row, i, rot=0):
         """
         Place a square with pivot at the bottom left corner on the substrate:

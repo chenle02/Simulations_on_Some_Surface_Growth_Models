@@ -6,6 +6,7 @@
 #
 
 import pytest
+import contextlib
 from tetris_ballistic.tetris_ballistic import Tetris_Ballistic
 
 
@@ -13,30 +14,32 @@ def test_O():
     """
     This is a test function for the square piece.
     """
-    TB = Tetris_Ballistic()
+    output_file = "test_O_output.txt"
 
-    print("First, the sticky case:")
-    for rot in range(4):
-        print("O piece, Test rotation ", rot)
-        TB.reset()
-        i = 0
-        while i < TB.steps:
-            i = TB.Update_O(i, sticky=True)
-            if i == -1:
-                print("Game Over, reach the top")
-                break
-        print(TB.substrate)
-        input("")
+    with open(output_file, "w") as file, contextlib.redirect_stdout(file):
 
-    print("Second, the non-sticky case:")
-    for rot in range(4):
-        print("O piece, Test rotation ", rot)
-        TB.reset()
-        i = 0
-        while i < TB.steps:
-            i = TB.Update_O(i, sticky=False)
-            if i == -1:
-                print("Game Over, reach the top")
-                break
-        print(TB.substrate)
-        input("")
+        TB = Tetris_Ballistic()
+
+        print("First, the sticky case:")
+        for rot in range(4):
+            print("O piece, Test rotation ", rot)
+            TB.reset()
+            i = 0
+            while i < TB.steps:
+                i = TB.Update_O(i, sticky=True)
+                if i == -1:
+                    print("Game Over, reach the top")
+                    break
+            print(TB.substrate)
+
+        print("Second, the non-sticky case:")
+        for rot in range(4):
+            print("O piece, Test rotation ", rot)
+            TB.reset()
+            i = 0
+            while i < TB.steps:
+                i = TB.Update_O(i, sticky=False)
+                if i == -1:
+                    print("Game Over, reach the top")
+                    break
+            print(TB.substrate)
