@@ -16,7 +16,7 @@ import numpy as np
 import random
 import yaml
 # from RD_CLI import Envelop, interface_width
-np.set_printoptions(threshold=np.inf)
+np.set_printoptions(threshold=np.inf)  # Make sure that print() displays the entire array
 
 
 class Tetris_Ballistic:
