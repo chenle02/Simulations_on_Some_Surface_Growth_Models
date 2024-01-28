@@ -16,7 +16,9 @@ from Visualize_RD import visualize_simulation
 
 @click.group()
 def cli():
-    """Your CLI Tool Description"""
+    """
+    Your CLI Tool Description
+    """
     pass
 
 
