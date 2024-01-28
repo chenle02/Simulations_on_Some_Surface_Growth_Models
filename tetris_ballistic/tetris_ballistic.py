@@ -15,7 +15,7 @@ By Le Chen, Mauricio Montes and Ian Ruau
 import numpy as np
 import random
 import yaml
-from RD_CLI import Envelop, interface_width
+# from RD_CLI import Envelop, interface_width
 
 
 class Tetris_Ballistic:
@@ -39,7 +39,7 @@ class Tetris_Ballistic:
         else:
             # Set default configuration if no file is provided or if load_config fails
             print("No configure file, uniform distribution is set.")
-            self.config_data = {f"Key-{i + 1}": 1 for i in range(38)}
+            self.config_data = {f"Piece-{i + 1}": 1 for i in range(38)}
             self.steps = steps
             self.width = width
             self.height = height
@@ -74,33 +74,80 @@ class Tetris_Ballistic:
         Loads configuration data from a specified YAML file into the
         `config_data` attribute.
 
-            This method attempts to open and read the contents of the YAML file
-            specified by `filename`. It then validates whether the file
-            contains exactly 38 entries. If the file does not meet this
-            requirement, a ValueError is raised. In case of a successful load,
-            the configuration data is stored in the `config_data` attribute of
-            the class instance.
+        This method opens and reads the contents of the YAML file specified by
+        `filename`. It expects the file to contain a mix of single-value
+        entries and lists (specifically for 'Piece-x' entries) as follows:
 
-        Parameters:
-        filename (str): The path to the YAML configuration file to be loaded.
+        .. code-block:: yaml
+           :caption: **Example YAML configuration file**
+
+           width: 10
+           height: 42
+           steps: 90
+           seed: 42
+           Piece-0:  [4,  1]
+           Piece-1:  [4,  1]
+           Piece-2:  [2,  1]
+           Piece-3:  [11, 1]
+           Piece-4:  [1,  1]
+           Piece-5:  [1,  1]
+           Piece-6:  [1,  1]
+           Piece-7:  [11, 1]
+           Piece-8:  [1,  1]
+           Piece-9:  [1,  1]
+           Piece-10: [1,  1]
+           Piece-11: [11, 1]
+           Piece-12: [1,  1]
+           Piece-13: [2,  1]
+           Piece-14: [1,  1]
+           Piece-15: [11, 1]
+           Piece-16: [1,  1]
+           Piece-17: [1,  1]
+           Piece-18: [1,  1]
+
+        The method stores these entries in the `config_data` attribute of the
+        class instance. Single-value entries are converted to floats, while
+        'Piece-x' entries are stored as lists of two floats, among which the
+        first entry refers to the frequency of the non-sticky piece and the
+        second entry refers to the frequency of the sticky piece.
+
+        If the file does not contain exactly 23 entries, a ValueError is
+        raised.
+
+        Args:
+            filename (str): The path to the YAML configuration file to be loaded.
 
         Returns:
-        bool: True if the file is successfully loaded and contains the correct number of entries, False otherwise.
+            bool: True if the file is successfully loaded and contains the correct number of entries, False otherwise.
 
         Raises:
-        yaml.YAMLError: If there is an error parsing the YAML file.
-
+            FileNotFoundError: If the specified file does not exist.
+            ValueError: If the file does not contain exactly 23 entries.
+            yaml.YAMLError: If there is an error parsing the YAML file.
         """
         try:
             with open(filename, 'r') as file:
                 raw_data = yaml.safe_load(file)
+
                 if isinstance(raw_data, dict):
-                    self.config_data = {k: float(v) for k, v in raw_data.items()}
+                    # Processing the data
+                    self.config_data = {}
+                    for k, v in raw_data.items():
+                        if k.startswith("Piece-"):
+                            self.config_data[k] = v  # Store list as-is for pieces
+                        else:
+                            self.config_data[k] = float(v)  # Convert other values to float
+
+                    # Check for the total number of entries
+                    if len(self.config_data) != 23:
+                        raise ValueError("Incorrect number of entries in the configuration file.")
+
                     print(f"Loaded: {self.config_data}")
                     return True
                 else:
-                    print(f"Fail to load from {filename}")
+                    print(f"Failed to load from {filename}")
                     return False
+
         except FileNotFoundError:
             print(f"File not found: {filename}")
             return False
@@ -120,7 +167,8 @@ class Tetris_Ballistic:
 
     def Sample_Tetris(self):
         """
-        Samples a Tetris piece given the probability distribution specified in the configuration file.
+        Samples a Tetris piece given the probability distribution specified in
+        the configuration file.
 
         Returns:
             numpy.ndarray: A 2-element array:
@@ -129,7 +177,7 @@ class Tetris_Ballistic:
 
         """
         # Normalize the vector
-        probabilities = np.array([self.config_data[f"Key-{i+1}"] for i in range(38)])
+        probabilities = np.array([self.config_data[f"Piece-{i+1}"] for i in range(38)])
 
         # Normalize the vector
         normalized_probabilities = probabilities / np.sum(probabilities)

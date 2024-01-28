@@ -2,41 +2,22 @@ width: 10
 height: 42
 steps: 90
 seed: -2
-Key-1: 4
-Key-2: 2
-Key-3: 11
-Key-4: 1
-Key-5: 1
-Key-6: 1
-Key-7: 11
-Key-8: 1
-Key-9: 1
-Key-10: 1
-Key-11: 11
-Key-12: 1
-Key-13: 2
-Key-14: 1
-Key-15: 11
-Key-16: 1
-Key-17: 1
-Key-18: 1
-Key-19: 11
-Key-20: 1
-Key-21: 1
-Key-22: 1
-Key-23: 11
-Key-24: 1
-Key-25: 1
-Key-26: 1
-Key-27: 11
-Key-28: 1
-Key-29: 1
-Key-30: 1
-Key-31: 11
-Key-32: 1
-Key-33: 1
-Key-34: 1
-Key-35: 11
-Key-36: 1
-Key-37: 1
-Key-38: 1
+Piece-0:  [4,  1]
+Piece-1:  [4,  1]
+Piece-2:  [2,  1]
+Piece-3:  [11, 1]
+Piece-4:  [1,  1]
+Piece-5:  [1,  1]
+Piece-6:  [1,  1]
+Piece-7:  [11, 1]
+Piece-8:  [1,  1]
+Piece-9:  [1,  1]
+Piece-10: [1,  1]
+Piece-11: [11, 1]
+Piece-12: [1,  1]
+Piece-13: [2,  1]
+Piece-14: [1,  1]
+Piece-15: [11, 1]
+Piece-16: [1,  1]
+Piece-17: [1,  1]
+Piece-18: [1,  1]
