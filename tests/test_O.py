@@ -18,7 +18,7 @@ def test_O():
 
     with open(output_file, "w") as file, contextlib.redirect_stdout(file):
 
-        TB = Tetris_Ballistic()
+        TB = Tetris_Ballistic(seed=42)
 
         print("First, the sticky case:")
         for rot in range(4):
@@ -31,6 +31,7 @@ def test_O():
                     print("Game Over, reach the top")
                     break
             print(TB.substrate)
+            print(TB.HeightDynamics)
 
         print("Second, the non-sticky case:")
         for rot in range(4):
@@ -43,3 +44,4 @@ def test_O():
                     print("Game Over, reach the top")
                     break
             print(TB.substrate)
+            print(TB.HeightDynamics)

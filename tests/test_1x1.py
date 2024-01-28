@@ -18,7 +18,7 @@ def test_1x1():
 
     with open(output_file, "w") as file, contextlib.redirect_stdout(file):
 
-        TB = Tetris_Ballistic(steps=99)
+        TB = Tetris_Ballistic(seed=42)
 
         print("First, the sticky case of 1x1 piece:")
         TB.reset()
@@ -29,6 +29,7 @@ def test_1x1():
                 print("Game Over, reach the top")
                 break
         print(TB.substrate)
+        print(TB.HeightDynamics)
 
         print("Second, the non-sticky case of 1x1 piece:")
         TB.reset()
@@ -39,3 +40,4 @@ def test_1x1():
                 print("Game Over, reach the top")
                 break
         print(TB.substrate)
+        print(TB.HeightDynamics)

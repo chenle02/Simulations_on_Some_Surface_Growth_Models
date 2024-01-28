@@ -16,10 +16,16 @@ import numpy as np
 import random
 import yaml
 # from RD_CLI import Envelop, interface_width
+np.set_printoptions(threshold=np.inf)
 
 
 class Tetris_Ballistic:
-    def __init__(self, width=16, height=32, steps=30, seed=None, config_file=None):
+    def __init__(self,
+                 width=16,
+                 height=32,
+                 steps=30,
+                 seed=None,
+                 config_file=None):
         """
         Initializes the Tetris_Ballistic simulation.
 
@@ -74,6 +80,8 @@ class Tetris_Ballistic:
         self.PieceMap[17] = [6, 0]
         self.PieceMap[18] = [6, 1]
         self.PieceMap[19] = [7, 0]  # 1x1 piece
+
+        self.HeightDynamics = np.zeros((self.steps, self.width))
 
     def load_config(self, filename):
         """
@@ -370,6 +378,7 @@ class Tetris_Ballistic:
         self.Place_O(position, landing_row, next)
         # print(self.substrate)
         # input("")
+        self._Envelop(i)
 
         return next
 
@@ -480,6 +489,7 @@ class Tetris_Ballistic:
                 next = i + 1
                 self.Place_I(position, landing_row, next, rot)
 
+        self._Envelop(i)
         return next
 
     def Place_L(self, position, landing_row, i, rot=0):
@@ -650,6 +660,7 @@ class Tetris_Ballistic:
                 next = i + 1
                 self.Place_L(position, landing_row - 1, next, rot)
 
+        self._Envelop(i)
         return next
 
     def Place_J(self, position, landing_row, i, rot=0):
@@ -822,6 +833,7 @@ class Tetris_Ballistic:
                 next = i + 1
                 self.Place_J(position, landing_row, next, rot)
 
+        self._Envelop(i)
         return next
 
     def Place_T(self, position, landing_row, i, rot=0):
@@ -993,6 +1005,7 @@ class Tetris_Ballistic:
                 next = i + 1
                 self.Place_T(position, landing_row - 1, next, rot)
 
+        self._Envelop(i)
         return next
 
     def Place_S(self, position, landing_row, i, rot=0):
@@ -1096,6 +1109,7 @@ class Tetris_Ballistic:
                 next = i + 1
                 self.Place_S(position, landing_row - 1, next, rot)
 
+        self._Envelop(i)
         return next
 
     def Place_Z(self, position, landing_row, i, rot=0):
@@ -1199,6 +1213,7 @@ class Tetris_Ballistic:
                 next = i + 1
                 self.Place_Z(position, landing_row - 1, next, rot)
 
+        self._Envelop(i)
         return next
 
     def Place_1x1(self, position, landing_row, i):
@@ -1250,7 +1265,9 @@ class Tetris_Ballistic:
         # print(self.substrate)
         # input("")
 
+        self._Envelop(i)
         return next
+
     def Test_All(self):
         """
         This function simulates the Tetris Decomposition model on a substrate.
@@ -1325,10 +1342,36 @@ class Tetris_Ballistic:
                 print("Wrong ID")
                 return [-1, -1]
 
+    def _Envelop(self, step):
+        """
+        Compute the top envelope of a substrate.
+
+        This function calculates the highest particle position in each column
+        of the substrate. It is used to visualize the top envelope of the
+        substrate in the simulation.
+
+        Parameters
+        ----------
+        step : int
+            The step number of the substrate.
+
+        Returns
+        -------
+            None
+            Update the top_envelope attribute of the substrate.
+        """
+        top_envelope = np.zeros(self.width)
+        for pos in range(self.width):
+            if np.any(self.substrate[:, pos] > 0):  # If there's any nonzero value in the column
+                top_envelope[pos] = np.argmax(self.substrate[:, pos] > 0) - 3
+            else:
+                top_envelope[pos] = self.height - 2
+
+        self.HeightDynamics[step] = top_envelope
 
 # Example usage
 # tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=1000, seed=42)
-# tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=1000, seed=42)
+# tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=10, seed=42)
 # tetris_simulator.Test_All()
 # tetris_simulator.Sample_Tetris()
 # tetris_simulator.Sample_Tetris()
