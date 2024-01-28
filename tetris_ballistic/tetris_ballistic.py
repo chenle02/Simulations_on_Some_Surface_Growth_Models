@@ -203,27 +203,6 @@ class Tetris_Ballistic:
         print(f"Sampled (Piece, rot, Sticky): {Piece_id}, {rot}, {Sticky}")
         return Piece_id, rot, Sticky
 
-    def Test_WhichPiece(self):
-        print(self.PieceMap[0])
-        print(self.PieceMap[1])
-        print(self.PieceMap[2])
-        print(self.PieceMap[3])
-        print(self.PieceMap[4])
-        print(self.PieceMap[5])
-        print(self.PieceMap[6])
-        print(self.PieceMap[7])
-        print(self.PieceMap[8])
-        print(self.PieceMap[9])
-        print(self.PieceMap[10])
-        print(self.PieceMap[11])
-        print(self.PieceMap[12])
-        print(self.PieceMap[13])
-        print(self.PieceMap[14])
-        print(self.PieceMap[15])
-        print(self.PieceMap[16])
-        print(self.PieceMap[17])
-        print(self.PieceMap[18])
-
     def Tetris_Choice(self):
         """
         Randomly selects a Tetris piece and its orientation.
@@ -1416,12 +1395,12 @@ class Tetris_Ballistic:
 # tetris_simulator.Sample_Tetris()
 # tetris_simulator.Sample_Tetris()
 # tetris_simulator.Sample_Tetris()
-tetris_simulator = Tetris_Ballistic(config_file="config.yaml")
-tetris_simulator.Sample_Tetris()
-tetris_simulator.Sample_Tetris()
-tetris_simulator.Sample_Tetris()
-tetris_simulator.Sample_Tetris()
-tetris_simulator.Sample_Tetris()
+# tetris_simulator = Tetris_Ballistic(config_file="config.yaml")
+# tetris_simulator.Sample_Tetris()
+# tetris_simulator.Sample_Tetris()
+# tetris_simulator.Sample_Tetris()
+# tetris_simulator.Sample_Tetris()
+# tetris_simulator.Sample_Tetris()
 # tetris_simulator.Test_O()
 # tetris_simulator.Test_I()
 # tetris_simulator.Test_L()
