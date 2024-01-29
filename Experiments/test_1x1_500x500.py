@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 #
-# By Le Chen and Chatgpt
+# Make sure install the package first by running:
+# `pip3 install -e .`
+# from the root directory of the package
 # chenle02@gmail.com / le.chen@auburn.edu
-# Created at Fri Jan 26 02:17:33 PM EST 2024
+# Created at Sun Jan 28 10:38:55 PM EST 2024
 #
 
 from tetris_ballistic.tetris_ballistic import Tetris_Ballistic
