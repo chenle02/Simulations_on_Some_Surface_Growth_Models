@@ -1399,7 +1399,7 @@ class Tetris_Ballistic:
             self.Fluctuation[step] += np.power(top_envelope[pos] - average, 2) / self.width
         self.Fluctuation[step] = np.sqrt(self.Fluctuation[step])
 
-    def PrintStatus(self):
+    def PrintStatus(self, brief=False):
         """
         This function prints out the status of the substrate.
         """
@@ -1410,10 +1410,13 @@ class Tetris_Ballistic:
         print(f"Steps: {self.steps}")
         print(f"Final Steps: {self.FinalSteps}")
         print(f"Seed: {self.seed}")
-        print(f"Substrate:\n {self.substrate}")
-        print(f"Height Dynamics:\n {self.HeightDynamics}")
-        print(f"Average Height:\n {self.AvergeHeight}")
-        print(f"Fluctuation:\n {self.Fluctuation}")
+
+        if not brief:
+            print(f"Substrate:\n {self.substrate}")
+            print(f"Height Dynamics:\n {self.HeightDynamics}")
+            print(f"Average Height:\n {self.AvergeHeight}")
+            print(f"Fluctuation:\n {self.Fluctuation}")
+
         print(f"Log-time vs slopes:\n {self.log_time_slopes}")
 
     def ComputeSlope(self):
@@ -1434,9 +1437,18 @@ class Tetris_Ballistic:
         # Initialize an empty 2D array for log_times and slopes
         self.log_time_slopes = np.empty((num_samples, 2))
 
+        print("Computing the slopes now...")
+
+        total_iterations = len(range(quarter_length, len(time), step_size))
         for i, end in enumerate(range(quarter_length, len(time), step_size)):
             current_time = time[:end]
             current_interface = self.Fluctuation[:end]
+
+            # Calculate the progress percentage
+            progress_percentage = ((i + 1) / total_iterations) * 100
+
+            # Print the progress
+            print(f"Progress: {progress_percentage:.2f}%", end='\r')
 
             log_time = np.log(current_time[-1])
             log_interface = np.log(current_interface)
