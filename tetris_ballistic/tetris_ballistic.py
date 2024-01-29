@@ -58,6 +58,7 @@ class Tetris_Ballistic:
                 random.seed(seed)
                 np.random.seed(seed)
 
+        self.FinalSteps = self.steps  # This is the final step number
         self.substrate = np.zeros((self.height, self.width))
         self.PieceMap = [[-1, -1] for _ in range(20)]
         self.PieceMap[0] = [0, 0]
@@ -373,6 +374,7 @@ class Tetris_Ballistic:
             landing_row_outright)
 
         if landing_row < 2:
+            self.FinalSteps = i
             return -1
 
         # Place square based on the minimum landing row
@@ -380,7 +382,7 @@ class Tetris_Ballistic:
         self.Place_O(position, landing_row, next)
         # print(self.substrate)
         # input("")
-        self._Compute_Statistics(i)
+        self._UpdateStatus(i)
 
         return next
 
@@ -467,6 +469,7 @@ class Tetris_Ballistic:
                     landing_row_outright)
 
                 if landing_row < 1:
+                    self.FinalSteps = i
                     return -1
 
                 next = i + 1
@@ -486,12 +489,13 @@ class Tetris_Ballistic:
                     landing_row_outright)
 
                 if landing_row < 4:
+                    self.FinalSteps = i
                     return -1
 
                 next = i + 1
                 self.Place_I(position, landing_row, next, rot)
 
-        self._Compute_Statistics(i)
+        self._UpdateStatus(i)
         return next
 
     def Place_L(self, position, landing_row, i, rot=0):
@@ -589,6 +593,7 @@ class Tetris_Ballistic:
                     landing_row_outright)
 
                 if landing_row < 3:
+                    self.FinalSteps = i
                     return -1
 
                 # Place square based on the minimum landing row
@@ -612,6 +617,7 @@ class Tetris_Ballistic:
                     landing_row_outright)
 
                 if landing_row < 2:
+                    self.FinalSteps = i
                     return -1
 
                 # Place square based on the minimum landing row
@@ -633,6 +639,7 @@ class Tetris_Ballistic:
                     landing_row_outright)
 
                 if landing_row < 3:
+                    self.FinalSteps = i
                     return -1
 
                 # Place square based on the minimum landing row
@@ -656,13 +663,14 @@ class Tetris_Ballistic:
                     landing_row_right2)
 
                 if landing_row < 2:
+                    self.FinalSteps = i
                     return -1
 
                 # Place square based on the minimum landing row
                 next = i + 1
                 self.Place_L(position, landing_row - 1, next, rot)
 
-        self._Compute_Statistics(i)
+        self._UpdateStatus(i)
         return next
 
     def Place_J(self, position, landing_row, i, rot=0):
@@ -762,6 +770,7 @@ class Tetris_Ballistic:
                     landing_row_outright)
 
                 if landing_row < 3:
+                    self.FinalSteps = i
                     return -1
 
                 # Place square based on the minimum landing row
@@ -785,6 +794,7 @@ class Tetris_Ballistic:
                     landing_row_outright)
 
                 if landing_row < 2:
+                    self.FinalSteps = i
                     return -1
 
                 # Place square based on the minimum landing row
@@ -806,6 +816,7 @@ class Tetris_Ballistic:
                     landing_row_outright2)
 
                 if landing_row < 3:
+                    self.FinalSteps = i
                     return -1
 
                 # Place square based on the minimum landing row
@@ -829,13 +840,14 @@ class Tetris_Ballistic:
                     landing_row_right2)
 
                 if landing_row < 2:
+                    self.FinalSteps = i
                     return -1
 
                 # Place square based on the minimum landing row
                 next = i + 1
                 self.Place_J(position, landing_row, next, rot)
 
-        self._Compute_Statistics(i)
+        self._UpdateStatus(i)
         return next
 
     def Place_T(self, position, landing_row, i, rot=0):
@@ -936,6 +948,7 @@ class Tetris_Ballistic:
                     landing_row_outright)
 
                 if landing_row < 2:
+                    self.FinalSteps = i
                     return -1
 
                 # Place square based on the minimum landing row
@@ -957,6 +970,7 @@ class Tetris_Ballistic:
                     landing_row_outright)
 
                 if landing_row < 3:
+                    self.FinalSteps = i
                     return -1
 
                 # Place square based on the minimum landing row
@@ -980,6 +994,7 @@ class Tetris_Ballistic:
                     landing_row_outright)
 
                 if landing_row < 3:
+                    self.FinalSteps = i
                     return -1
 
                 # Place square based on the minimum landing row
@@ -1001,13 +1016,14 @@ class Tetris_Ballistic:
                     landing_row_outright)
 
                 if landing_row < 3:
+                    self.FinalSteps = i
                     return -1
 
                 # Place square based on the minimum landing row
                 next = i + 1
                 self.Place_T(position, landing_row - 1, next, rot)
 
-        self._Compute_Statistics(i)
+        self._UpdateStatus(i)
         return next
 
     def Place_S(self, position, landing_row, i, rot=0):
@@ -1084,6 +1100,7 @@ class Tetris_Ballistic:
                     landing_row_outright2)
 
                 if landing_row < 2:
+                    self.FinalSteps = i
                     return -1
 
                 # Place square based on the minimum landing row
@@ -1105,13 +1122,14 @@ class Tetris_Ballistic:
                     landing_row_outright)
 
                 if landing_row < 3:
+                    self.FinalSteps = i
                     return -1
 
                 # Place square based on the minimum landing row
                 next = i + 1
                 self.Place_S(position, landing_row - 1, next, rot)
 
-        self._Compute_Statistics(i)
+        self._UpdateStatus(i)
         return next
 
     def Place_Z(self, position, landing_row, i, rot=0):
@@ -1188,6 +1206,7 @@ class Tetris_Ballistic:
                     landing_row_outright)
 
                 if landing_row < 2:
+                    self.FinalSteps = i
                     return -1
 
                 # Place square based on the minimum landing row
@@ -1209,13 +1228,14 @@ class Tetris_Ballistic:
                     landing_row_outright)
 
                 if landing_row < 3:
+                    self.FinalSteps = i
                     return -1
 
                 # Place square based on the minimum landing row
                 next = i + 1
                 self.Place_Z(position, landing_row - 1, next, rot)
 
-        self._Compute_Statistics(i)
+        self._UpdateStatus(i)
         return next
 
     def Place_1x1(self, position, landing_row, i):
@@ -1259,6 +1279,7 @@ class Tetris_Ballistic:
             landing_row_outright)
 
         if landing_row < 2:
+            self.FinalSteps = i
             return -1
 
         # Place square based on the minimum landing row
@@ -1267,7 +1288,7 @@ class Tetris_Ballistic:
         # print(self.substrate)
         # input("")
 
-        self._Compute_Statistics(i)
+        self._UpdateStatus(i)
         return next
 
     def Test_All(self):
@@ -1344,7 +1365,7 @@ class Tetris_Ballistic:
                 print("Wrong ID")
                 return [-1, -1]
 
-    def _Compute_Statistics(self, step):
+    def _UpdateStatus(self, step):
         """
         Compute the top envelope of a substrate.
 
@@ -1382,15 +1403,54 @@ class Tetris_Ballistic:
         """
         This function prints out the status of the substrate.
         """
+        print("------------------------\n")
         print("Status of the substrate:")
         print(f"Width:  {self.width}")
         print(f"Height: {self.height}")
         print(f"Steps: {self.steps}")
+        print(f"Final Steps: {self.FinalSteps}")
+        print(f"Seed: {self.seed}")
         print(f"Substrate:\n {self.substrate}")
         print(f"Height Dynamics:\n {self.HeightDynamics}")
         print(f"Average Height:\n {self.AvergeHeight}")
         print(f"Fluctuation:\n {self.Fluctuation}")
 
+    def ComputeSlope(self):
+        """
+        This function computes the slope of the substrate and returns
+        a 2-D array with log_time and corresponding slopes.
+
+        The computation starts from the 1/4 of the total steps and we sample at
+        most 100 points.
+
+        """
+        time = np.array(range(1, self.FinalSteps + 1))
+        quarter_length = len(time) // 4  # Starting point
+
+        # Calculate number of steps between each sampled point, ensuring it's at least 1
+        step_size = max(1, (len(time) - quarter_length) // 100)
+        selected_indices = range(quarter_length, len(time), step_size)
+
+        log_times = []
+        slopes = []
+
+        for end in selected_indices:
+            current_time = time[:end]
+            current_interface = self.Fluctuation[:end]
+
+            log_time = np.log(current_time[-1])  # log of the last time point in the current window
+            log_interface = np.log(current_interface)
+
+            # Fit a linear regression to the log-log data of the current window
+            slope, _ = np.polyfit(np.log(current_time), log_interface, 1)
+
+            log_times.append(log_time)
+            slopes.append(slope)
+
+        # Combine log_times and slopes into a 2-D array
+        result = np.array([log_times, slopes]).T
+
+        return result
 
 # Example usage
 # tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=1000, seed=42)
