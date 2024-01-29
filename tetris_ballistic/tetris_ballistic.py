@@ -39,6 +39,8 @@ class Tetris_Ballistic:
             seed (int, optional): The seed for random number generation. If None, randomness is not controlled.
             config_file (str, optional): The path to the YAML configuration file to be loaded (default None). The values set in the configuration file will override the default values.
         """
+        self.set_seed(seed)  # Set initial seed
+
         if config_file is not None and self.load_config(config_file):
             # Configuration successfully loaded by load_config
             print(f"Configure file {config_file} loaded successfully.")
@@ -46,6 +48,7 @@ class Tetris_Ballistic:
             self.width = int(self.config_data['width'])
             self.height = int(self.config_data['height'])
             self.seed = self.config_data['seed']
+            self.set_seed(self.config_data.get('seed', None))  # Set seed from config if available
         else:
             # Set default configuration if no file is provided or if load_config fails
             print("No configure file, uniform distribution is set.")
@@ -54,9 +57,7 @@ class Tetris_Ballistic:
             self.steps = steps
             self.width = width
             self.height = height
-            if seed is not None:
-                random.seed(seed)
-                np.random.seed(seed)
+            self.seed = seed
 
         self.FinalSteps = self.steps  # This is the final step number
         self.substrate = np.zeros((self.height, self.width))
@@ -85,6 +86,30 @@ class Tetris_Ballistic:
         self.HeightDynamics = np.zeros((self.steps, self.width))
         self.Fluctuation = np.zeros((self.steps))
         self.AvergeHeight = np.zeros((self.steps))
+        self.log_time_slopes = None
+
+    def set_seed(self, seed):
+        """
+        Set the seed for random number generation.
+
+        This method sets the seed for both the built-in random module and
+        numpy's random module. It ensures that the seed is either a valid
+        integer or None. If None is provided, the seed is set to a random value
+        based on system time or another source of randomness.
+
+        :param seed: Seed value to set for random number generation. If None, a random seed is used.
+        :type seed: int or None
+
+        :raises ValueError: If the seed is not an integer or None.
+        """
+        if seed is not None:
+            try:
+                seed = int(seed)
+            except ValueError:
+                raise ValueError("Seed must be an integer or None")
+
+        random.seed(seed)
+        np.random.seed(seed)
 
     def load_config(self, filename):
         """
@@ -1340,31 +1365,6 @@ class Tetris_Ballistic:
 
         print(self.substrate)
 
-        def WhichPiece(self, id):
-            """
-            Determines the board position of a chess piece based on its unique identifier.
-
-            This method takes an integer 'id' as input, representing the unique identifier of a chess piece.
-            It returns the position of the piece on the chessboard if the identifier is valid (between 0 and 37, inclusive).
-            If the identifier is not valid, it prints an error message and returns a list containing [-1, -1].
-
-            Args:
-                id (int): A unique identifier for a chess piece, expected to be in the range of 0 to 37.
-
-            Returns:
-                list: A two-element list representing the position of the piece on the chessboard. Each element is an integer.
-                    If the id is invalid, it returns [-1, -1].
-
-            Note:
-                The chessboard positions are mapped in the `PieceMap` attribute of the class. This method looks up the
-                position in `PieceMap` based on the provided id.
-            """
-            if id < 38 and id >= 0:
-                return self.PieceMap[id]
-            else:
-                print("Wrong ID")
-                return [-1, -1]
-
     def _UpdateStatus(self, step):
         """
         Compute the top envelope of a substrate.
@@ -1414,43 +1414,36 @@ class Tetris_Ballistic:
         print(f"Height Dynamics:\n {self.HeightDynamics}")
         print(f"Average Height:\n {self.AvergeHeight}")
         print(f"Fluctuation:\n {self.Fluctuation}")
+        print(f"Log-time vs slopes:\n {self.log_time_slopes}")
 
     def ComputeSlope(self):
         """
         This function computes the slope of the substrate and returns
         a 2-D array with log_time and corresponding slopes.
 
-        The computation starts from the 1/4 of the total steps and we sample at
-        most 100 points.
+        The computation starts from the 1/10 of the total steps and we sample
+        at most 100 points.
 
+        Return: None
         """
         time = np.array(range(1, self.FinalSteps + 1))
-        quarter_length = len(time) // 4  # Starting point
-
-        # Calculate number of steps between each sampled point, ensuring it's at least 1
+        quarter_length = len(time) // 10
         step_size = max(1, (len(time) - quarter_length) // 100)
-        selected_indices = range(quarter_length, len(time), step_size)
+        num_samples = len(range(quarter_length, len(time), step_size))
 
-        log_times = []
-        slopes = []
+        # Initialize an empty 2D array for log_times and slopes
+        self.log_time_slopes = np.empty((num_samples, 2))
 
-        for end in selected_indices:
+        for i, end in enumerate(range(quarter_length, len(time), step_size)):
             current_time = time[:end]
             current_interface = self.Fluctuation[:end]
 
-            log_time = np.log(current_time[-1])  # log of the last time point in the current window
+            log_time = np.log(current_time[-1])
             log_interface = np.log(current_interface)
 
-            # Fit a linear regression to the log-log data of the current window
             slope, _ = np.polyfit(np.log(current_time), log_interface, 1)
 
-            log_times.append(log_time)
-            slopes.append(slope)
-
-        # Combine log_times and slopes into a 2-D array
-        result = np.array([log_times, slopes]).T
-
-        return result
+            self.log_time_slopes[i] = [log_time, slope]
 
 # Example usage
 # tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=1000, seed=42)

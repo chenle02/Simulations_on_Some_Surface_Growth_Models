@@ -28,6 +28,7 @@ def test_1x1():
             if i == -1:
                 print("Game Over, reach the top")
                 break
+        TB.ComputeSlope()
         TB.PrintStatus()
         # print(TB.substrate)
         # print(TB.HeightDynamics)
@@ -40,6 +41,7 @@ def test_1x1():
             if i == -1:
                 print("Game Over, reach the top")
                 break
+        TB.ComputeSlope()
         TB.PrintStatus()
         # print(TB.substrate)
         # print(TB.HeightDynamics)

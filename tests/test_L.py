@@ -27,6 +27,7 @@ def test_L():
                     break
             # print(TB.substrate)
             # print(TB.HeightDynamics)
+            TB.ComputeSlope()
             TB.PrintStatus()
 
         print("Second, the non-sticky case:")
@@ -41,4 +42,5 @@ def test_L():
                     break
             # print(TB.substrate)
             # print(TB.HeightDynamics)
+            TB.ComputeSlope()
             TB.PrintStatus()

@@ -30,8 +30,7 @@ def test_O():
                 if i == -1:
                     print("Game Over, reach the top")
                     break
-            # print(TB.substrate)
-            # print(TB.HeightDynamics)
+            TB.ComputeSlope()
             TB.PrintStatus()
 
         print("Second, the non-sticky case:")
@@ -44,6 +43,5 @@ def test_O():
                 if i == -1:
                     print("Game Over, reach the top")
                     break
-            # print(TB.substrate)
-            # print(TB.HeightDynamics)
+            TB.ComputeSlope()
             TB.PrintStatus()
