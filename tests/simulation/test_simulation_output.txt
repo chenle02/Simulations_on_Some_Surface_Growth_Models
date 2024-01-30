@@ -1,0 +1,1300 @@
+Loaded: {'steps': 600.0, 'width': 20.0, 'height': 30.0, 'seed': 42.0, 'Piece-0': [1, 0], 'Piece-1': [1, 0], 'Piece-2': [1, 0], 'Piece-3': [1, 0], 'Piece-4': [1, 0], 'Piece-5': [1, 0], 'Piece-6': [1, 0], 'Piece-7': [1, 0], 'Piece-8': [1, 0], 'Piece-9': [1, 0], 'Piece-10': [1, 0], 'Piece-11': [1, 0], 'Piece-12': [1, 0], 'Piece-13': [1, 0], 'Piece-14': [1, 0], 'Piece-15': [1, 0], 'Piece-16': [1, 0], 'Piece-17': [1, 0], 'Piece-18': [1, 0], 'Piece-19': [0, 0]}
+Configure file ./config_Tetris_Non_Sticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Sampled (Type_id, rot, Sticky, Update_Function): (3, 0, False), Update_J args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (6, 1, False), Update_Z args=() kwargs={'rot': 1, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (4, 2, False), Update_T args=() kwargs={'rot': 2, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (4, 0, False), Update_T args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (1, 1, False), Update_I args=() kwargs={'rot': 1, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (1, 1, False), Update_I args=() kwargs={'rot': 1, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (1, 0, False), Update_I args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (5, 1, False), Update_S args=() kwargs={'rot': 1, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (4, 0, False), Update_T args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (4, 2, False), Update_T args=() kwargs={'rot': 2, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (0, 0, False), Update_O args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (6, 1, False), Update_Z args=() kwargs={'rot': 1, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (5, 0, False), Update_S args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (2, 1, False), Update_L args=() kwargs={'rot': 1, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (2, 0, False), Update_L args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (2, 0, False), Update_L args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (2, 2, False), Update_L args=() kwargs={'rot': 2, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (3, 2, False), Update_J args=() kwargs={'rot': 2, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (3, 1, False), Update_J args=() kwargs={'rot': 1, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (2, 2, False), Update_L args=() kwargs={'rot': 2, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (4, 0, False), Update_T args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (1, 1, False), Update_I args=() kwargs={'rot': 1, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (2, 2, False), Update_L args=() kwargs={'rot': 2, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (2, 3, False), Update_L args=() kwargs={'rot': 3, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (3, 1, False), Update_J args=() kwargs={'rot': 1, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (4, 3, False), Update_T args=() kwargs={'rot': 3, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (2, 0, False), Update_L args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (3, 2, False), Update_J args=() kwargs={'rot': 2, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (4, 0, False), Update_T args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (0, 0, False), Update_O args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (4, 0, False), Update_T args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (2, 0, False), Update_L args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (1, 0, False), Update_I args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (6, 1, False), Update_Z args=() kwargs={'rot': 1, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (6, 1, False), Update_Z args=() kwargs={'rot': 1, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (5, 0, False), Update_S args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (2, 2, False), Update_L args=() kwargs={'rot': 2, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (1, 0, False), Update_I args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (4, 2, False), Update_T args=() kwargs={'rot': 2, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (3, 1, False), Update_J args=() kwargs={'rot': 1, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (1, 1, False), Update_I args=() kwargs={'rot': 1, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (3, 2, False), Update_J args=() kwargs={'rot': 2, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (0, 0, False), Update_O args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (6, 0, False), Update_Z args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (2, 1, False), Update_L args=() kwargs={'rot': 1, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (4, 1, False), Update_T args=() kwargs={'rot': 1, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (2, 2, False), Update_L args=() kwargs={'rot': 2, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (3, 2, False), Update_J args=() kwargs={'rot': 2, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (3, 3, False), Update_J args=() kwargs={'rot': 3, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (2, 0, False), Update_L args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (6, 1, False), Update_Z args=() kwargs={'rot': 1, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (4, 3, False), Update_T args=() kwargs={'rot': 3, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (6, 0, False), Update_Z args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (6, 0, False), Update_Z args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (4, 0, False), Update_T args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (6, 0, False), Update_Z args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (1, 0, False), Update_I args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (2, 0, False), Update_L args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (0, 0, False), Update_O args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (2, 3, False), Update_L args=() kwargs={'rot': 3, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (3, 0, False), Update_J args=() kwargs={'rot': 0, 'sticky': False}
+Game Over, reach the top
+Computing the slopes now...
+Progress: 1.85%Progress: 3.70%Progress: 5.56%Progress: 7.41%Progress: 9.26%Progress: 11.11%Progress: 12.96%Progress: 14.81%Progress: 16.67%Progress: 18.52%Progress: 20.37%Progress: 22.22%Progress: 24.07%Progress: 25.93%Progress: 27.78%Progress: 29.63%Progress: 31.48%Progress: 33.33%Progress: 35.19%Progress: 37.04%Progress: 38.89%Progress: 40.74%Progress: 42.59%Progress: 44.44%Progress: 46.30%Progress: 48.15%Progress: 50.00%Progress: 51.85%Progress: 53.70%Progress: 55.56%Progress: 57.41%Progress: 59.26%Progress: 61.11%Progress: 62.96%Progress: 64.81%Progress: 66.67%Progress: 68.52%Progress: 70.37%Progress: 72.22%Progress: 74.07%Progress: 75.93%Progress: 77.78%Progress: 79.63%Progress: 81.48%Progress: 83.33%Progress: 85.19%Progress: 87.04%Progress: 88.89%Progress: 90.74%Progress: 92.59%Progress: 94.44%Progress: 96.30%Progress: 98.15%Progress: 100.00%------------------------
+
+Status of the substrate:
+Width:  20
+Height: 30
+Steps: 600
+Final Steps: 60
+Seed: 42.0
+Log-time vs slopes:
+ [[1.79175947 0.84195176]
+ [1.94591015 0.79827294]
+ [2.07944154 0.74271134]
+ [2.19722458 0.67862005]
+ [2.30258509 0.64097293]
+ [2.39789527 0.61993245]
+ [2.48490665 0.61414806]
+ [2.56494936 0.61084888]
+ [2.63905733 0.61368683]
+ [2.7080502  0.60697193]
+ [2.77258872 0.60314917]
+ [2.83321334 0.59375154]
+ [2.89037176 0.58621386]
+ [2.94443898 0.58680979]
+ [2.99573227 0.58208809]
+ [3.04452244 0.58191267]
+ [3.09104245 0.58296854]
+ [3.13549422 0.58295386]
+ [3.17805383 0.57883376]
+ [3.21887582 0.5788132 ]
+ [3.25809654 0.57858075]
+ [3.29583687 0.57934199]
+ [3.33220451 0.57943783]
+ [3.36729583 0.5805538 ]
+ [3.40119738 0.57652772]
+ [3.4339872  0.57454574]
+ [3.4657359  0.56711948]
+ [3.49650756 0.55707319]
+ [3.52636052 0.54976068]
+ [3.55534806 0.54282941]
+ [3.58351894 0.5284424 ]
+ [3.61091791 0.51227037]
+ [3.63758616 0.4986349 ]
+ [3.66356165 0.4847769 ]
+ [3.68887945 0.45383721]
+ [3.71357207 0.43157109]
+ [3.73766962 0.40866897]
+ [3.76120012 0.38601159]
+ [3.78418963 0.36862076]
+ [3.80666249 0.35357213]
+ [3.8286414  0.34067097]
+ [3.8501476  0.33118127]
+ [3.87120101 0.32461171]
+ [3.8918203  0.32170329]
+ [3.91202301 0.31811194]
+ [3.93182563 0.31609972]
+ [3.95124372 0.31280065]
+ [3.97029191 0.3083155 ]
+ [3.98898405 0.30538318]
+ [4.00733319 0.30272794]
+ [4.02535169 0.30080109]
+ [4.04305127 0.30090879]
+ [4.06044301 0.30211516]
+ [4.07753744 0.30403814]]
+Loaded: {'steps': 600.0, 'width': 20.0, 'height': 30.0, 'seed': 42.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [1, 0]}
+Configure file ./config_1x1_Non_Sticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, False), Update_1x1 args=() kwargs={'rot': 0, 'sticky': False}
+Game Over, reach the top
+Computing the slopes now...
+Progress: 0.86%Progress: 1.72%Progress: 2.59%Progress: 3.45%Progress: 4.31%Progress: 5.17%Progress: 6.03%Progress: 6.90%Progress: 7.76%Progress: 8.62%Progress: 9.48%Progress: 10.34%Progress: 11.21%Progress: 12.07%Progress: 12.93%Progress: 13.79%Progress: 14.66%Progress: 15.52%Progress: 16.38%Progress: 17.24%Progress: 18.10%Progress: 18.97%Progress: 19.83%Progress: 20.69%Progress: 21.55%Progress: 22.41%Progress: 23.28%Progress: 24.14%Progress: 25.00%Progress: 25.86%Progress: 26.72%Progress: 27.59%Progress: 28.45%Progress: 29.31%Progress: 30.17%Progress: 31.03%Progress: 31.90%Progress: 32.76%Progress: 33.62%Progress: 34.48%Progress: 35.34%Progress: 36.21%Progress: 37.07%Progress: 37.93%Progress: 38.79%Progress: 39.66%Progress: 40.52%Progress: 41.38%Progress: 42.24%Progress: 43.10%Progress: 43.97%Progress: 44.83%Progress: 45.69%Progress: 46.55%Progress: 47.41%Progress: 48.28%Progress: 49.14%Progress: 50.00%Progress: 50.86%Progress: 51.72%Progress: 52.59%Progress: 53.45%Progress: 54.31%Progress: 55.17%Progress: 56.03%Progress: 56.90%Progress: 57.76%Progress: 58.62%Progress: 59.48%Progress: 60.34%Progress: 61.21%Progress: 62.07%Progress: 62.93%Progress: 63.79%Progress: 64.66%Progress: 65.52%Progress: 66.38%Progress: 67.24%Progress: 68.10%Progress: 68.97%Progress: 69.83%Progress: 70.69%Progress: 71.55%Progress: 72.41%Progress: 73.28%Progress: 74.14%Progress: 75.00%Progress: 75.86%Progress: 76.72%Progress: 77.59%Progress: 78.45%Progress: 79.31%Progress: 80.17%Progress: 81.03%Progress: 81.90%Progress: 82.76%Progress: 83.62%Progress: 84.48%Progress: 85.34%Progress: 86.21%Progress: 87.07%Progress: 87.93%Progress: 88.79%Progress: 89.66%Progress: 90.52%Progress: 91.38%Progress: 92.24%Progress: 93.10%Progress: 93.97%Progress: 94.83%Progress: 95.69%Progress: 96.55%Progress: 97.41%Progress: 98.28%Progress: 99.14%Progress: 100.00%------------------------
+
+Status of the substrate:
+Width:  20
+Height: 30
+Steps: 600
+Final Steps: 384
+Seed: 42.0
+Log-time vs slopes:
+ [[3.63758616 0.50256384]
+ [3.71357207 0.49611079]
+ [3.78418963 0.48632987]
+ [3.8501476  0.47793476]
+ [3.91202301 0.47384582]
+ [3.97029191 0.46790683]
+ [4.02535169 0.46266313]
+ [4.07753744 0.45932233]
+ [4.12713439 0.46073707]
+ [4.17438727 0.46328301]
+ [4.21950771 0.46376909]
+ [4.26267988 0.46619426]
+ [4.30406509 0.47031296]
+ [4.34380542 0.47471836]
+ [4.38202663 0.47830965]
+ [4.41884061 0.48362626]
+ [4.4543473  0.48867239]
+ [4.48863637 0.49329133]
+ [4.52178858 0.49878205]
+ [4.55387689 0.5029038 ]
+ [4.58496748 0.50526099]
+ [4.61512052 0.50765599]
+ [4.6443909  0.51177396]
+ [4.67282883 0.51562038]
+ [4.70048037 0.51940397]
+ [4.72738782 0.52212283]
+ [4.75359019 0.52398456]
+ [4.77912349 0.52502928]
+ [4.80402104 0.52561414]
+ [4.82831374 0.52659481]
+ [4.85203026 0.52704067]
+ [4.87519732 0.52781358]
+ [4.8978398  0.52954686]
+ [4.91998093 0.53012295]
+ [4.94164242 0.53025675]
+ [4.96284463 0.52986664]
+ [4.98360662 0.52880667]
+ [5.00394631 0.52699996]
+ [5.02388052 0.52519804]
+ [5.04342512 0.52338965]
+ [5.06259503 0.52055976]
+ [5.08140436 0.51765403]
+ [5.09986643 0.51498834]
+ [5.11799381 0.51277852]
+ [5.13579844 0.51080756]
+ [5.15329159 0.50900071]
+ [5.170484   0.50758926]
+ [5.18738581 0.50618302]
+ [5.20400669 0.50488765]
+ [5.22035583 0.50337168]
+ [5.23644196 0.50150859]
+ [5.25227343 0.50023951]
+ [5.26785816 0.49962127]
+ [5.28320373 0.49909251]
+ [5.29831737 0.49925063]
+ [5.31320598 0.49986699]
+ [5.32787617 0.50091788]
+ [5.34233425 0.50226118]
+ [5.35658627 0.5038097 ]
+ [5.37063803 0.50536852]
+ [5.38449506 0.50666468]
+ [5.3981627  0.50773009]
+ [5.41164605 0.50872876]
+ [5.42495002 0.50940281]
+ [5.43807931 0.50975914]
+ [5.45103845 0.50994476]
+ [5.46383181 0.5105    ]
+ [5.47646355 0.51139345]
+ [5.48893773 0.51207822]
+ [5.50125821 0.51285828]
+ [5.51342875 0.51414754]
+ [5.52545294 0.51572728]
+ [5.53733427 0.51753851]
+ [5.54907608 0.51938438]
+ [5.56068163 0.52087806]
+ [5.57215403 0.5221628 ]
+ [5.58349631 0.52328108]
+ [5.59471138 0.52421009]
+ [5.60580207 0.525116  ]
+ [5.6167711  0.52578896]
+ [5.62762111 0.52639235]
+ [5.63835467 0.52702118]
+ [5.64897424 0.52757592]
+ [5.65948222 0.52774976]
+ [5.66988092 0.52790716]
+ [5.68017261 0.52813684]
+ [5.69035945 0.52866737]
+ [5.70044357 0.52936139]
+ [5.71042702 0.53008472]
+ [5.72031178 0.53078261]
+ [5.73009978 0.53147235]
+ [5.73979291 0.53201143]
+ [5.74939299 0.53265739]
+ [5.75890177 0.53324241]
+ [5.768321   0.53358884]
+ [5.77765232 0.53385201]
+ [5.78689738 0.5341381 ]
+ [5.79605775 0.53470347]
+ [5.80513497 0.53517533]
+ [5.81413053 0.53581535]
+ [5.8230459  0.53619613]
+ [5.83188248 0.53652279]
+ [5.84064166 0.53665461]
+ [5.84932478 0.5367046 ]
+ [5.85793315 0.53683752]
+ [5.86646806 0.5371847 ]
+ [5.87493073 0.53737678]
+ [5.88332239 0.5375245 ]
+ [5.89164421 0.53764175]
+ [5.89989735 0.53788092]
+ [5.90808294 0.53822392]
+ [5.91620206 0.5384465 ]
+ [5.9242558  0.53868127]
+ [5.93224519 0.53901343]
+ [5.94017125 0.53947529]
+ [5.94803499 0.54008238]]
+Step: 100 / 384
+Step: 200 / 384
+Step: 300 / 384
+Loaded: {'steps': 600.0, 'width': 20.0, 'height': 30.0, 'seed': 42.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 1]}
+Configure file ./config_1x1_Sticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (7, 0, True), Update_1x1 args=() kwargs={'rot': 0, 'sticky': True}
+Game Over, reach the top
+Computing the slopes now...
+Progress: 0.76%Progress: 1.53%Progress: 2.29%Progress: 3.05%Progress: 3.82%Progress: 4.58%Progress: 5.34%Progress: 6.11%Progress: 6.87%Progress: 7.63%Progress: 8.40%Progress: 9.16%Progress: 9.92%Progress: 10.69%Progress: 11.45%Progress: 12.21%Progress: 12.98%Progress: 13.74%Progress: 14.50%Progress: 15.27%Progress: 16.03%Progress: 16.79%Progress: 17.56%Progress: 18.32%Progress: 19.08%Progress: 19.85%Progress: 20.61%Progress: 21.37%Progress: 22.14%Progress: 22.90%Progress: 23.66%Progress: 24.43%Progress: 25.19%Progress: 25.95%Progress: 26.72%Progress: 27.48%Progress: 28.24%Progress: 29.01%Progress: 29.77%Progress: 30.53%Progress: 31.30%Progress: 32.06%Progress: 32.82%Progress: 33.59%Progress: 34.35%Progress: 35.11%Progress: 35.88%Progress: 36.64%Progress: 37.40%Progress: 38.17%Progress: 38.93%Progress: 39.69%Progress: 40.46%Progress: 41.22%Progress: 41.98%Progress: 42.75%Progress: 43.51%Progress: 44.27%Progress: 45.04%Progress: 45.80%Progress: 46.56%Progress: 47.33%Progress: 48.09%Progress: 48.85%Progress: 49.62%Progress: 50.38%Progress: 51.15%Progress: 51.91%Progress: 52.67%Progress: 53.44%Progress: 54.20%Progress: 54.96%Progress: 55.73%Progress: 56.49%Progress: 57.25%Progress: 58.02%Progress: 58.78%Progress: 59.54%Progress: 60.31%Progress: 61.07%Progress: 61.83%Progress: 62.60%Progress: 63.36%Progress: 64.12%Progress: 64.89%Progress: 65.65%Progress: 66.41%Progress: 67.18%Progress: 67.94%Progress: 68.70%Progress: 69.47%Progress: 70.23%Progress: 70.99%Progress: 71.76%Progress: 72.52%Progress: 73.28%Progress: 74.05%Progress: 74.81%Progress: 75.57%Progress: 76.34%Progress: 77.10%Progress: 77.86%Progress: 78.63%Progress: 79.39%Progress: 80.15%Progress: 80.92%Progress: 81.68%Progress: 82.44%Progress: 83.21%Progress: 83.97%Progress: 84.73%Progress: 85.50%Progress: 86.26%Progress: 87.02%Progress: 87.79%Progress: 88.55%Progress: 89.31%Progress: 90.08%Progress: 90.84%Progress: 91.60%Progress: 92.37%Progress: 93.13%Progress: 93.89%Progress: 94.66%Progress: 95.42%Progress: 96.18%Progress: 96.95%Progress: 97.71%Progress: 98.47%Progress: 99.24%Progress: 100.00%------------------------
+
+Status of the substrate:
+Width:  20
+Height: 30
+Steps: 600
+Final Steps: 291
+Seed: 42.0
+Log-time vs slopes:
+ [[3.36729583 0.5673282 ]
+ [3.4339872  0.56712666]
+ [3.49650756 0.56730638]
+ [3.55534806 0.56643039]
+ [3.61091791 0.56424705]
+ [3.66356165 0.55804309]
+ [3.71357207 0.54731537]
+ [3.76120012 0.53680683]
+ [3.80666249 0.52813366]
+ [3.8501476  0.52054343]
+ [3.8918203  0.51477281]
+ [3.93182563 0.50923404]
+ [3.97029191 0.50244963]
+ [4.00733319 0.49685864]
+ [4.04305127 0.49371139]
+ [4.07753744 0.49318397]
+ [4.11087386 0.49485189]
+ [4.14313473 0.49807454]
+ [4.17438727 0.50115185]
+ [4.20469262 0.50335301]
+ [4.2341065  0.5058921 ]
+ [4.26267988 0.50954303]
+ [4.29045944 0.51357449]
+ [4.31748811 0.51737004]
+ [4.34380542 0.52141829]
+ [4.36944785 0.52525459]
+ [4.39444915 0.52960088]
+ [4.41884061 0.53348914]
+ [4.44265126 0.5370705 ]
+ [4.46590812 0.54106031]
+ [4.48863637 0.5453202 ]
+ [4.51085951 0.55005242]
+ [4.53259949 0.55468586]
+ [4.55387689 0.55788087]
+ [4.57471098 0.55939217]
+ [4.59511985 0.55937966]
+ [4.61512052 0.55981493]
+ [4.63472899 0.56030624]
+ [4.65396035 0.56122137]
+ [4.67282883 0.56071573]
+ [4.69134788 0.56074573]
+ [4.7095302  0.56131295]
+ [4.72738782 0.55679243]
+ [4.74493213 0.55177235]
+ [4.76217393 0.54663553]
+ [4.77912349 0.54193449]
+ [4.79579055 0.53529017]
+ [4.81218436 0.52959921]
+ [4.82831374 0.52360031]
+ [4.84418709 0.51702962]
+ [4.8598124  0.50720434]
+ [4.87519732 0.4941691 ]
+ [4.89034913 0.48284087]
+ [4.90527478 0.47128318]
+ [4.91998093 0.46007423]
+ [4.93447393 0.44962198]
+ [4.94875989 0.44033829]
+ [4.96284463 0.43146479]
+ [4.97673374 0.42360491]
+ [4.99043259 0.4166025 ]
+ [5.00394631 0.40976905]
+ [5.01727984 0.40322401]
+ [5.03043792 0.39704609]
+ [5.04342512 0.39094517]
+ [5.05624581 0.38443721]
+ [5.0689042  0.37702866]
+ [5.08140436 0.37088086]
+ [5.0937502  0.36501879]
+ [5.10594547 0.35852199]
+ [5.11799381 0.34992345]
+ [5.12989871 0.34237121]
+ [5.14166356 0.33510841]
+ [5.15329159 0.32841255]
+ [5.16478597 0.32234938]
+ [5.17614973 0.31712587]
+ [5.18738581 0.3118506 ]
+ [5.19849703 0.30668597]
+ [5.20948615 0.3025288 ]
+ [5.22035583 0.29837336]
+ [5.23110862 0.29421321]
+ [5.24174702 0.29062448]
+ [5.25227343 0.28759102]
+ [5.26269019 0.28518778]
+ [5.27299956 0.28217441]
+ [5.28320373 0.2793255 ]
+ [5.29330482 0.27727626]
+ [5.30330491 0.27546984]
+ [5.31320598 0.27188537]
+ [5.32300998 0.26949203]
+ [5.33271879 0.26775727]
+ [5.34233425 0.2667786 ]
+ [5.35185813 0.26763229]
+ [5.36129217 0.26945576]
+ [5.37063803 0.27105039]
+ [5.37989735 0.27269188]
+ [5.38907173 0.27473425]
+ [5.3981627  0.27642854]
+ [5.40717177 0.27830816]
+ [5.4161004  0.28005967]
+ [5.42495002 0.28170461]
+ [5.433722   0.28335835]
+ [5.44241771 0.28522644]
+ [5.45103845 0.28662629]
+ [5.45958551 0.28832578]
+ [5.46806014 0.29050725]
+ [5.47646355 0.29275135]
+ [5.48479693 0.29497949]
+ [5.49306144 0.297314  ]
+ [5.50125821 0.29985557]
+ [5.50938834 0.30258435]
+ [5.5174529  0.30527722]
+ [5.52545294 0.30803734]
+ [5.53338949 0.31003977]
+ [5.54126355 0.31230147]
+ [5.54907608 0.31461735]
+ [5.55682806 0.31700246]
+ [5.56452041 0.31937784]
+ [5.57215403 0.32190334]
+ [5.57972983 0.32446902]
+ [5.58724866 0.32720471]
+ [5.59471138 0.32961068]
+ [5.60211882 0.3319635 ]
+ [5.6094718  0.33457497]
+ [5.6167711  0.33731956]
+ [5.62401751 0.33995019]
+ [5.63121178 0.34237526]
+ [5.63835467 0.34460151]
+ [5.6454469  0.34687638]
+ [5.65248918 0.34879411]
+ [5.65948222 0.35046148]
+ [5.66642669 0.35228487]]
+Step: 100 / 291
+Step: 200 / 291
+Loaded: {'steps': 600.0, 'width': 20.0, 'height': 30.0, 'seed': 42.0, 'Piece-0': [0, 1], 'Piece-1': [0, 1], 'Piece-2': [0, 1], 'Piece-3': [0, 1], 'Piece-4': [0, 1], 'Piece-5': [0, 1], 'Piece-6': [0, 1], 'Piece-7': [0, 1], 'Piece-8': [0, 1], 'Piece-9': [0, 1], 'Piece-10': [0, 1], 'Piece-11': [0, 1], 'Piece-12': [0, 1], 'Piece-13': [0, 1], 'Piece-14': [0, 1], 'Piece-15': [0, 1], 'Piece-16': [0, 1], 'Piece-17': [0, 1], 'Piece-18': [0, 1], 'Piece-19': [0, 0]}
+Configure file ./config_Tetris_Sticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Sampled (Type_id, rot, Sticky, Update_Function): (3, 0, True), Update_J args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (6, 1, True), Update_Z args=() kwargs={'rot': 1, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (4, 2, True), Update_T args=() kwargs={'rot': 2, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (4, 0, True), Update_T args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (1, 1, True), Update_I args=() kwargs={'rot': 1, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (1, 1, True), Update_I args=() kwargs={'rot': 1, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (1, 0, True), Update_I args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (5, 1, True), Update_S args=() kwargs={'rot': 1, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (4, 0, True), Update_T args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (4, 2, True), Update_T args=() kwargs={'rot': 2, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (0, 0, True), Update_O args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (6, 1, True), Update_Z args=() kwargs={'rot': 1, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (5, 0, True), Update_S args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (2, 1, True), Update_L args=() kwargs={'rot': 1, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (2, 0, True), Update_L args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (2, 0, True), Update_L args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (2, 2, True), Update_L args=() kwargs={'rot': 2, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (3, 2, True), Update_J args=() kwargs={'rot': 2, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (3, 1, True), Update_J args=() kwargs={'rot': 1, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (2, 2, True), Update_L args=() kwargs={'rot': 2, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (4, 0, True), Update_T args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (1, 1, True), Update_I args=() kwargs={'rot': 1, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (2, 2, True), Update_L args=() kwargs={'rot': 2, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (2, 3, True), Update_L args=() kwargs={'rot': 3, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (3, 1, True), Update_J args=() kwargs={'rot': 1, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (4, 3, True), Update_T args=() kwargs={'rot': 3, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (2, 0, True), Update_L args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (3, 2, True), Update_J args=() kwargs={'rot': 2, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (4, 0, True), Update_T args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (0, 0, True), Update_O args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (4, 0, True), Update_T args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (2, 0, True), Update_L args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (1, 0, True), Update_I args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (6, 1, True), Update_Z args=() kwargs={'rot': 1, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (6, 1, True), Update_Z args=() kwargs={'rot': 1, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (5, 0, True), Update_S args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (2, 2, True), Update_L args=() kwargs={'rot': 2, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (1, 0, True), Update_I args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (4, 2, True), Update_T args=() kwargs={'rot': 2, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (3, 1, True), Update_J args=() kwargs={'rot': 1, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (1, 1, True), Update_I args=() kwargs={'rot': 1, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (3, 2, True), Update_J args=() kwargs={'rot': 2, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (0, 0, True), Update_O args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (6, 0, True), Update_Z args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (2, 1, True), Update_L args=() kwargs={'rot': 1, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (4, 1, True), Update_T args=() kwargs={'rot': 1, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (2, 2, True), Update_L args=() kwargs={'rot': 2, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (3, 2, True), Update_J args=() kwargs={'rot': 2, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (3, 3, True), Update_J args=() kwargs={'rot': 3, 'sticky': True}
+Game Over, reach the top
+Computing the slopes now...
+Progress: 2.27%Progress: 4.55%Progress: 6.82%Progress: 9.09%Progress: 11.36%Progress: 13.64%Progress: 15.91%Progress: 18.18%Progress: 20.45%Progress: 22.73%Progress: 25.00%Progress: 27.27%Progress: 29.55%Progress: 31.82%Progress: 34.09%Progress: 36.36%Progress: 38.64%Progress: 40.91%Progress: 43.18%Progress: 45.45%Progress: 47.73%Progress: 50.00%Progress: 52.27%Progress: 54.55%Progress: 56.82%Progress: 59.09%Progress: 61.36%Progress: 63.64%Progress: 65.91%Progress: 68.18%Progress: 70.45%Progress: 72.73%Progress: 75.00%Progress: 77.27%Progress: 79.55%Progress: 81.82%Progress: 84.09%Progress: 86.36%Progress: 88.64%Progress: 90.91%Progress: 93.18%Progress: 95.45%Progress: 97.73%Progress: 100.00%------------------------
+
+Status of the substrate:
+Width:  20
+Height: 30
+Steps: 600
+Final Steps: 48
+Seed: 42.0
+Log-time vs slopes:
+ [[1.38629436 0.92428126]
+ [1.60943791 0.89988828]
+ [1.79175947 0.86658509]
+ [1.94591015 0.87563959]
+ [2.07944154 0.84775237]
+ [2.19722458 0.80052215]
+ [2.30258509 0.77675418]
+ [2.39789527 0.76459533]
+ [2.48490665 0.76103734]
+ [2.56494936 0.75222113]
+ [2.63905733 0.74505926]
+ [2.7080502  0.72748829]
+ [2.77258872 0.7147265 ]
+ [2.83321334 0.69860526]
+ [2.89037176 0.68326941]
+ [2.94443898 0.67378153]
+ [2.99573227 0.65904613]
+ [3.04452244 0.64634005]
+ [3.09104245 0.63733815]
+ [3.13549422 0.63133585]
+ [3.17805383 0.6212622 ]
+ [3.21887582 0.61457509]
+ [3.25809654 0.6103688 ]
+ [3.29583687 0.60923718]
+ [3.33220451 0.60948511]
+ [3.36729583 0.61223711]
+ [3.40119738 0.60967631]
+ [3.4339872  0.60990372]
+ [3.4657359  0.6049869 ]
+ [3.49650756 0.59939708]
+ [3.52636052 0.59418762]
+ [3.55534806 0.59003054]
+ [3.58351894 0.58017452]
+ [3.61091791 0.56394326]
+ [3.63758616 0.54998833]
+ [3.66356165 0.53713146]
+ [3.68887945 0.50231718]
+ [3.71357207 0.46991965]
+ [3.73766962 0.4398591 ]
+ [3.76120012 0.41422811]
+ [3.78418963 0.38636632]
+ [3.80666249 0.36178117]
+ [3.8286414  0.3404834 ]
+ [3.8501476  0.3223102 ]]
+Loaded: {'steps': 600.0, 'width': 20.0, 'height': 30.0, 'seed': 42.0, 'Piece-0': [1, 1], 'Piece-1': [1, 1], 'Piece-2': [1, 1], 'Piece-3': [1, 1], 'Piece-4': [1, 1], 'Piece-5': [1, 1], 'Piece-6': [1, 1], 'Piece-7': [1, 1], 'Piece-8': [1, 1], 'Piece-9': [1, 1], 'Piece-10': [1, 1], 'Piece-11': [1, 1], 'Piece-12': [1, 1], 'Piece-13': [1, 1], 'Piece-14': [1, 1], 'Piece-15': [1, 1], 'Piece-16': [1, 1], 'Piece-17': [1, 1], 'Piece-18': [1, 1], 'Piece-19': [0, 0]}
+Configure file ./config_Tetris_All.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Sampled (Type_id, rot, Sticky, Update_Function): (3, 0, False), Update_J args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (6, 1, False), Update_Z args=() kwargs={'rot': 1, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (4, 2, True), Update_T args=() kwargs={'rot': 2, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (4, 0, False), Update_T args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (1, 1, True), Update_I args=() kwargs={'rot': 1, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (1, 1, True), Update_I args=() kwargs={'rot': 1, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (1, 0, False), Update_I args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (5, 1, False), Update_S args=() kwargs={'rot': 1, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (4, 0, False), Update_T args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (4, 2, False), Update_T args=() kwargs={'rot': 2, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (0, 0, False), Update_O args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (6, 1, False), Update_Z args=() kwargs={'rot': 1, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (5, 0, True), Update_S args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (2, 1, False), Update_L args=() kwargs={'rot': 1, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (2, 0, False), Update_L args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (2, 0, False), Update_L args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (2, 2, True), Update_L args=() kwargs={'rot': 2, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (3, 2, True), Update_J args=() kwargs={'rot': 2, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (3, 1, False), Update_J args=() kwargs={'rot': 1, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (2, 2, True), Update_L args=() kwargs={'rot': 2, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (4, 0, True), Update_T args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (1, 1, True), Update_I args=() kwargs={'rot': 1, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (2, 2, True), Update_L args=() kwargs={'rot': 2, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (2, 3, True), Update_L args=() kwargs={'rot': 3, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (3, 1, True), Update_J args=() kwargs={'rot': 1, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (4, 3, True), Update_T args=() kwargs={'rot': 3, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (2, 0, True), Update_L args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (3, 2, True), Update_J args=() kwargs={'rot': 2, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (4, 0, False), Update_T args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (0, 0, True), Update_O args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (4, 0, True), Update_T args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (2, 0, False), Update_L args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (1, 0, False), Update_I args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (6, 1, False), Update_Z args=() kwargs={'rot': 1, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (6, 1, False), Update_Z args=() kwargs={'rot': 1, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (5, 0, False), Update_S args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (2, 2, True), Update_L args=() kwargs={'rot': 2, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (1, 0, True), Update_I args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (4, 2, False), Update_T args=() kwargs={'rot': 2, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (3, 1, False), Update_J args=() kwargs={'rot': 1, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (1, 1, False), Update_I args=() kwargs={'rot': 1, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (3, 2, False), Update_J args=() kwargs={'rot': 2, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (0, 0, True), Update_O args=() kwargs={'rot': 0, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (6, 0, False), Update_Z args=() kwargs={'rot': 0, 'sticky': False}
+Sampled (Type_id, rot, Sticky, Update_Function): (2, 1, True), Update_L args=() kwargs={'rot': 1, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (4, 1, True), Update_T args=() kwargs={'rot': 1, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (2, 2, True), Update_L args=() kwargs={'rot': 2, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (3, 2, True), Update_J args=() kwargs={'rot': 2, 'sticky': True}
+Sampled (Type_id, rot, Sticky, Update_Function): (3, 3, False), Update_J args=() kwargs={'rot': 3, 'sticky': False}
+Game Over, reach the top
+Computing the slopes now...
+Progress: 2.27%Progress: 4.55%Progress: 6.82%Progress: 9.09%Progress: 11.36%Progress: 13.64%Progress: 15.91%Progress: 18.18%Progress: 20.45%Progress: 22.73%Progress: 25.00%Progress: 27.27%Progress: 29.55%Progress: 31.82%Progress: 34.09%Progress: 36.36%Progress: 38.64%Progress: 40.91%Progress: 43.18%Progress: 45.45%Progress: 47.73%Progress: 50.00%Progress: 52.27%Progress: 54.55%Progress: 56.82%Progress: 59.09%Progress: 61.36%Progress: 63.64%Progress: 65.91%Progress: 68.18%Progress: 70.45%Progress: 72.73%Progress: 75.00%Progress: 77.27%Progress: 79.55%Progress: 81.82%Progress: 84.09%Progress: 86.36%Progress: 88.64%Progress: 90.91%Progress: 93.18%Progress: 95.45%Progress: 97.73%Progress: 100.00%------------------------
+
+Status of the substrate:
+Width:  20
+Height: 30
+Steps: 600
+Final Steps: 48
+Seed: 42.0
+Log-time vs slopes:
+ [[1.38629436 0.92428126]
+ [1.60943791 0.89988828]
+ [1.79175947 0.86658509]
+ [1.94591015 0.87563959]
+ [2.07944154 0.84775237]
+ [2.19722458 0.80052215]
+ [2.30258509 0.77675418]
+ [2.39789527 0.76459533]
+ [2.48490665 0.76103734]
+ [2.56494936 0.75222113]
+ [2.63905733 0.74505926]
+ [2.7080502  0.73036312]
+ [2.77258872 0.71971332]
+ [2.83321334 0.70390106]
+ [2.89037176 0.68887893]
+ [2.94443898 0.67960398]
+ [2.99573227 0.66622897]
+ [3.04452244 0.65529219]
+ [3.09104245 0.64763179]
+ [3.13549422 0.64290927]
+ [3.17805383 0.63454903]
+ [3.21887582 0.62919884]
+ [3.25809654 0.62621005]
+ [3.29583687 0.62601366]
+ [3.33220451 0.62701389]
+ [3.36729583 0.63032196]
+ [3.40119738 0.62900179]
+ [3.4339872  0.63010903]
+ [3.4657359  0.62659212]
+ [3.49650756 0.61997603]
+ [3.52636052 0.61421694]
+ [3.55534806 0.60987431]
+ [3.58351894 0.59943311]
+ [3.61091791 0.58652435]
+ [3.63758616 0.57653811]
+ [3.66356165 0.56568665]
+ [3.68887945 0.54558897]
+ [3.71357207 0.52807662]
+ [3.73766962 0.50980805]
+ [3.76120012 0.49192633]
+ [3.78418963 0.47801618]
+ [3.80666249 0.46659468]
+ [3.8286414  0.45748928]
+ [3.8501476  0.45024043]]
