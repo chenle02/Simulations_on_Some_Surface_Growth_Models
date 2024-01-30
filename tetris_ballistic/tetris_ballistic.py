@@ -26,25 +26,68 @@ np.set_printoptions(threshold=np.inf)  # Make sure that print() displays the ent
 
 
 class Tetris_Ballistic:
+    """
+    Tetris_Ballistic class
+    ----------------------
+
+
+    The class can be initialized in two ways:
+
+    - using a configuration file
+    - using the arguments of the constructor
+
+    If config_file is not None, the configuration data is loaded from the
+    specified YAML file. Otherwise, the default configuration is used. By
+    default, all pieces are sticky.
+
+    Args:
+        width (int): The width of the game grid. Default is 16.
+        height (int): The height of the game grid. Default is 32.
+        steps (int): The number of steps to simulate. Default is 30.
+        seed (int, optional): The seed for random number generation. If None, randomness is not controlled.
+        config_file (str, optional): The path to a YAML configuration file to be loaded. If None, default configuration is used.
+
+    Example:
+        >>> TB1 = Tetris_Ballistic(width=10, height=20, steps=100, seed=42)
+        >>> TB2 = Tetris_Ballistic(config_file="config.yaml")
+
+        The config.yaml file takes the following form:
+
+        .. code-block:: yaml
+            :caption: **Example YAML configuration file**
+
+            width: 10
+            height: 42
+            steps: 90
+            seed: 42
+            Piece-0:  [4,  1]
+            Piece-1:  [4,  1]
+            Piece-2:  [2,  1]
+            Piece-3:  [11, 1]
+            Piece-4:  [1,  1]
+            Piece-5:  [1,  1]
+            Piece-6:  [1,  1]
+            Piece-7:  [11, 1]
+            Piece-8:  [1,  1]
+            Piece-9:  [1,  1]
+            Piece-10: [1,  1]
+            Piece-11: [11, 1]
+            Piece-12: [1,  1]
+            Piece-13: [2,  1]
+            Piece-14: [1,  1]
+            Piece-15: [11, 1]
+            Piece-16: [1,  1]
+            Piece-17: [1,  1]
+            Piece-18: [1,  1]
+            Piece-19: [0,  0]
+    """
+
     def __init__(self,
                  width=16,
                  height=32,
                  steps=30,
                  seed=None,
                  config_file=None):
-        """
-        Initializes the Tetris_Ballistic simulation.
-
-        If config_file is not None, the configuration data is loaded from the
-        specified YAML file. Otherwise, the default configuration is used. By
-        default, all pieces are sticky.
-
-        Args:
-            grid_size (tuple): The size of the grid (width, height).
-            steps (int): The number of steps to simulate.
-            seed (int, optional): The seed for random number generation. If None, randomness is not controlled.
-            config_file (str, optional): The path to the YAML configuration file to be loaded (default None). The values set in the configuration file will override the default values.
-        """
         self.set_seed(seed)  # Set initial seed
 
         if config_file is not None and self.load_config(config_file):
@@ -98,31 +141,32 @@ class Tetris_Ballistic:
         self.AvergeHeight = np.zeros((self.steps))
         self.log_time_slopes = None
         self.UpdateCall = [
-            create_partial(self.Update_O, rot=0, sticky=False),  create_partial(self.Update_O, rot=0, sticky=True),    # 0
-            create_partial(self.Update_I, rot=0, sticky=False),  create_partial(self.Update_I, rot=0, sticky=True),    # 1
-            create_partial(self.Update_I, rot=1, sticky=False),  create_partial(self.Update_I, rot=1, sticky=True),    # 2
-            create_partial(self.Update_L, rot=0, sticky=False),  create_partial(self.Update_L, rot=0, sticky=True),    # 3
-            create_partial(self.Update_L, rot=1, sticky=False),  create_partial(self.Update_L, rot=1, sticky=True),    # 4
-            create_partial(self.Update_L, rot=2, sticky=False),  create_partial(self.Update_L, rot=2, sticky=True),    # 5
-            create_partial(self.Update_L, rot=3, sticky=False),  create_partial(self.Update_L, rot=3, sticky=True),    # 6
-            create_partial(self.Update_J, rot=0, sticky=False),  create_partial(self.Update_J, rot=0, sticky=True),    # 7
-            create_partial(self.Update_J, rot=1, sticky=False),  create_partial(self.Update_J, rot=1, sticky=True),    # 8
-            create_partial(self.Update_J, rot=2, sticky=False),  create_partial(self.Update_J, rot=2, sticky=True),    # 9
-            create_partial(self.Update_J, rot=3, sticky=False),  create_partial(self.Update_J, rot=3, sticky=True),    # 10
-            create_partial(self.Update_T, rot=0, sticky=False),  create_partial(self.Update_T, rot=0, sticky=True),    # 11
-            create_partial(self.Update_T, rot=1, sticky=False),  create_partial(self.Update_T, rot=1, sticky=True),    # 12
-            create_partial(self.Update_T, rot=2, sticky=False),  create_partial(self.Update_T, rot=2, sticky=True),    # 13
-            create_partial(self.Update_T, rot=3, sticky=False),  create_partial(self.Update_T, rot=3, sticky=True),    # 14
-            create_partial(self.Update_S, rot=0, sticky=False),  create_partial(self.Update_S, rot=0, sticky=True),    # 15
-            create_partial(self.Update_S, rot=1, sticky=False),  create_partial(self.Update_S, rot=1, sticky=True),    # 16
-            create_partial(self.Update_Z, rot=0, sticky=False),  create_partial(self.Update_Z, rot=0, sticky=True),    # 17
-            create_partial(self.Update_Z, rot=1, sticky=False),  create_partial(self.Update_Z, rot=1, sticky=True),    # 18
-            create_partial(self.Update_1x1, rot=0, sticky=False), create_partial(self.Update_1x1, rot=0, sticky=True)  # 19
+            _create_partial(self.Update_O, rot=0, sticky=False),  _create_partial(self.Update_O, rot=0, sticky=True),    # 0
+            _create_partial(self.Update_I, rot=0, sticky=False),  _create_partial(self.Update_I, rot=0, sticky=True),    # 1
+            _create_partial(self.Update_I, rot=1, sticky=False),  _create_partial(self.Update_I, rot=1, sticky=True),    # 2
+            _create_partial(self.Update_L, rot=0, sticky=False),  _create_partial(self.Update_L, rot=0, sticky=True),    # 3
+            _create_partial(self.Update_L, rot=1, sticky=False),  _create_partial(self.Update_L, rot=1, sticky=True),    # 4
+            _create_partial(self.Update_L, rot=2, sticky=False),  _create_partial(self.Update_L, rot=2, sticky=True),    # 5
+            _create_partial(self.Update_L, rot=3, sticky=False),  _create_partial(self.Update_L, rot=3, sticky=True),    # 6
+            _create_partial(self.Update_J, rot=0, sticky=False),  _create_partial(self.Update_J, rot=0, sticky=True),    # 7
+            _create_partial(self.Update_J, rot=1, sticky=False),  _create_partial(self.Update_J, rot=1, sticky=True),    # 8
+            _create_partial(self.Update_J, rot=2, sticky=False),  _create_partial(self.Update_J, rot=2, sticky=True),    # 9
+            _create_partial(self.Update_J, rot=3, sticky=False),  _create_partial(self.Update_J, rot=3, sticky=True),    # 10
+            _create_partial(self.Update_T, rot=0, sticky=False),  _create_partial(self.Update_T, rot=0, sticky=True),    # 11
+            _create_partial(self.Update_T, rot=1, sticky=False),  _create_partial(self.Update_T, rot=1, sticky=True),    # 12
+            _create_partial(self.Update_T, rot=2, sticky=False),  _create_partial(self.Update_T, rot=2, sticky=True),    # 13
+            _create_partial(self.Update_T, rot=3, sticky=False),  _create_partial(self.Update_T, rot=3, sticky=True),    # 14
+            _create_partial(self.Update_S, rot=0, sticky=False),  _create_partial(self.Update_S, rot=0, sticky=True),    # 15
+            _create_partial(self.Update_S, rot=1, sticky=False),  _create_partial(self.Update_S, rot=1, sticky=True),    # 16
+            _create_partial(self.Update_Z, rot=0, sticky=False),  _create_partial(self.Update_Z, rot=0, sticky=True),    # 17
+            _create_partial(self.Update_Z, rot=1, sticky=False),  _create_partial(self.Update_Z, rot=1, sticky=True),    # 18
+            _create_partial(self.Update_1x1, rot=0, sticky=False), _create_partial(self.Update_1x1, rot=0, sticky=True)  # 19
         ]
 
     def set_seed(self, seed):
         """
-        Set the seed for random number generation.
+        Set the seed for random number generation
+        -----------------------------------------
 
         This method sets the seed for both the built-in random module and
         numpy's random module. It ensures that the seed is either a valid
@@ -145,6 +189,9 @@ class Tetris_Ballistic:
 
     def load_config(self, filename):
         """
+        Load config file manually
+        --------------------------
+
         Loads configuration data from a specified YAML file into the
         `config_data` attribute.
 
@@ -258,11 +305,13 @@ class Tetris_Ballistic:
 
     def save_config(self, filename):
         """
-        Saves the current configuration data to a YAML file.
+        Save configure file to a YAML file
+        ----------------------------------
 
         This method writes the contents of the `config_data` attribute into a
-        YAML file specified by `filename`. The file will contain both single-value
-        entries and lists, similar to the expected format in the `load_config` method.
+        YAML file specified by `filename`. The file will contain both
+        single-value entries and lists, similar to the expected format in the
+        `load_config` method.
 
         Args:
             filename (str): The path to the YAML configuration file to be saved.
@@ -297,16 +346,34 @@ class Tetris_Ballistic:
 
     def reset(self):
         """
-        Resets the substrate to all zeros.
+        Reset the status of the simulation
+        ----------------------------------
+
+        Reset the following attributes:
+
+        - self.substrate
+        - self.FinalSteps
+        - self.HeightDynamics
+        - self.Fluctuation
+        - self.AvergeHeight
+        - self.log_time_slopes
 
         Returns:
             None
         """
         self.substrate = np.zeros((self.height, self.width))
-        print("Substrate has been reset to all zeros.")
+        self.FinalSteps = self.steps
+        self.HeightDynamics = np.zeros((self.steps, self.width))
+        self.Fluctuation = np.zeros((self.steps))
+        self.AvergeHeight = np.zeros((self.steps))
+        self.log_time_slopes = None
+        print("Substrate along with all statistics have been reset to all zeros.")
 
     def Sample_Tetris(self):
         """
+        Sampling the Tetris piece according to the configuration file
+        -------------------------------------------------------------
+
         Samples a Tetris piece given the probability distribution specified in
         the configuration file.
 
@@ -392,40 +459,7 @@ class Tetris_Ballistic:
 
         return Update, Type_id, rot, Sticky
 
-    def Initialize_Substrate(self):
-        """
-        Initializes the substrate manually.
-        """
-        self.substrate[11, 3] = 11
-        self.substrate[12, 3] = 11
-        self.substrate[13, 3] = 11
-        self.substrate[14, 0] = 11
-        self.substrate[14, 1] = 0
-        self.substrate[14, 3] = 11
-        self.substrate[14, 6] = 11
-        self.substrate[15, 0] = 11
-        self.substrate[15, 1] = 0
-        self.substrate[15, 2] = 11
-        self.substrate[15, 3] = 11
-        self.substrate[15, 4] = 11
-        self.substrate[15, 5] = 11
-        self.substrate[15, 6] = 11
-        self.substrate[12, 2] = 11
-        self.substrate[10, 6] = 0
-        self.substrate[10, 5] = 0
-        self.substrate[10, 4] = 0
-        self.substrate[10, 3] = 11
-
-        self.substrate[6, 6] = 31
-        self.substrate[6, 3] = 31
-        self.substrate[6, 2] = 31
-        self.substrate[6, 1] = 31
-        self.substrate[6, 2] = 31
-        self.substrate[6, 7] = 31
-        self.substrate[6, 0] = 31
-        print(self.substrate)
-
-    def ffnz(self, column):
+    def _ffnz(self, column):
         """
         Finds the first non-zero entry in the specified column of the
         substrate.
@@ -459,7 +493,7 @@ class Tetris_Ballistic:
 
         return flag
 
-    def Place_O(self, position, landing_row, i):
+    def _Place_O(self, position, landing_row, i):
         """
         Place a square with pivot at the bottom left corner on the :
 
@@ -499,10 +533,10 @@ class Tetris_Ballistic:
 
         next = i
 
-        landing_row_outleft = self.ffnz(position - 1) + 1 if position > 1 and sticky else self.height
-        landing_row_pivot = self.ffnz(position)
-        landing_row_right = self.ffnz(position + 1) if position < self.width - 1 else self.height
-        landing_row_outright = self.ffnz(position + 2) + 1 if position < self.width - 2 and sticky else self.height
+        landing_row_outleft = self._ffnz(position - 1) + 1 if position > 1 and sticky else self.height
+        landing_row_pivot = self._ffnz(position)
+        landing_row_right = self._ffnz(position + 1) if position < self.width - 1 else self.height
+        landing_row_outright = self._ffnz(position + 2) + 1 if position < self.width - 2 and sticky else self.height
 
         # Find minimum landing row
         landing_row = min(
@@ -517,14 +551,14 @@ class Tetris_Ballistic:
 
         # Place square based on the minimum landing row
         next = i + 1
-        self.Place_O(position, landing_row, next)
+        self._Place_O(position, landing_row, next)
         # print(self.substrate)
         # input("")
         self._UpdateStatus(i)
 
         return next
 
-    def Place_I(self, position, landing_row, i, rot=0):
+    def _Place_I(self, position, landing_row, i, rot=0):
         """
         Place a square with pivot at the bottom left corner on the substrate:
            - 1000
@@ -590,12 +624,12 @@ class Tetris_Ballistic:
             case 0 | 2:
                 position = random.randint(0, self.width - 4)
 
-                landing_row_outleft = self.ffnz(position - 1) + 1 if position > 1 and sticky else self.height
-                landing_row_pivot = self.ffnz(position)
-                landing_row_right1 = self.ffnz(position + 1) if position < self.width - 1 else self.height
-                landing_row_right2 = self.ffnz(position + 2) if position < self.width - 2 else self.height
-                landing_row_right3 = self.ffnz(position + 3) if position < self.width - 3 else self.height
-                landing_row_outright = self.ffnz(position + 4) + 1 if position < self.width - 4 and sticky else self.height
+                landing_row_outleft = self._ffnz(position - 1) + 1 if position > 1 and sticky else self.height
+                landing_row_pivot = self._ffnz(position)
+                landing_row_right1 = self._ffnz(position + 1) if position < self.width - 1 else self.height
+                landing_row_right2 = self._ffnz(position + 2) if position < self.width - 2 else self.height
+                landing_row_right3 = self._ffnz(position + 3) if position < self.width - 3 else self.height
+                landing_row_outright = self._ffnz(position + 4) + 1 if position < self.width - 4 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -611,14 +645,14 @@ class Tetris_Ballistic:
                     return -1
 
                 next = i + 1
-                self.Place_I(position, landing_row, next, rot)
+                self._Place_I(position, landing_row, next, rot)
 
             case 1 | 3:
                 position = random.randint(0, self.width - 1)
 
-                landing_row_outleft = self.ffnz(position - 1) + 1 if position > 1 and sticky else self.height
-                landing_row_pivot = self.ffnz(position)
-                landing_row_outright = self.ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self.height
+                landing_row_outleft = self._ffnz(position - 1) + 1 if position > 1 and sticky else self.height
+                landing_row_pivot = self._ffnz(position)
+                landing_row_outright = self._ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -631,12 +665,12 @@ class Tetris_Ballistic:
                     return -1
 
                 next = i + 1
-                self.Place_I(position, landing_row, next, rot)
+                self._Place_I(position, landing_row, next, rot)
 
         self._UpdateStatus(i)
         return next
 
-    def Place_L(self, position, landing_row, i, rot=0):
+    def _Place_L(self, position, landing_row, i, rot=0):
         """
         Place an L with pivot at the corner.
 
@@ -718,10 +752,10 @@ class Tetris_Ballistic:
             case 0:
                 position = random.randint(0, self.width - 2)
 
-                landing_row_outleft = self.ffnz(position - 1) + 1 if position > 0 and sticky else self.height
-                landing_row_pivot = self.ffnz(position)
-                landing_row_right = self.ffnz(position + 1) if position < self.width - 1 else self.height
-                landing_row_outright = self.ffnz(position + 2) + 1 if position < self.width - 2 and sticky else self.height
+                landing_row_outleft = self._ffnz(position - 1) + 1 if position > 0 and sticky else self.height
+                landing_row_pivot = self._ffnz(position)
+                landing_row_right = self._ffnz(position + 1) if position < self.width - 1 else self.height
+                landing_row_outright = self._ffnz(position + 2) + 1 if position < self.width - 2 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -736,15 +770,15 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                self.Place_L(position, landing_row, next, rot)
+                self._Place_L(position, landing_row, next, rot)
             case 1:
                 position = random.randint(2, self.width - 1)
 
-                landing_row_outright = self.ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self.height
-                landing_row_pivot = self.ffnz(position)
-                landing_row_left1 = self.ffnz(position - 1) if position > 1 else self.height
-                landing_row_left2 = self.ffnz(position - 2) if position > 2 else self.height
-                landing_row_outleft = self.ffnz(position - 3) + 1 if position > 3 and sticky else self.height
+                landing_row_outright = self._ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self.height
+                landing_row_pivot = self._ffnz(position)
+                landing_row_left1 = self._ffnz(position - 1) if position > 1 else self.height
+                landing_row_left2 = self._ffnz(position - 2) if position > 2 else self.height
+                landing_row_outleft = self._ffnz(position - 3) + 1 if position > 3 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -760,14 +794,14 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                self.Place_L(position, landing_row, next, rot)
+                self._Place_L(position, landing_row, next, rot)
             case 2:
                 position = random.randint(1, self.width - 1)
 
-                landing_row_outright = self.ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self.height
-                landing_row_pivot = self.ffnz(position)
-                landing_row_outleft1 = self.ffnz(position - 1) + 1 if position > 1 and sticky else self.height
-                landing_row_outleft2 = self.ffnz(position - 2) + 3 if position > 2 and sticky else self.height
+                landing_row_outright = self._ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self.height
+                landing_row_pivot = self._ffnz(position)
+                landing_row_outleft1 = self._ffnz(position - 1) + 1 if position > 1 and sticky else self.height
+                landing_row_outleft2 = self._ffnz(position - 2) + 3 if position > 2 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -782,15 +816,15 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                self.Place_L(position, landing_row - 2, next, rot)
+                self._Place_L(position, landing_row - 2, next, rot)
             case 3:
                 position = random.randint(0, self.width - 3)
 
-                landing_row_outright = self.ffnz(position + 3) + 2 if position < self.width - 3 and sticky else self.height
-                landing_row_right1 = self.ffnz(position + 1) + 1 if position < self.width - 1 else self.height
-                landing_row_right2 = self.ffnz(position + 2) + 1 if position < self.width - 2 else self.height
-                landing_row_pivot = self.ffnz(position)
-                landing_row_outleft = self.ffnz(position - 1) + 1 if position > 1 and sticky else self.height
+                landing_row_outright = self._ffnz(position + 3) + 2 if position < self.width - 3 and sticky else self.height
+                landing_row_right1 = self._ffnz(position + 1) + 1 if position < self.width - 1 else self.height
+                landing_row_right2 = self._ffnz(position + 2) + 1 if position < self.width - 2 else self.height
+                landing_row_pivot = self._ffnz(position)
+                landing_row_outleft = self._ffnz(position - 1) + 1 if position > 1 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -806,12 +840,12 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                self.Place_L(position, landing_row - 1, next, rot)
+                self._Place_L(position, landing_row - 1, next, rot)
 
         self._UpdateStatus(i)
         return next
 
-    def Place_J(self, position, landing_row, i, rot=0):
+    def _Place_J(self, position, landing_row, i, rot=0):
         """
         Place a J with pivot at the corner.
 
@@ -895,10 +929,10 @@ class Tetris_Ballistic:
             case 0:
                 position = random.randint(1, self.width - 1)
 
-                landing_row_outleft = self.ffnz(position - 2) + 1 if position > 2 and sticky else self.height
-                landing_row_left = self.ffnz(position - 1) if position > 1 else self.height
-                landing_row_pivot = self.ffnz(position)
-                landing_row_outright = self.ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self.height
+                landing_row_outleft = self._ffnz(position - 2) + 1 if position > 2 and sticky else self.height
+                landing_row_left = self._ffnz(position - 1) if position > 1 else self.height
+                landing_row_pivot = self._ffnz(position)
+                landing_row_outright = self._ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -913,15 +947,15 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                self.Place_J(position, landing_row, next, rot)
+                self._Place_J(position, landing_row, next, rot)
             case 1:
                 position = random.randint(2, self.width - 1)
 
-                landing_row_outright = self.ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self.height
-                landing_row_pivot = self.ffnz(position)
-                landing_row_left1 = self.ffnz(position - 1) if position > 1 else self.height
-                landing_row_left2 = self.ffnz(position - 2) if position > 2 else self.height
-                landing_row_outleft = self.ffnz(position - 3) + 2 if position > 3 and sticky else self.height
+                landing_row_outright = self._ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self.height
+                landing_row_pivot = self._ffnz(position)
+                landing_row_left1 = self._ffnz(position - 1) if position > 1 else self.height
+                landing_row_left2 = self._ffnz(position - 2) if position > 2 else self.height
+                landing_row_outleft = self._ffnz(position - 3) + 2 if position > 3 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -937,14 +971,14 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                self.Place_J(position, landing_row - 1, next, rot)
+                self._Place_J(position, landing_row - 1, next, rot)
             case 2:
                 position = random.randint(0, self.width - 2)
 
-                landing_row_outright1 = self.ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self.height
-                landing_row_outright2 = self.ffnz(position + 2) + 3 if position < self.width - 2 and sticky else self.height
-                landing_row_pivot = self.ffnz(position)
-                landing_row_outleft = self.ffnz(position - 1) + 1 if position > 1 and sticky else self.height
+                landing_row_outright1 = self._ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self.height
+                landing_row_outright2 = self._ffnz(position + 2) + 3 if position < self.width - 2 and sticky else self.height
+                landing_row_pivot = self._ffnz(position)
+                landing_row_outleft = self._ffnz(position - 1) + 1 if position > 1 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -959,15 +993,15 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                self.Place_J(position, landing_row - 2, next, rot)
+                self._Place_J(position, landing_row - 2, next, rot)
             case 3:
                 position = random.randint(0, self.width - 3)
 
-                landing_row_outright = self.ffnz(position + 3) + 1 if position < self.width - 3 and sticky else self.height
-                landing_row_right1 = self.ffnz(position + 1) if position < self.width - 1 else self.height
-                landing_row_right2 = self.ffnz(position + 2) if position < self.width - 2 else self.height
-                landing_row_pivot = self.ffnz(position)
-                landing_row_outleft = self.ffnz(position - 1) + 1 if position > 1 and sticky else self.height
+                landing_row_outright = self._ffnz(position + 3) + 1 if position < self.width - 3 and sticky else self.height
+                landing_row_right1 = self._ffnz(position + 1) if position < self.width - 1 else self.height
+                landing_row_right2 = self._ffnz(position + 2) if position < self.width - 2 else self.height
+                landing_row_pivot = self._ffnz(position)
+                landing_row_outleft = self._ffnz(position - 1) + 1 if position > 1 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -983,12 +1017,12 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                self.Place_J(position, landing_row, next, rot)
+                self._Place_J(position, landing_row, next, rot)
 
         self._UpdateStatus(i)
         return next
 
-    def Place_T(self, position, landing_row, i, rot=0):
+    def _Place_T(self, position, landing_row, i, rot=0):
         """
         Place a T with pivot at the center:
 
@@ -1071,11 +1105,11 @@ class Tetris_Ballistic:
             case 0:
                 position = random.randint(1, self.width - 2)
 
-                landing_row_outleft = self.ffnz(position - 2) + 2 if position > 2 and sticky else self.height
-                landing_row_left = self.ffnz(position - 1) + 1 if position > 1 else self.height
-                landing_row_pivot = self.ffnz(position)
-                landing_row_right = self.ffnz(position + 1) + 1 if position < self.width - 1 else self.height
-                landing_row_outright = self.ffnz(position + 2) + 2 if position < self.width - 2 and sticky else self.height
+                landing_row_outleft = self._ffnz(position - 2) + 2 if position > 2 and sticky else self.height
+                landing_row_left = self._ffnz(position - 1) + 1 if position > 1 else self.height
+                landing_row_pivot = self._ffnz(position)
+                landing_row_right = self._ffnz(position + 1) + 1 if position < self.width - 1 else self.height
+                landing_row_outright = self._ffnz(position + 2) + 2 if position < self.width - 2 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -1091,14 +1125,14 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                self.Place_T(position, landing_row - 1, next, rot)
+                self._Place_T(position, landing_row - 1, next, rot)
             case 1:
                 position = random.randint(0, self.width - 2)
 
-                landing_row_outright = self.ffnz(position + 2) + 2 if position < self.width - 2 and sticky else self.height
-                landing_row_right = self.ffnz(position + 1) + 1 if position < self.width - 1 else self.height
-                landing_row_pivot = self.ffnz(position)
-                landing_row_outleft = self.ffnz(position - 1) + 1 if position > 1 and sticky else self.height
+                landing_row_outright = self._ffnz(position + 2) + 2 if position < self.width - 2 and sticky else self.height
+                landing_row_right = self._ffnz(position + 1) + 1 if position < self.width - 1 else self.height
+                landing_row_pivot = self._ffnz(position)
+                landing_row_outleft = self._ffnz(position - 1) + 1 if position > 1 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -1113,15 +1147,15 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                self.Place_T(position, landing_row - 1, next, rot)
+                self._Place_T(position, landing_row - 1, next, rot)
             case 2:
                 position = random.randint(1, self.width - 2)
 
-                landing_row_outright = self.ffnz(position + 2) + 1 if position < self.width - 2 and sticky else self.height
-                landing_row_right = self.ffnz(position + 1) if position < self.width - 1 else self.height
-                landing_row_pivot = self.ffnz(position)
-                landing_row_left = self.ffnz(position - 1) if position > 1 else self.height
-                landing_row_outleft = self.ffnz(position - 2) + 1 if position > 2 and sticky else self.height
+                landing_row_outright = self._ffnz(position + 2) + 1 if position < self.width - 2 and sticky else self.height
+                landing_row_right = self._ffnz(position + 1) if position < self.width - 1 else self.height
+                landing_row_pivot = self._ffnz(position)
+                landing_row_left = self._ffnz(position - 1) if position > 1 else self.height
+                landing_row_outleft = self._ffnz(position - 2) + 1 if position > 2 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -1137,14 +1171,14 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                self.Place_T(position, landing_row, next, rot)
+                self._Place_T(position, landing_row, next, rot)
             case 3:
                 position = random.randint(1, self.width - 1)
 
-                landing_row_outright = self.ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self.height
-                landing_row_pivot = self.ffnz(position)
-                landing_row_left = self.ffnz(position - 1) if position > 1 else self.height
-                landing_row_outleft = self.ffnz(position - 2) + 1 if position > 2 and sticky else self.height
+                landing_row_outright = self._ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self.height
+                landing_row_pivot = self._ffnz(position)
+                landing_row_left = self._ffnz(position - 1) if position > 1 else self.height
+                landing_row_outleft = self._ffnz(position - 2) + 1 if position > 2 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -1159,12 +1193,12 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                self.Place_T(position, landing_row - 1, next, rot)
+                self._Place_T(position, landing_row - 1, next, rot)
 
         self._UpdateStatus(i)
         return next
 
-    def Place_S(self, position, landing_row, i, rot=0):
+    def _Place_S(self, position, landing_row, i, rot=0):
         """
         Place an S with pivot given as follows:
 
@@ -1223,11 +1257,11 @@ class Tetris_Ballistic:
             case 0 | 2:
                 position = random.randint(1, self.width - 2)
 
-                landing_row_outleft = self.ffnz(position - 2) + 1 if position > 2 and sticky else self.height
-                landing_row_left = self.ffnz(position - 1) if position > 1 else self.height
-                landing_row_pivot = self.ffnz(position)
-                landing_row_outright1 = self.ffnz(position + 1) + 1 if position < self.width - 1 else self.height
-                landing_row_outright2 = self.ffnz(position + 2) + 2 if position < self.width - 2 and sticky else self.height
+                landing_row_outleft = self._ffnz(position - 2) + 1 if position > 2 and sticky else self.height
+                landing_row_left = self._ffnz(position - 1) if position > 1 else self.height
+                landing_row_pivot = self._ffnz(position)
+                landing_row_outright1 = self._ffnz(position + 1) + 1 if position < self.width - 1 else self.height
+                landing_row_outright2 = self._ffnz(position + 2) + 2 if position < self.width - 2 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -1243,14 +1277,14 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                self.Place_S(position, landing_row, next, rot)
+                self._Place_S(position, landing_row, next, rot)
             case 1 | 3:
                 position = random.randint(1, self.width - 1)
 
-                landing_row_outleft2 = self.ffnz(position - 2) + 2 if position > 2 and sticky else self.height
-                landing_row_outleft1 = self.ffnz(position - 1) + 1 if position > 1 else self.height
-                landing_row_pivot = self.ffnz(position)
-                landing_row_outright = self.ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self.height
+                landing_row_outleft2 = self._ffnz(position - 2) + 2 if position > 2 and sticky else self.height
+                landing_row_outleft1 = self._ffnz(position - 1) + 1 if position > 1 else self.height
+                landing_row_pivot = self._ffnz(position)
+                landing_row_outright = self._ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -1265,12 +1299,12 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                self.Place_S(position, landing_row - 1, next, rot)
+                self._Place_S(position, landing_row - 1, next, rot)
 
         self._UpdateStatus(i)
         return next
 
-    def Place_Z(self, position, landing_row, i, rot=0):
+    def _Place_Z(self, position, landing_row, i, rot=0):
         """
         Place a Z with pivot given as follows:
 
@@ -1329,11 +1363,11 @@ class Tetris_Ballistic:
             case 0 | 2:
                 position = random.randint(1, self.width - 2)
 
-                landing_row_outleft2 = self.ffnz(position - 2) + 2 if position > 2 and sticky else self.height
-                landing_row_outleft1 = self.ffnz(position - 1) + 1 if position > 1 else self.height
-                landing_row_pivot = self.ffnz(position)
-                landing_row_right = self.ffnz(position + 1) if position < self.width - 1 else self.height
-                landing_row_outright = self.ffnz(position + 2) + 1 if position < self.width - 2 and sticky else self.height
+                landing_row_outleft2 = self._ffnz(position - 2) + 2 if position > 2 and sticky else self.height
+                landing_row_outleft1 = self._ffnz(position - 1) + 1 if position > 1 else self.height
+                landing_row_pivot = self._ffnz(position)
+                landing_row_right = self._ffnz(position + 1) if position < self.width - 1 else self.height
+                landing_row_outright = self._ffnz(position + 2) + 1 if position < self.width - 2 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -1349,14 +1383,14 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                self.Place_Z(position, landing_row, next, rot)
+                self._Place_Z(position, landing_row, next, rot)
             case 1 | 3:
                 position = random.randint(1, self.width - 1)
 
-                landing_row_outleft = self.ffnz(position - 2) + 1 if position > 2 and sticky else self.height
-                landing_row_left = self.ffnz(position - 1) if position > 1 else self.height
-                landing_row_pivot = self.ffnz(position) + 1
-                landing_row_outright = self.ffnz(position + 1) + 2 if position < self.width - 1 and sticky else self.height
+                landing_row_outleft = self._ffnz(position - 2) + 1 if position > 2 and sticky else self.height
+                landing_row_left = self._ffnz(position - 1) if position > 1 else self.height
+                landing_row_pivot = self._ffnz(position) + 1
+                landing_row_outright = self._ffnz(position + 1) + 2 if position < self.width - 1 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -1371,12 +1405,12 @@ class Tetris_Ballistic:
 
                 # Place square based on the minimum landing row
                 next = i + 1
-                self.Place_Z(position, landing_row - 1, next, rot)
+                self._Place_Z(position, landing_row - 1, next, rot)
 
         self._UpdateStatus(i)
         return next
 
-    def Place_1x1(self, position, landing_row, i):
+    def _Place_1x1(self, position, landing_row, i):
         """
         Place a 1x1 piece.
 
@@ -1407,9 +1441,9 @@ class Tetris_Ballistic:
 
         next = i
 
-        landing_row_outleft = self.ffnz(position - 1) + 1 if position > 1 and sticky else self.height
-        landing_row_pivot = self.ffnz(position)
-        landing_row_outright = self.ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self.height
+        landing_row_outleft = self._ffnz(position - 1) + 1 if position > 1 and sticky else self.height
+        landing_row_pivot = self._ffnz(position)
+        landing_row_outright = self._ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self.height
 
         # Find minimum landing row
         landing_row = min(
@@ -1423,7 +1457,7 @@ class Tetris_Ballistic:
 
         # Place square based on the minimum landing row
         next = i + 1
-        self.Place_1x1(position, landing_row, next)
+        self._Place_1x1(position, landing_row, next)
         # print(self.substrate)
         # input("")
 
@@ -1487,15 +1521,10 @@ class Tetris_Ballistic:
         of the substrate. Update the both HeightDynamics and Fluctuation
         attributes of the substrate.
 
-        Parameters
-        ----------
-        step : int
-            The step number of the substrate.
-
-        Returns
-        -------
+        Args:
+            step (int): The step number of the substrate.
+        Returns:
             None
-
         """
         top_envelope = np.zeros(self.width)
         for pos in range(self.width):
@@ -1515,7 +1544,15 @@ class Tetris_Ballistic:
 
     def PrintStatus(self, brief=False):
         """
+        Print the step/status of the class
+        ----------------------------------
+
         This function prints out the status of the substrate.
+
+        Args:
+            brief (bool): Whether to print out the substrate, height dynamics, average height, and Fluctuation or not.
+        Returns:
+            None
         """
         print("------------------------\n")
         print("Status of the substrate:")
@@ -1535,6 +1572,9 @@ class Tetris_Ballistic:
 
     def ComputeSlope(self):
         """
+        Compute the slope of the substrate
+        ----------------------------------
+
         This function computes the slope of the substrate and returns
         a 2-D array with log_time and corresponding slopes.
 
@@ -1578,7 +1618,8 @@ class Tetris_Ballistic:
                              envelop=False,
                              show_average=False):
         """
-        Visualize the particle deposition simulation and generate a video.
+        Visualize the particle deposition simulation and generate a video
+        -----------------------------------------------------------------
 
         This function visualizes the deposition process as an animation. It can
         accept either the path to a substrate data file or the substrate data
@@ -1675,7 +1716,7 @@ class Tetris_Ballistic:
         imageio.mimsave(video_filename, frames, fps=rate)
 
 
-def create_partial(func, *args, **kwargs):
+def _create_partial(func, *args, **kwargs):
     """
     Creates a partial function from the given function, with pre-specified
     positional and keyword arguments.
@@ -1687,13 +1728,13 @@ def create_partial(func, *args, **kwargs):
     include the original function's name along with the pre-specified arguments
     for easy identification.
 
-    Parameters:
-    func (Callable): The original function to be partially applied.
-    *args: Variable length argument list representing positional arguments to be pre-applied to the function.
-    **kwargs: Arbitrary keyword arguments representing keyword arguments to be pre-applied to the function.
+    Args:
+        func (Callable): The original function to be partially applied.
+        *args: Variable length argument list representing positional arguments to be pre-applied to the function.
+        **kwargs: Arbitrary keyword arguments representing keyword arguments to be pre-applied to the function.
 
     Returns:
-    Callable: A new partial function with pre-applied arguments.
+        Callable: A new partial function with pre-applied arguments.
     """
     partial_func = partial(func, *args, **kwargs)
     partial_func.__name__ = f"{func.__name__} args={args} kwargs={kwargs}"

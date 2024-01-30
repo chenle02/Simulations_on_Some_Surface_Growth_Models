@@ -20,7 +20,7 @@ Welcome to Surface Growth Models with Tetris Pieces's documentation!  Version |v
    - Email: ian.ruau@auburn.edu
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: Contents:
 
 

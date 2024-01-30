@@ -72,3 +72,6 @@ Piece_id          (type_id, rot)                            Name                
    :members:
    :undoc-members:
    :show-inheritance:
+
+.. .. autoclass:: tetris_ballistic.Tetris_Ballistic
+..     :members:
