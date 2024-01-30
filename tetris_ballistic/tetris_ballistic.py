@@ -433,7 +433,7 @@ class Tetris_Ballistic:
             Sticky (bool): Whether the sampled piece is sticky or not.
         """
         # Normalize the vector
-        probabilities = np.array([self.config_data[f"Piece-{i}"] for i in range(19)])
+        probabilities = np.array([self.config_data[f"Piece-{i}"] for i in range(20)])
 
         # Flatten the matrix to a 1D array for sampling
         flattened_probabilities = probabilities.flatten()
@@ -442,7 +442,7 @@ class Tetris_Ballistic:
         normalized_probabilities = flattened_probabilities / np.sum(flattened_probabilities)
 
         # Use normalized probabilities for sampling
-        sample_index = np.random.choice(38, p=normalized_probabilities)
+        sample_index = np.random.choice(40, p=normalized_probabilities)
 
         # Convert flat index back to 2D index
         Piece_id = sample_index // 2  # integer division to get row index
@@ -458,6 +458,25 @@ class Tetris_Ballistic:
         Update = self.UpdateCall[sample_index]
 
         return Update, Type_id, rot, Sticky
+
+    def Simulate(self):
+        """
+        Start the simulation
+        --------------------
+
+        Return:
+            None
+        """
+        self.reset()
+        i = 0
+        while i < self.steps:
+            Update, *_ = self.Sample_Tetris()
+            i = Update(i)
+            if i == -1:
+                print("Game Over, reach the top")
+                break
+        self.ComputeSlope()
+        self.PrintStatus(brief=True)
 
     def _ffnz(self, column):
         """
@@ -513,7 +532,7 @@ class Tetris_Ballistic:
         self.substrate[landing_row - 1, position + 1] = i
         self.substrate[landing_row - 2, position + 1] = i
 
-    def Update_O(self, i, sticky=True):
+    def Update_O(self, i, rot=0, sticky=True):
         """
         Updates the substrate with a square piece.
 
