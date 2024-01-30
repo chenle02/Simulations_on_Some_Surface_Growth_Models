@@ -25,12 +25,6 @@ from functools import partial
 np.set_printoptions(threshold=np.inf)  # Make sure that print() displays the entire array
 
 
-def create_partial(func, *args, **kwargs):
-    partial_func = partial(func, *args, **kwargs)
-    partial_func.__name__ = f"{func.__name__} args={args} kwargs={kwargs}"
-    return partial_func
-
-
 class Tetris_Ballistic:
     def __init__(self,
                  width=16,
@@ -316,8 +310,58 @@ class Tetris_Ballistic:
         Samples a Tetris piece given the probability distribution specified in
         the configuration file.
 
+        There are 7 types Tetris pieces (type_id):
+
+        + 0 :  the square;
+        + 1 :  the line;
+        + 2 :  the L;
+        + 3 :  the J;
+        + 4 :  the T;
+        + 5 :  the S;
+        + 6 :  the Z.
+
+        We add the 1x1 piece as the 8th piece.
+
+        + 7 :  the 1x1.
+
+        There are 4 orientations for each piece (rot):
+
+        - 0 is the original orientation;
+        - 1 is the 90 degree rotation;
+        - 2 is the 180 degree rotation;
+        - 3 is the 270 degree rotation.
+
+        There are 19 pieces in total (piece_id) given below:
+
+        ================  ===============================
+        Piece_id          (type_id, rot)
+        ================  ===============================
+        0                 (0, 0) (0, 1) (0, 2) (0, 3)
+        1                 (1, 0) (1, 2)
+        2                 (1, 1) (1, 3)
+        3                 (2, 0)
+        4                 (2, 1)
+        5                 (2, 2)
+        6                 (2, 3)
+        7                 (3, 0)
+        8                 (3, 1)
+        9                 (3, 2)
+        10                (3, 3)
+        11                (4, 0)
+        12                (4, 1)
+        13                (4, 2)
+        14                (4, 3)
+        15                (5, 0) (5, 2)
+        16                (5, 1) (5, 3)
+        17                (6, 0) (6, 2)
+        18                (6, 1) (6, 3)
+        19                (7, 0) (7, 1) (7, 2) (7, 3)
+        ================  ===============================
+
         Returns:
-            Piece_id (int): The ID of the sampled piece (0-6).
+            Update (callable): The function to be called to update the substrate.
+            Piece_id (int): The Id of the piece (0-19).
+            Type_id (int): The ID of the sampled piece (0-6).
             rot (int): rotation of the sampled piece (0-3).
             Sticky (bool): Whether the sampled piece is sticky or not.
         """
@@ -334,51 +378,19 @@ class Tetris_Ballistic:
         sample_index = np.random.choice(38, p=normalized_probabilities)
 
         # Convert flat index back to 2D index
-        piece_type = sample_index // 2  # integer division to get row index
+        Piece_id = sample_index // 2  # integer division to get row index
         column = sample_index % 2  # modulo to get column index
         if column == 0:
             Sticky = False
         else:
             Sticky = True
 
-        Piece_id, rot = self.PieceMap[piece_type]
+        Type_id, rot = self.PieceMap[Piece_id]
 
-        print(f"Sampled (Piece, rot, Sticky, Update_Function): {Piece_id}, {rot}, {Sticky}, {self.UpdateCall[sample_index].__name__}")
-        return Piece_id, rot, Sticky
+        print(f"Sampled (Type_id, rot, Sticky, Update_Function): ({Type_id}, {rot}, {Sticky}), {self.UpdateCall[sample_index].__name__}")
+        Update = self.UpdateCall[sample_index]
 
-    def Tetris_Choice(self):
-        """
-        Randomly selects a Tetris piece and its orientation.
-
-        There are 7 Tetris pieces:
-
-        + 0 :  the square;
-        + 1 :  the line;
-        + 2 :  the L;
-        + 3 :  the J;
-        + 4 :  the T;
-        + 5 :  the S;
-        + 6 :  the Z.
-
-        We add the 1x1 piece as the 8th piece.
-
-        + 7 :  the 1x1.
-
-        There are 4 orientations for each piece:
-
-        - 0 is the original orientation;
-        - 1 is the 90 degree rotation;
-        - 2 is the 180 degree rotation;
-        - 3 is the 270 degree rotation.
-
-        Returns:
-
-            numpy.ndarray: A 2-element array:
-            the first element is the piece type (0-7);
-            the second element is the orientation (0-3).
-        """
-        choice = np.random.randint(0, [8, 4])
-        return choice
+        return Update, Type_id, rot, Sticky
 
     def Initialize_Substrate(self):
         """
@@ -1662,6 +1674,30 @@ class Tetris_Ballistic:
         video_filename = os.path.splitext(video_filename)[0] + ".mp4"
         imageio.mimsave(video_filename, frames, fps=rate)
 
+
+def create_partial(func, *args, **kwargs):
+    """
+    Creates a partial function from the given function, with pre-specified
+    positional and keyword arguments.
+
+    This function uses `functools.partial` to create a new function with some
+    of the arguments of the original function pre-filled. It is useful for
+    creating a version of a function that has the same behavior with fixed
+    values for certain arguments. The name of the new function is modified to
+    include the original function's name along with the pre-specified arguments
+    for easy identification.
+
+    Parameters:
+    func (Callable): The original function to be partially applied.
+    *args: Variable length argument list representing positional arguments to be pre-applied to the function.
+    **kwargs: Arbitrary keyword arguments representing keyword arguments to be pre-applied to the function.
+
+    Returns:
+    Callable: A new partial function with pre-applied arguments.
+    """
+    partial_func = partial(func, *args, **kwargs)
+    partial_func.__name__ = f"{func.__name__} args={args} kwargs={kwargs}"
+    return partial_func
 
 # Example usage
 # tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=1000, seed=42)
