@@ -20,8 +20,15 @@ import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 import imageio
 import os
+from functools import partial
 # from RD_CLI import Envelop, interface_width
 np.set_printoptions(threshold=np.inf)  # Make sure that print() displays the entire array
+
+
+def create_partial(func, *args, **kwargs):
+    partial_func = partial(func, *args, **kwargs)
+    partial_func.__name__ = f"{func.__name__} args={args} kwargs={kwargs}"
+    return partial_func
 
 
 class Tetris_Ballistic:
@@ -96,6 +103,28 @@ class Tetris_Ballistic:
         self.Fluctuation = np.zeros((self.steps))
         self.AvergeHeight = np.zeros((self.steps))
         self.log_time_slopes = None
+        self.UpdateCall = [
+            create_partial(self.Update_O, rot=0, sticky=False),  create_partial(self.Update_O, rot=0, sticky=True),    # 0
+            create_partial(self.Update_I, rot=0, sticky=False),  create_partial(self.Update_I, rot=0, sticky=True),    # 1
+            create_partial(self.Update_I, rot=1, sticky=False),  create_partial(self.Update_I, rot=1, sticky=True),    # 2
+            create_partial(self.Update_L, rot=0, sticky=False),  create_partial(self.Update_L, rot=0, sticky=True),    # 3
+            create_partial(self.Update_L, rot=1, sticky=False),  create_partial(self.Update_L, rot=1, sticky=True),    # 4
+            create_partial(self.Update_L, rot=2, sticky=False),  create_partial(self.Update_L, rot=2, sticky=True),    # 5
+            create_partial(self.Update_L, rot=3, sticky=False),  create_partial(self.Update_L, rot=3, sticky=True),    # 6
+            create_partial(self.Update_J, rot=0, sticky=False),  create_partial(self.Update_J, rot=0, sticky=True),    # 7
+            create_partial(self.Update_J, rot=1, sticky=False),  create_partial(self.Update_J, rot=1, sticky=True),    # 8
+            create_partial(self.Update_J, rot=2, sticky=False),  create_partial(self.Update_J, rot=2, sticky=True),    # 9
+            create_partial(self.Update_J, rot=3, sticky=False),  create_partial(self.Update_J, rot=3, sticky=True),    # 10
+            create_partial(self.Update_T, rot=0, sticky=False),  create_partial(self.Update_T, rot=0, sticky=True),    # 11
+            create_partial(self.Update_T, rot=1, sticky=False),  create_partial(self.Update_T, rot=1, sticky=True),    # 12
+            create_partial(self.Update_T, rot=2, sticky=False),  create_partial(self.Update_T, rot=2, sticky=True),    # 13
+            create_partial(self.Update_T, rot=3, sticky=False),  create_partial(self.Update_T, rot=3, sticky=True),    # 14
+            create_partial(self.Update_S, rot=0, sticky=False),  create_partial(self.Update_S, rot=0, sticky=True),    # 15
+            create_partial(self.Update_S, rot=1, sticky=False),  create_partial(self.Update_S, rot=1, sticky=True),    # 16
+            create_partial(self.Update_Z, rot=0, sticky=False),  create_partial(self.Update_Z, rot=0, sticky=True),    # 17
+            create_partial(self.Update_Z, rot=1, sticky=False),  create_partial(self.Update_Z, rot=1, sticky=True),    # 18
+            create_partial(self.Update_1x1, rot=0, sticky=False), create_partial(self.Update_1x1, rot=0, sticky=True)  # 19
+        ]
 
     def set_seed(self, seed):
         """
@@ -314,7 +343,7 @@ class Tetris_Ballistic:
 
         Piece_id, rot = self.PieceMap[piece_type]
 
-        print(f"Sampled (Piece, rot, Sticky): {Piece_id}, {rot}, {Sticky}")
+        print(f"Sampled (Piece, rot, Sticky, Update_Function): {Piece_id}, {rot}, {Sticky}, {self.UpdateCall[sample_index].__name__}")
         return Piece_id, rot, Sticky
 
     def Tetris_Choice(self):
@@ -438,7 +467,7 @@ class Tetris_Ballistic:
         self.substrate[landing_row - 1, position + 1] = i
         self.substrate[landing_row - 2, position + 1] = i
 
-    def Update_O(self, i, rot=0, sticky=True):
+    def Update_O(self, i, sticky=True):
         """
         Updates the substrate with a square piece.
 
@@ -1632,6 +1661,7 @@ class Tetris_Ballistic:
         # Save frames as an MP4 video with the same base filename
         video_filename = os.path.splitext(video_filename)[0] + ".mp4"
         imageio.mimsave(video_filename, frames, fps=rate)
+
 
 # Example usage
 # tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=1000, seed=42)
