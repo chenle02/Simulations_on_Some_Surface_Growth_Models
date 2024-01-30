@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html  lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+      <title>Visualize_RD module</title>
+    
+          <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+          <link rel="stylesheet" href="../_static/theme.css " type="text/css" />
+      
+      <!-- sphinx script_files -->
+        <script src="../_static/documentation_options.js?v=9fa44488"></script>
+        <script src="../_static/doctools.js?v=00f2d9dc"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+
+      
+      <!-- bundled in js (rollup iife) -->
+      <!-- <script src="../_static/theme-vendors.js"></script> -->
+      <script src="../_static/theme.js" defer></script>
+    
+  <link rel="index" title="Index" href="../genindex.html" />
+  <link rel="search" title="Search" href="../search.html" />
+  <link rel="next" title="tetris_complete module" href="tetris_complete.html" />
+  <link rel="prev" title="RD_CLI module" href="RD_CLI.html" /> 
+  </head>
+
+  <body>
+    <div id="app">
+    <div class="theme-container" :class="pageClasses"><navbar @toggle-sidebar="toggleSidebar">
+  <router-link to="../index.html" class="home-link">
+    
+      <span class="site-name">Surface Growth with Random Tetris Pieces</span>
+    
+  </router-link>
+
+  <div class="links">
+    <navlinks class="can-hide">
+
+
+
+    </navlinks>
+  </div>
+</navbar>
+
+      
+      <div class="sidebar-mask" @click="toggleSidebar(false)">
+      </div>
+        <sidebar @toggle-sidebar="toggleSidebar">
+          
+          <navlinks>
+            
+
+
+
+            
+          </navlinks><div id="searchbox" class="searchbox" role="search">
+  <div class="caption"><span class="caption-text">Quick search</span>
+    <div class="searchformwrapper">
+      <form class="search" action="../search.html" method="get">
+        <input type="text" name="q" />
+        <input type="submit" value="Search" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><div class="sidebar-links" role="navigation" aria-label="main navigation">
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#welcome-to-surface-growth-models-with-tetris-pieces-s-documentation-version-version-release-release">Contents:</a></span>
+      </p>
+      <ul class="current">
+        
+          <li class="toctree-l1 ">
+            
+              <a href="Introduction.html" class="reference internal ">Introduction</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="RD_CLI.html" class="reference internal ">RD_CLI module</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 current">
+            
+              <a href="#" class="reference internal current">Visualize_RD module</a>
+            
+
+            
+              <ul>
+                
+                  <li class="toctree-l2"><a href="#module-Visualize_RD" class="reference internal">Visualize_RD module</a></li>
+                
+              </ul>
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="tetris_complete.html" class="reference internal ">tetris_complete module</a>
+            
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+</div>
+        </sidebar>
+
+      <page>
+          <div class="body-header" role="navigation" aria-label="navigation">
+  
+  <ul class="breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+    
+    <li>Visualize_RD module</li>
+  </ul>
+  
+
+  <ul class="page-nav">
+  <li class="prev">
+    <a href="RD_CLI.html"
+       title="previous chapter">← RD_CLI module</a>
+  </li>
+  <li class="next">
+    <a href="tetris_complete.html"
+       title="next chapter">tetris_complete module →</a>
+  </li>
+</ul>
+  
+</div>
+<hr>
+          <div class="content" role="main" v-pre>
+            
+  <section id="module-Visualize_RD">
+<span id="visualize-rd-module"></span><h1>Visualize_RD module<a class="headerlink" href="#module-Visualize_RD" title="Link to this heading">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="Visualize_RD.main">
+<span class="sig-prename descclassname"><span class="pre">Visualize_RD.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Visualize_RD.main" title="Link to this definition">¶</a></dt>
+<dd><p>Main function to execute the particle deposition visualization script.</p>
+<p>This script visualizes the process of particle deposition based on the data
+from a substrate simulation. It generates a video showing the evolution of
+the deposition over time. The script offers several command-line options to
+customize the visualization, such as showing the top envelope, the average
+height, and adjusting the video playback rate.</p>
+<p>Options:</p>
+<dl class="option-list">
+<dt><kbd><span class="option">-f</span>, <span class="option">--file</span></kbd></dt>
+<dd><p>: Required. Path to the substrate file containing simulation data.</p>
+</dd>
+<dt><kbd><span class="option">-t</span>, <span class="option">--title</span></kbd></dt>
+<dd><p>: Optional. Title of the plot. If not provided, no title is displayed.</p>
+</dd>
+<dt><kbd><span class="option">-r</span>, <span class="option">--rate</span></kbd></dt>
+<dd><p>: Optional. Frame rate for the video. Default is 4 frames per second.</p>
+</dd>
+<dt><kbd><span class="option">-e</span>, <span class="option">--envelop</span></kbd></dt>
+<dd><p>: Optional. Flag to display the top envelope of the deposition. Default is False.</p>
+</dd>
+<dt><kbd><span class="option">-a</span>, <span class="option">--average</span></kbd></dt>
+<dd><p>: Optional. Flag to display the average height of the deposition. Default is False.</p>
+</dd>
+<dt><kbd><span class="option">-p</span>, <span class="option">--play</span></kbd></dt>
+<dd><p>: Optional. Flag to automatically play the video after generation. Default is False.</p>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;<span class="w"> </span>python3<span class="w"> </span>Visualize_RD.py<span class="w"> </span>-f<span class="w"> </span>substrate.txt<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;Simulation Title&quot;</span><span class="w"> </span>-r<span class="w"> </span><span class="m">10</span><span class="w"> </span>--envelop<span class="w"> </span>--average<span class="w"> </span>--play
+</pre></div>
+</div>
+<p>This command will run the script on ‘substrate.txt’, set a title, use a frame rate of 10 fps,
+and display both the top envelope and average height in the visualization.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Visualize_RD.visualize_simulation">
+<span class="sig-prename descclassname"><span class="pre">Visualize_RD.</span></span><span class="sig-name descname"><span class="pre">visualize_simulation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_title</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">envelop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_average</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Visualize_RD.visualize_simulation" title="Link to this definition">¶</a></dt>
+<dd><p>Visualize the particle deposition simulation and generate a video.</p>
+<p>This function loads the substrate data from a file and visualizes the deposition process
+as an animation. It supports visualizing the top envelope and average height of the deposited
+particles. The final output is saved as an mp4 video file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>str</em>) – The path to the substrate data file.</p></li>
+<li><p><strong>plot_title</strong> (<em>str</em>) – The title of the plot.</p></li>
+<li><p><strong>rate</strong> (<em>int</em>) – The frame rate for the video.</p></li>
+<li><p><strong>envelop</strong> (<em>bool</em>) – Flag to indicate whether to show the top envelope.</p></li>
+<li><p><strong>show_average</strong> (<em>bool</em>) – Flag to indicate whether to show the average height.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The filename of the generated mp4 video.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+          </div>
+          <div class="page-nav">
+            <div class="inner"><ul class="page-nav">
+  <li class="prev">
+    <a href="RD_CLI.html"
+       title="previous chapter">← RD_CLI module</a>
+  </li>
+  <li class="next">
+    <a href="tetris_complete.html"
+       title="next chapter">tetris_complete module →</a>
+  </li>
+</ul><div class="footer" role="contentinfo">
+      &#169; Copyright 2023, Le Chen, Mauricio Montes, Ian Ruau.
+    <br>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 7.2.6 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+</div>
+            </div>
+          </div>
+      </page>
+    </div></div>
+    
+    
+  </body>
+</html>

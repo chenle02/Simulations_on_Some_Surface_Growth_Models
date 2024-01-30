@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html  lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+      <title>Introduction</title>
+    
+          <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+          <link rel="stylesheet" href="../_static/theme.css " type="text/css" />
+      
+      <!-- sphinx script_files -->
+        <script src="../_static/documentation_options.js?v=9fa44488"></script>
+        <script src="../_static/doctools.js?v=00f2d9dc"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+      
+      <!-- bundled in js (rollup iife) -->
+      <!-- <script src="../_static/theme-vendors.js"></script> -->
+      <script src="../_static/theme.js" defer></script>
+    
+  <link rel="index" title="Index" href="../genindex.html" />
+  <link rel="search" title="Search" href="../search.html" />
+  <link rel="next" title="RD_CLI module" href="RD_CLI.html" />
+  <link rel="prev" title="Welcome to Surface Growth Models with Tetris Pieces’s documentation! Version :release:`` (release :version:``)." href="../index.html" /> 
+  </head>
+
+  <body>
+    <div id="app">
+    <div class="theme-container" :class="pageClasses"><navbar @toggle-sidebar="toggleSidebar">
+  <router-link to="../index.html" class="home-link">
+    
+      <span class="site-name">Surface Growth with Random Tetris Pieces</span>
+    
+  </router-link>
+
+  <div class="links">
+    <navlinks class="can-hide">
+
+
+
+    </navlinks>
+  </div>
+</navbar>
+
+      
+      <div class="sidebar-mask" @click="toggleSidebar(false)">
+      </div>
+        <sidebar @toggle-sidebar="toggleSidebar">
+          
+          <navlinks>
+            
+
+
+
+            
+          </navlinks><div id="searchbox" class="searchbox" role="search">
+  <div class="caption"><span class="caption-text">Quick search</span>
+    <div class="searchformwrapper">
+      <form class="search" action="../search.html" method="get">
+        <input type="text" name="q" />
+        <input type="submit" value="Search" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><div class="sidebar-links" role="navigation" aria-label="main navigation">
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#welcome-to-surface-growth-models-with-tetris-pieces-s-documentation-version-version-release-release">Contents:</a></span>
+      </p>
+      <ul class="current">
+        
+          <li class="toctree-l1 current">
+            
+              <a href="#" class="reference internal current">Introduction</a>
+            
+
+            
+              <ul>
+                
+                  <li class="toctree-l2"><a href="#introduction" class="reference internal">Introduction</a></li>
+                
+                  <li class="toctree-l2"><a href="#history-of-the-package" class="reference internal">History of the Package</a></li>
+                
+                  <li class="toctree-l2"><a href="#acknowledgments" class="reference internal">Acknowledgments</a></li>
+                
+                  <li class="toctree-l2"><a href="#bibliography" class="reference internal">Bibliography</a></li>
+                
+              </ul>
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="RD_CLI.html" class="reference internal ">RD_CLI module</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="Visualize_RD.html" class="reference internal ">Visualize_RD module</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="tetris_complete.html" class="reference internal ">tetris_complete module</a>
+            
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+</div>
+        </sidebar>
+
+      <page>
+          <div class="body-header" role="navigation" aria-label="navigation">
+  
+  <ul class="breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+    
+    <li>Introduction</li>
+  </ul>
+  
+
+  <ul class="page-nav">
+  <li class="prev">
+    <a href="../index.html"
+       title="previous chapter">← Welcome to Surface Growth Models with Tetris Pieces’s documentation!  Version :release:`` (release :version:``).</a>
+  </li>
+  <li class="next">
+    <a href="RD_CLI.html"
+       title="next chapter">RD_CLI module →</a>
+  </li>
+</ul>
+  
+</div>
+<hr>
+          <div class="content" role="main" v-pre>
+            
+  <section id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h1>
+<p>This Python package offers a suite of tools designed for simulating various
+random surface growth models. The foundational concepts and methodologies are
+significantly influenced by the work presented in the book by
+<span id="id1">Barabási and Stanley [<a class="reference internal" href="#id272" title="Albert-László Barabási and H. Eugene Stanley. Fractal concepts in surface growth. Cambridge University Press, Cambridge, 1995. ISBN 0-521-48318-2. URL: https://doi.org/10.1017/CBO9780511599798, doi:10.1017/CBO9780511599798.">BarabasiS95</a>]</span> (1995) on fractal concepts in surface
+growth.</p>
+<p>It is known that the fluctuations in the surface growth models fall into a few
+universality classes. The most famous one is the Kardar-Parisi-Zhang (KPZ)
+equation <span id="id2">Kardar <em>et al.</em> [<a class="reference internal" href="#id2829" title="Mehran Kardar, Giorgio Parisi, and Yi-Cheng Zhang. Dynamic scaling of growing interfaces. Phys. Rev. Lett., 56(9):889, 1986. URL: https://doi.org/10.1103/PhysRevLett.56.889, doi:10.1103/PhysRevLett.56.889.">KPZ86</a>]</span></p>
+<div class="math notranslate nohighlight" id="equation-kpz">
+<span class="eqno">(1)<a class="headerlink" href="#equation-kpz" title="Link to this equation">¶</a></span>\[  \frac{\partial h(t,x)}{\partial t} = \nu \nabla^2 h(t,x) + \frac{\lambda}{2} (\nabla h(t,x))^2 + \eta(t,x), \quad t&gt;0, x \in \mathbb{R},\]</div>
+<p>where <span class="math notranslate nohighlight">\(\eta\)</span> is a centered Gaussian noise, which is white in both space
+and time. The KPZ equation <a class="reference internal" href="#equation-kpz">(1)</a> is a <em>stochastic partial differential
+equation (SPDE)</em> <span id="id3">[<a class="reference internal" href="#id4464" title="John B. Walsh. An introduction to stochastic partial differential equations. In École d'été de probabilités de Saint-Flour, XIV—1984, volume 1180 of Lecture Notes in Math., pages 265–439. Springer, Berlin, 1986. URL: https://doi.org/10.1007/BFb0074920, doi:10.1007/BFb0074920.">Wal86</a>]</span>.</p>
+<p>KPZ equation <a class="reference internal" href="#equation-kpz">(1)</a> was solved by <span id="id4">Hairer [<a class="reference internal" href="#id2476" title="Martin Hairer. Solving the KPZ equation. Ann. of Math. (2), 178(2):559–664, 2013. URL: https://doi.org/10.4007/annals.2013.178.2.4, doi:10.4007/annals.2013.178.2.4.">Hai13</a>]</span> in 2013. The
+fluctuations of the KPZ equation <a class="reference internal" href="#equation-kpz">(1)</a> are in the KPZ universality class;
+see <span id="id5">Amir <em>et al.</em> [<a class="reference internal" href="#id103" title="Gideon Amir, Ivan Corwin, and Jeremy Quastel. Probability distribution of the free energy of the continuum directed random polymer in $1+1$ dimensions. Comm. Pure Appl. Math., 64(4):466–537, 2011. URL: https://doi.org/10.1002/cpa.20347, doi:10.1002/cpa.20347.">ACQ11</a>]</span>. Numerous discrete models report the
+same universality class as the KPZ universality class, including</p>
+<ul class="simple">
+<li><p>the ballistic documentation model: <span id="id6">[<a class="reference internal" href="#id2047" title="Fereydoon Family and Tamás Vicsek. Scaling of the active zone in the eden process on percolation networks and the ballistic deposition model. Journal of Physics A: Mathematical and General, 18(2):L75, feb 1985. URL: https://dx.doi.org/10.1088/0305-4470/18/2/005, doi:10.1088/0305-4470/18/2/005.">FV85</a>]</span>, <span id="id7">[<a class="reference internal" href="#id3292" title="Paul Meakin, P. Ramanlal, L. M. Sander, and R. C. Ball. Ballistic deposition on surfaces. Phys. Rev. A, 34:5091–5103, Dec 1986. URL: https://link.aps.org/doi/10.1103/PhysRevA.34.5091, doi:10.1103/PhysRevA.34.5091.">MRSB86</a>]</span>, <span id="id8">[<a class="reference internal" href="#id2047" title="Fereydoon Family and Tamás Vicsek. Scaling of the active zone in the eden process on percolation networks and the ballistic deposition model. Journal of Physics A: Mathematical and General, 18(2):L75, feb 1985. URL: https://dx.doi.org/10.1088/0305-4470/18/2/005, doi:10.1088/0305-4470/18/2/005.">FV85</a>]</span>.</p></li>
+<li><p>the Eden model: <span id="id9">[<a class="reference internal" href="#id193" title="R. Baiod, D. Kessler, P. Ramanlal, L. Sander, and R. Savit. Dynamical scaling of the surface of finite-density ballistic aggregation. Phys. Rev. A, 38:3672–3679, Oct 1988. URL: https://link.aps.org/doi/10.1103/PhysRevA.38.3672, doi:10.1103/PhysRevA.38.3672.">BKR+88</a>]</span>, <span id="id10">[<a class="reference internal" href="#id3886" title="Michael Plischke and Zoltán Rácz. Dynamic scaling and the surface structure of eden clusters. Phys. Rev. A, 32:3825–3828, Dec 1985. URL: https://link.aps.org/doi/10.1103/PhysRevA.32.3825, doi:10.1103/PhysRevA.32.3825.">PRacz85</a>]</span>, <span id="id11">[<a class="reference internal" href="#id2800" title="R Jullien and R Botet. Scaling properties of the surface of the eden model in d=2, 3, 4. Journal of Physics A: Mathematical and General, 18(12):2279, aug 1985. URL: https://dx.doi.org/10.1088/0305-4470/18/12/026, doi:10.1088/0305-4470/18/12/026.">JB85</a>]</span> <span id="id12">[<a class="reference internal" href="#id3289" title="P. Meakin, R. Jullien, and R. Botet. Large-scale numerical investigation of the surface of eden clusters. Europhysics Letters, 1(12):609, jun 1986. URL: https://dx.doi.org/10.1209/0295-5075/1/12/001, doi:10.1209/0295-5075/1/12/001.">MJB86</a>]</span>, <span id="id13">[<a class="reference internal" href="#id4610" title="J. G. Zabolitzky and D. Stauffer. Simulation of large eden clusters. Phys. Rev. A, 34:1523–1530, Aug 1986. URL: https://link.aps.org/doi/10.1103/PhysRevA.34.1523, doi:10.1103/PhysRevA.34.1523.">ZS86</a>]</span>.</p></li>
+<li><p>solid-on-Solid model: …</p></li>
+</ul>
+<p>Theoretical results include the fluctuations of:</p>
+<ul class="simple">
+<li><p>the longest increasing subsequence of a random permutation: <span id="id14">[<a class="reference internal" href="#id191" title="Jinho Baik, Percy Deift, and Kurt Johansson. On the distribution of the length of the longest increasing subsequence of random permutations. J. Amer. Math. Soc., 12(4):1119–1178, 1999. URL: https://doi.org/10.1090/S0894-0347-99-00307-0, doi:10.1090/S0894-0347-99-00307-0.">BDJ99</a>]</span>.</p></li>
+<li><p>the largest eigenvalue of a random matrix: <span id="id15">[<a class="reference internal" href="#id4376" title="Craig A. Tracy and Harold Widom. Level-spacing distributions and the Airy kernel. Phys. Lett. B, 305(1-2):115–118, 1993. URL: https://doi.org/10.1016/0370-2693(93)91114-3, doi:10.1016/0370-2693(93)91114-3.">TW93</a>]</span> and <span id="id16">[<a class="reference internal" href="#id4378" title="Craig A. Tracy and Harold Widom. Level spacing distributions and the Bessel kernel. Comm. Math. Phys., 161(2):289–309, 1994. URL: http://projecteuclid.org/euclid.cmp/1104269903.">TW94</a>]</span>.</p></li>
+<li><p>the asymmetric simple exclusion process (<em>ASEP</em>): <span id="id17">[<a class="reference internal" href="#id2780" title="Kurt Johansson. Shape fluctuations and random matrices. Comm. Math. Phys., 209(2):437–476, 2000. URL: https://doi.org/10.1007/s002200050027, doi:10.1007/s002200050027.">Joh00</a>]</span>
+and <span id="id18">[<a class="reference internal" href="#id4354" title="Craig A. Tracy and Harold Widom. Asymptotics in ASEP with step initial condition. Comm. Math. Phys., 290(1):129–154, 2009. URL: https://doi.org/10.1007/s00220-009-0761-0, doi:10.1007/s00220-009-0761-0.">TW09</a>]</span>.</p></li>
+</ul>
+</section>
+<section id="history-of-the-package">
+<h1>History of the Package<a class="headerlink" href="#history-of-the-package" title="Link to this heading">¶</a></h1>
+<p>The foundational elements of this package, which include the random deposition,
+random deposition with surface relaxation, the ballistic deposition models, and
+a visualization component, were initially crafted by the first author. These
+components, forming the basis of the package, were part of a graduate student
+seminar in October 2023, as documented in <span id="id19">Chen [<a class="reference internal" href="#id1460" title="Le Chen. Graduate student seminars by Le Chen. nov 2023. URL: https://doi.org/10.5281/zenodo.10206966, doi:10.5281/zenodo.10206966.">Che23a</a>]</span>. The
+seminar’s slides provide an excellent introduction to these foundational aspects
+of the package.</p>
+<p>Building upon this foundation, the package has been enriched with simulations
+for growth models with Tetris pieces. This feature is to test the belief of the
+universality of the growth models. This feature was developed as a final course
+project for the course <em>“Math 7820: Applied Stochastic Processes I,”</em> undertaken
+by the second and third authors in Fall 2023. This is still an ongoing project.
+More feature and functionalities will be added in the future. Some simulation
+experiments will be carried out to test the universality of the growth models.</p>
+</section>
+<section id="acknowledgments">
+<h1>Acknowledgments<a class="headerlink" href="#acknowledgments" title="Link to this heading">¶</a></h1>
+<p>The references throughout this document have been meticulously compiled and are
+available in a comprehensive bibliography bank <span id="id20">[<a class="reference internal" href="#id1464" title="Le Chen. SPDEs-Bib: a comprehensive bibliography of stochastic partial differential equations and related topics. nov 2023. URL: https://doi.org/10.5281/zenodo.10143431, doi:10.5281/zenodo.10143431.">Che23b</a>]</span>.</p>
+<p>This work is partially supported by the <strong>National Science Foundation (NSF)</strong>
+under Grant No. <a class="reference external" href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=2246850">No. 2246850</a> (2023–2026) and
+the collaboration/travel award from the <strong>Simons foundation</strong> under Award No.
+959981 (2022–2027).</p>
+</section>
+<section id="bibliography">
+<h1>Bibliography<a class="headerlink" href="#bibliography" title="Link to this heading">¶</a></h1>
+<div class="docutils container" id="id21">
+<div role="list" class="citation-list">
+<div class="citation" id="id103" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">ACQ11</a><span class="fn-bracket">]</span></span>
+<p>Gideon Amir, Ivan Corwin, and Jeremy Quastel. Probability distribution of the free energy of the continuum directed random polymer in $1+1$ dimensions. <em>Comm. Pure Appl. Math.</em>, 64(4):466–537, 2011. URL: <a class="reference external" href="https://doi.org/10.1002/cpa.20347">https://doi.org/10.1002/cpa.20347</a>, <a class="reference external" href="https://doi.org/10.1002/cpa.20347">doi:10.1002/cpa.20347</a>.</p>
+</div>
+<div class="citation" id="id191" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id14">BDJ99</a><span class="fn-bracket">]</span></span>
+<p>Jinho Baik, Percy Deift, and Kurt Johansson. On the distribution of the length of the longest increasing subsequence of random permutations. <em>J. Amer. Math. Soc.</em>, 12(4):1119–1178, 1999. URL: <a class="reference external" href="https://doi.org/10.1090/S0894-0347-99-00307-0">https://doi.org/10.1090/S0894-0347-99-00307-0</a>, <a class="reference external" href="https://doi.org/10.1090/S0894-0347-99-00307-0">doi:10.1090/S0894-0347-99-00307-0</a>.</p>
+</div>
+<div class="citation" id="id193" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id9">BKR+88</a><span class="fn-bracket">]</span></span>
+<p>R. Baiod, D. Kessler, P. Ramanlal, L. Sander, and R. Savit. Dynamical scaling of the surface of finite-density ballistic aggregation. <em>Phys. Rev. A</em>, 38:3672–3679, Oct 1988. URL: <a class="reference external" href="https://link.aps.org/doi/10.1103/PhysRevA.38.3672">https://link.aps.org/doi/10.1103/PhysRevA.38.3672</a>, <a class="reference external" href="https://doi.org/10.1103/PhysRevA.38.3672">doi:10.1103/PhysRevA.38.3672</a>.</p>
+</div>
+<div class="citation" id="id272" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">BarabasiS95</a><span class="fn-bracket">]</span></span>
+<p>Albert-László Barabási and H. Eugene Stanley. <em>Fractal concepts in surface growth</em>. Cambridge University Press, Cambridge, 1995. ISBN 0-521-48318-2. URL: <a class="reference external" href="https://doi.org/10.1017/CBO9780511599798">https://doi.org/10.1017/CBO9780511599798</a>, <a class="reference external" href="https://doi.org/10.1017/CBO9780511599798">doi:10.1017/CBO9780511599798</a>.</p>
+</div>
+<div class="citation" id="id1460" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id19">Che23a</a><span class="fn-bracket">]</span></span>
+<p>Le Chen. Graduate student seminars by Le Chen. nov 2023. URL: <a class="reference external" href="https://doi.org/10.5281/zenodo.10206966">https://doi.org/10.5281/zenodo.10206966</a>, <a class="reference external" href="https://doi.org/10.5281/zenodo.10206966">doi:10.5281/zenodo.10206966</a>.</p>
+</div>
+<div class="citation" id="id1464" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id20">Che23b</a><span class="fn-bracket">]</span></span>
+<p>Le Chen. SPDEs-Bib: a comprehensive bibliography of stochastic partial differential equations and related topics. nov 2023. URL: <a class="reference external" href="https://doi.org/10.5281/zenodo.10143431">https://doi.org/10.5281/zenodo.10143431</a>, <a class="reference external" href="https://doi.org/10.5281/zenodo.10143431">doi:10.5281/zenodo.10143431</a>.</p>
+</div>
+<div class="citation" id="id2047" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>FV85<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id6">1</a>,<a role="doc-backlink" href="#id8">2</a>)</span>
+<p>Fereydoon Family and Tamás Vicsek. Scaling of the active zone in the eden process on percolation networks and the ballistic deposition model. <em>Journal of Physics A: Mathematical and General</em>, 18(2):L75, feb 1985. URL: <a class="reference external" href="https://dx.doi.org/10.1088/0305-4470/18/2/005">https://dx.doi.org/10.1088/0305-4470/18/2/005</a>, <a class="reference external" href="https://doi.org/10.1088/0305-4470/18/2/005">doi:10.1088/0305-4470/18/2/005</a>.</p>
+</div>
+<div class="citation" id="id2476" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">Hai13</a><span class="fn-bracket">]</span></span>
+<p>Martin Hairer. Solving the KPZ equation. <em>Ann. of Math. (2)</em>, 178(2):559–664, 2013. URL: <a class="reference external" href="https://doi.org/10.4007/annals.2013.178.2.4">https://doi.org/10.4007/annals.2013.178.2.4</a>, <a class="reference external" href="https://doi.org/10.4007/annals.2013.178.2.4">doi:10.4007/annals.2013.178.2.4</a>.</p>
+</div>
+<div class="citation" id="id2780" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id17">Joh00</a><span class="fn-bracket">]</span></span>
+<p>Kurt Johansson. Shape fluctuations and random matrices. <em>Comm. Math. Phys.</em>, 209(2):437–476, 2000. URL: <a class="reference external" href="https://doi.org/10.1007/s002200050027">https://doi.org/10.1007/s002200050027</a>, <a class="reference external" href="https://doi.org/10.1007/s002200050027">doi:10.1007/s002200050027</a>.</p>
+</div>
+<div class="citation" id="id2800" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id11">JB85</a><span class="fn-bracket">]</span></span>
+<p>R Jullien and R Botet. Scaling properties of the surface of the eden model in d=2, 3, 4. <em>Journal of Physics A: Mathematical and General</em>, 18(12):2279, aug 1985. URL: <a class="reference external" href="https://dx.doi.org/10.1088/0305-4470/18/12/026">https://dx.doi.org/10.1088/0305-4470/18/12/026</a>, <a class="reference external" href="https://doi.org/10.1088/0305-4470/18/12/026">doi:10.1088/0305-4470/18/12/026</a>.</p>
+</div>
+<div class="citation" id="id2829" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">KPZ86</a><span class="fn-bracket">]</span></span>
+<p>Mehran Kardar, Giorgio Parisi, and Yi-Cheng Zhang. Dynamic scaling of growing interfaces. <em>Phys. Rev. Lett.</em>, 56(9):889, 1986. URL: <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.56.889">https://doi.org/10.1103/PhysRevLett.56.889</a>, <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.56.889">doi:10.1103/PhysRevLett.56.889</a>.</p>
+</div>
+<div class="citation" id="id3289" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id12">MJB86</a><span class="fn-bracket">]</span></span>
+<p>P. Meakin, R. Jullien, and R. Botet. Large-scale numerical investigation of the surface of eden clusters. <em>Europhysics Letters</em>, 1(12):609, jun 1986. URL: <a class="reference external" href="https://dx.doi.org/10.1209/0295-5075/1/12/001">https://dx.doi.org/10.1209/0295-5075/1/12/001</a>, <a class="reference external" href="https://doi.org/10.1209/0295-5075/1/12/001">doi:10.1209/0295-5075/1/12/001</a>.</p>
+</div>
+<div class="citation" id="id3292" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id7">MRSB86</a><span class="fn-bracket">]</span></span>
+<p>Paul Meakin, P. Ramanlal, L. M. Sander, and R. C. Ball. Ballistic deposition on surfaces. <em>Phys. Rev. A</em>, 34:5091–5103, Dec 1986. URL: <a class="reference external" href="https://link.aps.org/doi/10.1103/PhysRevA.34.5091">https://link.aps.org/doi/10.1103/PhysRevA.34.5091</a>, <a class="reference external" href="https://doi.org/10.1103/PhysRevA.34.5091">doi:10.1103/PhysRevA.34.5091</a>.</p>
+</div>
+<div class="citation" id="id3886" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id10">PRacz85</a><span class="fn-bracket">]</span></span>
+<p>Michael Plischke and Zoltán Rácz. Dynamic scaling and the surface structure of eden clusters. <em>Phys. Rev. A</em>, 32:3825–3828, Dec 1985. URL: <a class="reference external" href="https://link.aps.org/doi/10.1103/PhysRevA.32.3825">https://link.aps.org/doi/10.1103/PhysRevA.32.3825</a>, <a class="reference external" href="https://doi.org/10.1103/PhysRevA.32.3825">doi:10.1103/PhysRevA.32.3825</a>.</p>
+</div>
+<div class="citation" id="id4376" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id15">TW93</a><span class="fn-bracket">]</span></span>
+<p>Craig A. Tracy and Harold Widom. Level-spacing distributions and the Airy kernel. <em>Phys. Lett. B</em>, 305(1-2):115–118, 1993. URL: <a class="reference external" href="https://doi.org/10.1016/0370-2693(93)91114-3">https://doi.org/10.1016/0370-2693(93)91114-3</a>, <a class="reference external" href="https://doi.org/10.1016/0370-2693(93)91114-3">doi:10.1016/0370-2693(93)91114-3</a>.</p>
+</div>
+<div class="citation" id="id4378" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id16">TW94</a><span class="fn-bracket">]</span></span>
+<p>Craig A. Tracy and Harold Widom. Level spacing distributions and the Bessel kernel. <em>Comm. Math. Phys.</em>, 161(2):289–309, 1994. URL: <a class="reference external" href="http://projecteuclid.org/euclid.cmp/1104269903">http://projecteuclid.org/euclid.cmp/1104269903</a>.</p>
+</div>
+<div class="citation" id="id4354" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id18">TW09</a><span class="fn-bracket">]</span></span>
+<p>Craig A. Tracy and Harold Widom. Asymptotics in ASEP with step initial condition. <em>Comm. Math. Phys.</em>, 290(1):129–154, 2009. URL: <a class="reference external" href="https://doi.org/10.1007/s00220-009-0761-0">https://doi.org/10.1007/s00220-009-0761-0</a>, <a class="reference external" href="https://doi.org/10.1007/s00220-009-0761-0">doi:10.1007/s00220-009-0761-0</a>.</p>
+</div>
+<div class="citation" id="id4464" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">Wal86</a><span class="fn-bracket">]</span></span>
+<p>John B. Walsh. An introduction to stochastic partial differential equations. In <em>École d'été de probabilités de Saint-Flour, XIV—1984</em>, volume 1180 of Lecture Notes in Math., pages 265–439. Springer, Berlin, 1986. URL: <a class="reference external" href="https://doi.org/10.1007/BFb0074920">https://doi.org/10.1007/BFb0074920</a>, <a class="reference external" href="https://doi.org/10.1007/BFb0074920">doi:10.1007/BFb0074920</a>.</p>
+</div>
+<div class="citation" id="id4610" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id13">ZS86</a><span class="fn-bracket">]</span></span>
+<p>J. G. Zabolitzky and D. Stauffer. Simulation of large eden clusters. <em>Phys. Rev. A</em>, 34:1523–1530, Aug 1986. URL: <a class="reference external" href="https://link.aps.org/doi/10.1103/PhysRevA.34.1523">https://link.aps.org/doi/10.1103/PhysRevA.34.1523</a>, <a class="reference external" href="https://doi.org/10.1103/PhysRevA.34.1523">doi:10.1103/PhysRevA.34.1523</a>.</p>
+</div>
+</div>
+</div>
+</section>
+
+
+          </div>
+          <div class="page-nav">
+            <div class="inner"><ul class="page-nav">
+  <li class="prev">
+    <a href="../index.html"
+       title="previous chapter">← Welcome to Surface Growth Models with Tetris Pieces’s documentation!  Version :release:`` (release :version:``).</a>
+  </li>
+  <li class="next">
+    <a href="RD_CLI.html"
+       title="next chapter">RD_CLI module →</a>
+  </li>
+</ul><div class="footer" role="contentinfo">
+      &#169; Copyright 2023, Le Chen, Mauricio Montes, Ian Ruau.
+    <br>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 7.2.6 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+</div>
+            </div>
+          </div>
+      </page>
+    </div></div>
+    
+    
+  </body>
+</html>

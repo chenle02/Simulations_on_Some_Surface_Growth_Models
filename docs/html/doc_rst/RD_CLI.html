@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html  lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+      <title>RD_CLI module</title>
+    
+          <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+          <link rel="stylesheet" href="../_static/theme.css " type="text/css" />
+      
+      <!-- sphinx script_files -->
+        <script src="../_static/documentation_options.js?v=9fa44488"></script>
+        <script src="../_static/doctools.js?v=00f2d9dc"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+
+      
+      <!-- bundled in js (rollup iife) -->
+      <!-- <script src="../_static/theme-vendors.js"></script> -->
+      <script src="../_static/theme.js" defer></script>
+    
+  <link rel="index" title="Index" href="../genindex.html" />
+  <link rel="search" title="Search" href="../search.html" />
+  <link rel="next" title="Visualize_RD module" href="Visualize_RD.html" />
+  <link rel="prev" title="Introduction" href="Introduction.html" /> 
+  </head>
+
+  <body>
+    <div id="app">
+    <div class="theme-container" :class="pageClasses"><navbar @toggle-sidebar="toggleSidebar">
+  <router-link to="../index.html" class="home-link">
+    
+      <span class="site-name">Surface Growth with Random Tetris Pieces</span>
+    
+  </router-link>
+
+  <div class="links">
+    <navlinks class="can-hide">
+
+
+
+    </navlinks>
+  </div>
+</navbar>
+
+      
+      <div class="sidebar-mask" @click="toggleSidebar(false)">
+      </div>
+        <sidebar @toggle-sidebar="toggleSidebar">
+          
+          <navlinks>
+            
+
+
+
+            
+          </navlinks><div id="searchbox" class="searchbox" role="search">
+  <div class="caption"><span class="caption-text">Quick search</span>
+    <div class="searchformwrapper">
+      <form class="search" action="../search.html" method="get">
+        <input type="text" name="q" />
+        <input type="submit" value="Search" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><div class="sidebar-links" role="navigation" aria-label="main navigation">
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#welcome-to-surface-growth-models-with-tetris-pieces-s-documentation-version-version-release-release">Contents:</a></span>
+      </p>
+      <ul class="current">
+        
+          <li class="toctree-l1 ">
+            
+              <a href="Introduction.html" class="reference internal ">Introduction</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 current">
+            
+              <a href="#" class="reference internal current">RD_CLI module</a>
+            
+
+            
+              <ul>
+                
+                  <li class="toctree-l2"><a href="#rd-cli-module" class="reference internal">RD_CLI module</a></li>
+                
+              </ul>
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="Visualize_RD.html" class="reference internal ">Visualize_RD module</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="tetris_complete.html" class="reference internal ">tetris_complete module</a>
+            
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+</div>
+        </sidebar>
+
+      <page>
+          <div class="body-header" role="navigation" aria-label="navigation">
+  
+  <ul class="breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+    
+    <li>RD_CLI module</li>
+  </ul>
+  
+
+  <ul class="page-nav">
+  <li class="prev">
+    <a href="Introduction.html"
+       title="previous chapter">← Introduction</a>
+  </li>
+  <li class="next">
+    <a href="Visualize_RD.html"
+       title="next chapter">Visualize_RD module →</a>
+  </li>
+</ul>
+  
+</div>
+<hr>
+          <div class="content" role="main" v-pre>
+            
+  <section id="rd-cli-module">
+<h1>RD_CLI module<a class="headerlink" href="#rd-cli-module" title="Link to this heading">¶</a></h1>
+<p>This code was written initially for the Graduate Student Seminar <span id="id1">[<a class="reference internal" href="Introduction.html#id1460" title="Le Chen. Graduate student seminars by Le Chen. nov 2023. URL: https://doi.org/10.5281/zenodo.10206966, doi:10.5281/zenodo.10206966.">Che23a</a>]</span></p>
+<dl class="py function" id="module-RD_CLI">
+<dt class="sig sig-object py" id="RD_CLI.Ballistic_Deposition">
+<span class="sig-prename descclassname"><span class="pre">RD_CLI.</span></span><span class="sig-name descname"><span class="pre">Ballistic_Deposition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RD_CLI.Ballistic_Deposition" title="Link to this definition">¶</a></dt>
+<dd><p>Simulate Ballistic Deposition on a substrate. In this simulation, particles stick
+upon contact with the substrate or a deposited particle.</p>
+<p>This is simulation for snowflakes piling.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>width</strong> (<em>int</em>) – Width of the substrate.</p></li>
+<li><p><strong>height</strong> (<em>int</em>) – Height of the substrate.</p></li>
+<li><p><strong>steps</strong> (<em>int</em>) – Number of particles to drop.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Filename of the output substrate for Ballistic Deposition;
+A csv file contains the substrate state.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="RD_CLI.Envelop">
+<span class="sig-prename descclassname"><span class="pre">RD_CLI.</span></span><span class="sig-name descname"><span class="pre">Envelop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">substrate</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RD_CLI.Envelop" title="Link to this definition">¶</a></dt>
+<dd><p>Compute the top envelope of a substrate.</p>
+<p>This function calculates the highest particle position in each column of the substrate.
+It is used to visualize the top envelope of the substrate in the simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>substrate</strong> (<em>numpy.ndarray</em>) – The substrate matrix to compute the envelop for.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Array representing the top envelope of the substrate.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="RD_CLI.Random_Deposition">
+<span class="sig-prename descclassname"><span class="pre">RD_CLI.</span></span><span class="sig-name descname"><span class="pre">Random_Deposition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RD_CLI.Random_Deposition" title="Link to this definition">¶</a></dt>
+<dd><p>This is a function to simulate Random Deposition on a substrate. This is
+simulation for the independent boxes (sand) piling. All columns are
+independent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>width</strong> (<em>int</em>) – Width of the substrate.</p></li>
+<li><p><strong>height</strong> (<em>int</em>) – Height of the substrate.</p></li>
+<li><p><strong>steps</strong> (<em>int</em>) – Steps or times to run.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Filename of the output substrate.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="RD_CLI.Random_Deposition_Surface_Relaxation">
+<span class="sig-prename descclassname"><span class="pre">RD_CLI.</span></span><span class="sig-name descname"><span class="pre">Random_Deposition_Surface_Relaxation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RD_CLI.Random_Deposition_Surface_Relaxation" title="Link to this definition">¶</a></dt>
+<dd><p>This is a function to simulate Random Deposition on a substrate with the
+surface relaxation. Particle will seek the lowest left/right neighbors to
+land.</p>
+<p>This is simulation for the independent boxes (sand) piling with surface
+relaxation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>width</strong> (<em>int</em>) – Width of the substrate.</p></li>
+<li><p><strong>height</strong> (<em>int</em>) – Height of the substrate.</p></li>
+<li><p><strong>steps</strong> (<em>int</em>) – Steps or times to run.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Filename of the output substrate.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="RD_CLI.interface_width">
+<span class="sig-prename descclassname"><span class="pre">RD_CLI.</span></span><span class="sig-name descname"><span class="pre">interface_width</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RD_CLI.interface_width" title="Link to this definition">¶</a></dt>
+<dd><p>Compute and visualize the interface width of a substrate from a given
+simulation.</p>
+<p>This function reads the substrate state from a file, calculates the
+interface width over time, and generates a log-log plot of the interface
+width. It also computes the slope of the log-log plot as a function of
+time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – The name of the file containing the substrate data.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Array containing the interface width calculated at each step; An image
+file with the same name as the input file, but with a .png extension.
+The file contains the statistical figures.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="RD_CLI.main">
+<span class="sig-prename descclassname"><span class="pre">RD_CLI.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#RD_CLI.main" title="Link to this definition">¶</a></dt>
+<dd><p>The main function to simulate different types of surface growth models
+based on the provided command-line arguments.</p>
+<p>This function sets up a command-line interface for simulating Random
+Deposition, Random Deposition with Surface Relaxation, or Ballistic
+Decomposition on a substrate. It accepts various parameters like width,
+height, and number of steps for the simulation. It also provides options
+for generating a movie of the simulation and calculating interface width.</p>
+<p>The function decides the type of simulation based on the arguments passed,
+performs the simulation, and then proceeds to calculate the interface
+width. If the movie generation option is selected, it invokes another
+script to generate the movie.</p>
+<p>To use the script from terminal, the following options are expected:</p>
+<dl class="option-list">
+<dt><kbd><span class="option">-w</span>, <span class="option">--width</span></kbd></dt>
+<dd><p>: Width of the substrate (default: 100)</p>
+</dd>
+<dt><kbd><span class="option">-e</span>, <span class="option">--height</span></kbd></dt>
+<dd><p>: Maximum height of the substrate (default: 60)</p>
+</dd>
+<dt><kbd><span class="option">-s</span>, <span class="option">--steps</span></kbd></dt>
+<dd><p>: Number of particles to drop (default: 5000)</p>
+</dd>
+<dt><kbd><span class="option">-r</span>, <span class="option">--relax</span></kbd></dt>
+<dd><p>: Enable surface relaxation (default: False)</p>
+</dd>
+<dt><kbd><span class="option">-b</span>, <span class="option">--BD</span></kbd></dt>
+<dd><p>: Enable ballistic decomposition (default: False)</p>
+</dd>
+<dt><kbd><span class="option">-m</span>, <span class="option">--movie</span></kbd></dt>
+<dd><p>: Generate an mp4 movie of the simulation (default: False)</p>
+</dd>
+</dl>
+<p>It returns:</p>
+<ol class="arabic simple">
+<li><p>A text file representing the substrate state.</p></li>
+<li><p>Statistical figures, including a log-log plot for the interface width and the estimated slope.</p></li>
+<li><p>(Optional) An mp4 movie of the simulation process.</p></li>
+</ol>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;<span class="w"> </span>ptyhon3<span class="w"> </span>RD_CLI.py<span class="w"> </span>-w<span class="w"> </span><span class="m">100</span><span class="w"> </span>-e<span class="w"> </span><span class="m">60</span><span class="w"> </span>-s<span class="w"> </span><span class="m">5000</span><span class="w"> </span>--BD<span class="w"> </span>--movie
+</pre></div>
+</div>
+<p>In this example, the script will simulate Ballistic Decomposition on a substrate of size 100x60 for 5000 steps. And the simulation movie will be generated.</p>
+</dd></dl>
+
+</section>
+
+
+          </div>
+          <div class="page-nav">
+            <div class="inner"><ul class="page-nav">
+  <li class="prev">
+    <a href="Introduction.html"
+       title="previous chapter">← Introduction</a>
+  </li>
+  <li class="next">
+    <a href="Visualize_RD.html"
+       title="next chapter">Visualize_RD module →</a>
+  </li>
+</ul><div class="footer" role="contentinfo">
+      &#169; Copyright 2023, Le Chen, Mauricio Montes, Ian Ruau.
+    <br>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 7.2.6 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+</div>
+            </div>
+          </div>
+      </page>
+    </div></div>
+    
+    
+  </body>
+</html>
