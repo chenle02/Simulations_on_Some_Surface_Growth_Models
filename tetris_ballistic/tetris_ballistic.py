@@ -1526,8 +1526,8 @@ class Tetris_Ballistic:
 
 # Example usage
 # tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=1000, seed=42)
-tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=10, seed=42)
-tetris_simulator.save_config("save_config.yaml")
+# tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=10, seed=42)
+# tetris_simulator.save_config("save_config.yaml")
 # tetris_simulator.Test_All()
 # tetris_simulator.Sample_Tetris()
 # tetris_simulator.Sample_Tetris()
