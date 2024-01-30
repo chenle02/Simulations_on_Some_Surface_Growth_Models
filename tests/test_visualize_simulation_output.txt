@@ -1,0 +1,55 @@
+No configure file, uniform distribution is set.
+Configuration saved to test_visualize_simulation_config.yaml
+Sticky case first:
+
+First, the sticky case of Update_1x1 piece:
+Substrate has been reset to all zeros.
+Game Over, reach the top
+First, the sticky case of Update_O piece:
+Substrate has been reset to all zeros.
+Game Over, reach the top
+First, the sticky case of Update_I piece:
+Substrate has been reset to all zeros.
+Game Over, reach the top
+First, the sticky case of Update_T piece:
+Substrate has been reset to all zeros.
+Game Over, reach the top
+First, the sticky case of Update_L piece:
+Substrate has been reset to all zeros.
+Game Over, reach the top
+First, the sticky case of Update_J piece:
+Substrate has been reset to all zeros.
+Game Over, reach the top
+First, the sticky case of Update_S piece:
+Substrate has been reset to all zeros.
+Game Over, reach the top
+First, the sticky case of Update_Z piece:
+Substrate has been reset to all zeros.
+Game Over, reach the top
+Non-sticky case now:
+
+First, the sticky case of Update_1x1 piece:
+Substrate has been reset to all zeros.
+Game Over, reach the top
+Step: 100 / 161
+First, the sticky case of Update_O piece:
+Substrate has been reset to all zeros.
+Game Over, reach the top
+First, the sticky case of Update_I piece:
+Substrate has been reset to all zeros.
+Game Over, reach the top
+First, the sticky case of Update_T piece:
+Substrate has been reset to all zeros.
+Game Over, reach the top
+First, the sticky case of Update_L piece:
+Substrate has been reset to all zeros.
+Game Over, reach the top
+First, the sticky case of Update_J piece:
+Substrate has been reset to all zeros.
+Game Over, reach the top
+First, the sticky case of Update_S piece:
+Substrate has been reset to all zeros.
+Game Over, reach the top
+First, the sticky case of Update_Z piece:
+Substrate has been reset to all zeros.
+Game Over, reach the top

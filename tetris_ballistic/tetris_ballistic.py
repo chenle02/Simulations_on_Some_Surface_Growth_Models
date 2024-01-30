@@ -16,6 +16,10 @@ import numpy as np
 import random
 import yaml
 import re
+import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
+import imageio
+import os
 # from RD_CLI import Envelop, interface_width
 np.set_printoptions(threshold=np.inf)  # Make sure that print() displays the entire array
 
@@ -434,7 +438,7 @@ class Tetris_Ballistic:
         self.substrate[landing_row - 1, position + 1] = i
         self.substrate[landing_row - 2, position + 1] = i
 
-    def Update_O(self, i, sticky=True):
+    def Update_O(self, i, rot=0, sticky=True):
         """
         Updates the substrate with a square piece.
 
@@ -443,6 +447,7 @@ class Tetris_Ballistic:
 
         Args:
             i (int): The step number.
+            rot (int): The rotation of the piece. (No use, just be consistent with the others)
             sticky (bool): Whether the piece is sticky or not. (Default: True)
 
         Returns:
@@ -1344,12 +1349,13 @@ class Tetris_Ballistic:
         """
         self.substrate[landing_row - 1, position] = i
 
-    def Update_1x1(self, i, sticky=True):
+    def Update_1x1(self, i, rot=0, sticky=True):
         """
         Updates the substrate with a 1x1 piece.
 
         Args:
             i (int): The step number.
+            rot (int): The rotation of the piece. (No use, just be consistent with the others)
             sticky (bool): Whether the piece is sticky or not. (Default: True)
 
         Returns:
@@ -1523,6 +1529,109 @@ class Tetris_Ballistic:
             slope, _ = np.polyfit(np.log(current_time), log_interface, 1)
 
             self.log_time_slopes[i] = [log_time, slope]
+
+    def visualize_simulation(self,
+                             plot_title="",
+                             rate=4,
+                             video_filename="simulation.mp4",
+                             envelop=False,
+                             show_average=False):
+        """
+        Visualize the particle deposition simulation and generate a video.
+
+        This function visualizes the deposition process as an animation. It can
+        accept either the path to a substrate data file or the substrate data
+        directly as a NumPy array. When a filename is provided as a string, it
+        loads the substrate data from the file. The function supports
+        visualizing the top envelope and average height of the deposited
+        particles. The final output is saved as an mp4 video file.
+
+        Parameters
+        ----------
+        plot_title : str, optional (default: "")
+            The title of the plot.
+        rate : int, optional (default: 4)
+            The frame rate for the video.
+        video_filename : str, optional (default: "simulation.mp4")
+            The output video filename.
+        envelop : bool, optional (default: False)
+            Flag to indicate whether to show the top envelope.
+        show_average : bool, optional (default: False)
+            Flag to indicate whether to show the average height.
+
+        Returns
+        -------
+            None
+        """
+        steps = self.FinalSteps
+
+        # Create a custom colormap with gray as the background color
+        colors = [(0.8, 0.8, 0.8)] + [plt.cm.viridis(i) for i in range(plt.cm.viridis.N)]
+        custom_colormap = mcolors.LinearSegmentedColormap.from_list(
+            "custom", colors, N=steps + 1
+        )
+
+        # Visualization setup
+        # Adjust the width and height as needed
+        fig, ax = plt.subplots(figsize=(12, 8))
+        frames = []
+
+        # steps = 100  # for debug only
+        # Simulation
+        for step in range(1, steps + 1):
+            # Create a copy of the substrate for visualization
+            vis_substrate = np.copy(self.substrate)
+
+            # Replace values greater than the current step with 0
+            vis_substrate[vis_substrate > step] = 0
+
+            # Visualize the current state and save as a frame
+            ax.clear()
+            ax.imshow(
+                vis_substrate,
+                cmap=custom_colormap,
+                aspect="auto",
+                norm=mcolors.Normalize(vmin=0, vmax=steps),
+            )
+
+            if envelop:
+                # Compute and plot the top envelope
+                ax.plot(range(self.width),
+                        self.HeightDynamics[step],
+                        color="red",
+                        linewidth=2)
+
+            if show_average:
+                # print(f"Average height: {average}")
+                ax.axhline(y=self.AvergeHeight[step],
+                           color="black",
+                           linewidth=2)
+
+            ax.set_title(f"{plot_title} - Particle: {step}")
+
+            # Relabel the y-axis
+            ax.set_yticks(np.arange(0, self.height, self.height // 5))
+            ax.set_yticklabels(np.arange(self.height, 0, -self.height // 5))
+
+            ax.set_ylabel("Height",
+                          rotation=90,
+                          labelpad=20,
+                          verticalalignment="center")
+            ax.set_xlabel("Substrate", labelpad=8)
+            ax.set_xticks(np.arange(0, self.width, self.width // 5))
+
+            # Convert the plot to an image and append to frames
+            fig.canvas.draw()
+            image = np.frombuffer(fig.canvas.tostring_rgb(), dtype="uint8")
+            image = image.reshape(fig.canvas.get_width_height()[::-1] + (3,))
+            frames.append(image)
+
+            if step % 100 == 0:
+                print(f"Step: {step} / {steps}")
+
+        # Save frames as an MP4 video with the same base filename
+        video_filename = os.path.splitext(video_filename)[0] + ".mp4"
+        imageio.mimsave(video_filename, frames, fps=rate)
 
 # Example usage
 # tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=1000, seed=42)
