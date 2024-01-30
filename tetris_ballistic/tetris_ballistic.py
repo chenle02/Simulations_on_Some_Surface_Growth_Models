@@ -15,6 +15,7 @@ By Le Chen, Mauricio Montes and Ian Ruau
 import numpy as np
 import random
 import yaml
+import re
 # from RD_CLI import Envelop, interface_width
 np.set_printoptions(threshold=np.inf)  # Make sure that print() displays the entire array
 
@@ -54,9 +55,13 @@ class Tetris_Ballistic:
             print("No configure file, uniform distribution is set.")
             self.config_data = {f"Piece-{i}": [0, 1] for i in range(19)}
             self.config_data["Piece-19"] = [0, 1]  # 1x1 piece
+            self.config_data["steps"] = steps
             self.steps = steps
+            self.config_data["width"] = width
             self.width = width
+            self.config_data["height"] = height
             self.height = height
+            self.config_data["seed"] = seed
             self.seed = seed
 
         self.FinalSteps = self.steps  # This is the final step number
@@ -200,6 +205,68 @@ class Tetris_Ballistic:
         except yaml.YAMLError as exc:
             print(f"Error in configuration file: {exc}")
             return False
+
+    def _represent_none(self, dumper, _):
+        """
+        Custom representer for formatting None in YAML as 'None'.
+        """
+        # return dumper.represent_scalar('tag:yaml.org,2002:null', 'None')
+        return dumper.represent_scalar('tag:yaml.org,2002:str', 'None')
+
+    def _represent_list(self, dumper, data):
+        """
+        Custom representer for formatting lists in YAML.
+        """
+        return dumper.represent_sequence(u'tag:yaml.org,2002:seq', data, flow_style=True)
+
+    def _extract_number(self, key):
+        """
+        Extracts the numeric part from the key.
+        """
+        if key.startswith("Piece-"):
+            match = re.search(r'(\d+)$', key)
+            return int(match.group()) if match else 0
+        else:
+            return float('inf')
+
+    def save_config(self, filename):
+        """
+        Saves the current configuration data to a YAML file.
+
+        This method writes the contents of the `config_data` attribute into a
+        YAML file specified by `filename`. The file will contain both single-value
+        entries and lists, similar to the expected format in the `load_config` method.
+
+        Args:
+            filename (str): The path to the YAML configuration file to be saved.
+
+        Returns:
+            None
+        """
+        try:
+            with open(filename, 'w') as file:
+                # Add custom list representer to the YAML dumper
+                yaml.add_representer(type(None), self._represent_none)
+                yaml.add_representer(list, self._represent_list)
+
+                # Handle None values correctly
+                formatted_data = {k: v if v is not None else None for k, v in self.config_data.items()}
+
+                # Separate the 'Piece-' entries from the rest
+                piece_data = {k: v for k, v in formatted_data.items() if k.startswith("Piece-")}
+                other_data = {k: v for k, v in formatted_data.items() if not k.startswith("Piece-")}
+
+                # Sort the 'Piece-' entries by their numeric value
+                sorted_piece_data = dict(sorted(piece_data.items(), key=lambda item: self._extract_number(item[0])))
+
+                # Combine the sorted data
+                combined_data = {**other_data, **sorted_piece_data}
+
+                yaml.dump(combined_data, file, sort_keys=False, default_flow_style=False)
+                print(f"Configuration saved to {filename}")
+
+        except Exception as e:
+            print(f"Failed to save configuration: {e}")
 
     def reset(self):
         """
@@ -1459,7 +1526,8 @@ class Tetris_Ballistic:
 
 # Example usage
 # tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=1000, seed=42)
-# tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=10, seed=42)
+tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=10, seed=42)
+tetris_simulator.save_config("save_config.yaml")
 # tetris_simulator.Test_All()
 # tetris_simulator.Sample_Tetris()
 # tetris_simulator.Sample_Tetris()

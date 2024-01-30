@@ -1,0 +1,3 @@
+No configure file, uniform distribution is set.
+Configuration saved to test_save_config.yaml
+Configuration saved to test_save_config_with_None.yaml
