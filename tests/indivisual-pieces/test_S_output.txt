@@ -1,6 +1,6 @@
 No configure file, uniform distribution is set.
 First, the sticky case:
-O piece, Test rotation  0
+S piece, Test rotation  0
 Substrate along with all statistics have been reset to all zeros.
 Computing the slopes now...
 Progress: 3.70%Progress: 7.41%Progress: 11.11%Progress: 14.81%Progress: 18.52%Progress: 22.22%Progress: 25.93%Progress: 29.63%Progress: 33.33%Progress: 37.04%Progress: 40.74%Progress: 44.44%Progress: 48.15%Progress: 51.85%Progress: 55.56%Progress: 59.26%Progress: 62.96%Progress: 66.67%Progress: 70.37%Progress: 74.07%Progress: 77.78%Progress: 81.48%Progress: 85.19%Progress: 88.89%Progress: 92.59%Progress: 96.30%Progress: 100.00%------------------------
@@ -114,7 +114,7 @@ Log-time vs slopes:
  [3.29583687 0.72045334]
  [3.33220451 0.72299037]
  [3.36729583 0.7251934 ]]
-O piece, Test rotation  1
+S piece, Test rotation  1
 Substrate along with all statistics have been reset to all zeros.
 Computing the slopes now...
 Progress: 3.70%Progress: 7.41%Progress: 11.11%Progress: 14.81%Progress: 18.52%Progress: 22.22%Progress: 25.93%Progress: 29.63%Progress: 33.33%Progress: 37.04%Progress: 40.74%Progress: 44.44%Progress: 48.15%Progress: 51.85%Progress: 55.56%Progress: 59.26%Progress: 62.96%Progress: 66.67%Progress: 70.37%Progress: 74.07%Progress: 77.78%Progress: 81.48%Progress: 85.19%Progress: 88.89%Progress: 92.59%Progress: 96.30%Progress: 100.00%------------------------
@@ -228,7 +228,7 @@ Log-time vs slopes:
  [3.29583687 0.74681428]
  [3.33220451 0.75067599]
  [3.36729583 0.75304243]]
-O piece, Test rotation  2
+S piece, Test rotation  2
 Substrate along with all statistics have been reset to all zeros.
 Computing the slopes now...
 Progress: 3.70%Progress: 7.41%Progress: 11.11%Progress: 14.81%Progress: 18.52%Progress: 22.22%Progress: 25.93%Progress: 29.63%Progress: 33.33%Progress: 37.04%Progress: 40.74%Progress: 44.44%Progress: 48.15%Progress: 51.85%Progress: 55.56%Progress: 59.26%Progress: 62.96%Progress: 66.67%Progress: 70.37%Progress: 74.07%Progress: 77.78%Progress: 81.48%Progress: 85.19%Progress: 88.89%Progress: 92.59%Progress: 96.30%Progress: 100.00%------------------------
@@ -342,7 +342,7 @@ Log-time vs slopes:
  [3.29583687 0.52875857]
  [3.33220451 0.52330605]
  [3.36729583 0.51680922]]
-O piece, Test rotation  3
+S piece, Test rotation  3
 Substrate along with all statistics have been reset to all zeros.
 Computing the slopes now...
 Progress: 3.70%Progress: 7.41%Progress: 11.11%Progress: 14.81%Progress: 18.52%Progress: 22.22%Progress: 25.93%Progress: 29.63%Progress: 33.33%Progress: 37.04%Progress: 40.74%Progress: 44.44%Progress: 48.15%Progress: 51.85%Progress: 55.56%Progress: 59.26%Progress: 62.96%Progress: 66.67%Progress: 70.37%Progress: 74.07%Progress: 77.78%Progress: 81.48%Progress: 85.19%Progress: 88.89%Progress: 92.59%Progress: 96.30%Progress: 100.00%------------------------
@@ -457,7 +457,7 @@ Log-time vs slopes:
  [3.33220451 0.74951086]
  [3.36729583 0.7546765 ]]
 Second, the non-sticky case:
-O piece, Test rotation  0
+S piece, Test rotation  0
 Substrate along with all statistics have been reset to all zeros.
 Computing the slopes now...
 Progress: 3.70%Progress: 7.41%Progress: 11.11%Progress: 14.81%Progress: 18.52%Progress: 22.22%Progress: 25.93%Progress: 29.63%Progress: 33.33%Progress: 37.04%Progress: 40.74%Progress: 44.44%Progress: 48.15%Progress: 51.85%Progress: 55.56%Progress: 59.26%Progress: 62.96%Progress: 66.67%Progress: 70.37%Progress: 74.07%Progress: 77.78%Progress: 81.48%Progress: 85.19%Progress: 88.89%Progress: 92.59%Progress: 96.30%Progress: 100.00%------------------------
@@ -571,7 +571,7 @@ Log-time vs slopes:
  [3.29583687 0.45957432]
  [3.33220451 0.46175015]
  [3.36729583 0.46718734]]
-O piece, Test rotation  1
+S piece, Test rotation  1
 Substrate along with all statistics have been reset to all zeros.
 Computing the slopes now...
 Progress: 3.70%Progress: 7.41%Progress: 11.11%Progress: 14.81%Progress: 18.52%Progress: 22.22%Progress: 25.93%Progress: 29.63%Progress: 33.33%Progress: 37.04%Progress: 40.74%Progress: 44.44%Progress: 48.15%Progress: 51.85%Progress: 55.56%Progress: 59.26%Progress: 62.96%Progress: 66.67%Progress: 70.37%Progress: 74.07%Progress: 77.78%Progress: 81.48%Progress: 85.19%Progress: 88.89%Progress: 92.59%Progress: 96.30%Progress: 100.00%------------------------
@@ -685,7 +685,7 @@ Log-time vs slopes:
  [3.29583687 0.66955994]
  [3.33220451 0.67094744]
  [3.36729583 0.67314266]]
-O piece, Test rotation  2
+S piece, Test rotation  2
 Substrate along with all statistics have been reset to all zeros.
 Computing the slopes now...
 Progress: 3.70%Progress: 7.41%Progress: 11.11%Progress: 14.81%Progress: 18.52%Progress: 22.22%Progress: 25.93%Progress: 29.63%Progress: 33.33%Progress: 37.04%Progress: 40.74%Progress: 44.44%Progress: 48.15%Progress: 51.85%Progress: 55.56%Progress: 59.26%Progress: 62.96%Progress: 66.67%Progress: 70.37%Progress: 74.07%Progress: 77.78%Progress: 81.48%Progress: 85.19%Progress: 88.89%Progress: 92.59%Progress: 96.30%Progress: 100.00%------------------------
@@ -799,7 +799,7 @@ Log-time vs slopes:
  [3.29583687 0.58162956]
  [3.33220451 0.57946819]
  [3.36729583 0.57321008]]
-O piece, Test rotation  3
+S piece, Test rotation  3
 Substrate along with all statistics have been reset to all zeros.
 Computing the slopes now...
 Progress: 3.70%Progress: 7.41%Progress: 11.11%Progress: 14.81%Progress: 18.52%Progress: 22.22%Progress: 25.93%Progress: 29.63%Progress: 33.33%Progress: 37.04%Progress: 40.74%Progress: 44.44%Progress: 48.15%Progress: 51.85%Progress: 55.56%Progress: 59.26%Progress: 62.96%Progress: 66.67%Progress: 70.37%Progress: 74.07%Progress: 77.78%Progress: 81.48%Progress: 85.19%Progress: 88.89%Progress: 92.59%Progress: 96.30%Progress: 100.00%------------------------

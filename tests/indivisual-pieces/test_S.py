@@ -17,7 +17,7 @@ def test_S():
 
         print("First, the sticky case:")
         for rot in range(4):
-            print("O piece, Test rotation ", rot)
+            print("S piece, Test rotation ", rot)
             TB.reset()
             i = 0
             while i < TB.steps:
@@ -30,7 +30,7 @@ def test_S():
 
         print("Second, the non-sticky case:")
         for rot in range(4):
-            print("O piece, Test rotation ", rot)
+            print("S piece, Test rotation ", rot)
             TB.reset()
             i = 0
             while i < TB.steps:

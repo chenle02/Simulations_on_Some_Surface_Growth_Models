@@ -14,31 +14,33 @@ def test_simulation():
     """
     output_file = "test_simulation_output.txt"
 
-    config_directory = "."  # Directory containing YAML files
-    output_directory = "."  # Directory for saving outputs
+    with open(output_file, "w") as file, contextlib.redirect_stdout(file):
 
-    # Ensure the output directory exists
-    os.makedirs(config_directory, exist_ok=True)
+        config_directory = "."  # Directory containing YAML files
+        output_directory = "."  # Directory for saving outputs
 
-    for config_file in glob.glob(os.path.join(config_directory, '*.yaml')):
-        video_name = os.path.splitext(os.path.basename(config_file))[0] + '.mp4'
-        video_path = os.path.join(output_directory, video_name)
+        # Ensure the output directory exists
+        os.makedirs(config_directory, exist_ok=True)
 
-        # Initialize Tetris_Ballistic with the config file
-        TB = Tetris_Ballistic(config_file=config_file)
+        for config_file in glob.glob(os.path.join(config_directory, '*.yaml')):
+            video_name = os.path.splitext(os.path.basename(config_file))[0] + '.mp4'
+            video_path = os.path.join(output_directory, video_name)
 
-        # Run the simulation
-        TB.Simulate()
+            # Initialize Tetris_Ballistic with the config file
+            TB = Tetris_Ballistic(config_file=config_file)
 
-        # Visualize the simulation and generate the video
-        TB.visualize_simulation(video_filename=video_path)
+            # Run the simulation
+            TB.Simulate()
 
-        # Save class data (optional)
-        data_path = os.path.join(output_directory, os.path.basename(config_file).replace('.yaml', '.joblib'))
-        joblib.dump(TB, data_path)
+            # Visualize the simulation and generate the video
+            TB.visualize_simulation(video_filename=video_path)
 
-        # Add your validation checks here (if any)
+            # Save class data (optional)
+            data_path = os.path.join(output_directory, os.path.basename(config_file).replace('.yaml', '.joblib'))
+            joblib.dump(TB, data_path)
 
-    # # Cleanup: Remove created files (if necessary)
-    # for file in os.listdir(output_directory):
-    #     os.remove(os.path.join(output_directory, file))
+            # Add your validation checks here (if any)
+
+        # # Cleanup: Remove created files (if necessary)
+        # for file in os.listdir(output_directory):
+        #     os.remove(os.path.join(output_directory, file))
