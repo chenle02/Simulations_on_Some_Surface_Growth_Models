@@ -1814,6 +1814,71 @@ class Tetris_Ballistic:
         video_filename = os.path.splitext(video_filename)[0] + ".mp4"
         imageio.mimsave(video_filename, frames, fps=rate)
 
+    def Substrate2PNG(self,
+                      plot_title="",
+                      frame_id=None,
+                      image_filename=None,
+                      envelop=False,
+                      show_average=False):
+        """
+        Convert the current substrate to a PNG file
+        -------------------------------------------
+
+        Parameters
+        ----------
+        plot_title : str, optional (default: "")
+            The title of the plot.
+        frame_id : int, optional (default: None)
+            The frame number to be saved. If the value is None, then the frame_id is set to be self.FinalSteps.
+        image_filename : str, optional (default: None)
+            The file name of the output png image file. If the value is None, then the filename is set to be frame_{frame_id}.png.
+        envelop : bool, optional (default: False)
+            Flag to indicate whether to show the top envelope.
+        show_average : bool, optional (default: False)
+            Flag to indicate whether to show the average height.
+
+        Returns
+        -------
+            None
+        """
+        if frame_id is None:
+            frame_id = self.FinalSteps  # Use self.FinalSteps if frame_id is not provided
+        if image_filename is None:
+            image_filename = f"frame_{frame_id}.png"  # Dynamically set the filename
+
+        steps = self.FinalSteps
+
+        # Create a custom colormap with gray as the background color
+        colors = [(0.8, 0.8, 0.8)] + [plt.cm.viridis(i) for i in range(plt.cm.viridis.N)]
+        custom_colormap = mcolors.LinearSegmentedColormap.from_list("custom", colors, N=steps + 1)
+
+        # Visualization setup
+        fig, ax = plt.subplots(figsize=(12, 8))
+
+        # Assuming 'self.substrate' contains the final state of the simulation
+        vis_substrate = np.copy(self.substrate)
+
+        # Visualize the final state
+        ax.imshow(vis_substrate, cmap=custom_colormap, aspect="auto", norm=mcolors.Normalize(vmin=0, vmax=steps))
+
+        if envelop:
+            # Add code to plot the top envelope if required
+            pass  # Replace 'pass' with your code
+
+        if show_average:
+            # Add code to show the average height if required
+            pass  # Replace 'pass' with your code
+
+        ax.set_title(f"{plot_title} - Final Particle Distribution")
+
+        # Adjust labels and ticks as needed
+        ax.set_ylabel("Height", rotation=90, labelpad=20, verticalalignment="center")
+        ax.set_xlabel("Substrate", labelpad=8)
+
+        # Save the final frame as a PNG image
+        plt.savefig(image_filename)
+        plt.close()
+
 
 def _create_partial(func, *args, **kwargs):
     """
