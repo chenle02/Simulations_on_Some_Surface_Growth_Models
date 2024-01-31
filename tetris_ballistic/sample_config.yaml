@@ -1,7 +1,7 @@
-width: 10
-height: 42
-steps: 90
-seed: -2
+width: 20
+height: 40
+steps: 800
+seed: 42
 Piece-0:  [4,  1]
 Piece-1:  [4,  1]
 Piece-2:  [2,  1]
