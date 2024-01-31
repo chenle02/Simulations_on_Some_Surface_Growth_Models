@@ -20,6 +20,7 @@ import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 import imageio
 import os
+import joblib
 from functools import partial
 # from RD_CLI import Envelop, interface_width
 np.set_printoptions(threshold=np.inf)  # Make sure that print() displays the entire array
@@ -1878,6 +1879,37 @@ class Tetris_Ballistic:
         # Save the final frame as a PNG image
         plt.savefig(image_filename)
         plt.close()
+
+    def save_simulation(self, filename="TB.joblib"):
+        """
+        Dump the class instance to a file using joblib.
+
+        Args:
+            - filename: str, the path to the file where to dump the class instance. (Default: "TB.joblib")
+
+        Returns:
+            None
+        """
+        joblib.dump(self, filename)
+        print(f"Data dumped to {filename}")
+
+    @staticmethod
+    def load_simulation(filename):
+        """
+        Load a Tetris_Ballistic class instance from a file using joblib.
+
+        Args:
+            - filename: str, the path to the file from which to load the class instance.
+
+        Returns:
+            - The loaded Tetris_Ballistic class instance.
+
+        Example:
+
+        >>> tetris_simulator = Tetris_Ballistic.load_simulation("TB.joblib")
+
+        """
+        return joblib.load(filename)
 
 
 def _create_partial(func, *args, **kwargs):
