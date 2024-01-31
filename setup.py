@@ -7,13 +7,13 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='tetris_ballistic',
-    version='1.2',
+    version='1.2.2',
     packages=find_packages(),
-    entry_points={
-        'console_scripts': [
-            'tetrisBD=tetris_ballistic.cli.main:cli',
-        ],
-    },
+    # entry_points={
+    #     'console_scripts': [
+    #         'tetrisBD=tetris_ballistic.cli.main:cli',
+    #     ],
+    # },
     # include any other necessary setup options here
     long_description=long_description,
     long_description_content_type="text/markdown",
