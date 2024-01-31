@@ -1601,6 +1601,19 @@ class Tetris_Ballistic:
         return hole_counter
 
     def count_holes_stack(self):
+        """
+        Counts the number of holes in the substrate
+        --------------------------------------------
+
+        A hole is defined as a collection of zero entries in the substrate that
+        has a boundary of nonzero entries surrounding it.
+
+        Args:
+           None
+
+        Returns:
+            int: The number of holes in the substrate.
+        """
         if self.substrate.size == 0:
             return 0
 
