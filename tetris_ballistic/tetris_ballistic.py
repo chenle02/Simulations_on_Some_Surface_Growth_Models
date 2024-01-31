@@ -1600,6 +1600,34 @@ class Tetris_Ballistic:
 
         return hole_counter
 
+    def count_holes_stack(self):
+        if self.substrate.size == 0:
+            return 0
+
+        visited = np.zeros_like(self.substrate, dtype=bool)
+
+        def dfs_stack(r, c):
+            stack = [(r, c)]
+            while stack:
+                r, c = stack.pop()
+                if r < 0 or c < 0 or r >= self.height or c >= self.width or visited[r][c] or self.substrate[r][c] != 0:
+                    continue
+                visited[r][c] = True
+                # Add adjacent cells to stack
+                stack.append((r + 1, c))
+                stack.append((r - 1, c))
+                stack.append((r, c + 1))
+                stack.append((r, c - 1))
+
+        hole_count = 0
+        for r in range(self.height):
+            for c in range(self.width):
+                if self.substrate[r][c] == 0 and not visited[r][c]:
+                    dfs_stack(r, c)
+                    hole_count += 1
+
+        return hole_count
+
     def PrintStatus(self, brief=False):
         """
         Print the step/status of the class
