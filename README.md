@@ -3,7 +3,7 @@
 
 # Simulations on Some Surface Growth Models
 
-[Sticky Tetris](./tests/simulation/config_Tetris_Sticky.mp4)
+![Sticky Tetris](./tests/simulation/config_Tetris_Sticky.gif)
 
 This repository contains simulations for various surface growth models,
 developed initially as a final exam project for Math-7820 (Applied Stochastic
@@ -35,6 +35,8 @@ Pypi link: [here](https://pypi.org/project/tetris-ballistic/).
 ## Sample Usage
 
 To understand how to utilize this package, refer to the [tests](./tests) folder, which contains examples of potential usage within Python code.
+
+Here are some simulations [examples](examples)
 
 ## Documentation
 

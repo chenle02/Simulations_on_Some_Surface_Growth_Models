@@ -23,7 +23,7 @@ def test_simulation():
         os.makedirs(config_directory, exist_ok=True)
 
         for config_file in glob.glob(os.path.join(config_directory, '*.yaml')):
-            video_name = os.path.splitext(os.path.basename(config_file))[0] + '.mp4'
+            video_name = os.path.splitext(os.path.basename(config_file))[0] + '.gif'
             video_path = os.path.join(output_directory, video_name)
 
             experiment_name = os.path.splitext(os.path.basename(config_file))[0].replace('config_', '').replace('_', ' ')
@@ -44,13 +44,23 @@ def test_simulation():
                 TB.Simulate()
                 joblib.dump(TB, joblib_file)
 
-            if os.path.exists(video_path):
-                print(f"Video already exists: {video_path}")
-            else:
-                print("Generate the simulation again")
-                # Visualize the simulation and generate the video
+            if not os.path.exists(video_path):
+                print(f"Gif Video does not exists: {video_path}")
                 TB.visualize_simulation(video_filename=video_path,
                                         plot_title=experiment_name,
                                         rate=4,
                                         envelop=True,
                                         show_average=True)
+            else:
+                print("Gif video exists")
+
+            mp4_video_path = video_path.replace('.gif', '.mp4')
+            if not os.path.exists(mp4_video_path):
+                print(f"MP4 Video does not exists: {video_path}")
+                TB.visualize_simulation(video_filename=mp4_video_path,
+                                        plot_title=experiment_name,
+                                        rate=4,
+                                        envelop=True,
+                                        show_average=True)
+            else:
+                print("MP4 video exists")
