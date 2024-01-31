@@ -280,29 +280,6 @@ class Tetris_Ballistic:
             print(f"Error in configuration file: {exc}")
             return False
 
-    def _represent_none(self, dumper, _):
-        """
-        Custom representer for formatting None in YAML as 'None'.
-        """
-        # return dumper.represent_scalar('tag:yaml.org,2002:null', 'None')
-        return dumper.represent_scalar('tag:yaml.org,2002:str', 'None')
-
-    def _represent_list(self, dumper, data):
-        """
-        Custom representer for formatting lists in YAML.
-        """
-        return dumper.represent_sequence(u'tag:yaml.org,2002:seq', data, flow_style=True)
-
-    def _extract_number(self, key):
-        """
-        Extracts the numeric part from the key.
-        """
-        if key.startswith("Piece-"):
-            match = re.search(r'(\d+)$', key)
-            return int(match.group()) if match else 0
-        else:
-            return float('inf')
-
     def save_config(self, filename):
         """
         Save configure file to a YAML file
@@ -319,11 +296,34 @@ class Tetris_Ballistic:
         Returns:
             None
         """
+        def _extract_number(key):
+            """
+            Extracts the numeric part from the key.
+            """
+            if key.startswith("Piece-"):
+                match = re.search(r'(\d+)$', key)
+                return int(match.group()) if match else 0
+            else:
+                return float('inf')
+
+        def _represent_none(dumper, _):
+            """
+            Custom representer for formatting None in YAML as 'None'.
+            """
+            # return dumper.represent_scalar('tag:yaml.org,2002:null', 'None')
+            return dumper.represent_scalar('tag:yaml.org,2002:str', 'None')
+
+        def _represent_list(dumper, data):
+            """
+            Custom representer for formatting lists in YAML.
+            """
+            return dumper.represent_sequence(u'tag:yaml.org,2002:seq', data, flow_style=True)
+
         try:
             with open(filename, 'w') as file:
                 # Add custom list representer to the YAML dumper
-                yaml.add_representer(type(None), self._represent_none)
-                yaml.add_representer(list, self._represent_list)
+                yaml.add_representer(type(None), _represent_none)
+                yaml.add_representer(list, _represent_list)
 
                 # Handle None values correctly
                 formatted_data = {k: v if v is not None else None for k, v in self.config_data.items()}
@@ -333,7 +333,7 @@ class Tetris_Ballistic:
                 other_data = {k: v for k, v in formatted_data.items() if not k.startswith("Piece-")}
 
                 # Sort the 'Piece-' entries by their numeric value
-                sorted_piece_data = dict(sorted(piece_data.items(), key=lambda item: self._extract_number(item[0])))
+                sorted_piece_data = dict(sorted(piece_data.items(), key=lambda item: _extract_number(item[0])))
 
                 # Combine the sorted data
                 combined_data = {**other_data, **sorted_piece_data}
@@ -369,7 +369,7 @@ class Tetris_Ballistic:
         self.log_time_slopes = None
         print("Substrate along with all statistics have been reset to all zeros.")
 
-    def Sample_Tetris(self):
+    def Sample_Tetris(self, verbose=False):
         """
         Sampling the Tetris piece according to the configuration file
         -------------------------------------------------------------
@@ -425,6 +425,9 @@ class Tetris_Ballistic:
         19                (7, 0) (7, 1) (7, 2) (7, 3)
         ================  ===============================
 
+
+        Args:
+            verbose (bool): Whether to print the sampled piece or not. (Default: False)
         Returns:
             Update (callable): The function to be called to update the substrate.
             Piece_id (int): The Id of the piece (0-19).
@@ -454,7 +457,9 @@ class Tetris_Ballistic:
 
         Type_id, rot = self.PieceMap[Piece_id]
 
-        print(f"Sampled (Type_id, rot, Sticky, Update_Function): ({Type_id}, {rot}, {Sticky}), {self.UpdateCall[sample_index].__name__}")
+        if verbose:
+            print(f"Sampled (Type_id, rot, Sticky, Update_Function): ({Type_id}, {rot}, {Sticky}), {self.UpdateCall[sample_index].__name__}")
+
         Update = self.UpdateCall[sample_index]
 
         return Update, Type_id, rot, Sticky
@@ -1561,6 +1566,81 @@ class Tetris_Ballistic:
             self.Fluctuation[step] += np.power(top_envelope[pos] - average, 2) / self.width
         self.Fluctuation[step] = np.sqrt(self.Fluctuation[step])
 
+    def count_holes(self):
+        """
+        Counts the number of holes in the substrate
+        --------------------------------------------
+
+        A hole is defined as a collection of zero entries in the substrate that
+        has a boundary of nonzero entries surrounding it.
+
+        Args:
+            substrate (numpy.ndarray): The substrate to count the holes in.
+
+        Returns:
+            int: The number of holes in the substrate.
+        """
+        def depth_first_search(row, col):
+            # Checking boundaries and if cell is a 0
+            if 0 <= row < len(substrate_copy) and 0 <= col < len(substrate_copy[0]) and substrate_copy[row][col] == 0:
+                substrate_copy[row][col] = -1
+                depth_first_search(row + 1, col)
+                depth_first_search(row - 1, col)
+                depth_first_search(row, col + 1)
+                depth_first_search(row, col - 1)
+
+        hole_counter = 0
+        substrate_copy = self.substrate.copy()
+
+        for i in range(len(substrate_copy)):
+            for j in range(len(substrate_copy[0])):
+                if substrate_copy[i][j] == 0:
+                    depth_first_search(i, j)
+                    hole_counter += 1
+
+        return hole_counter
+
+    def count_holes_stack(self):
+        """
+        Counts the number of holes in the substrate
+        --------------------------------------------
+
+        A hole is defined as a collection of zero entries in the substrate that
+        has a boundary of nonzero entries surrounding it.
+
+        Args:
+           None
+
+        Returns:
+            int: The number of holes in the substrate.
+        """
+        if self.substrate.size == 0:
+            return 0
+
+        visited = np.zeros_like(self.substrate, dtype=bool)
+
+        def dfs_stack(r, c):
+            stack = [(r, c)]
+            while stack:
+                r, c = stack.pop()
+                if r < 0 or c < 0 or r >= self.height or c >= self.width or visited[r][c] or self.substrate[r][c] != 0:
+                    continue
+                visited[r][c] = True
+                # Add adjacent cells to stack
+                stack.append((r + 1, c))
+                stack.append((r - 1, c))
+                stack.append((r, c + 1))
+                stack.append((r, c - 1))
+
+        hole_count = 0
+        for r in range(self.height):
+            for c in range(self.width):
+                if self.substrate[r][c] == 0 and not visited[r][c]:
+                    dfs_stack(r, c)
+                    hole_count += 1
+
+        return hole_count
+
     def PrintStatus(self, brief=False):
         """
         Print the step/status of the class
@@ -1733,6 +1813,71 @@ class Tetris_Ballistic:
         # Save frames as an MP4 video with the same base filename
         video_filename = os.path.splitext(video_filename)[0] + ".mp4"
         imageio.mimsave(video_filename, frames, fps=rate)
+
+    def Substrate2PNG(self,
+                      plot_title="",
+                      frame_id=None,
+                      image_filename=None,
+                      envelop=False,
+                      show_average=False):
+        """
+        Convert the current substrate to a PNG file
+        -------------------------------------------
+
+        Parameters
+        ----------
+        plot_title : str, optional (default: "")
+            The title of the plot.
+        frame_id : int, optional (default: None)
+            The frame number to be saved. If the value is None, then the frame_id is set to be self.FinalSteps.
+        image_filename : str, optional (default: None)
+            The file name of the output png image file. If the value is None, then the filename is set to be frame_{frame_id}.png.
+        envelop : bool, optional (default: False)
+            Flag to indicate whether to show the top envelope.
+        show_average : bool, optional (default: False)
+            Flag to indicate whether to show the average height.
+
+        Returns
+        -------
+            None
+        """
+        if frame_id is None:
+            frame_id = self.FinalSteps  # Use self.FinalSteps if frame_id is not provided
+        if image_filename is None:
+            image_filename = f"frame_{frame_id}.png"  # Dynamically set the filename
+
+        steps = self.FinalSteps
+
+        # Create a custom colormap with gray as the background color
+        colors = [(0.8, 0.8, 0.8)] + [plt.cm.viridis(i) for i in range(plt.cm.viridis.N)]
+        custom_colormap = mcolors.LinearSegmentedColormap.from_list("custom", colors, N=steps + 1)
+
+        # Visualization setup
+        fig, ax = plt.subplots(figsize=(12, 8))
+
+        # Assuming 'self.substrate' contains the final state of the simulation
+        vis_substrate = np.copy(self.substrate)
+
+        # Visualize the final state
+        ax.imshow(vis_substrate, cmap=custom_colormap, aspect="auto", norm=mcolors.Normalize(vmin=0, vmax=steps))
+
+        if envelop:
+            # Add code to plot the top envelope if required
+            pass  # Replace 'pass' with your code
+
+        if show_average:
+            # Add code to show the average height if required
+            pass  # Replace 'pass' with your code
+
+        ax.set_title(f"{plot_title} - Final Particle Distribution")
+
+        # Adjust labels and ticks as needed
+        ax.set_ylabel("Height", rotation=90, labelpad=20, verticalalignment="center")
+        ax.set_xlabel("Substrate", labelpad=8)
+
+        # Save the final frame as a PNG image
+        plt.savefig(image_filename)
+        plt.close()
 
 
 def _create_partial(func, *args, **kwargs):
