@@ -63,4 +63,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contact
 
-For any queries or further discussion, feel free to contact us at [email@example.com].
+For any queries or further discussion, feel free to contact us at 
+
+- Le Chen: [chenle02@gmail.com] or [le.chen@auburn.edu].
+- Ian Ruau: [ian.ruau@auburn.edu].
+- Mauricio Montes: [mauricio.montes@auburn.edu].
