@@ -26,18 +26,35 @@ def test_simulation():
             video_name = os.path.splitext(os.path.basename(config_file))[0] + '.mp4'
             video_path = os.path.join(output_directory, video_name)
 
-            # Initialize Tetris_Ballistic with the config file
-            TB = Tetris_Ballistic(config_file=config_file)
+            experiment_name = os.path.splitext(os.path.basename(config_file))[0].replace('config_', '').replace('_', ' ')
+            print(f"Running experiment: {experiment_name}")
 
-            # Run the simulation
-            TB.Simulate()
-
-            # Visualize the simulation and generate the video
-            TB.visualize_simulation(video_filename=video_path)
-
-            # Save class data (optional)
+            # Filename for the saved simulation
             data_path = os.path.join(output_directory, os.path.basename(config_file).replace('.yaml', '.joblib'))
-            joblib.dump(TB, data_path)
+
+            if os.path.exists(data_path):
+                print(f"Simulation already exists: {data_path}")
+                # Initialize Tetris_Ballistic with the config file
+                print("Find the simulation file and load it now")
+                TB = joblib.load(data_path)
+            else:
+                print("Do not find the simulation file, run the simulation now")
+                TB = Tetris_Ballistic(config_file=config_file)
+                # Run the simulation
+                TB.Simulate()
+                joblib.dump(TB, data_path)
+
+            if os.path.exists(video_path):
+                print(f"Video already exists: {video_path}")
+            else:
+                print("Generate the simulation again")
+                # Visualize the simulation and generate the video
+                TB.visualize_simulation(video_filename=video_path,
+                                        plot_title=experiment_name,
+                                        rate=4,
+                                        envelop=True,
+                                        show_average=True)
+
 
             # Add your validation checks here (if any)
 
