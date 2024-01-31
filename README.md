@@ -36,7 +36,7 @@ Pypi link: [here](https://pypi.org/project/tetris-ballistic/).
 
 To understand how to utilize this package, refer to the [tests](./tests) folder, which contains examples of potential usage within Python code.
 
-Here are some simulations [examples](examples)
+Here are some simulations [examples](examples.md)
 
 ## Documentation
 
