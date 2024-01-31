@@ -369,7 +369,7 @@ class Tetris_Ballistic:
         self.log_time_slopes = None
         print("Substrate along with all statistics have been reset to all zeros.")
 
-    def Sample_Tetris(self):
+    def Sample_Tetris(self, verbose=False):
         """
         Sampling the Tetris piece according to the configuration file
         -------------------------------------------------------------
@@ -425,6 +425,9 @@ class Tetris_Ballistic:
         19                (7, 0) (7, 1) (7, 2) (7, 3)
         ================  ===============================
 
+
+        Args:
+            verbose (bool): Whether to print the sampled piece or not. (Default: False)
         Returns:
             Update (callable): The function to be called to update the substrate.
             Piece_id (int): The Id of the piece (0-19).
@@ -454,7 +457,9 @@ class Tetris_Ballistic:
 
         Type_id, rot = self.PieceMap[Piece_id]
 
-        print(f"Sampled (Type_id, rot, Sticky, Update_Function): ({Type_id}, {rot}, {Sticky}), {self.UpdateCall[sample_index].__name__}")
+        if verbose:
+            print(f"Sampled (Type_id, rot, Sticky, Update_Function): ({Type_id}, {rot}, {Sticky}), {self.UpdateCall[sample_index].__name__}")
+
         Update = self.UpdateCall[sample_index]
 
         return Update, Type_id, rot, Sticky
@@ -1560,6 +1565,40 @@ class Tetris_Ballistic:
         for pos in range(self.width):
             self.Fluctuation[step] += np.power(top_envelope[pos] - average, 2) / self.width
         self.Fluctuation[step] = np.sqrt(self.Fluctuation[step])
+
+    def count_holes(self):
+        """
+        Counts the number of holes in the substrate
+        --------------------------------------------
+
+        A hole is defined as a collection of zero entries in the substrate that
+        has a boundary of nonzero entries surrounding it.
+
+        Args:
+            substrate (numpy.ndarray): The substrate to count the holes in.
+
+        Returns:
+            int: The number of holes in the substrate.
+        """
+        def depth_first_search(row, col):
+            # Checking boundaries and if cell is a 0
+            if 0 <= row < len(substrate_copy) and 0 <= col < len(substrate_copy[0]) and substrate_copy[row][col] == 0:
+                substrate_copy[row][col] = -1
+                depth_first_search(row + 1, col)
+                depth_first_search(row - 1, col)
+                depth_first_search(row, col + 1)
+                depth_first_search(row, col - 1)
+
+        hole_counter = 0
+        substrate_copy = self.substrate.copy()
+
+        for i in range(len(substrate_copy)):
+            for j in range(len(substrate_copy[0])):
+                if substrate_copy[i][j] == 0:
+                    depth_first_search(i, j)
+                    hole_counter += 1
+
+        return hole_counter
 
     def PrintStatus(self, brief=False):
         """
