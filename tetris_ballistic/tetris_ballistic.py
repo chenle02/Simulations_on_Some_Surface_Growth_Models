@@ -280,29 +280,6 @@ class Tetris_Ballistic:
             print(f"Error in configuration file: {exc}")
             return False
 
-    def _represent_none(self, dumper, _):
-        """
-        Custom representer for formatting None in YAML as 'None'.
-        """
-        # return dumper.represent_scalar('tag:yaml.org,2002:null', 'None')
-        return dumper.represent_scalar('tag:yaml.org,2002:str', 'None')
-
-    def _represent_list(self, dumper, data):
-        """
-        Custom representer for formatting lists in YAML.
-        """
-        return dumper.represent_sequence(u'tag:yaml.org,2002:seq', data, flow_style=True)
-
-    def _extract_number(self, key):
-        """
-        Extracts the numeric part from the key.
-        """
-        if key.startswith("Piece-"):
-            match = re.search(r'(\d+)$', key)
-            return int(match.group()) if match else 0
-        else:
-            return float('inf')
-
     def save_config(self, filename):
         """
         Save configure file to a YAML file
@@ -319,11 +296,34 @@ class Tetris_Ballistic:
         Returns:
             None
         """
+        def _extract_number(key):
+            """
+            Extracts the numeric part from the key.
+            """
+            if key.startswith("Piece-"):
+                match = re.search(r'(\d+)$', key)
+                return int(match.group()) if match else 0
+            else:
+                return float('inf')
+
+        def _represent_none(dumper, _):
+            """
+            Custom representer for formatting None in YAML as 'None'.
+            """
+            # return dumper.represent_scalar('tag:yaml.org,2002:null', 'None')
+            return dumper.represent_scalar('tag:yaml.org,2002:str', 'None')
+
+        def _represent_list(dumper, data):
+            """
+            Custom representer for formatting lists in YAML.
+            """
+            return dumper.represent_sequence(u'tag:yaml.org,2002:seq', data, flow_style=True)
+
         try:
             with open(filename, 'w') as file:
                 # Add custom list representer to the YAML dumper
-                yaml.add_representer(type(None), self._represent_none)
-                yaml.add_representer(list, self._represent_list)
+                yaml.add_representer(type(None), _represent_none)
+                yaml.add_representer(list, _represent_list)
 
                 # Handle None values correctly
                 formatted_data = {k: v if v is not None else None for k, v in self.config_data.items()}
@@ -333,7 +333,7 @@ class Tetris_Ballistic:
                 other_data = {k: v for k, v in formatted_data.items() if not k.startswith("Piece-")}
 
                 # Sort the 'Piece-' entries by their numeric value
-                sorted_piece_data = dict(sorted(piece_data.items(), key=lambda item: self._extract_number(item[0])))
+                sorted_piece_data = dict(sorted(piece_data.items(), key=lambda item: _extract_number(item[0])))
 
                 # Combine the sorted data
                 combined_data = {**other_data, **sorted_piece_data}
