@@ -1,5 +1,5 @@
-Loaded data from ./config_Tetris_Sticky.joblib
-Loaded data from ./config_1x1_Non_Sticky.joblib
-Loaded data from ./config_Tetris_Non_Sticky.joblib
-Loaded data from ./config_1x1_Sticky.joblib
-Loaded data from ./config_Tetris_All.joblib
+Experiment name Tetris Sticky from ./config_Tetris_Sticky.joblib
+Experiment name 1x1 Non Sticky from ./config_1x1_Non_Sticky.joblib
+Experiment name Tetris Non Sticky from ./config_Tetris_Non_Sticky.joblib
+Experiment name 1x1 Sticky from ./config_1x1_Sticky.joblib
+Experiment name Tetris All from ./config_Tetris_All.joblib

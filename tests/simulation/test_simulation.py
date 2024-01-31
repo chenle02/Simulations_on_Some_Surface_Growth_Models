@@ -30,19 +30,19 @@ def test_simulation():
             print(f"Running experiment: {experiment_name}")
 
             # Filename for the saved simulation
-            data_path = os.path.join(output_directory, os.path.basename(config_file).replace('.yaml', '.joblib'))
+            joblib_file = os.path.join(output_directory, os.path.basename(config_file).replace('.yaml', '.joblib'))
 
-            if os.path.exists(data_path):
-                print(f"Simulation already exists: {data_path}")
+            if os.path.exists(joblib_file):
+                print(f"Simulation already exists: {joblib_file}")
                 # Initialize Tetris_Ballistic with the config file
                 print("Find the simulation file and load it now")
-                TB = joblib.load(data_path)
+                TB = joblib.load(joblib_file)
             else:
                 print("Do not find the simulation file, run the simulation now")
                 TB = Tetris_Ballistic(config_file=config_file)
                 # Run the simulation
                 TB.Simulate()
-                joblib.dump(TB, data_path)
+                joblib.dump(TB, joblib_file)
 
             if os.path.exists(video_path):
                 print(f"Video already exists: {video_path}")
@@ -54,10 +54,3 @@ def test_simulation():
                                         rate=4,
                                         envelop=True,
                                         show_average=True)
-
-
-            # Add your validation checks here (if any)
-
-        # # Cleanup: Remove created files (if necessary)
-        # for file in os.listdir(output_directory):
-        #     os.remove(os.path.join(output_directory, file))

@@ -1,3 +1,5 @@
+[![Publish Python Package to PyPI](https://github.com/chenle02/Simulations_on_Some_Surface_Growth_Models/actions/workflows/workflow.yml/badge.svg?branch=main)](https://github.com/chenle02/Simulations_on_Some_Surface_Growth_Models/actions/workflows/workflow.yml)
+
 # Simulations on Some Surface Growth Models
 This repo contains some simulations for some surface growth models. It comes out of a final exam project for Math-7820 (Applied Stochastic Processes) Fall 2023 at Auburn.
 

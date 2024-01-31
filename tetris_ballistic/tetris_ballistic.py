@@ -1601,7 +1601,7 @@ class Tetris_Ballistic:
 
         return hole_counter
 
-    def count_holes_stack(self):
+    def count_holes_stack(self, frame_id=None, verbose=False):
         """
         Counts the number of holes in the substrate
         --------------------------------------------
@@ -1610,7 +1610,8 @@ class Tetris_Ballistic:
         has a boundary of nonzero entries surrounding it.
 
         Args:
-           None
+           frame_id (int): The frame id to count the holes in. If None, the last farm will be used.
+           verbose (bool): Whether to print out the result.
 
         Returns:
             int: The number of holes in the substrate.
@@ -1618,13 +1619,20 @@ class Tetris_Ballistic:
         if self.substrate.size == 0:
             return 0
 
-        visited = np.zeros_like(self.substrate, dtype=bool)
+        vis_substrate = np.copy(self.substrate)
+        if frame_id is None:
+            frame_id = self.FinalSteps  # Use self.FinalSteps if frame_id is not provided
+        else:
+            # filter out the values greater than the current frame_id
+            vis_substrate[self.substrate > frame_id] = 0
+
+        visited = np.zeros_like(vis_substrate, dtype=bool)
 
         def dfs_stack(r, c):
             stack = [(r, c)]
             while stack:
                 r, c = stack.pop()
-                if r < 0 or c < 0 or r >= self.height or c >= self.width or visited[r][c] or self.substrate[r][c] != 0:
+                if r < 0 or c < 0 or r >= self.height or c >= self.width or visited[r][c] or vis_substrate[r][c] != 0:
                     continue
                 visited[r][c] = True
                 # Add adjacent cells to stack
@@ -1636,9 +1644,12 @@ class Tetris_Ballistic:
         hole_count = 0
         for r in range(self.height):
             for c in range(self.width):
-                if self.substrate[r][c] == 0 and not visited[r][c]:
+                if vis_substrate[r][c] == 0 and not visited[r][c]:
                     dfs_stack(r, c)
                     hole_count += 1
+
+        if verbose:
+            print(f"Hole count: {hole_count} at the end of step {frame_id}.")
 
         return hole_count
 
@@ -1842,12 +1853,17 @@ class Tetris_Ballistic:
         -------
             None
         """
+        vis_substrate = np.copy(self.substrate)
         if frame_id is None:
             frame_id = self.FinalSteps  # Use self.FinalSteps if frame_id is not provided
+        else:
+            # filter out the values greater than the current frame_id
+            vis_substrate[self.substrate > frame_id] = 0
+
         if image_filename is None:
             image_filename = f"frame_{frame_id}.png"  # Dynamically set the filename
 
-        steps = self.FinalSteps
+        steps = frame_id
 
         # Create a custom colormap with gray as the background color
         colors = [(0.8, 0.8, 0.8)] + [plt.cm.viridis(i) for i in range(plt.cm.viridis.N)]
@@ -1856,21 +1872,23 @@ class Tetris_Ballistic:
         # Visualization setup
         fig, ax = plt.subplots(figsize=(12, 8))
 
-        # Assuming 'self.substrate' contains the final state of the simulation
-        vis_substrate = np.copy(self.substrate)
-
         # Visualize the final state
         ax.imshow(vis_substrate, cmap=custom_colormap, aspect="auto", norm=mcolors.Normalize(vmin=0, vmax=steps))
 
         if envelop:
-            # Add code to plot the top envelope if required
-            pass  # Replace 'pass' with your code
+            # Compute and plot the top envelope
+            ax.plot(range(self.width),
+                    self.HeightDynamics[frame_id],
+                    color="red",
+                    linewidth=2)
 
         if show_average:
-            # Add code to show the average height if required
-            pass  # Replace 'pass' with your code
+            # print(f"Average height: {average}")
+            ax.axhline(y=self.AvergeHeight[frame_id],
+                       color="black",
+                       linewidth=2)
 
-        ax.set_title(f"{plot_title} - Final Particle Distribution")
+        ax.set_title(f"{plot_title}")
 
         # Adjust labels and ticks as needed
         ax.set_ylabel("Height", rotation=90, labelpad=20, verticalalignment="center")
