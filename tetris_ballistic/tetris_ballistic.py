@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 
 This module simulates the surface growth by Tetris pieces. It includes
@@ -1725,7 +1724,7 @@ class Tetris_Ballistic:
     def visualize_simulation(self,
                              plot_title="",
                              rate=4,
-                             video_filename="simulation.mp4",
+                             video_filename="simulation.gif",
                              envelop=False,
                              show_average=False):
         """
@@ -1737,7 +1736,7 @@ class Tetris_Ballistic:
         directly as a NumPy array. When a filename is provided as a string, it
         loads the substrate data from the file. The function supports
         visualizing the top envelope and average height of the deposited
-        particles. The final output is saved as an mp4 video file.
+        particles. The final output is saved as an gif video file.
 
         Parameters
         ----------
@@ -1745,8 +1744,8 @@ class Tetris_Ballistic:
             The title of the plot.
         rate : int, optional (default: 4)
             The frame rate for the video.
-        video_filename : str, optional (default: "simulation.mp4")
-            The output video filename.
+        video_filename : str, optional (default: "simulation.gif")
+            The output video filename (mp4 or gif).
         envelop : bool, optional (default: False)
             Flag to indicate whether to show the top envelope.
         show_average : bool, optional (default: False)
@@ -1756,6 +1755,10 @@ class Tetris_Ballistic:
         -------
             None
         """
+        extension = os.path.splitext(video_filename)[1]
+        if extension not in [".gif", ".mp4"]:
+            raise ValueError(f"Unsupported video format: {extension}")
+
         steps = self.FinalSteps
 
         # Create a custom colormap with gray as the background color
@@ -1822,9 +1825,12 @@ class Tetris_Ballistic:
             if step % 100 == 0:
                 print(f"Step: {step} / {steps}")
 
-        # Save frames as an MP4 video with the same base filename
-        video_filename = os.path.splitext(video_filename)[0] + ".mp4"
-        imageio.mimsave(video_filename, frames, fps=rate)
+        match extension:
+            case ".gif":
+                duration = 1000 / rate
+                imageio.mimsave(video_filename, frames, duration=duration)
+            case ".mp4":
+                imageio.mimsave(video_filename, frames, fps=rate)
 
     def Substrate2PNG(self,
                       plot_title="",
