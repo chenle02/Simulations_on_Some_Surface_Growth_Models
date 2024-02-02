@@ -1836,7 +1836,7 @@ class Tetris_Ballistic:
 
         # steps = 100  # for debug only
         # Simulation
-        for step in range(1, steps + 1):
+        for step in range(1, steps):
             # Create a copy of the substrate for visualization
             vis_substrate = np.copy(self.substrate)
 
