@@ -20,12 +20,19 @@ tmux split-window -h
 tmux select-pane -t 0
 tmux split-window -v
 
-# Select pane 0 and split it vertically
-tmux select-pane -t 1
+# Select pane 2 and split it vertically
+tmux select-pane -t 2
 tmux split-window -v
+
+# Select pane 3 and split it vertically
+tmux select-pane -t 3
+tmux split-window -v
+
+# Move to the last working pane and send all keys from there to other 4 panes:
+tmux select-pane -t 4
 
 # Commands for each pane
 tmux send-keys -t 0 "htop" C-m
 tmux send-keys -t 1 "nohup python SweepParameters.py &" C-m "tail -f nohup.out" C-m
 tmux send-keys -t 2 "tail -f simulation_progress.log" C-m
-tmux send-keys -t 4 "monitor_large_files.sh" C-m
+tmux send-keys -t 3 "monitor_large_files.sh" C-m

@@ -43,7 +43,7 @@ def simulate(params, total_iterations):
         TB.save_config(config_filename)
 
     TB.Simulate()
-    TB.ComputeSlope()
+    # TB.ComputeSlope()
     # Replace the following line with the actual method to save your simulation
     dump(TB, joblib_filename)  # Assuming you're serializing the entire TB object for simplicity
 
@@ -84,7 +84,7 @@ if __name__ == "__main__":
 
     StickyList = [[1, 0], [0, 1], [1, 1]]
     ListRandomSeeds = [10 * i for i in range(6)]
-    ListWidth = [50, 100, 200, 500]
+    ListWidth = [50, 100, 200, 500, 1000, 2000, 5000]
 
     # Generate all combinations of parameters
     param_combinations = [(w, seed, piece_id, sticky) for w in ListWidth for seed in ListRandomSeeds for piece_id in range(20) for sticky in StickyList]
