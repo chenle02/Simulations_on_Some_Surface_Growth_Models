@@ -26,11 +26,36 @@ directory=$1
 min_size=${2:-10M}  # Default minimum size to 10M if not specified
 sleep_time=${3:-10}  # Default update interval to 60 seconds if not specified
 
+    
 # Main loop to monitor large files
 while true; do
   clear
+  echo ""
   echo "Monitoring large files (larger than $min_size) in $directory..."
   # List files larger than the specified size, sorted by size
+  echo ""
   find "$directory" -type f -size "+$min_size" -exec du -h {} + | sort -rh | head -n 10 | awk '{print $2 ": " $1}'
+
+  # Count YAML files (.yaml and .yml extensions)
+  YAML_COUNT=$(find $MONITOR_DIR -type f \( -name "*.yaml" -o -name "*.yml" \) | wc -l)
+
+  # Count joblib files
+  JOBLIB_COUNT=$(find $MONITOR_DIR -type f -name "*.joblib" | wc -l)
+
+  echo ""
+  echo "Number of YAML files: $YAML_COUNT"
+  echo "Number of joblib files: $JOBLIB_COUNT"
+
+  # Calculate the total size of joblib files
+  total_size=$(find . -type f -name "*.joblib" -exec du -cb {} + | grep "total$" | cut -f1)
+  
+  # Convert total size to human-readable format (e.g., KB, MB)
+  readable_size=$(echo $total_size | awk '{ sum=$1; hum[1024^3]="GB";hum[1024^2]="MB";hum[1024]="KB";for (x=1024^3; x>=1024; x/=1024){ if (sum>=x) { printf "%.2f %s\n", sum/x, hum[x]; break } }}')
+  
+  echo ""
+  # Print the total size
+  echo "Total size of joblib files: $readable_size"
+
   sleep $sleep_time
+
 done
