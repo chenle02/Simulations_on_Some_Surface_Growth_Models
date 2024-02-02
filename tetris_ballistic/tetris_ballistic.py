@@ -1830,7 +1830,8 @@ class Tetris_Ballistic:
 
         # Visualization setup
         # Adjust the width and height as needed
-        fig, ax = plt.subplots(figsize=(12, 8))
+        fig, ax = plt.subplots(figsize=(10 * self.width / self.height, 10))
+        fig.tight_layout()
         frames = []
 
         # steps = 100  # for debug only
@@ -1847,6 +1848,7 @@ class Tetris_Ballistic:
             ax.imshow(
                 vis_substrate,
                 cmap=custom_colormap,
+                interpolation="nearest",
                 aspect=aspect,
                 norm=mcolors.Normalize(vmin=0, vmax=steps),
             )
@@ -1941,11 +1943,13 @@ class Tetris_Ballistic:
         custom_colormap = mcolors.LinearSegmentedColormap.from_list("custom", colors, N=steps + 1)
 
         # Visualization setup
-        fig, ax = plt.subplots(figsize=(12, 8))
+        fig, ax = plt.subplots(figsize=(10 * self.width / self.height, 10))
+        fig.tight_layout()
 
         # Visualize the final state
         ax.imshow(vis_substrate,
                   cmap=custom_colormap,
+                  interpolation="nearest",
                   aspect=aspect,
                   norm=mcolors.Normalize(vmin=0, vmax=steps))
 
