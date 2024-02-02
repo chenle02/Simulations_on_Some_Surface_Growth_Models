@@ -52,7 +52,8 @@ def test_simulation():
                                         plot_title=experiment_name,
                                         rate=4,
                                         envelop=True,
-                                        show_average=True)
+                                        show_average=True,
+                                        aspect=1)
             else:
                 print("Gif video exists")
 
@@ -63,6 +64,7 @@ def test_simulation():
                                         plot_title=experiment_name,
                                         rate=4,
                                         envelop=True,
-                                        show_average=True)
+                                        show_average=True,
+                                        aspect=1)
             else:
                 print("MP4 video exists")

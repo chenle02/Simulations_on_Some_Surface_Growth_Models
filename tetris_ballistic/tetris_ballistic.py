@@ -41,9 +41,9 @@ class Tetris_Ballistic:
     default, all pieces are sticky.
 
     Args:
-        width (int): The width of the game grid. Default is 16.
-        height (int): The height of the game grid. Default is 32.
-        steps (int): The number of steps to simulate. Default is 30.
+        width (int): The width of the game grid (multiple of 5). Default is 20.
+        height (int): The height of the game grid. Default is 20.
+        steps (int): The number of steps to simulate. Default is 400.
         seed (int, optional): The seed for random number generation. If None, randomness is not controlled.
         density (dict, optional): The density of each piece. If None, uniform distribution is used.
         config_file (str, optional): The path to a YAML configuration file to be loaded. If None, default configuration is used.
@@ -111,9 +111,9 @@ class Tetris_Ballistic:
     """
 
     def __init__(self,
-                 width=16,
-                 height=32,
-                 steps=30,
+                 width=20,
+                 height=20,
+                 steps=400,
                  seed=None,
                  density=None,
                  config_file=None):
@@ -1522,6 +1522,8 @@ class Tetris_Ballistic:
         """
         This function simulates the Tetris Decomposition model on a substrate.
 
+        This function is obsolete and is only used for testing purposes.
+
         Args:
             steps  (int): The steps to simulate.
 
@@ -1782,7 +1784,8 @@ class Tetris_Ballistic:
                              rate=4,
                              video_filename="simulation.gif",
                              envelop=False,
-                             show_average=False):
+                             show_average=False,
+                             aspect="auto"):
         """
         Visualize the particle deposition simulation and generate a video
         -----------------------------------------------------------------
@@ -1806,6 +1809,8 @@ class Tetris_Ballistic:
             Flag to indicate whether to show the top envelope.
         show_average : bool, optional (default: False)
             Flag to indicate whether to show the average height.
+        aspect : str, optional (default: "auto"),
+            Aspect ratio for the figure, other choices could be "equal", 1, or 2 etc...
 
         Returns
         -------
@@ -1842,7 +1847,7 @@ class Tetris_Ballistic:
             ax.imshow(
                 vis_substrate,
                 cmap=custom_colormap,
-                aspect="auto",
+                aspect=aspect,
                 norm=mcolors.Normalize(vmin=0, vmax=steps),
             )
 
@@ -1894,7 +1899,8 @@ class Tetris_Ballistic:
                       frame_id=None,
                       image_filename=None,
                       envelop=False,
-                      show_average=False):
+                      show_average=False,
+                      aspect='auto'):
         """
         Convert the current substrate to a PNG file
         -------------------------------------------
@@ -1911,6 +1917,8 @@ class Tetris_Ballistic:
             Flag to indicate whether to show the top envelope.
         show_average : bool, optional (default: False)
             Flag to indicate whether to show the average height.
+        aspect : str, optional (default: "auto"),
+            Aspect ratio for the figure, other choices could be "equal", 1, or 2 etc...
 
         Returns
         -------
@@ -1936,7 +1944,10 @@ class Tetris_Ballistic:
         fig, ax = plt.subplots(figsize=(12, 8))
 
         # Visualize the final state
-        ax.imshow(vis_substrate, cmap=custom_colormap, aspect="auto", norm=mcolors.Normalize(vmin=0, vmax=steps))
+        ax.imshow(vis_substrate,
+                  cmap=custom_colormap,
+                  aspect=aspect,
+                  norm=mcolors.Normalize(vmin=0, vmax=steps))
 
         if envelop:
             # Compute and plot the top envelope

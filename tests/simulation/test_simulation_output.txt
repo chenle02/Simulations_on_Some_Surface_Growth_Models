@@ -1,993 +1,35 @@
 Running experiment: 1x1 Sticky
 Simulation already exists: ./config_1x1_Sticky.joblib
 Find the simulation file and load it now
-Gif video exists
+Gif Video does not exists: ./config_1x1_Sticky.gif
+Step: 100 / 291
+Step: 200 / 291
 MP4 Video does not exists: ./config_1x1_Sticky.gif
 Step: 100 / 291
 Step: 200 / 291
 Running experiment: Tetris Sticky
-Do not find the simulation file, run the simulation now
-Loaded: {'steps': 600.0, 'width': 20.0, 'height': 30.0, 'seed': 42.0, 'Piece-0': [0, 1], 'Piece-1': [0, 1], 'Piece-2': [0, 1], 'Piece-3': [0, 1], 'Piece-4': [0, 1], 'Piece-5': [0, 1], 'Piece-6': [0, 1], 'Piece-7': [0, 1], 'Piece-8': [0, 1], 'Piece-9': [0, 1], 'Piece-10': [0, 1], 'Piece-11': [0, 1], 'Piece-12': [0, 1], 'Piece-13': [0, 1], 'Piece-14': [0, 1], 'Piece-15': [0, 1], 'Piece-16': [0, 1], 'Piece-17': [0, 1], 'Piece-18': [0, 1], 'Piece-19': [0, 0]}
-Configure file ./config_Tetris_Sticky.yaml loaded successfully.
-Substrate along with all statistics have been reset to all zeros.
-Game Over, reach the top
-Computing the slopes now...
-
-Progress in computing the slopes: 2.63%Progress in computing the slopes: 5.26%Progress in computing the slopes: 7.89%Progress in computing the slopes: 10.53%Progress in computing the slopes: 13.16%Progress in computing the slopes: 15.79%Progress in computing the slopes: 18.42%Progress in computing the slopes: 21.05%Progress in computing the slopes: 23.68%Progress in computing the slopes: 26.32%Progress in computing the slopes: 28.95%Progress in computing the slopes: 31.58%Progress in computing the slopes: 34.21%Progress in computing the slopes: 36.84%Progress in computing the slopes: 39.47%Progress in computing the slopes: 42.11%Progress in computing the slopes: 44.74%Progress in computing the slopes: 47.37%Progress in computing the slopes: 50.00%Progress in computing the slopes: 52.63%Progress in computing the slopes: 55.26%Progress in computing the slopes: 57.89%Progress in computing the slopes: 60.53%Progress in computing the slopes: 63.16%Progress in computing the slopes: 65.79%Progress in computing the slopes: 68.42%Progress in computing the slopes: 71.05%Progress in computing the slopes: 73.68%Progress in computing the slopes: 76.32%Progress in computing the slopes: 78.95%Progress in computing the slopes: 81.58%Progress in computing the slopes: 84.21%Progress in computing the slopes: 86.84%Progress in computing the slopes: 89.47%Progress in computing the slopes: 92.11%Progress in computing the slopes: 94.74%Progress in computing the slopes: 97.37%Progress in computing the slopes: 100.00%------------------------
-
-Status of the substrate:
-Width:  20
-Height: 30
-Steps: 600
-Final Steps: 48
-Seed: 42.0
-Log-time vs slopes:
- [[2.30258509 0.77675418]
- [2.39789527 0.76459533]
- [2.48490665 0.76103734]
- [2.56494936 0.75222113]
- [2.63905733 0.74505926]
- [2.7080502  0.72748829]
- [2.77258872 0.7147265 ]
- [2.83321334 0.69860526]
- [2.89037176 0.68326941]
- [2.94443898 0.67378153]
- [2.99573227 0.65904613]
- [3.04452244 0.64634005]
- [3.09104245 0.63733815]
- [3.13549422 0.63133585]
- [3.17805383 0.6212622 ]
- [3.21887582 0.61457509]
- [3.25809654 0.6103688 ]
- [3.29583687 0.60923718]
- [3.33220451 0.60948511]
- [3.36729583 0.61223711]
- [3.40119738 0.60967631]
- [3.4339872  0.60990372]
- [3.4657359  0.6049869 ]
- [3.49650756 0.59939708]
- [3.52636052 0.59418762]
- [3.55534806 0.59003054]
- [3.58351894 0.58017452]
- [3.61091791 0.56394326]
- [3.63758616 0.54998833]
- [3.66356165 0.53713146]
- [3.68887945 0.5007861 ]
- [3.71357207 0.46716714]
- [3.73766962 0.43625909]
- [3.76120012 0.40917361]
- [3.78418963 0.38005908]
- [3.80666249 0.35463987]
- [3.8286414  0.33288652]
- [3.8501476  0.31454263]]
-Computing the slopes now...
-
-Progress in computing the slopes: 2.63%Progress in computing the slopes: 5.26%Progress in computing the slopes: 7.89%Progress in computing the slopes: 10.53%Progress in computing the slopes: 13.16%Progress in computing the slopes: 15.79%Progress in computing the slopes: 18.42%Progress in computing the slopes: 21.05%Progress in computing the slopes: 23.68%Progress in computing the slopes: 26.32%Progress in computing the slopes: 28.95%Progress in computing the slopes: 31.58%Progress in computing the slopes: 34.21%Progress in computing the slopes: 36.84%Progress in computing the slopes: 39.47%Progress in computing the slopes: 42.11%Progress in computing the slopes: 44.74%Progress in computing the slopes: 47.37%Progress in computing the slopes: 50.00%Progress in computing the slopes: 52.63%Progress in computing the slopes: 55.26%Progress in computing the slopes: 57.89%Progress in computing the slopes: 60.53%Progress in computing the slopes: 63.16%Progress in computing the slopes: 65.79%Progress in computing the slopes: 68.42%Progress in computing the slopes: 71.05%Progress in computing the slopes: 73.68%Progress in computing the slopes: 76.32%Progress in computing the slopes: 78.95%Progress in computing the slopes: 81.58%Progress in computing the slopes: 84.21%Progress in computing the slopes: 86.84%Progress in computing the slopes: 89.47%Progress in computing the slopes: 92.11%Progress in computing the slopes: 94.74%Progress in computing the slopes: 97.37%Progress in computing the slopes: 100.00%------------------------
-
-Status of the substrate:
-Width:  20
-Height: 30
-Steps: 600
-Final Steps: 48
-Seed: 42.0
-Substrate:
- [[ 0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
-   0.  0.]
- [ 0.  0. 48. 48.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
-   0.  0.]
- [ 0.  0. 48.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
-   0.  0.]
- [ 0. 46. 48.  0.  0.  0.  0. 47. 47.  0.  0.  0.  0.  0.  0.  0.  0.  0.
-   0.  0.]
- [ 0. 46. 46.  0. 45.  0.  0.  0. 47.  0.  0.  0.  0.  0.  0.  0.  0.  0.
-   0.  0.]
- [ 0. 46. 45. 45. 45.  0. 44. 44. 47.  0.  0.  0.  0.  0.  0.  0.  0.  0.
-  43. 43.]
- [ 0.  0. 35. 38. 38. 38. 38. 44. 44. 41.  0. 42. 42.  0.  0.  0.  0.  0.
-  43. 43.]
- [ 0. 35. 35. 31. 31. 31.  0.  0.  0. 41.  0. 42.  0. 39.  0.  0.  0. 40.
-  40. 40.]
- [ 0. 35.  0.  0. 31.  0.  0.  0.  0. 41.  0. 42. 39. 39. 39. 36. 36. 37.
-  37. 40.]
- [ 0.  0. 29. 29. 29.  0.  0.  0.  0. 41.  0.  0.  0.  0. 36. 36.  0.  0.
-  37.  0.]
- [ 0.  0.  0. 29.  0.  0. 27.  0.  0. 34.  0. 33. 33. 33. 33.  0.  0.  0.
-  37.  0.]
- [ 0.  0.  0. 28. 28.  0. 27.  0. 34. 34.  0. 32.  0.  0.  0.  0.  0.  0.
-   0.  0.]
- [22.  0.  0. 28.  0. 26. 27. 27. 34.  0.  0. 32.  0.  0.  0.  0.  0.  0.
-   0.  0.]
- [22.  0.  0. 28. 26. 26.  0.  0. 25. 25. 25. 32. 32.  0.  0.  0.  0.  0.
-   0.  0.]
- [22.  0.  0.  0.  0. 26.  0.  0.  0.  0. 25.  0.  0.  0.  0.  0.  0.  0.
-   0.  0.]
- [22.  0.  0.  0.  0. 23. 23.  0. 21. 21. 21.  0.  0.  0.  0.  0.  0.  0.
-   0.  0.]
- [16.  0.  0.  0.  0.  0. 23.  0.  0. 21.  0.  0.  0.  0.  0.  0.  0.  0.
-   0.  0.]
- [16.  0.  0. 12.  0.  0. 23. 19. 19. 19.  0.  0.  0.  0.  0.  0.  0.  0.
-   0.  0.]
- [16. 16. 12. 12.  0.  0.  0.  0.  0. 19.  0.  0.  0.  0.  0.  0.  0.  0.
-   0.  0.]
- [11. 11. 12.  0.  0.  0.  0.  0.  0. 14.  0.  0.  0.  0.  0.  0.  0.  0.
-   0.  0.]
- [11. 11. 10.  0.  0.  0.  0. 14. 14. 14.  0.  0. 30. 30.  0.  0.  0.  0.
-   0.  0.]
- [ 0. 10. 10. 10.  0.  0.  0. 13. 13.  0.  0.  0. 30. 30.  0.  0.  0. 18.
-  18.  0.]
- [ 0.  0.  7.  7.  7.  7. 13. 13.  0.  0.  0.  0.  0. 24. 24. 24.  0. 18.
-   0.  0.]
- [ 0.  0.  0.  6.  0.  0.  0.  4.  4.  4.  0.  0.  0. 24. 20. 20.  0. 18.
-   0.  0.]
- [ 0.  0.  0.  6.  0.  0.  0.  0.  4.  0.  0.  0.  0.  0.  0. 20.  0. 17.
-  17.  0.]
- [ 0.  0.  0.  6.  0.  0.  0.  0.  3.  0.  0.  0.  0.  0.  0. 20. 15.  0.
-  17.  0.]
- [ 0.  0.  0.  6.  5.  0.  0.  3.  3.  3.  0.  0.  0.  0.  0.  0. 15.  0.
-  17.  0.]
- [ 0.  1.  0.  0.  5.  0.  0.  0.  0.  2.  0.  0.  0.  0.  0.  0. 15. 15.
-   8.  0.]
- [ 0.  1.  0.  0.  5.  0.  0.  0.  2.  2.  0.  0.  0.  9.  9.  9.  0.  0.
-   8.  8.]
- [ 1.  1.  0.  0.  5.  0.  0.  0.  2.  0.  0.  0.  0.  0.  9.  0.  0.  0.
-   0.  8.]]
-Average Height:
- [28.8  28.55 28.15 27.75 27.55 27.2  26.15 25.9  25.6  25.15 24.55 24.25
- 23.65 23.35 22.95 22.75 22.45 22.15 21.75 21.25 20.3  20.1  19.4  19.
- 18.7  18.1  17.6  17.2  16.55 15.95 15.5  14.2  12.9  12.65 11.95 10.35
-  9.05  8.7   8.4   7.25  7.05  6.75  6.55  5.9   5.7   5.45  5.2   4.85
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.  ]
-Fluctuation:
- [0.678233   0.97339612 1.62095651 2.50748878 2.55880832 2.80356915
- 3.53942086 3.4190642  3.21558704 3.65068487 4.04320417 4.49305019
- 4.53072842 4.76733678 4.44381593 4.71036092 4.58775544 4.6397737
- 5.01871497 4.71036092 4.83838816 5.1273775  5.42586399 5.10881591
- 5.44150714 5.75239081 6.2        6.50845604 7.03189164 6.39902336
- 6.93181073 6.22575297 6.15548536 6.23919065 6.44573502 5.51611276
- 4.53293503 4.72334627 4.77912126 2.2107691  2.22429764 2.25554871
- 2.39739442 2.09523268 2.23830293 2.41816046 2.61916017 3.02117527
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.        ]
-Log-time vs slopes:
- [[2.30258509 0.77675418]
- [2.39789527 0.76459533]
- [2.48490665 0.76103734]
- [2.56494936 0.75222113]
- [2.63905733 0.74505926]
- [2.7080502  0.72748829]
- [2.77258872 0.7147265 ]
- [2.83321334 0.69860526]
- [2.89037176 0.68326941]
- [2.94443898 0.67378153]
- [2.99573227 0.65904613]
- [3.04452244 0.64634005]
- [3.09104245 0.63733815]
- [3.13549422 0.63133585]
- [3.17805383 0.6212622 ]
- [3.21887582 0.61457509]
- [3.25809654 0.6103688 ]
- [3.29583687 0.60923718]
- [3.33220451 0.60948511]
- [3.36729583 0.61223711]
- [3.40119738 0.60967631]
- [3.4339872  0.60990372]
- [3.4657359  0.6049869 ]
- [3.49650756 0.59939708]
- [3.52636052 0.59418762]
- [3.55534806 0.59003054]
- [3.58351894 0.58017452]
- [3.61091791 0.56394326]
- [3.63758616 0.54998833]
- [3.66356165 0.53713146]
- [3.68887945 0.5007861 ]
- [3.71357207 0.46716714]
- [3.73766962 0.43625909]
- [3.76120012 0.40917361]
- [3.78418963 0.38005908]
- [3.80666249 0.35463987]
- [3.8286414  0.33288652]
- [3.8501476  0.31454263]]
+Simulation already exists: ./config_Tetris_Sticky.joblib
+Find the simulation file and load it now
 Gif Video does not exists: ./config_Tetris_Sticky.gif
 MP4 Video does not exists: ./config_Tetris_Sticky.gif
 Running experiment: 1x1 Non Sticky
 Simulation already exists: ./config_1x1_Non_Sticky.joblib
 Find the simulation file and load it now
-Gif video exists
-MP4 video exists
+Gif Video does not exists: ./config_1x1_Non_Sticky.gif
+Step: 100 / 384
+Step: 200 / 384
+Step: 300 / 384
+MP4 Video does not exists: ./config_1x1_Non_Sticky.gif
+Step: 100 / 384
+Step: 200 / 384
+Step: 300 / 384
 Running experiment: Tetris All
-Do not find the simulation file, run the simulation now
-Loaded: {'steps': 600.0, 'width': 20.0, 'height': 30.0, 'seed': 42.0, 'Piece-0': [1, 1], 'Piece-1': [1, 1], 'Piece-2': [1, 1], 'Piece-3': [1, 1], 'Piece-4': [1, 1], 'Piece-5': [1, 1], 'Piece-6': [1, 1], 'Piece-7': [1, 1], 'Piece-8': [1, 1], 'Piece-9': [1, 1], 'Piece-10': [1, 1], 'Piece-11': [1, 1], 'Piece-12': [1, 1], 'Piece-13': [1, 1], 'Piece-14': [1, 1], 'Piece-15': [1, 1], 'Piece-16': [1, 1], 'Piece-17': [1, 1], 'Piece-18': [1, 1], 'Piece-19': [0, 0]}
-Configure file ./config_Tetris_All.yaml loaded successfully.
-Substrate along with all statistics have been reset to all zeros.
-Game Over, reach the top
-Computing the slopes now...
-
-Progress in computing the slopes: 2.63%Progress in computing the slopes: 5.26%Progress in computing the slopes: 7.89%Progress in computing the slopes: 10.53%Progress in computing the slopes: 13.16%Progress in computing the slopes: 15.79%Progress in computing the slopes: 18.42%Progress in computing the slopes: 21.05%Progress in computing the slopes: 23.68%Progress in computing the slopes: 26.32%Progress in computing the slopes: 28.95%Progress in computing the slopes: 31.58%Progress in computing the slopes: 34.21%Progress in computing the slopes: 36.84%Progress in computing the slopes: 39.47%Progress in computing the slopes: 42.11%Progress in computing the slopes: 44.74%Progress in computing the slopes: 47.37%Progress in computing the slopes: 50.00%Progress in computing the slopes: 52.63%Progress in computing the slopes: 55.26%Progress in computing the slopes: 57.89%Progress in computing the slopes: 60.53%Progress in computing the slopes: 63.16%Progress in computing the slopes: 65.79%Progress in computing the slopes: 68.42%Progress in computing the slopes: 71.05%Progress in computing the slopes: 73.68%Progress in computing the slopes: 76.32%Progress in computing the slopes: 78.95%Progress in computing the slopes: 81.58%Progress in computing the slopes: 84.21%Progress in computing the slopes: 86.84%Progress in computing the slopes: 89.47%Progress in computing the slopes: 92.11%Progress in computing the slopes: 94.74%Progress in computing the slopes: 97.37%Progress in computing the slopes: 100.00%------------------------
-
-Status of the substrate:
-Width:  20
-Height: 30
-Steps: 600
-Final Steps: 48
-Seed: 42.0
-Log-time vs slopes:
- [[2.30258509 0.77675418]
- [2.39789527 0.76459533]
- [2.48490665 0.76103734]
- [2.56494936 0.75222113]
- [2.63905733 0.74505926]
- [2.7080502  0.73036312]
- [2.77258872 0.71971332]
- [2.83321334 0.70390106]
- [2.89037176 0.68887893]
- [2.94443898 0.67960398]
- [2.99573227 0.66622897]
- [3.04452244 0.65529219]
- [3.09104245 0.64763179]
- [3.13549422 0.64290927]
- [3.17805383 0.63454903]
- [3.21887582 0.62919884]
- [3.25809654 0.62621005]
- [3.29583687 0.62601366]
- [3.33220451 0.62701389]
- [3.36729583 0.63032196]
- [3.40119738 0.62900179]
- [3.4339872  0.63010903]
- [3.4657359  0.62659212]
- [3.49650756 0.61997603]
- [3.52636052 0.61421694]
- [3.55534806 0.60987431]
- [3.58351894 0.59943311]
- [3.61091791 0.58652435]
- [3.63758616 0.57653811]
- [3.66356165 0.56568665]
- [3.68887945 0.54636138]
- [3.71357207 0.5295462 ]
- [3.73766962 0.5120624 ]
- [3.76120012 0.49461978]
- [3.78418963 0.48116116]
- [3.80666249 0.47013683]
- [3.8286414  0.46138211]
- [3.8501476  0.45443977]]
-Computing the slopes now...
-
-Progress in computing the slopes: 2.63%Progress in computing the slopes: 5.26%Progress in computing the slopes: 7.89%Progress in computing the slopes: 10.53%Progress in computing the slopes: 13.16%Progress in computing the slopes: 15.79%Progress in computing the slopes: 18.42%Progress in computing the slopes: 21.05%Progress in computing the slopes: 23.68%Progress in computing the slopes: 26.32%Progress in computing the slopes: 28.95%Progress in computing the slopes: 31.58%Progress in computing the slopes: 34.21%Progress in computing the slopes: 36.84%Progress in computing the slopes: 39.47%Progress in computing the slopes: 42.11%Progress in computing the slopes: 44.74%Progress in computing the slopes: 47.37%Progress in computing the slopes: 50.00%Progress in computing the slopes: 52.63%Progress in computing the slopes: 55.26%Progress in computing the slopes: 57.89%Progress in computing the slopes: 60.53%Progress in computing the slopes: 63.16%Progress in computing the slopes: 65.79%Progress in computing the slopes: 68.42%Progress in computing the slopes: 71.05%Progress in computing the slopes: 73.68%Progress in computing the slopes: 76.32%Progress in computing the slopes: 78.95%Progress in computing the slopes: 81.58%Progress in computing the slopes: 84.21%Progress in computing the slopes: 86.84%Progress in computing the slopes: 89.47%Progress in computing the slopes: 92.11%Progress in computing the slopes: 94.74%Progress in computing the slopes: 97.37%Progress in computing the slopes: 100.00%------------------------
-
-Status of the substrate:
-Width:  20
-Height: 30
-Steps: 600
-Final Steps: 48
-Seed: 42.0
-Substrate:
- [[ 0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
-   0.  0.]
- [ 0.  0. 48. 48.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
-   0.  0.]
- [ 0.  0. 48.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.
-   0.  0.]
- [ 0. 46. 48.  0.  0.  0.  0. 47. 47.  0.  0.  0.  0.  0.  0.  0.  0.  0.
-   0.  0.]
- [ 0. 46. 46.  0. 45.  0.  0.  0. 47.  0.  0.  0.  0.  0.  0.  0.  0.  0.
-   0.  0.]
- [ 0. 46. 45. 45. 45.  0. 44. 44. 47.  0.  0.  0.  0.  0.  0.  0.  0.  0.
-   0.  0.]
- [ 0.  0.  0. 38. 38. 38. 38. 44. 44. 41.  0.  0.  0.  0.  0.  0.  0.  0.
-   0.  0.]
- [ 0.  0. 35. 31. 31. 31.  0.  0.  0. 41.  0.  0.  0.  0.  0.  0.  0.  0.
-   0.  0.]
- [ 0. 35. 35.  0. 31.  0.  0.  0.  0. 41.  0.  0.  0.  0.  0.  0.  0.  0.
-   0.  0.]
- [ 0. 35. 29. 29. 29.  0.  0.  0.  0. 41.  0.  0.  0.  0.  0.  0.  0.  0.
-   0.  0.]
- [ 0.  0.  0. 29.  0.  0. 27.  0.  0. 34.  0.  0.  0.  0.  0.  0.  0.  0.
-   0.  0.]
- [ 0.  0.  0. 28. 28.  0. 27.  0. 34. 34.  0.  0.  0.  0.  0.  0.  0.  0.
-   0.  0.]
- [22.  0.  0. 28.  0. 26. 27. 27. 34.  0.  0.  0.  0.  0.  0.  0.  0.  0.
-   0.  0.]
- [22.  0.  0. 28. 26. 26.  0.  0. 25. 25. 25.  0.  0.  0.  0.  0.  0.  0.
-  43. 43.]
- [22.  0.  0.  0.  0. 26.  0.  0.  0.  0. 25.  0.  0.  0.  0.  0.  0.  0.
-  43. 43.]
- [22.  0.  0.  0.  0. 23. 23.  0. 21. 21. 21. 42. 42. 39.  0.  0.  0. 40.
-  40. 40.]
- [16.  0.  0.  0.  0.  0. 23.  0.  0. 21.  0. 42. 39. 39. 39. 36. 36. 37.
-  37. 40.]
- [16.  0.  0. 12.  0.  0. 23. 19. 19. 19.  0. 42.  0.  0. 36. 36.  0.  0.
-  37.  0.]
- [16. 16. 12. 12.  0.  0.  0.  0.  0. 19.  0. 33. 33. 33. 33.  0.  0.  0.
-  37.  0.]
- [11. 11. 12.  0.  0.  0.  0.  0.  0. 14.  0. 32.  0.  0.  0.  0.  0.  0.
-   0.  0.]
- [11. 11. 10.  0.  0.  0.  0. 14. 14. 14.  0. 32.  0.  0.  0.  0.  0.  0.
-   0.  0.]
- [ 0. 10. 10. 10.  0.  0.  0. 13. 13.  0.  0. 32. 32.  0.  0.  0.  0. 18.
-  18.  0.]
- [ 0.  0.  7.  7.  7.  7. 13. 13.  0.  0.  0.  0. 30. 30.  0.  0.  0. 18.
-   0.  0.]
- [ 0.  0.  0.  6.  0.  0.  0.  4.  4.  4.  0.  0. 30. 30.  0.  0.  0. 18.
-   0.  0.]
- [ 0.  0.  0.  6.  0.  0.  0.  0.  4.  0.  0.  0.  0. 24. 24. 24.  0. 17.
-  17.  0.]
- [ 0.  0.  0.  6.  0.  0.  0.  0.  3.  0.  0.  0.  0. 24. 20. 20.  0.  0.
-  17.  0.]
- [ 0.  0.  0.  6.  5.  0.  0.  3.  3.  3.  0.  0.  0.  0.  0. 20.  0.  0.
-  17.  0.]
- [ 0.  1.  0.  0.  5.  0.  0.  0.  0.  2.  0.  0.  0.  0.  0. 20. 15.  0.
-   8.  0.]
- [ 0.  1.  0.  0.  5.  0.  0.  0.  2.  2.  0.  0.  0.  9.  9.  9. 15.  0.
-   8.  8.]
- [ 1.  1.  0.  0.  5.  0.  0.  0.  2.  0.  0.  0.  0.  0.  9.  0. 15. 15.
-   0.  8.]]
-Average Height:
- [28.8  28.55 28.15 27.75 27.55 27.2  26.15 25.9  25.6  25.15 24.55 24.25
- 23.65 23.35 23.15 22.95 22.55 22.25 21.85 21.55 20.6  20.4  19.7  19.4
- 19.1  18.5  18.   17.6  16.95 16.45 16.   15.4  14.7  14.45 13.85 12.85
- 12.35 12.   11.7  10.95 10.75 10.55 10.35  9.7   9.45  9.15  8.9   8.55
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.  ]
-Fluctuation:
- [0.678233   0.97339612 1.62095651 2.50748878 2.55880832 2.80356915
- 3.53942086 3.4190642  3.21558704 3.65068487 4.04320417 4.49305019
- 4.53072842 4.76733678 4.57465846 4.84226187 4.64192848 4.69973404
- 5.08207635 4.85257664 5.03388518 5.32353266 5.6488937  5.37959106
- 5.71751694 6.05392435 6.51152824 6.82934843 7.36529022 6.82257283
- 7.35527022 6.71118469 6.26178888 6.41463171 6.68786214 5.65928441
- 5.20840667 5.58569602 5.37680202 4.04320417 4.22936165 4.0059331
- 3.87653196 4.31393092 4.5986411  4.91197516 5.19519008 5.64335893
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.        ]
-Log-time vs slopes:
- [[2.30258509 0.77675418]
- [2.39789527 0.76459533]
- [2.48490665 0.76103734]
- [2.56494936 0.75222113]
- [2.63905733 0.74505926]
- [2.7080502  0.73036312]
- [2.77258872 0.71971332]
- [2.83321334 0.70390106]
- [2.89037176 0.68887893]
- [2.94443898 0.67960398]
- [2.99573227 0.66622897]
- [3.04452244 0.65529219]
- [3.09104245 0.64763179]
- [3.13549422 0.64290927]
- [3.17805383 0.63454903]
- [3.21887582 0.62919884]
- [3.25809654 0.62621005]
- [3.29583687 0.62601366]
- [3.33220451 0.62701389]
- [3.36729583 0.63032196]
- [3.40119738 0.62900179]
- [3.4339872  0.63010903]
- [3.4657359  0.62659212]
- [3.49650756 0.61997603]
- [3.52636052 0.61421694]
- [3.55534806 0.60987431]
- [3.58351894 0.59943311]
- [3.61091791 0.58652435]
- [3.63758616 0.57653811]
- [3.66356165 0.56568665]
- [3.68887945 0.54636138]
- [3.71357207 0.5295462 ]
- [3.73766962 0.5120624 ]
- [3.76120012 0.49461978]
- [3.78418963 0.48116116]
- [3.80666249 0.47013683]
- [3.8286414  0.46138211]
- [3.8501476  0.45443977]]
+Simulation already exists: ./config_Tetris_All.joblib
+Find the simulation file and load it now
 Gif Video does not exists: ./config_Tetris_All.gif
 MP4 Video does not exists: ./config_Tetris_All.gif
 Running experiment: Tetris Non Sticky
-Do not find the simulation file, run the simulation now
-Loaded: {'steps': 600.0, 'width': 20.0, 'height': 30.0, 'seed': 42.0, 'Piece-0': [1, 0], 'Piece-1': [1, 0], 'Piece-2': [1, 0], 'Piece-3': [1, 0], 'Piece-4': [1, 0], 'Piece-5': [1, 0], 'Piece-6': [1, 0], 'Piece-7': [1, 0], 'Piece-8': [1, 0], 'Piece-9': [1, 0], 'Piece-10': [1, 0], 'Piece-11': [1, 0], 'Piece-12': [1, 0], 'Piece-13': [1, 0], 'Piece-14': [1, 0], 'Piece-15': [1, 0], 'Piece-16': [1, 0], 'Piece-17': [1, 0], 'Piece-18': [1, 0], 'Piece-19': [0, 0]}
-Configure file ./config_Tetris_Non_Sticky.yaml loaded successfully.
-Substrate along with all statistics have been reset to all zeros.
-Game Over, reach the top
-Computing the slopes now...
-
-Progress in computing the slopes: 2.00%Progress in computing the slopes: 4.00%Progress in computing the slopes: 6.00%Progress in computing the slopes: 8.00%Progress in computing the slopes: 10.00%Progress in computing the slopes: 12.00%Progress in computing the slopes: 14.00%Progress in computing the slopes: 16.00%Progress in computing the slopes: 18.00%Progress in computing the slopes: 20.00%Progress in computing the slopes: 22.00%Progress in computing the slopes: 24.00%Progress in computing the slopes: 26.00%Progress in computing the slopes: 28.00%Progress in computing the slopes: 30.00%Progress in computing the slopes: 32.00%Progress in computing the slopes: 34.00%Progress in computing the slopes: 36.00%Progress in computing the slopes: 38.00%Progress in computing the slopes: 40.00%Progress in computing the slopes: 42.00%Progress in computing the slopes: 44.00%Progress in computing the slopes: 46.00%Progress in computing the slopes: 48.00%Progress in computing the slopes: 50.00%Progress in computing the slopes: 52.00%Progress in computing the slopes: 54.00%Progress in computing the slopes: 56.00%Progress in computing the slopes: 58.00%Progress in computing the slopes: 60.00%Progress in computing the slopes: 62.00%Progress in computing the slopes: 64.00%Progress in computing the slopes: 66.00%Progress in computing the slopes: 68.00%Progress in computing the slopes: 70.00%Progress in computing the slopes: 72.00%Progress in computing the slopes: 74.00%Progress in computing the slopes: 76.00%Progress in computing the slopes: 78.00%Progress in computing the slopes: 80.00%Progress in computing the slopes: 82.00%Progress in computing the slopes: 84.00%Progress in computing the slopes: 86.00%Progress in computing the slopes: 88.00%Progress in computing the slopes: 90.00%Progress in computing the slopes: 92.00%Progress in computing the slopes: 94.00%Progress in computing the slopes: 96.00%Progress in computing the slopes: 98.00%Progress in computing the slopes: 100.00%------------------------
-
-Status of the substrate:
-Width:  20
-Height: 30
-Steps: 600
-Final Steps: 60
-Seed: 42.0
-Log-time vs slopes:
- [[2.30258509 0.64097293]
- [2.39789527 0.61993245]
- [2.48490665 0.61414806]
- [2.56494936 0.61084888]
- [2.63905733 0.61368683]
- [2.7080502  0.60697193]
- [2.77258872 0.60314917]
- [2.83321334 0.59375154]
- [2.89037176 0.58621386]
- [2.94443898 0.58680979]
- [2.99573227 0.58208809]
- [3.04452244 0.58191267]
- [3.09104245 0.58296854]
- [3.13549422 0.58295386]
- [3.17805383 0.57883376]
- [3.21887582 0.5788132 ]
- [3.25809654 0.57858075]
- [3.29583687 0.57934199]
- [3.33220451 0.57943783]
- [3.36729583 0.5805538 ]
- [3.40119738 0.57652772]
- [3.4339872  0.57454574]
- [3.4657359  0.56711948]
- [3.49650756 0.55707319]
- [3.52636052 0.54976068]
- [3.55534806 0.54282941]
- [3.58351894 0.5284424 ]
- [3.61091791 0.51227037]
- [3.63758616 0.4986349 ]
- [3.66356165 0.4847769 ]
- [3.68887945 0.45591776]
- [3.71357207 0.43500571]
- [3.73766962 0.41368118]
- [3.76120012 0.39183335]
- [3.78418963 0.37524   ]
- [3.80666249 0.36095064]
- [3.8286414  0.34878088]
- [3.8501476  0.3398567 ]
- [3.87120101 0.3337448 ]
- [3.8918203  0.33118226]
- [3.91202301 0.32799505]
- [3.93182563 0.32629781]
- [3.95124372 0.32342076]
- [3.97029191 0.31952685]
- [3.98898405 0.31708114]
- [4.00733319 0.31492059]
- [4.02535169 0.31343621]
- [4.04305127 0.31384889]
- [4.06044301 0.31527392]
- [4.07753744 0.31736988]]
-Computing the slopes now...
-
-Progress in computing the slopes: 2.00%Progress in computing the slopes: 4.00%Progress in computing the slopes: 6.00%Progress in computing the slopes: 8.00%Progress in computing the slopes: 10.00%Progress in computing the slopes: 12.00%Progress in computing the slopes: 14.00%Progress in computing the slopes: 16.00%Progress in computing the slopes: 18.00%Progress in computing the slopes: 20.00%Progress in computing the slopes: 22.00%Progress in computing the slopes: 24.00%Progress in computing the slopes: 26.00%Progress in computing the slopes: 28.00%Progress in computing the slopes: 30.00%Progress in computing the slopes: 32.00%Progress in computing the slopes: 34.00%Progress in computing the slopes: 36.00%Progress in computing the slopes: 38.00%Progress in computing the slopes: 40.00%Progress in computing the slopes: 42.00%Progress in computing the slopes: 44.00%Progress in computing the slopes: 46.00%Progress in computing the slopes: 48.00%Progress in computing the slopes: 50.00%Progress in computing the slopes: 52.00%Progress in computing the slopes: 54.00%Progress in computing the slopes: 56.00%Progress in computing the slopes: 58.00%Progress in computing the slopes: 60.00%Progress in computing the slopes: 62.00%Progress in computing the slopes: 64.00%Progress in computing the slopes: 66.00%Progress in computing the slopes: 68.00%Progress in computing the slopes: 70.00%Progress in computing the slopes: 72.00%Progress in computing the slopes: 74.00%Progress in computing the slopes: 76.00%Progress in computing the slopes: 78.00%Progress in computing the slopes: 80.00%Progress in computing the slopes: 82.00%Progress in computing the slopes: 84.00%Progress in computing the slopes: 86.00%Progress in computing the slopes: 88.00%Progress in computing the slopes: 90.00%Progress in computing the slopes: 92.00%Progress in computing the slopes: 94.00%Progress in computing the slopes: 96.00%Progress in computing the slopes: 98.00%Progress in computing the slopes: 100.00%------------------------
-
-Status of the substrate:
-Width:  20
-Height: 30
-Steps: 600
-Final Steps: 60
-Seed: 42.0
-Substrate:
- [[ 0.  0.  0.  0.  0.  0.  0.  0. 58.  0.  0.  0.  0.  0.  0.  0.  0.  0.
-   0.  0.]
- [ 0.  0.  0.  0.  0.  0.  0.  0. 58.  0.  0.  0.  0.  0.  0.  0.  0.  0.
-   0.  0.]
- [ 0.  0.  0.  0.  0. 60. 60. 60. 58. 58.  0.  0.  0.  0.  0.  0.  0.  0.
-   0.  0.]
- [ 0.  0. 59. 59.  0. 60. 57. 57. 57. 57.  0.  0.  0.  0.  0.  0.  0.  0.
-   0.  0.]
- [ 0.  0. 59. 59.  0.  0.  0.  0.  0. 51.  0.  0.  0.  0.  0.  0.  0.  0.
-   0.  0.]
- [ 0.  0.  0. 49.  0. 54. 54.  0. 51. 51.  0.  0.  0.  0.  0.  0.  0.  0.
-   0.  0.]
- [ 0.  0.  0. 49. 49. 49. 54. 54. 51. 41.  0. 56. 56.  0.  0.  0.  0.  0.
-   0.  0.]
- [ 0.  0. 48. 48.  0.  0.  0. 47. 47. 41.  0.  0. 56. 56.  0.  0.  0.  0.
-   0.  0.]
- [ 0.  0. 48.  0.  0.  0.  0.  0. 47. 41.  0. 55. 55. 55.  0.  0.  0.  0.
-   0.  0.]
- [ 0. 46. 48.  0.  0.  0. 44. 44. 47. 41.  0.  0. 55.  0.  0.  0.  0.  0.
-   0.  0.]
- [ 0. 46. 46.  0. 45.  0.  0. 44. 44. 34.  0. 53. 53.  0.  0.  0.  0.  0.
-   0.  0.]
- [ 0. 46. 45. 45. 45.  0.  0.  0. 34. 34.  0.  0. 53. 53.  0.  0.  0.  0.
-   0.  0.]
- [ 0.  0.  0. 38. 38. 38. 38.  0. 34.  0.  0.  0. 50.  0.  0.  0.  0.  0.
-   0.  0.]
- [ 0.  0. 35. 31. 31. 31.  0.  0. 25. 25. 25.  0. 50.  0.  0. 52.  0.  0.
-   0.  0.]
- [ 0. 35. 35.  0. 31.  0. 27.  0.  0.  0. 25.  0. 50. 50. 52. 52.  0.  0.
-   0.  0.]
- [22. 35. 29. 29. 29.  0. 27.  0. 21. 21. 21. 42. 42. 39.  0. 52.  0.  0.
-  43. 43.]
- [22.  0.  0. 29.  0. 26. 27. 27.  0. 21.  0. 42. 39. 39. 39. 36. 36.  0.
-  43. 43.]
- [22.  0.  0. 28. 28. 26.  0. 19. 19. 19.  0. 42.  0.  0. 36. 36.  0. 40.
-  40. 40.]
- [22.  0.  0. 28.  0. 26.  0.  0.  0. 19.  0. 33. 33. 33. 33.  0.  0. 37.
-  37. 40.]
- [16.  0.  0. 28.  0. 23. 23.  0.  0. 14.  0. 32.  0.  0.  0.  0.  0.  0.
-  37.  0.]
- [16.  0.  0. 12.  0.  0. 23. 14. 14. 14.  0. 32.  0.  0.  0.  0.  0.  0.
-  37.  0.]
- [16. 16. 12. 12.  0.  0. 23. 13. 13.  0.  0. 32. 32.  0.  0.  0.  0. 18.
-  18.  0.]
- [11. 11. 12.  0.  0.  0. 13. 13.  0.  0.  0.  0. 30. 30.  0.  0.  0. 18.
-   0.  0.]
- [11. 11. 10.  0.  0.  0.  0.  4.  4.  4.  0.  0. 30. 30.  0.  0.  0. 18.
-   0.  0.]
- [ 0. 10. 10. 10.  0.  0.  0.  0.  4.  0.  0.  0.  0. 24. 24. 24.  0. 17.
-  17.  0.]
- [ 0.  0.  7.  7.  7.  7.  0.  0.  3.  0.  0.  0.  0. 24. 20. 20.  0.  0.
-  17.  0.]
- [ 0.  0.  0.  6.  5.  0.  0.  3.  3.  3.  0.  0.  0.  0.  0. 20.  0.  0.
-  17.  0.]
- [ 0.  1.  0.  6.  5.  0.  0.  0.  0.  2.  0.  0.  0.  0.  0. 20. 15.  0.
-   8.  0.]
- [ 0.  1.  0.  6.  5.  0.  0.  0.  2.  2.  0.  0.  0.  9.  9.  9. 15.  0.
-   8.  8.]
- [ 1.  1.  0.  6.  5.  0.  0.  0.  2.  0.  0.  0.  0.  0.  9.  0. 15. 15.
-   0.  8.]]
-Average Height:
- [28.8  28.55 28.15 27.75 27.55 27.35 26.75 26.5  26.2  25.9  25.45 25.15
- 24.55 24.25 24.05 23.85 23.45 23.15 22.75 22.45 21.5  21.3  20.85 20.55
- 20.25 19.7  19.4  19.25 18.75 18.25 17.9  17.3  16.6  16.35 15.9  14.9
- 14.6  14.35 14.05 13.4  13.2  13.   12.8  12.25 12.   11.7  11.45 11.1
- 10.5  10.3  10.1   9.85  9.35  9.05  8.7   8.45  8.05  7.85  7.55  7.3
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
-  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.  ]
-Fluctuation:
- [0.678233   0.97339612 1.62095651 2.50748878 2.55880832 2.59374247
- 2.79060925 2.6925824  2.5019992  2.75499546 3.02448343 3.42454377
- 3.62594815 3.98591269 3.80098671 4.01590588 3.86619968 4.00343602
- 4.52631196 4.32983833 4.71699057 4.94064773 4.99274474 4.75893896
- 5.2045653  5.30188646 5.52630075 5.57561656 5.82129711 5.29032135
- 5.60267793 4.9608467  4.63033476 4.93229156 4.9689033  4.01123422
- 3.72021505 3.90224294 3.78780939 2.28910463 2.78567766 2.62678511
- 2.46170673 2.82621655 2.96647939 3.11608729 3.44201976 3.78021163
- 4.31856458 4.20832508 4.47101778 4.25764019 4.06540281 4.31827512
- 4.3714986  4.51082032 4.94444132 5.22757114 5.45412688 5.69297813
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.
- 0.         0.         0.         0.         0.         0.        ]
-Log-time vs slopes:
- [[2.30258509 0.64097293]
- [2.39789527 0.61993245]
- [2.48490665 0.61414806]
- [2.56494936 0.61084888]
- [2.63905733 0.61368683]
- [2.7080502  0.60697193]
- [2.77258872 0.60314917]
- [2.83321334 0.59375154]
- [2.89037176 0.58621386]
- [2.94443898 0.58680979]
- [2.99573227 0.58208809]
- [3.04452244 0.58191267]
- [3.09104245 0.58296854]
- [3.13549422 0.58295386]
- [3.17805383 0.57883376]
- [3.21887582 0.5788132 ]
- [3.25809654 0.57858075]
- [3.29583687 0.57934199]
- [3.33220451 0.57943783]
- [3.36729583 0.5805538 ]
- [3.40119738 0.57652772]
- [3.4339872  0.57454574]
- [3.4657359  0.56711948]
- [3.49650756 0.55707319]
- [3.52636052 0.54976068]
- [3.55534806 0.54282941]
- [3.58351894 0.5284424 ]
- [3.61091791 0.51227037]
- [3.63758616 0.4986349 ]
- [3.66356165 0.4847769 ]
- [3.68887945 0.45591776]
- [3.71357207 0.43500571]
- [3.73766962 0.41368118]
- [3.76120012 0.39183335]
- [3.78418963 0.37524   ]
- [3.80666249 0.36095064]
- [3.8286414  0.34878088]
- [3.8501476  0.3398567 ]
- [3.87120101 0.3337448 ]
- [3.8918203  0.33118226]
- [3.91202301 0.32799505]
- [3.93182563 0.32629781]
- [3.95124372 0.32342076]
- [3.97029191 0.31952685]
- [3.98898405 0.31708114]
- [4.00733319 0.31492059]
- [4.02535169 0.31343621]
- [4.04305127 0.31384889]
- [4.06044301 0.31527392]
- [4.07753744 0.31736988]]
+Simulation already exists: ./config_Tetris_Non_Sticky.joblib
+Find the simulation file and load it now
 Gif Video does not exists: ./config_Tetris_Non_Sticky.gif
 MP4 Video does not exists: ./config_Tetris_Non_Sticky.gif
