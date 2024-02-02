@@ -32,7 +32,7 @@ tmux split-window -v
 tmux select-pane -t 4
 
 # Commands for each pane
-tmux send-keys -t 0 "htop" C-m
+tmux send-keys -t 0 "htop -p $(pgrep -d',' -f SweepParameters.py)" C-m
 tmux send-keys -t 1 "nohup python SweepParameters.py &" C-m "tail -f nohup.out" C-m
 tmux send-keys -t 2 "tail -f simulation_progress.log" C-m
 tmux send-keys -t 3 "./monitor_large_files.sh ." C-m

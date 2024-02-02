@@ -26,6 +26,21 @@ directory=$1
 min_size=${2:-10M}  # Default minimum size to 10M if not specified
 sleep_time=${3:-10}  # Default update interval to 60 seconds if not specified
 
+
+# Function to kill all processes named "SweepParameters.py"
+kill_sweep_parameters() {
+    echo "Do you really want to kill all 'SweepParameters.py' processes? (yes/no)"
+    read answer
+    if [[ "$answer" = "yes" ]] || [[ "$answer" = "y" ]]; then
+        echo "Killing all 'SweepParameters.py' processes..."
+        pkill -f SweepParameters.py
+    else
+        echo "Abort process killing. Continuing to monitor the processes..."
+    fi
+}
+
+# Trap SIGINT (Ctrl+C) and execute the kill_sweep_parameters function
+trap kill_sweep_parameters SIGINT
     
 # Main loop to monitor large files
 while true; do
@@ -55,6 +70,9 @@ while true; do
   echo ""
   # Print the total size
   echo "Total size of joblib files: $readable_size"
+
+  echo ""
+  echo "Control-c and then type yes or y to kill all 'SweepParameters.py' processes."
 
   sleep $sleep_time
 
