@@ -184,3 +184,5 @@ Experiments/exp2
 Experiments/exp3/*.joblib
 Experiments/exp3/*.yaml
 tests/sweepparameters/*.yaml
+
+Experiments/exp3/tmp
