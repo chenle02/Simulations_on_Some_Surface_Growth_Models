@@ -184,5 +184,11 @@ Experiments/exp2
 Experiments/exp3/*.joblib
 Experiments/exp3/*.yaml
 tests/sweepparameters/*.yaml
+<<<<<<< Updated upstream
 
 Experiments/exp3/tmp
+||||||| Stash base
+=======
+
+tests/simulation/tmp
+>>>>>>> Stashed changes

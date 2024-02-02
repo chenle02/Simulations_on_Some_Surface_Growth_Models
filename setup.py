@@ -7,7 +7,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='tetris_ballistic',
-    version='1.2.3',
+    version='1.2.4',
     packages=find_packages(),
     # entry_points={
     #     'console_scripts': [

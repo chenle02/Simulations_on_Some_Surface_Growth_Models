@@ -1,25 +1,35 @@
-Running experiment: Tetris Non Sticky
-Simulation already exists: ./config_Tetris_Non_Sticky.joblib
-Find the simulation file and load it now
-Gif video exists
-MP4 video exists
-Running experiment: 1x1 Non Sticky
-Simulation already exists: ./config_1x1_Non_Sticky.joblib
-Find the simulation file and load it now
-Gif video exists
-MP4 video exists
 Running experiment: 1x1 Sticky
 Simulation already exists: ./config_1x1_Sticky.joblib
 Find the simulation file and load it now
-Gif video exists
-MP4 video exists
+Gif Video does not exists: ./config_1x1_Sticky.gif
+Step: 100 / 291
+Step: 200 / 291
+MP4 Video does not exists: ./config_1x1_Sticky.gif
+Step: 100 / 291
+Step: 200 / 291
 Running experiment: Tetris Sticky
 Simulation already exists: ./config_Tetris_Sticky.joblib
 Find the simulation file and load it now
-Gif video exists
-MP4 video exists
+Gif Video does not exists: ./config_Tetris_Sticky.gif
+MP4 Video does not exists: ./config_Tetris_Sticky.gif
+Running experiment: 1x1 Non Sticky
+Simulation already exists: ./config_1x1_Non_Sticky.joblib
+Find the simulation file and load it now
+Gif Video does not exists: ./config_1x1_Non_Sticky.gif
+Step: 100 / 384
+Step: 200 / 384
+Step: 300 / 384
+MP4 Video does not exists: ./config_1x1_Non_Sticky.gif
+Step: 100 / 384
+Step: 200 / 384
+Step: 300 / 384
 Running experiment: Tetris All
 Simulation already exists: ./config_Tetris_All.joblib
 Find the simulation file and load it now
-Gif video exists
-MP4 video exists
+Gif Video does not exists: ./config_Tetris_All.gif
+MP4 Video does not exists: ./config_Tetris_All.gif
+Running experiment: Tetris Non Sticky
+Simulation already exists: ./config_Tetris_Non_Sticky.joblib
+Find the simulation file and load it now
+Gif Video does not exists: ./config_Tetris_Non_Sticky.gif
+MP4 Video does not exists: ./config_Tetris_Non_Sticky.gif

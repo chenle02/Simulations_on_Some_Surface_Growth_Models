@@ -41,9 +41,9 @@ class Tetris_Ballistic:
     default, all pieces are sticky.
 
     Args:
-        width (int): The width of the game grid. Default is 16.
-        height (int): The height of the game grid. Default is 32.
-        steps (int): The number of steps to simulate. Default is 30.
+        width (int): The width of the game grid (multiple of 5). Default is 20.
+        height (int): The height of the game grid. Default is 20.
+        steps (int): The number of steps to simulate. Default is 400.
         seed (int, optional): The seed for random number generation. If None, randomness is not controlled.
         density (dict, optional): The density of each piece. If None, uniform distribution is used.
         config_file (str, optional): The path to a YAML configuration file to be loaded. If None, default configuration is used.
@@ -111,9 +111,9 @@ class Tetris_Ballistic:
     """
 
     def __init__(self,
-                 width=16,
-                 height=32,
-                 steps=30,
+                 width=20,
+                 height=20,
+                 steps=400,
                  seed=None,
                  density=None,
                  config_file=None):
@@ -1013,8 +1013,8 @@ class Tetris_Ballistic:
 
                 landing_row_outright = self._ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self.height
                 landing_row_pivot = self._ffnz(position)
-                landing_row_left1 = self._ffnz(position - 1) if position > 1 else self.height
-                landing_row_left2 = self._ffnz(position - 2) if position > 2 else self.height
+                landing_row_left1 = self._ffnz(position - 1) + 1 if position > 1 else self.height
+                landing_row_left2 = self._ffnz(position - 2) + 1 if position > 2 else self.height
                 landing_row_outleft = self._ffnz(position - 3) + 2 if position > 3 and sticky else self.height
 
                 # Find minimum landing row
@@ -1528,6 +1528,8 @@ class Tetris_Ballistic:
         """
         This function simulates the Tetris Decomposition model on a substrate.
 
+        This function is obsolete and is only used for testing purposes.
+
         Args:
             steps  (int): The steps to simulate.
 
@@ -1788,7 +1790,8 @@ class Tetris_Ballistic:
                              rate=4,
                              video_filename="simulation.gif",
                              envelop=False,
-                             show_average=False):
+                             show_average=False,
+                             aspect="auto"):
         """
         Visualize the particle deposition simulation and generate a video
         -----------------------------------------------------------------
@@ -1812,6 +1815,8 @@ class Tetris_Ballistic:
             Flag to indicate whether to show the top envelope.
         show_average : bool, optional (default: False)
             Flag to indicate whether to show the average height.
+        aspect : str, optional (default: "auto"),
+            Aspect ratio for the figure, other choices could be "equal", 1, or 2 etc...
 
         Returns
         -------
@@ -1831,12 +1836,13 @@ class Tetris_Ballistic:
 
         # Visualization setup
         # Adjust the width and height as needed
-        fig, ax = plt.subplots(figsize=(12, 8))
+        fig, ax = plt.subplots(figsize=(10 * self.width / self.height, 10))
+        fig.tight_layout()
         frames = []
 
         # steps = 100  # for debug only
         # Simulation
-        for step in range(1, steps + 1):
+        for step in range(1, steps):
             # Create a copy of the substrate for visualization
             vis_substrate = np.copy(self.substrate)
 
@@ -1848,7 +1854,8 @@ class Tetris_Ballistic:
             ax.imshow(
                 vis_substrate,
                 cmap=custom_colormap,
-                aspect="auto",
+                interpolation="nearest",
+                aspect=aspect,
                 norm=mcolors.Normalize(vmin=0, vmax=steps),
             )
 
@@ -1900,7 +1907,8 @@ class Tetris_Ballistic:
                       frame_id=None,
                       image_filename=None,
                       envelop=False,
-                      show_average=False):
+                      show_average=False,
+                      aspect='auto'):
         """
         Convert the current substrate to a PNG file
         -------------------------------------------
@@ -1917,6 +1925,8 @@ class Tetris_Ballistic:
             Flag to indicate whether to show the top envelope.
         show_average : bool, optional (default: False)
             Flag to indicate whether to show the average height.
+        aspect : str, optional (default: "auto"),
+            Aspect ratio for the figure, other choices could be "equal", 1, or 2 etc...
 
         Returns
         -------
@@ -1939,10 +1949,15 @@ class Tetris_Ballistic:
         custom_colormap = mcolors.LinearSegmentedColormap.from_list("custom", colors, N=steps + 1)
 
         # Visualization setup
-        fig, ax = plt.subplots(figsize=(12, 8))
+        fig, ax = plt.subplots(figsize=(10 * self.width / self.height, 10))
+        fig.tight_layout()
 
         # Visualize the final state
-        ax.imshow(vis_substrate, cmap=custom_colormap, aspect="auto", norm=mcolors.Normalize(vmin=0, vmax=steps))
+        ax.imshow(vis_substrate,
+                  cmap=custom_colormap,
+                  interpolation="nearest",
+                  aspect=aspect,
+                  norm=mcolors.Normalize(vmin=0, vmax=steps))
 
         if envelop:
             # Compute and plot the top envelope
@@ -2034,9 +2049,9 @@ def _create_partial(func, *args, **kwargs):
 
 # Example usage
 # tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=1000, seed=42)
-tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=10, seed=42)
-tetris_simulator.Simulate()
-tetris_simulator.ComputeSlope()
+# tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=10, seed=42)
+# tetris_simulator.Simulate()
+# tetris_simulator.ComputeSlope()
 # tetris_simulator.save_config("save_config.yaml")
 # tetris_simulator.Test_All()
 # tetris_simulator.Sample_Tetris()
