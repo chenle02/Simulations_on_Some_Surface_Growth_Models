@@ -42,6 +42,8 @@ def test_simulation():
                 TB = Tetris_Ballistic(config_file=config_file)
                 # Run the simulation
                 TB.Simulate()
+                TB.ComputeSlope()
+                TB.PrintStatus()
                 joblib.dump(TB, joblib_file)
 
             if not os.path.exists(video_path):

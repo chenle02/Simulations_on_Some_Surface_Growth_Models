@@ -1007,8 +1007,8 @@ class Tetris_Ballistic:
 
                 landing_row_outright = self._ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self.height
                 landing_row_pivot = self._ffnz(position)
-                landing_row_left1 = self._ffnz(position - 1) if position > 1 else self.height
-                landing_row_left2 = self._ffnz(position - 2) if position > 2 else self.height
+                landing_row_left1 = self._ffnz(position - 1) + 1 if position > 1 else self.height
+                landing_row_left2 = self._ffnz(position - 2) + 1 if position > 2 else self.height
                 landing_row_outleft = self._ffnz(position - 3) + 2 if position > 3 and sticky else self.height
 
                 # Find minimum landing row
@@ -2028,9 +2028,9 @@ def _create_partial(func, *args, **kwargs):
 
 # Example usage
 # tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=1000, seed=42)
-tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=10, seed=42)
-tetris_simulator.Simulate()
-tetris_simulator.ComputeSlope()
+# tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=10, seed=42)
+# tetris_simulator.Simulate()
+# tetris_simulator.ComputeSlope()
 # tetris_simulator.save_config("save_config.yaml")
 # tetris_simulator.Test_All()
 # tetris_simulator.Sample_Tetris()
