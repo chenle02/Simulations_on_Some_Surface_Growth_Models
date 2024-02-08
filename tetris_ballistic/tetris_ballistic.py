@@ -12,6 +12,7 @@ By Le Chen, Mauricio Montes and Ian Ruau
 """
 
 import numpy as np
+# import cupy as np
 import random
 import yaml
 import re
@@ -1784,6 +1785,12 @@ class Tetris_Ballistic:
             slope, _ = np.polyfit(np.log(current_time), log_interface, 1)
 
             self.log_time_slopes[i] = [log_time, slope]
+
+    def PlotStat(self, fig_filename="stat.png"):
+        """
+        ....
+        """
+        print(fig_filename)
 
     def visualize_simulation(self,
                              plot_title="",

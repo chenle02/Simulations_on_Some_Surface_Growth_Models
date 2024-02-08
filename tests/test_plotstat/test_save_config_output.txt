@@ -1,0 +1,18 @@
+No configure file, uniform distribution is set.
+Configuration saved to test_save_config.yaml
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  20
+Height: 20
+Steps: 400
+Final Steps: 36
+Seed: 12
+Log-time vs slopes:
+ None
+Computing the slopes now...
+
+Progress in computing the slopes: 3.85%Progress in computing the slopes: 7.69%Progress in computing the slopes: 11.54%Progress in computing the slopes: 15.38%Progress in computing the slopes: 19.23%Progress in computing the slopes: 23.08%Progress in computing the slopes: 26.92%Progress in computing the slopes: 30.77%Progress in computing the slopes: 34.62%Progress in computing the slopes: 38.46%Progress in computing the slopes: 42.31%Progress in computing the slopes: 46.15%Progress in computing the slopes: 50.00%Progress in computing the slopes: 53.85%Progress in computing the slopes: 57.69%Progress in computing the slopes: 61.54%Progress in computing the slopes: 65.38%Progress in computing the slopes: 69.23%Progress in computing the slopes: 73.08%Progress in computing the slopes: 76.92%Progress in computing the slopes: 80.77%Progress in computing the slopes: 84.62%Progress in computing the slopes: 88.46%Progress in computing the slopes: 92.31%Progress in computing the slopes: 96.15%Progress in computing the slopes: 100.00%stat.png
+newname.png
