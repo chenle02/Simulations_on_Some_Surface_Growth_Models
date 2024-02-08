@@ -12,6 +12,7 @@ By Le Chen, Mauricio Montes and Ian Ruau
 """
 
 import numpy as np
+# import cupy as np
 import random
 import yaml
 import re
@@ -494,10 +495,13 @@ class Tetris_Ballistic:
 
         return Update, Type_id, rot, Sticky
 
-    def Simulate(self):
+    def Simulate(self, compute_slope=False):
         """
         Start the simulation
         --------------------
+
+        Args:
+            compute_slope (bool): Whether to compute the slope of the surface or not. (Default: False)
 
         Return:
             None
@@ -510,7 +514,10 @@ class Tetris_Ballistic:
             if i == -1:
                 print("Game Over, reach the top")
                 break
-        self.ComputeSlope()
+
+        if compute_slope:
+            self.ComputeSlope()
+
         self.PrintStatus(brief=True)
 
     def _ffnz(self, column):
@@ -1778,6 +1785,12 @@ class Tetris_Ballistic:
             slope, _ = np.polyfit(np.log(current_time), log_interface, 1)
 
             self.log_time_slopes[i] = [log_time, slope]
+
+    def PlotStat(self, fig_filename="stat.png"):
+        """
+        ....
+        """
+        print(fig_filename)
 
     def visualize_simulation(self,
                              plot_title="",
