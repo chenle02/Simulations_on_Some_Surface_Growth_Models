@@ -16,6 +16,7 @@ import numpy as np
 import random
 import yaml
 import re
+from scipy.stats import entropy
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 import imageio
@@ -171,6 +172,7 @@ class Tetris_Ballistic:
         # self.HeightDynamics = np.zeros((self.steps, self.width), dtype=np.uint32)
         self.Fluctuation = np.zeros((self.steps))
         self.AvergeHeight = np.zeros((self.steps))
+        self.SampleDist = np.zeros([20, 2])
         self.log_time_slopes = None
         self.UpdateCall = [
             _create_partial(self.Update_O, rot=0, sticky=False),  _create_partial(self.Update_O, rot=0, sticky=True),    # 0
@@ -388,6 +390,7 @@ class Tetris_Ballistic:
         - self.Fluctuation
         - self.AvergeHeight
         - self.log_time_slopes
+        - self.SampleDist
 
         Returns:
             None
@@ -398,6 +401,7 @@ class Tetris_Ballistic:
         self.Fluctuation = np.zeros((self.steps))
         self.AvergeHeight = np.zeros((self.steps))
         self.log_time_slopes = None
+        self.SampleDist = np.zeros([20, 2])
         print("Substrate along with all statistics have been reset to all zeros.")
 
     def Sample_Tetris(self, verbose=False):
@@ -492,6 +496,8 @@ class Tetris_Ballistic:
             print(f"Sampled (Type_id, rot, Sticky, Update_Function): ({Type_id}, {rot}, {Sticky}), {self.UpdateCall[sample_index].__name__}")
 
         Update = self.UpdateCall[sample_index]
+
+        self.SampleDist[Piece_id, column] += 1
 
         return Update, Type_id, rot, Sticky
 
@@ -1732,13 +1738,30 @@ class Tetris_Ballistic:
         print(f"Steps: {self.steps}")
         print(f"Final Steps: {self.FinalSteps}")
         print(f"Seed: {self.seed}")
+        print("Tetris distribution:\n")
+        probabilities = np.array([self.config_data[f"Piece-{i}"] for i in range(20)])
+        total_sum = probabilities.sum()
+        print("Piece Id\t NS \t Sticky \t|\t Sample NS\t Sample Sticky\n")
+        for Piece_id in range(20):
+            print(f"{Piece_id:<9}\t",
+                  f"{self.config_data[f'Piece-{Piece_id}'][0] / total_sum:.2f}\t".ljust(12),
+                  f"{self.config_data[f'Piece-{Piece_id}'][1] / total_sum:.2f}\t|\t".ljust(12),
+                  f"{self.SampleDist[Piece_id, 0] / self.FinalSteps:.2f}\t".ljust(12),
+                  f"{self.SampleDist[Piece_id, 1] / self.FinalSteps:.2f}\t"
+                  )
+
+        # Flatten the matrix to a 1D array for sampling
+        flattened_probabilities = probabilities.flatten()
+        normalized_probabilities = flattened_probabilities / np.sum(flattened_probabilities)
+        flattened_sampledist = self.SampleDist.flatten()
+        normalized_sampledist = flattened_sampledist / self.FinalSteps 
+        Divergence = 1/2 * ( entropy(normalized_probabilities, normalized_sampledist) + entropy(normalized_sampledist, normalized_probabilities) )
+        print(f"Jensen-Shannon Divergence: {Divergence:.4f}\n")
 
         if not brief:
             print(f"Substrate:\n {self.substrate}")
-            # if self.HeightDynamics is not None:
-            #     print(f"Height Dynamics:\n {self.HeightDynamics}")
-            print(f"Average Height:\n {self.AvergeHeight}")
-            print(f"Fluctuation:\n {self.Fluctuation}")
+            print(f"Average Height:\n {self.AvergeHeight[:self.FinalSteps]}")
+            print(f"Fluctuation:\n {self.Fluctuation[:self.FinalSteps]}")
 
         print(f"Log-time vs slopes:\n {self.log_time_slopes}")
 
