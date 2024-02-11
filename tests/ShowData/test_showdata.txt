@@ -1,0 +1,17 @@
+No configure file, uniform distribution is set.
+Configuration saved to test_save_config.yaml
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  200
+Height: 300
+Steps: 12000
+Final Steps: 4204
+Seed: 12
+Log-time vs slopes:
+ None
+First show data without save the figure file
+Then save the figure
+Figure is saved as Figure.png

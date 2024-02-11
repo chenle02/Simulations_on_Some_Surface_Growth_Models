@@ -1786,6 +1786,35 @@ class Tetris_Ballistic:
 
             self.log_time_slopes[i] = [log_time, slope]
 
+    def ShowData(self, fig_filename=None):
+        """
+        This function plots the log-log plot of the fluctuation and the average height versus time.
+
+        Args:
+            fig_filename (str): The filename of the output figure. If None, the plot will be displayed.
+
+        Return:
+            None
+        """
+        logtime = np.log(np.array(range(1, self.FinalSteps + 1)))
+        logfluc = np.log(self.Fluctuation[0:self.FinalSteps])
+
+        # Create the plot
+        fig, ax = plt.subplots(figsize=(10, 5))  # Use fig for the figure reference
+        ax.plot(logtime, logfluc, label="Fluctuation")
+        ax.set_title(f"{self.width}(w)x{self.height}(h) Substrate, Maximum Steps: {self.steps}, Final steps: {self.FinalSteps}, Seed: {self.seed}")
+        ax.set_xlabel("Log-Time")
+        ax.set_ylabel("Log-Fluctuation")
+        ax.legend(loc="best")
+
+        # Check fig_filename to show or save the figure
+        if fig_filename is not None:
+            plt.savefig(fig_filename)
+            plt.close(fig)  # Close the specific figure to free up memory
+            print(f"Figure is saved as {fig_filename}")
+        else:
+            plt.show()  # Display the plot
+
     def PlotStat(self, fig_filename="stat.png"):
         """
         ....
