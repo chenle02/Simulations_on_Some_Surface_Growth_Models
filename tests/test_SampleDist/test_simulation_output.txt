@@ -637,7 +637,7 @@ Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
 17       	 0.03	        0.03	|	      0.02	        0.00	
 18       	 0.03	        0.03	|	      0.08	        0.00	
 19       	 0.00	        0.00	|	      0.00	        0.00	
-Jensen-Shannon Divergence: inf
+Jensen-Shannon Divergence: 2.4694
 
 Log-time vs slopes:
  None
@@ -673,7 +673,7 @@ Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
 17       	 0.03	        0.03	|	      0.02	        0.00	
 18       	 0.03	        0.03	|	      0.08	        0.00	
 19       	 0.00	        0.00	|	      0.00	        0.00	
-Jensen-Shannon Divergence: inf
+Jensen-Shannon Divergence: 2.4694
 
 Substrate:
  [[ 0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.

@@ -1755,6 +1755,10 @@ class Tetris_Ballistic:
         normalized_probabilities = flattened_probabilities / np.sum(flattened_probabilities)
         flattened_sampledist = self.SampleDist.flatten()
         normalized_sampledist = flattened_sampledist / self.FinalSteps 
+        # Handle zero probabilities
+        epsilon = 1e-10
+        normalized_probabilities = np.clip(normalized_probabilities, epsilon, 1) 
+        normalized_sampledist = np.clip(normalized_sampledist, epsilon, 1) 
         Divergence = 1/2 * ( entropy(normalized_probabilities, normalized_sampledist) + entropy(normalized_sampledist, normalized_probabilities) )
         print(f"Jensen-Shannon Divergence: {Divergence:.4f}\n")
 
