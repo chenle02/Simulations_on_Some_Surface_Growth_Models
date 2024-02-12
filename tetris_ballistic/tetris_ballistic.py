@@ -1661,6 +1661,44 @@ class Tetris_Ballistic:
 
         return hole_counter
 
+    def hole_statistics(self, substrate):
+        """
+        Computes the statistics of the holes in the substrate.
+
+        Args:
+            substrate (numpy.ndarray): The substrate to compute the statistics of the holes in.
+
+        Returns:
+            tuple: A tuple containing the number of holes, the average hole size, the maximum hole size, and the minimum hole size.
+        """
+        def depth_first_search(row, col):
+            # Checking boundaries and if cell is a 0
+            if 0 <= row < len(substrate_copy) and 0 <= col < len(substrate_copy[0]) and substrate_copy[row][col] == 0:
+                substrate_copy[row][col] = -1
+                depth_first_search(row + 1, col)
+                depth_first_search(row - 1, col)
+                depth_first_search(row, col + 1)
+                depth_first_search(row, col - 1)
+
+        hole_counter = 0
+        hole_sizes = []
+        substrate_copy = substrate.copy()
+
+        for i in range(len(substrate_copy)):
+            for j in range(len(substrate_copy[0])):
+                if substrate_copy[i][j] == 0:
+                    hole_size = 0
+                    depth_first_search(i, j)
+                    for k in range(len(substrate_copy)):
+                        for l in range(len(substrate_copy[0])):
+                            if substrate_copy[k][l] == -1:
+                                hole_size += 1
+                                substrate_copy[k][l] = 0
+                    hole_sizes.append(hole_size)
+                    hole_counter += 1
+
+        return hole_counter, np.mean(hole_sizes), np.max(hole_sizes), np.min(hole_sizes)
+
     def count_holes_stack(self, frame_id=None, verbose=False):
         """
         Counts the number of holes in the substrate
