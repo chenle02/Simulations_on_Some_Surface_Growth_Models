@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
-# #!/bin/bash
+#PBS -N your_job_name
+#PBS -l select=2:ncpus=48:mem=48gb
+#PBS -l walltime=48:00:00
+#PBS -j oe
+#PBS -o your_job_name.log
 if [[ $# -eq 0 ]] || [[ "" == "--help" ]]
 then
   echo ""
