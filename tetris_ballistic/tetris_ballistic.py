@@ -1806,10 +1806,10 @@ class Tetris_Ballistic:
             progress_percentage = ((i + 1) / total_iterations) * 100
             print(f"Progress in computing the slopes: {progress_percentage:.2f}%", end='\r')
 
-            log_time = np.log(current_time[-1])
-            log_interface = np.log(current_interface)
+            log_time = np.log10(current_time[-1])
+            log_interface = np.log10(current_interface)
 
-            slope, _ = np.polyfit(np.log(current_time), log_interface, 1)
+            slope, _ = np.polyfit(np.log10(current_time), log_interface, 1)
 
             self.log_time_slopes[i] = [log_time, slope]
 
@@ -1823,8 +1823,8 @@ class Tetris_Ballistic:
         Return:
             None
         """
-        logtime = np.log(np.array(range(1, self.FinalSteps + 1)))
-        logfluc = np.log(self.Fluctuation[0:self.FinalSteps])
+        logtime = np.log10(np.array(range(1, self.FinalSteps + 1)))
+        logfluc = np.log10(self.Fluctuation[0:self.FinalSteps])
 
         array_data = np.array([[
             self.config_data[f"Piece-{i}"][0],
@@ -1839,6 +1839,7 @@ class Tetris_Ballistic:
         ax.set_ylabel("Log-Fluctuation")
         # Add a straight line to the plot for the slope 1/3
         ax.plot(logtime, 1 / 3 * logtime, label="Slope 1/3", linestyle="--", color="red")
+        ax.plot(logtime, 1 / 2 * logtime, label="Slope 1/2", linestyle="-.", color="blue")
         # Add the legend
         ax.legend(loc="best")
 

@@ -186,3 +186,5 @@ Experiments/exp3/*.yaml
 tests/sweepparameters/*.yaml
 
 tests/simulation/tmp
+Experiments/exp4
+Experiments/exp5
