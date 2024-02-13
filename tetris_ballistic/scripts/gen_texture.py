@@ -28,35 +28,37 @@ def add_high_contrast_border(original_image_path, border_size=5, border_color='r
 
 original_image_path = "../data/"
 
-# Process all PNG files in the specified directory
-for original_image_path in glob.glob(f'{original_image_path}*.png'):
-    print(f"Processing {original_image_path}")
-    add_high_contrast_border(original_image_path)
+# Below is in the correct order.
+images_filename = []
+images_filename.append("Tetromino_O_Single.png")
+images_filename.append("Tetromino_I_Horizontal.png")
+images_filename.append("Tetromino_I_Vertical.png")
+images_filename.append("Tetromino_L_Up.png")
+images_filename.append("Tetromino_L_Left.png")
+images_filename.append("Tetromino_L_Down.png")
+images_filename.append("Tetromino_L_Right.png")
+images_filename.append("Tetromino_J_Up.png")
+images_filename.append("Tetromino_J_Left.png")
+images_filename.append("Tetromino_J_Down.png")
+images_filename.append("Tetromino_J_Right.png")
+images_filename.append("Tetromino_T_Up.png")
+images_filename.append("Tetromino_T_Left.png")
+images_filename.append("Tetromino_T_Down.png")
+images_filename.append("Tetromino_T_Right.png")
+images_filename.append("Tetromino_S_Horizontal.png")
+images_filename.append("Tetromino_S_Vertical.png")
+images_filename.append("Tetromino_Z_Horizontal.png")
+images_filename.append("Tetromino_Z_Vertical.png")
+images_filename.append("Tetromino_1x1_Single.png")
 
+print("Here is the list pieces:")
+for i in range(20):
+    print(f"Piece-{i}: {images_filename[i]}")
 
-# def add_sticky_texture_to_file(original_image_path):
-#     # Open the original and texture images
-#     original = Image.open(original_image_path).convert("RGBA")
-#     texture = Image.open(original_image_path).convert("RGBA")
-#
-#     # Resize texture to match original image size
-#     texture = texture.resize(original.size)
-#
-#     # Blend the original and the texture
-#     sticky = Image.blend(original, texture, alpha=0.5)  # Adjust alpha for desired effect
-#
-#     # Generate new filename with '_texture'
-#     base, ext = os.path.splitext(original_image_path)
-#     new_filename = f"{base}_texture{ext}"
-#
-#     # Save the modified image
-#     sticky.save(new_filename)
-#     print(f"Processed {original_image_path} -> {new_filename}")
-#
-#
-# original_image_path = "../data/"
-#
-# # Process all PNG files in the current directory
-# for original_image_path in glob.glob(f'{original_image_path}*.png'):
-#     print(f"Processing {original_image_path}")
-#     add_sticky_texture_to_file(original_image_path)
+for filename in images_filename:
+    print(f"Processing {filename}")
+    add_high_contrast_border(f"{original_image_path}{filename}")
+
+for i in range(20):
+    print(images_filename[i])
+
