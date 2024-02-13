@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 
 This module simulates the surface growth by Tetris pieces. It includes
@@ -13,6 +12,7 @@ By Le Chen, Mauricio Montes and Ian Ruau
 """
 
 import numpy as np
+# import cupy as np
 import random
 import yaml
 import re
@@ -20,6 +20,7 @@ import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 import imageio
 import os
+import joblib
 from functools import partial
 # from RD_CLI import Envelop, interface_width
 np.set_printoptions(threshold=np.inf)  # Make sure that print() displays the entire array
@@ -41,11 +42,39 @@ class Tetris_Ballistic:
     default, all pieces are sticky.
 
     Args:
-        width (int): The width of the game grid. Default is 16.
-        height (int): The height of the game grid. Default is 32.
-        steps (int): The number of steps to simulate. Default is 30.
+        width (int): The width of the game grid (multiple of 5). Default is 20.
+        height (int): The height of the game grid. Default is 20.
+        steps (int): The number of steps to simulate. Default is 400.
         seed (int, optional): The seed for random number generation. If None, randomness is not controlled.
+        density (dict, optional): The density of each piece. If None, uniform distribution is used.
         config_file (str, optional): The path to a YAML configuration file to be loaded. If None, default configuration is used.
+
+    Note:
+        1. Here is one example of density:
+            >>> density = {'Piece-0': [0, 1],
+                        'Piece-1': [0, 1],
+                        'Piece-2': [0, 1],
+                        'Piece-3': [0, 1],
+                        'Piece-4': [0, 1],
+                        'Piece-5': [0, 1],
+                        'Piece-6': [0, 1],
+                        'Piece-7': [0, 1],
+                        'Piece-8': [0, 1],
+                        'Piece-9': [0, 1],
+                        'Piece-10': [0, 1],
+                        'Piece-11': [0, 1],
+                        'Piece-12': [0, 1],
+                        'Piece-13': [0, 1],
+                        'Piece-14': [0, 1],
+                        'Piece-15': [0, 1],
+                        'Piece-16': [0, 1],
+                        'Piece-17': [0, 1],
+                        'Piece-18': [0, 1],
+                        'Piece-19': [0, 0]}
+
+        2. The data type for the substrate is np.uint32, which is a 32-bit
+        unsigned integer. The maximum value is 2^32 - 1 = 4294967295. Roughly
+        the maximum size of the substrate is 2^16 x 2^16 = 65536 x 65536.
 
     Example:
         >>> TB1 = Tetris_Ballistic(width=10, height=20, steps=100, seed=42)
@@ -83,10 +112,11 @@ class Tetris_Ballistic:
     """
 
     def __init__(self,
-                 width=16,
-                 height=32,
-                 steps=30,
+                 width=20,
+                 height=20,
+                 steps=400,
                  seed=None,
+                 density=None,
                  config_file=None):
         self.set_seed(seed)  # Set initial seed
 
@@ -99,10 +129,12 @@ class Tetris_Ballistic:
             self.seed = self.config_data['seed']
             self.set_seed(self.config_data.get('seed', None))  # Set seed from config if available
         else:
-            # Set default configuration if no file is provided or if load_config fails
-            print("No configure file, uniform distribution is set.")
-            self.config_data = {f"Piece-{i}": [0, 1] for i in range(19)}
-            self.config_data["Piece-19"] = [0, 1]  # 1x1 piece
+            if density is not None:
+                self.config_data = density.copy()
+            else:
+                print("No configure file, uniform distribution is set.")
+                self.config_data = {f"Piece-{i}": [0, 1] for i in range(19)}
+                self.config_data["Piece-19"] = [0, 0]  # 1x1 piece
             self.config_data["steps"] = steps
             self.steps = steps
             self.config_data["width"] = width
@@ -113,7 +145,7 @@ class Tetris_Ballistic:
             self.seed = seed
 
         self.FinalSteps = self.steps  # This is the final step number
-        self.substrate = np.zeros((self.height, self.width))
+        self.substrate = np.zeros((self.height, self.width), dtype=np.uint32)
         self.PieceMap = [[-1, -1] for _ in range(20)]
         self.PieceMap[0] = [0, 0]
         self.PieceMap[1] = [1, 0]
@@ -136,7 +168,7 @@ class Tetris_Ballistic:
         self.PieceMap[18] = [6, 1]
         self.PieceMap[19] = [7, 0]  # 1x1 piece
 
-        self.HeightDynamics = np.zeros((self.steps, self.width))
+        # self.HeightDynamics = np.zeros((self.steps, self.width), dtype=np.uint32)
         self.Fluctuation = np.zeros((self.steps))
         self.AvergeHeight = np.zeros((self.steps))
         self.log_time_slopes = None
@@ -280,29 +312,6 @@ class Tetris_Ballistic:
             print(f"Error in configuration file: {exc}")
             return False
 
-    def _represent_none(self, dumper, _):
-        """
-        Custom representer for formatting None in YAML as 'None'.
-        """
-        # return dumper.represent_scalar('tag:yaml.org,2002:null', 'None')
-        return dumper.represent_scalar('tag:yaml.org,2002:str', 'None')
-
-    def _represent_list(self, dumper, data):
-        """
-        Custom representer for formatting lists in YAML.
-        """
-        return dumper.represent_sequence(u'tag:yaml.org,2002:seq', data, flow_style=True)
-
-    def _extract_number(self, key):
-        """
-        Extracts the numeric part from the key.
-        """
-        if key.startswith("Piece-"):
-            match = re.search(r'(\d+)$', key)
-            return int(match.group()) if match else 0
-        else:
-            return float('inf')
-
     def save_config(self, filename):
         """
         Save configure file to a YAML file
@@ -319,11 +328,34 @@ class Tetris_Ballistic:
         Returns:
             None
         """
+        def _extract_number(key):
+            """
+            Extracts the numeric part from the key.
+            """
+            if key.startswith("Piece-"):
+                match = re.search(r'(\d+)$', key)
+                return int(match.group()) if match else 0
+            else:
+                return float('inf')
+
+        def _represent_none(dumper, _):
+            """
+            Custom representer for formatting None in YAML as 'None'.
+            """
+            # return dumper.represent_scalar('tag:yaml.org,2002:null', 'None')
+            return dumper.represent_scalar('tag:yaml.org,2002:str', 'None')
+
+        def _represent_list(dumper, data):
+            """
+            Custom representer for formatting lists in YAML.
+            """
+            return dumper.represent_sequence(u'tag:yaml.org,2002:seq', data, flow_style=True)
+
         try:
             with open(filename, 'w') as file:
                 # Add custom list representer to the YAML dumper
-                yaml.add_representer(type(None), self._represent_none)
-                yaml.add_representer(list, self._represent_list)
+                yaml.add_representer(type(None), _represent_none)
+                yaml.add_representer(list, _represent_list)
 
                 # Handle None values correctly
                 formatted_data = {k: v if v is not None else None for k, v in self.config_data.items()}
@@ -333,7 +365,7 @@ class Tetris_Ballistic:
                 other_data = {k: v for k, v in formatted_data.items() if not k.startswith("Piece-")}
 
                 # Sort the 'Piece-' entries by their numeric value
-                sorted_piece_data = dict(sorted(piece_data.items(), key=lambda item: self._extract_number(item[0])))
+                sorted_piece_data = dict(sorted(piece_data.items(), key=lambda item: _extract_number(item[0])))
 
                 # Combine the sorted data
                 combined_data = {**other_data, **sorted_piece_data}
@@ -353,7 +385,6 @@ class Tetris_Ballistic:
 
         - self.substrate
         - self.FinalSteps
-        - self.HeightDynamics
         - self.Fluctuation
         - self.AvergeHeight
         - self.log_time_slopes
@@ -363,13 +394,13 @@ class Tetris_Ballistic:
         """
         self.substrate = np.zeros((self.height, self.width))
         self.FinalSteps = self.steps
-        self.HeightDynamics = np.zeros((self.steps, self.width))
+        # self.HeightDynamics = np.zeros((self.steps, self.width))
         self.Fluctuation = np.zeros((self.steps))
         self.AvergeHeight = np.zeros((self.steps))
         self.log_time_slopes = None
         print("Substrate along with all statistics have been reset to all zeros.")
 
-    def Sample_Tetris(self):
+    def Sample_Tetris(self, verbose=False):
         """
         Sampling the Tetris piece according to the configuration file
         -------------------------------------------------------------
@@ -425,6 +456,9 @@ class Tetris_Ballistic:
         19                (7, 0) (7, 1) (7, 2) (7, 3)
         ================  ===============================
 
+
+        Args:
+            verbose (bool): Whether to print the sampled piece or not. (Default: False)
         Returns:
             Update (callable): The function to be called to update the substrate.
             Piece_id (int): The Id of the piece (0-19).
@@ -454,15 +488,20 @@ class Tetris_Ballistic:
 
         Type_id, rot = self.PieceMap[Piece_id]
 
-        print(f"Sampled (Type_id, rot, Sticky, Update_Function): ({Type_id}, {rot}, {Sticky}), {self.UpdateCall[sample_index].__name__}")
+        if verbose:
+            print(f"Sampled (Type_id, rot, Sticky, Update_Function): ({Type_id}, {rot}, {Sticky}), {self.UpdateCall[sample_index].__name__}")
+
         Update = self.UpdateCall[sample_index]
 
         return Update, Type_id, rot, Sticky
 
-    def Simulate(self):
+    def Simulate(self, compute_slope=False):
         """
         Start the simulation
         --------------------
+
+        Args:
+            compute_slope (bool): Whether to compute the slope of the surface or not. (Default: False)
 
         Return:
             None
@@ -475,7 +514,10 @@ class Tetris_Ballistic:
             if i == -1:
                 print("Game Over, reach the top")
                 break
-        self.ComputeSlope()
+
+        if compute_slope:
+            self.ComputeSlope()
+
         self.PrintStatus(brief=True)
 
     def _ffnz(self, column):
@@ -972,8 +1014,8 @@ class Tetris_Ballistic:
 
                 landing_row_outright = self._ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self.height
                 landing_row_pivot = self._ffnz(position)
-                landing_row_left1 = self._ffnz(position - 1) if position > 1 else self.height
-                landing_row_left2 = self._ffnz(position - 2) if position > 2 else self.height
+                landing_row_left1 = self._ffnz(position - 1) + 1 if position > 1 else self.height
+                landing_row_left2 = self._ffnz(position - 2) + 1 if position > 2 else self.height
                 landing_row_outleft = self._ffnz(position - 3) + 2 if position > 3 and sticky else self.height
 
                 # Find minimum landing row
@@ -1487,6 +1529,8 @@ class Tetris_Ballistic:
         """
         This function simulates the Tetris Decomposition model on a substrate.
 
+        This function is obsolete and is only used for testing purposes.
+
         Args:
             steps  (int): The steps to simulate.
 
@@ -1532,6 +1576,27 @@ class Tetris_Ballistic:
 
         print(self.substrate)
 
+    def _TopEnvelop(self, step):
+        """
+        Compute the top envelope of a substrate of a given step.
+
+        Args:
+            step (int): The step number of the substrate.
+
+        Returns:
+            numpy.ndarray (np.uint32): The top envelope of the substrate.
+        """
+        work_substrate = np.copy(self.substrate)
+        work_substrate[self.substrate > step] = 0
+        top_envelope = np.zeros(self.width)
+        for pos in range(self.width):
+            if np.any(work_substrate[:, pos] > 0):  # If there's any nonzero value in the column
+                top_envelope[pos] = np.argmax(work_substrate[:, pos] > 0) - 1
+            else:
+                top_envelope[pos] = self.height - 1
+
+        return top_envelope
+
     def _UpdateStatus(self, step):
         """
         Compute the top envelope of a substrate.
@@ -1545,14 +1610,15 @@ class Tetris_Ballistic:
         Returns:
             None
         """
-        top_envelope = np.zeros(self.width)
-        for pos in range(self.width):
-            if np.any(self.substrate[:, pos] > 0):  # If there's any nonzero value in the column
-                top_envelope[pos] = np.argmax(self.substrate[:, pos] > 0) - 1
-            else:
-                top_envelope[pos] = self.height - 1
+        # top_envelope = np.zeros(self.width)
+        # for pos in range(self.width):
+        #     if np.any(self.substrate[:, pos] > 0):  # If there's any nonzero value in the column
+        #         top_envelope[pos] = np.argmax(self.substrate[:, pos] > 0) - 1
+        #     else:
+        #         top_envelope[pos] = self.height - 1
+        top_envelope = self._TopEnvelop(step + 1)
 
-        self.HeightDynamics[step] = top_envelope
+        # self.HeightDynamics[step] = top_envelope
         average = np.mean(top_envelope)
         self.AvergeHeight[step] = average
 
@@ -1560,6 +1626,130 @@ class Tetris_Ballistic:
         for pos in range(self.width):
             self.Fluctuation[step] += np.power(top_envelope[pos] - average, 2) / self.width
         self.Fluctuation[step] = np.sqrt(self.Fluctuation[step])
+
+    def count_holes(self):
+        """
+        Counts the number of holes in the substrate
+        --------------------------------------------
+
+        A hole is defined as a collection of zero entries in the substrate that
+        has a boundary of nonzero entries surrounding it.
+
+        Args:
+            substrate (numpy.ndarray): The substrate to count the holes in.
+
+        Returns:
+            int: The number of holes in the substrate.
+        """
+        def depth_first_search(row, col):
+            # Checking boundaries and if cell is a 0
+            if 0 <= row < len(substrate_copy) and 0 <= col < len(substrate_copy[0]) and substrate_copy[row][col] == 0:
+                substrate_copy[row][col] = -1
+                depth_first_search(row + 1, col)
+                depth_first_search(row - 1, col)
+                depth_first_search(row, col + 1)
+                depth_first_search(row, col - 1)
+
+        hole_counter = 0
+        substrate_copy = self.substrate.copy()
+
+        for i in range(len(substrate_copy)):
+            for j in range(len(substrate_copy[0])):
+                if substrate_copy[i][j] == 0:
+                    depth_first_search(i, j)
+                    hole_counter += 1
+
+        return hole_counter
+
+    def hole_statistics(self, substrate):
+        """
+        Computes the statistics of the holes in the substrate.
+
+        Args:
+            substrate (numpy.ndarray): The substrate to compute the statistics of the holes in.
+
+        Returns:
+            tuple: A tuple containing the number of holes, the average hole size, the maximum hole size, and the minimum hole size.
+        """
+        def depth_first_search(row, col):
+            # Checking boundaries and if cell is a 0
+            if 0 <= row < len(substrate_copy) and 0 <= col < len(substrate_copy[0]) and substrate_copy[row][col] == 0:
+                substrate_copy[row][col] = -1
+                depth_first_search(row + 1, col)
+                depth_first_search(row - 1, col)
+                depth_first_search(row, col + 1)
+                depth_first_search(row, col - 1)
+
+        hole_counter = 0
+        hole_sizes = []
+        substrate_copy = substrate.copy()
+
+        for i in range(len(substrate_copy)):
+            for j in range(len(substrate_copy[0])):
+                if substrate_copy[i][j] == 0:
+                    hole_size = 0
+                    depth_first_search(i, j)
+                    for k in range(len(substrate_copy)):
+                        for l in range(len(substrate_copy[0])):
+                            if substrate_copy[k][l] == -1:
+                                hole_size += 1
+                                substrate_copy[k][l] = 0
+                    hole_sizes.append(hole_size)
+                    hole_counter += 1
+
+        return hole_counter, np.mean(hole_sizes), np.max(hole_sizes), np.min(hole_sizes)
+
+    def count_holes_stack(self, frame_id=None, verbose=False):
+        """
+        Counts the number of holes in the substrate
+        --------------------------------------------
+
+        A hole is defined as a collection of zero entries in the substrate that
+        has a boundary of nonzero entries surrounding it.
+
+        Args:
+           frame_id (int): The frame id to count the holes in. If None, the last farm will be used.
+           verbose (bool): Whether to print out the result.
+
+        Returns:
+            int: The number of holes in the substrate.
+        """
+        if self.substrate.size == 0:
+            return 0
+
+        vis_substrate = np.copy(self.substrate)
+        if frame_id is None:
+            frame_id = self.FinalSteps  # Use self.FinalSteps if frame_id is not provided
+        else:
+            # filter out the values greater than the current frame_id
+            vis_substrate[self.substrate > frame_id] = 0
+
+        visited = np.zeros_like(vis_substrate, dtype=bool)
+
+        def dfs_stack(r, c):
+            stack = [(r, c)]
+            while stack:
+                r, c = stack.pop()
+                if r < 0 or c < 0 or r >= self.height or c >= self.width or visited[r][c] or vis_substrate[r][c] != 0:
+                    continue
+                visited[r][c] = True
+                # Add adjacent cells to stack
+                stack.append((r + 1, c))
+                stack.append((r - 1, c))
+                stack.append((r, c + 1))
+                stack.append((r, c - 1))
+
+        hole_count = 0
+        for r in range(self.height):
+            for c in range(self.width):
+                if vis_substrate[r][c] == 0 and not visited[r][c]:
+                    dfs_stack(r, c)
+                    hole_count += 1
+
+        if verbose:
+            print(f"Hole count: {hole_count} at the end of step {frame_id}.")
+
+        return hole_count
 
     def PrintStatus(self, brief=False):
         """
@@ -1583,7 +1773,8 @@ class Tetris_Ballistic:
 
         if not brief:
             print(f"Substrate:\n {self.substrate}")
-            print(f"Height Dynamics:\n {self.HeightDynamics}")
+            # if self.HeightDynamics is not None:
+            #     print(f"Height Dynamics:\n {self.HeightDynamics}")
             print(f"Average Height:\n {self.AvergeHeight}")
             print(f"Fluctuation:\n {self.Fluctuation}")
 
@@ -1597,31 +1788,34 @@ class Tetris_Ballistic:
         This function computes the slope of the substrate and returns
         a 2-D array with log_time and corresponding slopes.
 
-        The computation starts from the 1/10 of the total steps and we sample
+        The computation starts from step 10 till the total steps and we sample
         at most 100 points.
 
         Return: None
         """
+        if self.FinalSteps < 10:
+            print("The number of steps is too small to compute the slope (at least 10 steps).")
+            self.log_time_slopes = None
+            return
+
         time = np.array(range(1, self.FinalSteps + 1))
-        quarter_length = len(time) // 10
-        step_size = max(1, (len(time) - quarter_length) // 100)
-        num_samples = len(range(quarter_length, len(time), step_size))
+        Intial_Step = 10
+        step_size = max(1, (len(time) - Intial_Step) // 100)
+        num_samples = len(range(Intial_Step, len(time), step_size))
 
         # Initialize an empty 2D array for log_times and slopes
-        self.log_time_slopes = np.empty((num_samples, 2))
+        self.log_time_slopes = np.empty((num_samples, 2), dtype=float)
 
-        print("Computing the slopes now...")
+        print("Computing the slopes now...\n")
 
-        total_iterations = len(range(quarter_length, len(time), step_size))
-        for i, end in enumerate(range(quarter_length, len(time), step_size)):
+        total_iterations = len(range(Intial_Step, len(time), step_size))
+        for i, end in enumerate(range(Intial_Step, len(time), step_size)):
             current_time = time[:end]
             current_interface = self.Fluctuation[:end]
 
             # Calculate the progress percentage
             progress_percentage = ((i + 1) / total_iterations) * 100
-
-            # Print the progress
-            print(f"Progress: {progress_percentage:.2f}%", end='\r')
+            print(f"Progress in computing the slopes: {progress_percentage:.2f}%", end='\r')
 
             log_time = np.log(current_time[-1])
             log_interface = np.log(current_interface)
@@ -1630,12 +1824,19 @@ class Tetris_Ballistic:
 
             self.log_time_slopes[i] = [log_time, slope]
 
+    def PlotStat(self, fig_filename="stat.png"):
+        """
+        ....
+        """
+        print(fig_filename)
+
     def visualize_simulation(self,
                              plot_title="",
                              rate=4,
-                             video_filename="simulation.mp4",
+                             video_filename="simulation.gif",
                              envelop=False,
-                             show_average=False):
+                             show_average=False,
+                             aspect="auto"):
         """
         Visualize the particle deposition simulation and generate a video
         -----------------------------------------------------------------
@@ -1645,7 +1846,7 @@ class Tetris_Ballistic:
         directly as a NumPy array. When a filename is provided as a string, it
         loads the substrate data from the file. The function supports
         visualizing the top envelope and average height of the deposited
-        particles. The final output is saved as an mp4 video file.
+        particles. The final output is saved as an gif video file.
 
         Parameters
         ----------
@@ -1653,17 +1854,23 @@ class Tetris_Ballistic:
             The title of the plot.
         rate : int, optional (default: 4)
             The frame rate for the video.
-        video_filename : str, optional (default: "simulation.mp4")
-            The output video filename.
+        video_filename : str, optional (default: "simulation.gif")
+            The output video filename (mp4 or gif).
         envelop : bool, optional (default: False)
             Flag to indicate whether to show the top envelope.
         show_average : bool, optional (default: False)
             Flag to indicate whether to show the average height.
+        aspect : str, optional (default: "auto"),
+            Aspect ratio for the figure, other choices could be "equal", 1, or 2 etc...
 
         Returns
         -------
             None
         """
+        extension = os.path.splitext(video_filename)[1]
+        if extension not in [".gif", ".mp4"]:
+            raise ValueError(f"Unsupported video format: {extension}")
+
         steps = self.FinalSteps
 
         # Create a custom colormap with gray as the background color
@@ -1674,12 +1881,13 @@ class Tetris_Ballistic:
 
         # Visualization setup
         # Adjust the width and height as needed
-        fig, ax = plt.subplots(figsize=(12, 8))
+        fig, ax = plt.subplots(figsize=(10 * self.width / self.height, 10))
+        fig.tight_layout()
         frames = []
 
         # steps = 100  # for debug only
         # Simulation
-        for step in range(1, steps + 1):
+        for step in range(1, steps):
             # Create a copy of the substrate for visualization
             vis_substrate = np.copy(self.substrate)
 
@@ -1691,14 +1899,16 @@ class Tetris_Ballistic:
             ax.imshow(
                 vis_substrate,
                 cmap=custom_colormap,
-                aspect="auto",
+                interpolation="nearest",
+                aspect=aspect,
                 norm=mcolors.Normalize(vmin=0, vmax=steps),
             )
 
+            top_envelope = self._TopEnvelop(step)
             if envelop:
                 # Compute and plot the top envelope
                 ax.plot(range(self.width),
-                        self.HeightDynamics[step],
+                        top_envelope,
                         color="red",
                         linewidth=2)
 
@@ -1730,9 +1940,131 @@ class Tetris_Ballistic:
             if step % 100 == 0:
                 print(f"Step: {step} / {steps}")
 
-        # Save frames as an MP4 video with the same base filename
-        video_filename = os.path.splitext(video_filename)[0] + ".mp4"
-        imageio.mimsave(video_filename, frames, fps=rate)
+        match extension:
+            case ".gif":
+                duration = 1000 / rate
+                imageio.mimsave(video_filename, frames, duration=duration)
+            case ".mp4":
+                imageio.mimsave(video_filename, frames, fps=rate)
+
+    def Substrate2PNG(self,
+                      plot_title="",
+                      frame_id=None,
+                      image_filename=None,
+                      envelop=False,
+                      show_average=False,
+                      aspect='auto'):
+        """
+        Convert the current substrate to a PNG file
+        -------------------------------------------
+
+        Parameters
+        ----------
+        plot_title : str, optional (default: "")
+            The title of the plot.
+        frame_id : int, optional (default: None)
+            The frame number to be saved. If the value is None, then the frame_id is set to be self.FinalSteps.
+        image_filename : str, optional (default: None)
+            The file name of the output png image file. If the value is None, then the filename is set to be frame_{frame_id}.png.
+        envelop : bool, optional (default: False)
+            Flag to indicate whether to show the top envelope.
+        show_average : bool, optional (default: False)
+            Flag to indicate whether to show the average height.
+        aspect : str, optional (default: "auto"),
+            Aspect ratio for the figure, other choices could be "equal", 1, or 2 etc...
+
+        Returns
+        -------
+            None
+        """
+        vis_substrate = np.copy(self.substrate)
+        if frame_id is None:
+            frame_id = self.FinalSteps  # Use self.FinalSteps if frame_id is not provided
+        else:
+            # filter out the values greater than the current frame_id
+            vis_substrate[self.substrate > frame_id] = 0
+
+        if image_filename is None:
+            image_filename = f"frame_{frame_id}.png"  # Dynamically set the filename
+
+        steps = frame_id
+
+        # Create a custom colormap with gray as the background color
+        colors = [(0.8, 0.8, 0.8)] + [plt.cm.viridis(i) for i in range(plt.cm.viridis.N)]
+        custom_colormap = mcolors.LinearSegmentedColormap.from_list("custom", colors, N=steps + 1)
+
+        # Visualization setup
+        fig, ax = plt.subplots(figsize=(10 * self.width / self.height, 10))
+        fig.tight_layout()
+
+        # Visualize the final state
+        ax.imshow(vis_substrate,
+                  cmap=custom_colormap,
+                  interpolation="nearest",
+                  aspect=aspect,
+                  norm=mcolors.Normalize(vmin=0, vmax=steps))
+
+        if envelop:
+            # Compute and plot the top envelope
+            top_envelope = self._TopEnvelop(frame_id)
+            ax.plot(range(self.width),
+                    top_envelope,
+                    color="red",
+                    linewidth=2)
+
+        if show_average:
+            # print(f"Average height: {average}")
+            ax.axhline(y=self.AvergeHeight[frame_id],
+                       color="black",
+                       linewidth=2)
+
+        ax.set_title(f"{plot_title}")
+
+        # Adjust labels and ticks as needed
+        ax.set_ylabel("Height", rotation=90, labelpad=20, verticalalignment="center")
+        ax.set_xlabel("Substrate", labelpad=8)
+
+        # Save the final frame as a PNG image
+        plt.savefig(image_filename)
+        plt.close()
+
+    def save_simulation(self, filename="TB.joblib"):
+        """
+        Dump the class instance to a file using joblib.
+
+        Args:
+            - filename: str, the path to the file where to dump the class instance. (Default: "TB.joblib")
+
+        Returns:
+            None
+        """
+        # # Temporarily remove self.HeightDynamics to save some disk space
+        # temp_height_dynamics = self.HeightDynamics
+        # self.HeightDynamics = None  # or np.array([]) if you prefer to keep the attribute but empty
+
+        joblib.dump(self, filename)
+        print(f"Data dumped to {filename}")
+
+        # Restore self.HeightDynamics
+        # self.HeightDynamics = temp_height_dynamics
+
+    @staticmethod
+    def load_simulation(filename):
+        """
+        Load a Tetris_Ballistic class instance from a file using joblib.
+
+        Args:
+            - filename: str, the path to the file from which to load the class instance.
+
+        Returns:
+            - The loaded Tetris_Ballistic class instance.
+
+        Example:
+
+        >>> tetris_simulator = Tetris_Ballistic.load_simulation("TB.joblib")
+
+        """
+        return joblib.load(filename)
 
 
 def _create_partial(func, *args, **kwargs):
@@ -1759,9 +2091,12 @@ def _create_partial(func, *args, **kwargs):
     partial_func.__name__ = f"{func.__name__} args={args} kwargs={kwargs}"
     return partial_func
 
+
 # Example usage
 # tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=1000, seed=42)
 # tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=10, seed=42)
+# tetris_simulator.Simulate()
+# tetris_simulator.ComputeSlope()
 # tetris_simulator.save_config("save_config.yaml")
 # tetris_simulator.Test_All()
 # tetris_simulator.Sample_Tetris()

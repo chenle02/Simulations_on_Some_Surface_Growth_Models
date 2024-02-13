@@ -1,99 +1,70 @@
+
+[![Publish Python Package to PyPI](https://github.com/chenle02/Simulations_on_Some_Surface_Growth_Models/actions/workflows/workflow.yml/badge.svg?branch=main)](https://github.com/chenle02/Simulations_on_Some_Surface_Growth_Models/actions/workflows/workflow.yml)
+
 # Simulations on Some Surface Growth Models
-This repo contains some simulations for some surface growth models. It comes out of a final exam project for Math-7820 (Applied Stochastic Processes) Fall 2023 at Auburn.
 
-## Scripts
-1. `RD_CLI.py`
-```shell
-❯ ./RD_CLI.py --help
-usage: RD_CLI.py [-h] [-w WIDTH] [-e HEIGHT] [-s STEPS] [--relax] [--BD] [-m]
+![Sticky Tetris](./tests/simulation/config_Tetris_Sticky.gif)
 
-    Simulate Random Deposition on a substrate.
-    Outputs: 1. Substrate_WIDTHxHEIGHT_Particles=STEPS_[Relaxed/BD].txt
-                A text file for the substrate.
-             2. Statistical figures, loglog plot for the interface width and the estimated slope.
+This repository contains simulations for various surface growth models,
+developed initially as a final exam project for Math-7820 (Applied Stochastic
+Processes I), Fall 2023 at Auburn University. It was further expanded as a
+course project for Math-7830 (Applied Stochastic Processes II), Spring 2024.
+More information about the courses can be found here: [Math-7820 Fall
+2023](http://webhome.auburn.edu/~lzc0090/teaching/2023_Fall_Math7820/).
 
-    Author: Le Chen (le.chen@auburn.edu, chenle02@gmail.com)
-    Date: 2023-10-22
+These simulations provide insights into the dynamics and characteristics of
+surface growth processes, inspired by theoretical models and real-world
+applications.
 
+## Features
 
+- Comprehensive simulations of different surface growth models.
+- Easy-to-use interface for conducting and analyzing simulations.
+- Detailed documentation for understanding and extending the simulations.
 
-options:
-  -h, --help            show this help message and exit
-  -w WIDTH, --width WIDTH
-                        Width of the substrate (default: 100)
-  -e HEIGHT, --height HEIGHT
-                        Maximum height of the substrate (default: 60)
-  -s STEPS, --steps STEPS
-                        Number of particles to drop (default: 5000)
-  --relax               Surface Relaxation: go to the nearest lowest neighbor (default: False)
-  --BD                  Ballistic decomposition (default: False)
-  -m, --movie           Generate the mp4 movie (default: False)
-```
-2. `Visualize_RD.py`
-```
-❯ ./Visualize_RD.py --help
-usage: Visualize_RD.py [-h] -f FILE [-t TITLE] [-r RATE] [-e] [-a] [-p]
+## Install
 
-    Visualization the decomposition of particles on a substrate
-    Input: Substrate text file, produced by RD_CLI.py
-    Output: mp4 video
+To get started with these simulations, you can install the package using pip:
 
-    Author: Le Chen (le.chen@auburn.edu, chenle02@gmail.com)
-    Date: 2023-10-22
-
-
-
-options:
-  -h, --help            show this help message and exit
-  -f FILE, --file FILE  Path to the substrate
-  -t TITLE, --title TITLE
-                        Title of the plot (default: None)
-  -r RATE, --rate RATE  Rate per frame (default: 4)
-  -e, --envelop         Show the top envelop (default: False)
-  -a, --average         Show the average height (default: False)
-  -p, --play            Play the video after generation (default: False)
-
-
-```
-3. `tetris_complete.py`
+```bash
+pip install tetris-ballistic
 ```
 
-❯ python3 tetris_complete.py --help
-usage: tetris_complete.py [-h] [-w WIDTH] [-e HEIGHT] [-s STEPS]
+Pypi link: [here](https://pypi.org/project/tetris-ballistic/).
 
-    Simulate Random Deposition on a substrate.
-    Outputs: 1. Substrate_WIDTHxHEIGHT_Particles=STEPS_[Relaxed/BD].txt
-                A text file for the substrate.
-             2. Statistical figures, loglog plot for the interface width and the estimated slope.
+## Sample Usage
 
-    Author: Ian Ruau and Mauricio Mountes
-    Date: 2023-12-01
+To understand how to utilize this package, refer to the [tests](./tests) folder, which contains examples of potential usage within Python code.
 
+Here are some simulations [examples](examples.md)
 
+## Documentation
 
-options:
-  -h, --help            show this help message and exit
-  -w WIDTH, --width WIDTH
-                        Width of the substrate (default: 100)
-  -e HEIGHT, --height HEIGHT
-                        Maximum height of the substrate (default: 60)
-  -s STEPS, --steps STEPS
-                        Number of particles to drop (default: 5000)
+For detailed information about the package and its functionalities, visit our [Read the Docs](https://simulations-on-some-surface-growth-models.readthedocs.io/main/) page.
 
-```
+## How to Contribute
 
-# Documentation
+Contributions to this project are welcome! To contribute, please:
 
-* Documentation for the simulation on the random surface growth with Tetris pieces:
-    1. Stable version (the main branch) in HTML is hosted on [Le's homepage](http://webhome.auburn.edu/~lzc0090/Simulation_Tetris/html/) or on [Read the Docs](https://simulations-on-some-surface-growth-models.readthedocs.io/main/).
-    2. [Latest version](https://simulations-on-some-surface-growth-models.readthedocs.io/latest/) is pointing to the [Tetris_Domino branch](https://simulations-on-some-surface-growth-models.readthedocs.io/tetris_domino/), both are hosted on `Read the Docs`. 
-    3. You can also download the [pdf](./docs/pdf/surfacegrowthwithrandomtetrispieces.pdf).
+1. Fork the repository.
+2. Create a new branch for your feature.
+3. Add your changes and commit them.
+4. Push to the branch.
+5. Create a new pull request.
 
-* Documentation for the simulation on the solid on solid model will come soon.
+## References
 
-# References
 1. Le Chen's Graduate Student Seminar talk on surface growth models: [here](https://github.com/chenle02/Graduate_Student_Seminars_by_Le_Chen/blob/main/2023-11-01/readme.md).
 2. Barabási and Stanley, ''Fractal Concepts in Surface Growth'', Cambridge University Press, 1995.
 
-# License
-MIT License
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Contact
+
+For any queries or further discussion, feel free to contact us at 
+
+- Le Chen: [chenle02@gmail.com] or [le.chen@auburn.edu].
+- Ian Ruau: [ian.ruau@auburn.edu].
+- Mauricio Montes: [mauricio.montes@auburn.edu].

@@ -179,3 +179,10 @@ Share-Slides/
 Ballistic_decomposition/Ian_edits/.vimspector.json
 branches
 Branches
+Experiments/exp1
+Experiments/exp2
+Experiments/exp3/*.joblib
+Experiments/exp3/*.yaml
+tests/sweepparameters/*.yaml
+
+tests/simulation/tmp

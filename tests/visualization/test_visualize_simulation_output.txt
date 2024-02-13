@@ -102,3 +102,52 @@ First, the non-sticky case of Update_1x1 piece:
 Substrate along with all statistics have been reset to all zeros.
 Game Over, reach the top
 Step: 100 / 137
+First, the sticky case of Update_J piece:
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+First, the sticky case of Update_L piece:
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+First, the sticky case of Update_O piece:
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+First, the sticky case of Update_Z piece:
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+First, the sticky case of Update_T piece:
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+First, the sticky case of Update_S piece:
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+First, the sticky case of Update_I piece:
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+First, the sticky case of Update_1x1 piece:
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+First, the non-sticky case of Update_L piece:
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+First, the non-sticky case of Update_J piece:
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+First, the non-sticky case of Update_T piece:
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+First, the non-sticky case of Update_S piece:
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+First, the non-sticky case of Update_I piece:
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+First, the non-sticky case of Update_O piece:
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+First, the non-sticky case of Update_Z piece:
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+First, the non-sticky case of Update_1x1 piece:
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+Step: 100 / 158
