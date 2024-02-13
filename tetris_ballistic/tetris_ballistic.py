@@ -1826,9 +1826,14 @@ class Tetris_Ballistic:
         logtime = np.log(np.array(range(1, self.FinalSteps + 1)))
         logfluc = np.log(self.Fluctuation[0:self.FinalSteps])
 
+        array_data = np.array([[
+            self.config_data[f"Piece-{i}"][0],
+            self.config_data[f"Piece-{i}"][1]] for i in range(20)])
+
         # Create the plot
         fig, ax = plt.subplots(figsize=(10, 5))  # Use fig for the figure reference
         ax.plot(logtime, logfluc, label="Fluctuation")
+        # ax.set_title(f"{self.width}(w)x{self.height}(h) Substrate, Maximum Steps: {self.steps}, Final steps: {self.FinalSteps}, Seed: {self.seed}\n{array_data.transpose()}")
         ax.set_title(f"{self.width}(w)x{self.height}(h) Substrate, Maximum Steps: {self.steps}, Final steps: {self.FinalSteps}, Seed: {self.seed}")
         ax.set_xlabel("Log-Time")
         ax.set_ylabel("Log-Fluctuation")
@@ -1836,6 +1841,14 @@ class Tetris_Ballistic:
         ax.plot(logtime, 1 / 3 * logtime, label="Slope 1/3", linestyle="--", color="red")
         # Add the legend
         ax.legend(loc="best")
+
+        plt.text(0.6,
+                 0.20,
+                 f"{array_data.transpose()}",
+                 ha='center',
+                 va='center',
+                 transform=ax.transAxes,
+                 fontsize=10)
 
         # Check fig_filename to show or save the figure
         if fig_filename is not None:
