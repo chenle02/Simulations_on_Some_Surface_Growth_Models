@@ -34,3 +34,68 @@ if __name__ == "__main__":
                                  sticky=args.sticky,
                                  nonsticky=args.nonsticky,
                                  seed=args.seed)
+
+    parser = argparse.ArgumentParser(
+        description=main.__doc__,
+        formatter_class=argparse.RawTextHelpFormatter,
+    )
+    parser.add_argument(
+        "-w",
+        "--width",
+        type=int,
+        default=100,
+        help="Width of the substrate (default: 100)",
+    )
+    parser.add_argument(
+        "-e",
+        "--height",
+        type=int,
+        default=60,
+        help="Maximum height of the substrate (default: 60)",
+    )
+    parser.add_argument(
+        "-s",
+        "--steps",
+        type=int,
+        default=5000,
+        help="Number of particles to drop (default: 5000)",
+    )
+    parser.add_argument(
+        "-r",
+        "--relax",
+        action="store_true",
+        help="Surface Relaxation: go to the nearest lowest neighbor (default: False)",
+    )
+    parser.add_argument(
+        "-b",
+        "--BD",
+        action="store_true",
+        help="Ballistic decomposition (default: False)",
+    )
+    parser.add_argument(
+        "-m",
+        "--movie",
+        action="store_true",
+        help="Generate the mp4 movie (default: False)",
+    )
+    args = parser.parse_args()
+
+    Outputfile = ""
+    if args.relax:
+        Title = "Random Decomposition with Surface Relaxation"
+        Outputfile = Random_Deposition_Surface_Relaxation(
+            args.width, args.height, args.steps
+        )
+        print(Title)
+    elif args.BD:
+        Title = "Ballistic Decomposition"
+        Outputfile = Ballistic_Deposition(args.width, args.height, args.steps)
+        print(Title)
+    else:
+        Title = "Random Decomposition"
+        Outputfile = Random_Deposition(args.width, args.height, args.steps)
+        print(Title)
+
+    print("Computing the interface width...")
+    interface_width(Outputfile)
+
