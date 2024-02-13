@@ -128,7 +128,7 @@ class Tetris_Ballistic:
             self.width = int(self.config_data['width'])
             self.height = int(self.config_data['height'])
             self.seed = self.config_data['seed']
-            self.set_seed(self.config_data.get('seed', None))  # Set seed from config if available
+            self.set_seed(self.config_data.get('seed', None))
         else:
             if density is not None:
                 self.config_data = density.copy()
@@ -175,25 +175,25 @@ class Tetris_Ballistic:
         self.SampleDist = np.zeros([20, 2])
         self.log_time_slopes = None
         self.UpdateCall = [
-            _create_partial(self.Update_O, rot=0, sticky=False),  _create_partial(self.Update_O, rot=0, sticky=True),    # 0
-            _create_partial(self.Update_I, rot=0, sticky=False),  _create_partial(self.Update_I, rot=0, sticky=True),    # 1
-            _create_partial(self.Update_I, rot=1, sticky=False),  _create_partial(self.Update_I, rot=1, sticky=True),    # 2
-            _create_partial(self.Update_L, rot=0, sticky=False),  _create_partial(self.Update_L, rot=0, sticky=True),    # 3
-            _create_partial(self.Update_L, rot=1, sticky=False),  _create_partial(self.Update_L, rot=1, sticky=True),    # 4
-            _create_partial(self.Update_L, rot=2, sticky=False),  _create_partial(self.Update_L, rot=2, sticky=True),    # 5
-            _create_partial(self.Update_L, rot=3, sticky=False),  _create_partial(self.Update_L, rot=3, sticky=True),    # 6
-            _create_partial(self.Update_J, rot=0, sticky=False),  _create_partial(self.Update_J, rot=0, sticky=True),    # 7
-            _create_partial(self.Update_J, rot=1, sticky=False),  _create_partial(self.Update_J, rot=1, sticky=True),    # 8
-            _create_partial(self.Update_J, rot=2, sticky=False),  _create_partial(self.Update_J, rot=2, sticky=True),    # 9
-            _create_partial(self.Update_J, rot=3, sticky=False),  _create_partial(self.Update_J, rot=3, sticky=True),    # 10
-            _create_partial(self.Update_T, rot=0, sticky=False),  _create_partial(self.Update_T, rot=0, sticky=True),    # 11
-            _create_partial(self.Update_T, rot=1, sticky=False),  _create_partial(self.Update_T, rot=1, sticky=True),    # 12
-            _create_partial(self.Update_T, rot=2, sticky=False),  _create_partial(self.Update_T, rot=2, sticky=True),    # 13
-            _create_partial(self.Update_T, rot=3, sticky=False),  _create_partial(self.Update_T, rot=3, sticky=True),    # 14
-            _create_partial(self.Update_S, rot=0, sticky=False),  _create_partial(self.Update_S, rot=0, sticky=True),    # 15
-            _create_partial(self.Update_S, rot=1, sticky=False),  _create_partial(self.Update_S, rot=1, sticky=True),    # 16
-            _create_partial(self.Update_Z, rot=0, sticky=False),  _create_partial(self.Update_Z, rot=0, sticky=True),    # 17
-            _create_partial(self.Update_Z, rot=1, sticky=False),  _create_partial(self.Update_Z, rot=1, sticky=True),    # 18
+            _create_partial(self.Update_O, rot=0, sticky=False), _create_partial(self.Update_O, rot=0, sticky=True),    # 0
+            _create_partial(self.Update_I, rot=0, sticky=False), _create_partial(self.Update_I, rot=0, sticky=True),    # 1
+            _create_partial(self.Update_I, rot=1, sticky=False), _create_partial(self.Update_I, rot=1, sticky=True),    # 2
+            _create_partial(self.Update_L, rot=0, sticky=False), _create_partial(self.Update_L, rot=0, sticky=True),    # 3
+            _create_partial(self.Update_L, rot=1, sticky=False), _create_partial(self.Update_L, rot=1, sticky=True),    # 4
+            _create_partial(self.Update_L, rot=2, sticky=False), _create_partial(self.Update_L, rot=2, sticky=True),    # 5
+            _create_partial(self.Update_L, rot=3, sticky=False), _create_partial(self.Update_L, rot=3, sticky=True),    # 6
+            _create_partial(self.Update_J, rot=0, sticky=False), _create_partial(self.Update_J, rot=0, sticky=True),    # 7
+            _create_partial(self.Update_J, rot=1, sticky=False), _create_partial(self.Update_J, rot=1, sticky=True),    # 8
+            _create_partial(self.Update_J, rot=2, sticky=False), _create_partial(self.Update_J, rot=2, sticky=True),    # 9
+            _create_partial(self.Update_J, rot=3, sticky=False), _create_partial(self.Update_J, rot=3, sticky=True),    # 10
+            _create_partial(self.Update_T, rot=0, sticky=False), _create_partial(self.Update_T, rot=0, sticky=True),    # 11
+            _create_partial(self.Update_T, rot=1, sticky=False), _create_partial(self.Update_T, rot=1, sticky=True),    # 12
+            _create_partial(self.Update_T, rot=2, sticky=False), _create_partial(self.Update_T, rot=2, sticky=True),    # 13
+            _create_partial(self.Update_T, rot=3, sticky=False), _create_partial(self.Update_T, rot=3, sticky=True),    # 14
+            _create_partial(self.Update_S, rot=0, sticky=False), _create_partial(self.Update_S, rot=0, sticky=True),    # 15
+            _create_partial(self.Update_S, rot=1, sticky=False), _create_partial(self.Update_S, rot=1, sticky=True),    # 16
+            _create_partial(self.Update_Z, rot=0, sticky=False), _create_partial(self.Update_Z, rot=0, sticky=True),    # 17
+            _create_partial(self.Update_Z, rot=1, sticky=False), _create_partial(self.Update_Z, rot=1, sticky=True),    # 18
             _create_partial(self.Update_1x1, rot=0, sticky=False), _create_partial(self.Update_1x1, rot=0, sticky=True)  # 19
         ]
 
@@ -1754,12 +1754,12 @@ class Tetris_Ballistic:
         flattened_probabilities = probabilities.flatten()
         normalized_probabilities = flattened_probabilities / np.sum(flattened_probabilities)
         flattened_sampledist = self.SampleDist.flatten()
-        normalized_sampledist = flattened_sampledist / self.FinalSteps 
+        normalized_sampledist = flattened_sampledist / self.FinalSteps
         # Handle zero probabilities
         epsilon = 1e-10
-        normalized_probabilities = np.clip(normalized_probabilities, epsilon, 1) 
-        normalized_sampledist = np.clip(normalized_sampledist, epsilon, 1) 
-        Divergence = 1/2 * ( entropy(normalized_probabilities, normalized_sampledist) + entropy(normalized_sampledist, normalized_probabilities) )
+        normalized_probabilities = np.clip(normalized_probabilities, epsilon, 1)
+        normalized_sampledist = np.clip(normalized_sampledist, epsilon, 1)
+        Divergence = 1 / 2 * (entropy(normalized_probabilities, normalized_sampledist) + entropy(normalized_sampledist, normalized_probabilities))
         print(f"Jensen-Shannon Divergence: {Divergence:.4f}\n")
 
         if not brief:
@@ -1832,6 +1832,9 @@ class Tetris_Ballistic:
         ax.set_title(f"{self.width}(w)x{self.height}(h) Substrate, Maximum Steps: {self.steps}, Final steps: {self.FinalSteps}, Seed: {self.seed}")
         ax.set_xlabel("Log-Time")
         ax.set_ylabel("Log-Fluctuation")
+        # Add a straight line to the plot for the slope 1/3
+        ax.plot(logtime, 1 / 3 * logtime, label="Slope 1/3", linestyle="--", color="red")
+        # Add the legend
         ax.legend(loc="best")
 
         # Check fig_filename to show or save the figure
