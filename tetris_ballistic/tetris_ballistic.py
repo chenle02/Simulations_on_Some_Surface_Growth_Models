@@ -16,6 +16,7 @@ import numpy as np
 import random
 import yaml
 import re
+from scipy.stats import entropy
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 import imageio
@@ -127,7 +128,7 @@ class Tetris_Ballistic:
             self.width = int(self.config_data['width'])
             self.height = int(self.config_data['height'])
             self.seed = self.config_data['seed']
-            self.set_seed(self.config_data.get('seed', None))  # Set seed from config if available
+            self.set_seed(self.config_data.get('seed', None))
         else:
             if density is not None:
                 self.config_data = density.copy()
@@ -171,27 +172,28 @@ class Tetris_Ballistic:
         # self.HeightDynamics = np.zeros((self.steps, self.width), dtype=np.uint32)
         self.Fluctuation = np.zeros((self.steps))
         self.AvergeHeight = np.zeros((self.steps))
+        self.SampleDist = np.zeros([20, 2])
         self.log_time_slopes = None
         self.UpdateCall = [
-            _create_partial(self.Update_O, rot=0, sticky=False),  _create_partial(self.Update_O, rot=0, sticky=True),    # 0
-            _create_partial(self.Update_I, rot=0, sticky=False),  _create_partial(self.Update_I, rot=0, sticky=True),    # 1
-            _create_partial(self.Update_I, rot=1, sticky=False),  _create_partial(self.Update_I, rot=1, sticky=True),    # 2
-            _create_partial(self.Update_L, rot=0, sticky=False),  _create_partial(self.Update_L, rot=0, sticky=True),    # 3
-            _create_partial(self.Update_L, rot=1, sticky=False),  _create_partial(self.Update_L, rot=1, sticky=True),    # 4
-            _create_partial(self.Update_L, rot=2, sticky=False),  _create_partial(self.Update_L, rot=2, sticky=True),    # 5
-            _create_partial(self.Update_L, rot=3, sticky=False),  _create_partial(self.Update_L, rot=3, sticky=True),    # 6
-            _create_partial(self.Update_J, rot=0, sticky=False),  _create_partial(self.Update_J, rot=0, sticky=True),    # 7
-            _create_partial(self.Update_J, rot=1, sticky=False),  _create_partial(self.Update_J, rot=1, sticky=True),    # 8
-            _create_partial(self.Update_J, rot=2, sticky=False),  _create_partial(self.Update_J, rot=2, sticky=True),    # 9
-            _create_partial(self.Update_J, rot=3, sticky=False),  _create_partial(self.Update_J, rot=3, sticky=True),    # 10
-            _create_partial(self.Update_T, rot=0, sticky=False),  _create_partial(self.Update_T, rot=0, sticky=True),    # 11
-            _create_partial(self.Update_T, rot=1, sticky=False),  _create_partial(self.Update_T, rot=1, sticky=True),    # 12
-            _create_partial(self.Update_T, rot=2, sticky=False),  _create_partial(self.Update_T, rot=2, sticky=True),    # 13
-            _create_partial(self.Update_T, rot=3, sticky=False),  _create_partial(self.Update_T, rot=3, sticky=True),    # 14
-            _create_partial(self.Update_S, rot=0, sticky=False),  _create_partial(self.Update_S, rot=0, sticky=True),    # 15
-            _create_partial(self.Update_S, rot=1, sticky=False),  _create_partial(self.Update_S, rot=1, sticky=True),    # 16
-            _create_partial(self.Update_Z, rot=0, sticky=False),  _create_partial(self.Update_Z, rot=0, sticky=True),    # 17
-            _create_partial(self.Update_Z, rot=1, sticky=False),  _create_partial(self.Update_Z, rot=1, sticky=True),    # 18
+            _create_partial(self.Update_O, rot=0, sticky=False), _create_partial(self.Update_O, rot=0, sticky=True),    # 0
+            _create_partial(self.Update_I, rot=0, sticky=False), _create_partial(self.Update_I, rot=0, sticky=True),    # 1
+            _create_partial(self.Update_I, rot=1, sticky=False), _create_partial(self.Update_I, rot=1, sticky=True),    # 2
+            _create_partial(self.Update_L, rot=0, sticky=False), _create_partial(self.Update_L, rot=0, sticky=True),    # 3
+            _create_partial(self.Update_L, rot=1, sticky=False), _create_partial(self.Update_L, rot=1, sticky=True),    # 4
+            _create_partial(self.Update_L, rot=2, sticky=False), _create_partial(self.Update_L, rot=2, sticky=True),    # 5
+            _create_partial(self.Update_L, rot=3, sticky=False), _create_partial(self.Update_L, rot=3, sticky=True),    # 6
+            _create_partial(self.Update_J, rot=0, sticky=False), _create_partial(self.Update_J, rot=0, sticky=True),    # 7
+            _create_partial(self.Update_J, rot=1, sticky=False), _create_partial(self.Update_J, rot=1, sticky=True),    # 8
+            _create_partial(self.Update_J, rot=2, sticky=False), _create_partial(self.Update_J, rot=2, sticky=True),    # 9
+            _create_partial(self.Update_J, rot=3, sticky=False), _create_partial(self.Update_J, rot=3, sticky=True),    # 10
+            _create_partial(self.Update_T, rot=0, sticky=False), _create_partial(self.Update_T, rot=0, sticky=True),    # 11
+            _create_partial(self.Update_T, rot=1, sticky=False), _create_partial(self.Update_T, rot=1, sticky=True),    # 12
+            _create_partial(self.Update_T, rot=2, sticky=False), _create_partial(self.Update_T, rot=2, sticky=True),    # 13
+            _create_partial(self.Update_T, rot=3, sticky=False), _create_partial(self.Update_T, rot=3, sticky=True),    # 14
+            _create_partial(self.Update_S, rot=0, sticky=False), _create_partial(self.Update_S, rot=0, sticky=True),    # 15
+            _create_partial(self.Update_S, rot=1, sticky=False), _create_partial(self.Update_S, rot=1, sticky=True),    # 16
+            _create_partial(self.Update_Z, rot=0, sticky=False), _create_partial(self.Update_Z, rot=0, sticky=True),    # 17
+            _create_partial(self.Update_Z, rot=1, sticky=False), _create_partial(self.Update_Z, rot=1, sticky=True),    # 18
             _create_partial(self.Update_1x1, rot=0, sticky=False), _create_partial(self.Update_1x1, rot=0, sticky=True)  # 19
         ]
 
@@ -388,6 +390,7 @@ class Tetris_Ballistic:
         - self.Fluctuation
         - self.AvergeHeight
         - self.log_time_slopes
+        - self.SampleDist
 
         Returns:
             None
@@ -398,6 +401,7 @@ class Tetris_Ballistic:
         self.Fluctuation = np.zeros((self.steps))
         self.AvergeHeight = np.zeros((self.steps))
         self.log_time_slopes = None
+        self.SampleDist = np.zeros([20, 2])
         print("Substrate along with all statistics have been reset to all zeros.")
 
     def Sample_Tetris(self, verbose=False):
@@ -492,6 +496,8 @@ class Tetris_Ballistic:
             print(f"Sampled (Type_id, rot, Sticky, Update_Function): ({Type_id}, {rot}, {Sticky}), {self.UpdateCall[sample_index].__name__}")
 
         Update = self.UpdateCall[sample_index]
+
+        self.SampleDist[Piece_id, column] += 1
 
         return Update, Type_id, rot, Sticky
 
@@ -1770,13 +1776,34 @@ class Tetris_Ballistic:
         print(f"Steps: {self.steps}")
         print(f"Final Steps: {self.FinalSteps}")
         print(f"Seed: {self.seed}")
+        print("Tetris distribution:\n")
+        probabilities = np.array([self.config_data[f"Piece-{i}"] for i in range(20)])
+        total_sum = probabilities.sum()
+        print("Piece Id\t NS \t Sticky \t|\t Sample NS\t Sample Sticky\n")
+        for Piece_id in range(20):
+            print(f"{Piece_id:<9}\t",
+                  f"{self.config_data[f'Piece-{Piece_id}'][0] / total_sum:.2f}\t".ljust(12),
+                  f"{self.config_data[f'Piece-{Piece_id}'][1] / total_sum:.2f}\t|\t".ljust(12),
+                  f"{self.SampleDist[Piece_id, 0] / self.FinalSteps:.2f}\t".ljust(12),
+                  f"{self.SampleDist[Piece_id, 1] / self.FinalSteps:.2f}\t"
+                  )
+
+        # Flatten the matrix to a 1D array for sampling
+        flattened_probabilities = probabilities.flatten()
+        normalized_probabilities = flattened_probabilities / np.sum(flattened_probabilities)
+        flattened_sampledist = self.SampleDist.flatten()
+        normalized_sampledist = flattened_sampledist / self.FinalSteps
+        # Handle zero probabilities
+        epsilon = 1e-10
+        normalized_probabilities = np.clip(normalized_probabilities, epsilon, 1)
+        normalized_sampledist = np.clip(normalized_sampledist, epsilon, 1)
+        Divergence = 1 / 2 * (entropy(normalized_probabilities, normalized_sampledist) + entropy(normalized_sampledist, normalized_probabilities))
+        print(f"Jensen-Shannon Divergence: {Divergence:.4f}\n")
 
         if not brief:
             print(f"Substrate:\n {self.substrate}")
-            # if self.HeightDynamics is not None:
-            #     print(f"Height Dynamics:\n {self.HeightDynamics}")
-            print(f"Average Height:\n {self.AvergeHeight}")
-            print(f"Fluctuation:\n {self.Fluctuation}")
+            print(f"Average Height:\n {self.AvergeHeight[:self.FinalSteps]}")
+            print(f"Fluctuation:\n {self.Fluctuation[:self.FinalSteps]}")
 
         print(f"Log-time vs slopes:\n {self.log_time_slopes}")
 
@@ -1817,12 +1844,58 @@ class Tetris_Ballistic:
             progress_percentage = ((i + 1) / total_iterations) * 100
             print(f"Progress in computing the slopes: {progress_percentage:.2f}%", end='\r')
 
-            log_time = np.log(current_time[-1])
-            log_interface = np.log(current_interface)
+            log_time = np.log10(current_time[-1])
+            log_interface = np.log10(current_interface)
 
-            slope, _ = np.polyfit(np.log(current_time), log_interface, 1)
+            slope, _ = np.polyfit(np.log10(current_time), log_interface, 1)
 
             self.log_time_slopes[i] = [log_time, slope]
+
+    def ShowData(self, fig_filename=None):
+        """
+        This function plots the log-log plot of the fluctuation and the average height versus time.
+
+        Args:
+            fig_filename (str): The filename of the output figure. If None, the plot will be displayed.
+
+        Return:
+            None
+        """
+        logtime = np.log10(np.array(range(1, self.FinalSteps + 1)))
+        logfluc = np.log10(self.Fluctuation[0:self.FinalSteps])
+
+        array_data = np.array([[
+            self.config_data[f"Piece-{i}"][0],
+            self.config_data[f"Piece-{i}"][1]] for i in range(20)])
+
+        # Create the plot
+        fig, ax = plt.subplots(figsize=(10, 5))  # Use fig for the figure reference
+        ax.plot(logtime, logfluc, label="Fluctuation")
+        # ax.set_title(f"{self.width}(w)x{self.height}(h) Substrate, Maximum Steps: {self.steps}, Final steps: {self.FinalSteps}, Seed: {self.seed}\n{array_data.transpose()}")
+        ax.set_title(f"{self.width}(w)x{self.height}(h) Substrate, Maximum Steps: {self.steps}, Final steps: {self.FinalSteps}, Seed: {self.seed}")
+        ax.set_xlabel("Log-Time")
+        ax.set_ylabel("Log-Fluctuation")
+        # Add a straight line to the plot for the slope 1/3
+        ax.plot(logtime, 1 / 3 * logtime, label="Slope 1/3", linestyle="--", color="red")
+        ax.plot(logtime, 1 / 2 * logtime, label="Slope 1/2", linestyle="-.", color="blue")
+        # Add the legend
+        ax.legend(loc="best")
+
+        plt.text(0.6,
+                 0.20,
+                 f"{array_data.transpose()}",
+                 ha='center',
+                 va='center',
+                 transform=ax.transAxes,
+                 fontsize=10)
+
+        # Check fig_filename to show or save the figure
+        if fig_filename is not None:
+            plt.savefig(fig_filename)
+            plt.close(fig)  # Close the specific figure to free up memory
+            print(f"Figure is saved as {fig_filename}")
+        else:
+            plt.show()  # Display the plot
 
     def PlotStat(self, fig_filename="stat.png"):
         """
