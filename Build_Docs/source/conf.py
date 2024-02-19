@@ -28,7 +28,8 @@ release = '1.2.2'
 sys.path.insert(0, os.path.abspath('../../'))
 sys.path.insert(0, os.path.abspath('../../../'))
 sys.path.insert(0, os.path.abspath('../../tetris_ballistic'))
-sys.path.insert(0, os.path.abspath('../../tetris_ballistic/cli'))
+# sys.path.insert(0, os.path.abspath('../../tetris_ballistic/cli'))
+sys.path.insert(0, os.path.abspath('../../tetris_ballistic/scripts'))
 
 
 # -- Project information -----------------------------------------------------
@@ -86,7 +87,6 @@ myst_enable_extensions = [
     'colon_fence',
     'amsmath',
     'dollarmath',
-    # ... other extensions
 ]
 
 bibtex_bibfiles = ['doc_rst/All.bib']
