@@ -60,7 +60,6 @@ def generate_based_Type_ID():
 
     # Iterate through each type_id
     for type_id in range(8):
-        # Generate a configuration for each state
         density = {}
         for state_name, state_value in piece_states.items():
             # config = base_config.copy()
@@ -80,7 +79,6 @@ def generate_based_Type_ID():
 
             # Save the configuration to a file
             file_path = os.path.join(config_dir, f"config_type_{type_id}_{state_name}.yaml")
-
             TB.save_config(file_path)
 
 
@@ -91,20 +89,25 @@ def generate_based_Piece_ID():
     for piece_id in range(20):
 
         for state_name, state_value in piece_states.items():
-            config = base_config.copy()
+            density = {}
             for i in range(20):
                 # Apply the specified state only to the current piece_id, others as nonsticky by default
-                config[f"Piece-{i}"] = state_value if i == piece_id else [0, 0]
+                density[f"Piece-{i}"] = state_value if i == piece_id else [0, 0]
+
+            TB = Tetris_Ballistic(width=base_config["width"],
+                                  height=base_config["height"],
+                                  steps=base_config["steps"],
+                                  seed=base_config["seed"],
+                                  density=density)
 
             # Save the configuration to a file
             file_path = os.path.join(config_dir, f"config_piece_{piece_id}_{state_name}.yaml")
-            with open(file_path, 'w') as file:
-                yaml.dump(config, file)
+            TB.save_config(file_path)
 
 
 # Call the function to generate the configs
 
-# print("1. Generate all configure files for each individual piece based on Piece_ID (0 -- 19). ")
-# generate_based_Piece_ID()
+print("1. Generate all configure files for each individual piece based on Piece_ID (0 -- 19). ")
+generate_based_Piece_ID()
 print("2. Generate all configure files for each individual type based on Type_ID (0 -- 7). ")
 generate_based_Type_ID()
