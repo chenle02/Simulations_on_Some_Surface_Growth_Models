@@ -357,8 +357,8 @@ class Tetris_Ballistic:
         try:
             with open(filename, 'w') as file:
                 # Add custom list representer to the YAML dumper
-                yaml.add_representer(type(None), _represent_none)
-                yaml.add_representer(list, _represent_list)
+                yaml.add_representer(type(None), _represent_none, Dumper=NoAliasDumper)
+                yaml.add_representer(list, _represent_list, Dumper=NoAliasDumper)
 
                 # Handle None values correctly
                 formatted_data = {k: v if v is not None else None for k, v in self.config_data.items()}
@@ -373,7 +373,11 @@ class Tetris_Ballistic:
                 # Combine the sorted data
                 combined_data = {**other_data, **sorted_piece_data}
 
-                yaml.dump(combined_data, file, sort_keys=False, default_flow_style=False)
+                yaml.dump(combined_data,
+                          file,
+                          sort_keys=False,
+                          Dumper=NoAliasDumper,
+                          default_flow_style=False)
                 print(f"Configuration saved to {filename}")
 
         except Exception as e:
@@ -2141,6 +2145,14 @@ def _create_partial(func, *args, **kwargs):
     partial_func = partial(func, *args, **kwargs)
     partial_func.__name__ = f"{func.__name__} args={args} kwargs={kwargs}"
     return partial_func
+
+
+class NoAliasDumper(yaml.SafeDumper):
+    """
+    A YAML dumper that does not create aliases for duplicate objects.
+    """
+    def ignore_aliases(self, data):
+        return True
 
 
 # Example usage
