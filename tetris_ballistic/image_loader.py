@@ -1,4 +1,3 @@
-
 from pkg_resources import resource_filename
 
 
@@ -48,7 +47,7 @@ class TetrominoImageLoader:
         piece ID and its sticky state.
 
         Parameters:
-            piece_id (int): The ID of the Tetromino piece.
+            piece_id (int): The ID of the Tetromino piece (0 -- 19).
             sticky (bool): Indicates if the image should represent a sticky state. Defaults to True.
 
         Returns:
