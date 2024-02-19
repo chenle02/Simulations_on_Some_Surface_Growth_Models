@@ -35,36 +35,36 @@ Piece_id          (type_id, rot)                            Name                
 ..    :widths: 5 15 40 40
 ..    :align: left
 ..
-..    * - index 
+..    * - index
 ..      - (id, rot)
 ..      - Name
-..      - Image 
+..      - Image
 ..    * - 0
 ..      - (0, 0) (0, 1) (0, 2) (0, 3)
 ..      - O-piece
 ..      - .. image:: ../images/Tetromino_O_Single.png
 ..    * - 1
-..      - (1, 0) (1, 2) 
+..      - (1, 0) (1, 2)
 ..      - I-piece, horizontal
 ..      - .. image:: ../images/Tetromino_I_Horizontal.png
 ..    * - 2
-..      - (1, 1) (1, 3) 
+..      - (1, 1) (1, 3)
 ..      - I-piece, vertical
 ..      - .. image:: ../images/Tetromino_I_Vertical.png
 ..    * - 3
-..      - (2, 0) 
+..      - (2, 0)
 ..      - L-piece, Up
 ..      - .. image:: ../images/Tetromino_L_Up.png
 ..    * - 4
-..      - (2, 1) 
+..      - (2, 1)
 ..      - L-piece, Left
 ..      - .. image:: ../images/Tetromino_L_Left.png
 ..    * - 5
-..      - (2, 2) 
+..      - (2, 2)
 ..      - L-piece, Down
 ..      - .. image:: ../images/Tetromino_L_Down.png
 ..    * - 6
-..      - (2, 2) 
+..      - (2, 2)
 ..      - L-piece, Right
 ..      - .. image:: ../images/Tetromino_L_Right.png
 
