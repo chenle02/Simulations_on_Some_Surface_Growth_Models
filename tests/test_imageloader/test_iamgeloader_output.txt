@@ -1,0 +1,120 @@
+
+
+/home/lechen/Dropbox/Teaching/svn_teaching/2023_Fall_Math7820/GitHub/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/tetris_ballistic/data/Tetromino_O_Single_bordered.png and Tetromino_O_Single_bordered.png 
+
+/home/lechen/Dropbox/Teaching/svn_teaching/2023_Fall_Math7820/GitHub/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/tetris_ballistic/data/Tetromino_O_Single.png and Tetromino_O_Single.png 
+
+
+
+/home/lechen/Dropbox/Teaching/svn_teaching/2023_Fall_Math7820/GitHub/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/tetris_ballistic/data/Tetromino_I_Horizontal_bordered.png and Tetromino_I_Horizontal_bordered.png 
+
+/home/lechen/Dropbox/Teaching/svn_teaching/2023_Fall_Math7820/GitHub/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/tetris_ballistic/data/Tetromino_I_Horizontal.png and Tetromino_I_Horizontal.png 
+
+
+
+/home/lechen/Dropbox/Teaching/svn_teaching/2023_Fall_Math7820/GitHub/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/tetris_ballistic/data/Tetromino_I_Vertical_bordered.png and Tetromino_I_Vertical_bordered.png 
+
+/home/lechen/Dropbox/Teaching/svn_teaching/2023_Fall_Math7820/GitHub/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/tetris_ballistic/data/Tetromino_I_Vertical.png and Tetromino_I_Vertical.png 
+
+
+
+/home/lechen/Dropbox/Teaching/svn_teaching/2023_Fall_Math7820/GitHub/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/tetris_ballistic/data/Tetromino_L_Up_bordered.png and Tetromino_L_Up_bordered.png 
+
+/home/lechen/Dropbox/Teaching/svn_teaching/2023_Fall_Math7820/GitHub/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/tetris_ballistic/data/Tetromino_L_Up.png and Tetromino_L_Up.png 
+
+
+
+/home/lechen/Dropbox/Teaching/svn_teaching/2023_Fall_Math7820/GitHub/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/tetris_ballistic/data/Tetromino_L_Left_bordered.png and Tetromino_L_Left_bordered.png 
+
+/home/lechen/Dropbox/Teaching/svn_teaching/2023_Fall_Math7820/GitHub/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/tetris_ballistic/data/Tetromino_L_Left.png and Tetromino_L_Left.png 
+
+
+
+/home/lechen/Dropbox/Teaching/svn_teaching/2023_Fall_Math7820/GitHub/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/tetris_ballistic/data/Tetromino_L_Down_bordered.png and Tetromino_L_Down_bordered.png 
+
+/home/lechen/Dropbox/Teaching/svn_teaching/2023_Fall_Math7820/GitHub/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/tetris_ballistic/data/Tetromino_L_Down.png and Tetromino_L_Down.png 
+
+
+
+/home/lechen/Dropbox/Teaching/svn_teaching/2023_Fall_Math7820/GitHub/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/tetris_ballistic/data/Tetromino_L_Right_bordered.png and Tetromino_L_Right_bordered.png 
+
+/home/lechen/Dropbox/Teaching/svn_teaching/2023_Fall_Math7820/GitHub/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/tetris_ballistic/data/Tetromino_L_Right.png and Tetromino_L_Right.png 
+
+
+
+/home/lechen/Dropbox/Teaching/svn_teaching/2023_Fall_Math7820/GitHub/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/tetris_ballistic/data/Tetromino_J_Up_bordered.png and Tetromino_J_Up_bordered.png 
+
+/home/lechen/Dropbox/Teaching/svn_teaching/2023_Fall_Math7820/GitHub/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/tetris_ballistic/data/Tetromino_J_Up.png and Tetromino_J_Up.png 
+
+
+
+/home/lechen/Dropbox/Teaching/svn_teaching/2023_Fall_Math7820/GitHub/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/tetris_ballistic/data/Tetromino_J_Left_bordered.png and Tetromino_J_Left_bordered.png 
+
+/home/lechen/Dropbox/Teaching/svn_teaching/2023_Fall_Math7820/GitHub/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/tetris_ballistic/data/Tetromino_J_Left.png and Tetromino_J_Left.png 
+
+
+
+/home/lechen/Dropbox/Teaching/svn_teaching/2023_Fall_Math7820/GitHub/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/tetris_ballistic/data/Tetromino_J_Down_bordered.png and Tetromino_J_Down_bordered.png 
+
+/home/lechen/Dropbox/Teaching/svn_teaching/2023_Fall_Math7820/GitHub/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/tetris_ballistic/data/Tetromino_J_Down.png and Tetromino_J_Down.png 
+
+
+
+/home/lechen/Dropbox/Teaching/svn_teaching/2023_Fall_Math7820/GitHub/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/tetris_ballistic/data/Tetromino_J_Right_bordered.png and Tetromino_J_Right_bordered.png 
+
+/home/lechen/Dropbox/Teaching/svn_teaching/2023_Fall_Math7820/GitHub/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/tetris_ballistic/data/Tetromino_J_Right.png and Tetromino_J_Right.png 
+
+
+
+/home/lechen/Dropbox/Teaching/svn_teaching/2023_Fall_Math7820/GitHub/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/tetris_ballistic/data/Tetromino_T_Up_bordered.png and Tetromino_T_Up_bordered.png 
+
+/home/lechen/Dropbox/Teaching/svn_teaching/2023_Fall_Math7820/GitHub/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/tetris_ballistic/data/Tetromino_T_Up.png and Tetromino_T_Up.png 
+
+
+
+/home/lechen/Dropbox/Teaching/svn_teaching/2023_Fall_Math7820/GitHub/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/tetris_ballistic/data/Tetromino_T_Left_bordered.png and Tetromino_T_Left_bordered.png 
+
+/home/lechen/Dropbox/Teaching/svn_teaching/2023_Fall_Math7820/GitHub/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/tetris_ballistic/data/Tetromino_T_Left.png and Tetromino_T_Left.png 
+
+
+
+/home/lechen/Dropbox/Teaching/svn_teaching/2023_Fall_Math7820/GitHub/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/tetris_ballistic/data/Tetromino_T_Down_bordered.png and Tetromino_T_Down_bordered.png 
+
+/home/lechen/Dropbox/Teaching/svn_teaching/2023_Fall_Math7820/GitHub/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/tetris_ballistic/data/Tetromino_T_Down.png and Tetromino_T_Down.png 
+
+
+
+/home/lechen/Dropbox/Teaching/svn_teaching/2023_Fall_Math7820/GitHub/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/tetris_ballistic/data/Tetromino_T_Right_bordered.png and Tetromino_T_Right_bordered.png 
+
+/home/lechen/Dropbox/Teaching/svn_teaching/2023_Fall_Math7820/GitHub/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/tetris_ballistic/data/Tetromino_T_Right.png and Tetromino_T_Right.png 
+
+
+
+/home/lechen/Dropbox/Teaching/svn_teaching/2023_Fall_Math7820/GitHub/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/tetris_ballistic/data/Tetromino_S_Horizontal_bordered.png and Tetromino_S_Horizontal_bordered.png 
+
+/home/lechen/Dropbox/Teaching/svn_teaching/2023_Fall_Math7820/GitHub/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/tetris_ballistic/data/Tetromino_S_Horizontal.png and Tetromino_S_Horizontal.png 
+
+
+
+/home/lechen/Dropbox/Teaching/svn_teaching/2023_Fall_Math7820/GitHub/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/tetris_ballistic/data/Tetromino_S_Vertical_bordered.png and Tetromino_S_Vertical_bordered.png 
+
+/home/lechen/Dropbox/Teaching/svn_teaching/2023_Fall_Math7820/GitHub/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/tetris_ballistic/data/Tetromino_S_Vertical.png and Tetromino_S_Vertical.png 
+
+
+
+/home/lechen/Dropbox/Teaching/svn_teaching/2023_Fall_Math7820/GitHub/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/tetris_ballistic/data/Tetromino_Z_Horizontal_bordered.png and Tetromino_Z_Horizontal_bordered.png 
+
+/home/lechen/Dropbox/Teaching/svn_teaching/2023_Fall_Math7820/GitHub/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/tetris_ballistic/data/Tetromino_Z_Horizontal.png and Tetromino_Z_Horizontal.png 
+
+
+
+/home/lechen/Dropbox/Teaching/svn_teaching/2023_Fall_Math7820/GitHub/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/tetris_ballistic/data/Tetromino_Z_Vertical_bordered.png and Tetromino_Z_Vertical_bordered.png 
+
+/home/lechen/Dropbox/Teaching/svn_teaching/2023_Fall_Math7820/GitHub/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/tetris_ballistic/data/Tetromino_Z_Vertical.png and Tetromino_Z_Vertical.png 
+
+
+
+/home/lechen/Dropbox/Teaching/svn_teaching/2023_Fall_Math7820/GitHub/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/tetris_ballistic/data/Tetromino_1x1_Single_bordered.png and Tetromino_1x1_Single_bordered.png 
+
+/home/lechen/Dropbox/Teaching/svn_teaching/2023_Fall_Math7820/GitHub/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/tetris_ballistic/data/Tetromino_1x1_Single.png and Tetromino_1x1_Single.png 
+
