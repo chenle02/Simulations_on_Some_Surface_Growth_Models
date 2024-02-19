@@ -19,6 +19,7 @@ import re
 from scipy.stats import entropy
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
+from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 import imageio
 import os
 import joblib
@@ -1813,12 +1814,14 @@ class Tetris_Ballistic:
 
             self.log_time_slopes[i] = [log_time, slope]
 
-    def ShowData(self, fig_filename=None):
+    def ShowData(self, fig_filename=None, custom_text=None, images=None):
         """
         This function plots the log-log plot of the fluctuation and the average height versus time.
 
         Args:
-            fig_filename (str): The filename of the output figure. If None, the plot will be displayed.
+            fig_filename (str): The filename of the output figure. If None, the plot will be displayed without saving to an image file.
+            custom_text (str): Custom text to display on the plot. If None, default text is displayed.
+            images (list): A list of filenames for images to add to the plot. If None, no images are added.
 
         Return:
             None
@@ -1843,13 +1846,26 @@ class Tetris_Ballistic:
         # Add the legend
         ax.legend(loc="best")
 
+        # Display custom text or default text
+        text_to_display = custom_text if custom_text is not None else str(array_data.transpose())
         plt.text(0.6,
                  0.20,
-                 f"{array_data.transpose()}",
+                 text_to_display,
                  ha='center',
                  va='center',
                  transform=ax.transAxes,
                  fontsize=10)
+
+        # Optionally add images
+        if images is not None:
+            for img_filename in images:
+                img = plt.imread(img_filename)
+                imagebox = OffsetImage(img, zoom=0.1)
+                ab = AnnotationBbox(imagebox,
+                                    (0.5, 0.5),
+                                    frameon=False,
+                                    xycoords='axes fraction')
+                ax.add_artist(ab)
 
         # Check fig_filename to show or save the figure
         if fig_filename is not None:
