@@ -19,6 +19,7 @@ import re
 from scipy.stats import entropy
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
+from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 import imageio
 import os
 import joblib
@@ -356,8 +357,8 @@ class Tetris_Ballistic:
         try:
             with open(filename, 'w') as file:
                 # Add custom list representer to the YAML dumper
-                yaml.add_representer(type(None), _represent_none)
-                yaml.add_representer(list, _represent_list)
+                yaml.add_representer(type(None), _represent_none, Dumper=NoAliasDumper)
+                yaml.add_representer(list, _represent_list, Dumper=NoAliasDumper)
 
                 # Handle None values correctly
                 formatted_data = {k: v if v is not None else None for k, v in self.config_data.items()}
@@ -372,7 +373,11 @@ class Tetris_Ballistic:
                 # Combine the sorted data
                 combined_data = {**other_data, **sorted_piece_data}
 
-                yaml.dump(combined_data, file, sort_keys=False, default_flow_style=False)
+                yaml.dump(combined_data,
+                          file,
+                          sort_keys=False,
+                          Dumper=NoAliasDumper,
+                          default_flow_style=False)
                 print(f"Configuration saved to {filename}")
 
         except Exception as e:
@@ -1851,12 +1856,14 @@ class Tetris_Ballistic:
 
             self.log_time_slopes[i] = [log_time, slope]
 
-    def ShowData(self, fig_filename=None):
+    def ShowData(self, fig_filename=None, custom_text=None, images=None):
         """
         This function plots the log-log plot of the fluctuation and the average height versus time.
 
         Args:
-            fig_filename (str): The filename of the output figure. If None, the plot will be displayed.
+            fig_filename (str): The filename of the output figure. If None, the plot will be displayed without saving to an image file.
+            custom_text (str): Custom text to display on the plot. If None, default text is displayed.
+            images (list): A list of filenames for images to add to the plot. If None, no images are added.
 
         Return:
             None
@@ -1881,13 +1888,26 @@ class Tetris_Ballistic:
         # Add the legend
         ax.legend(loc="best")
 
+        # Display custom text or default text
+        text_to_display = custom_text if custom_text is not None else str(array_data.transpose())
         plt.text(0.6,
                  0.20,
-                 f"{array_data.transpose()}",
+                 text_to_display,
                  ha='center',
                  va='center',
                  transform=ax.transAxes,
                  fontsize=10)
+
+        # Optionally add images
+        if images is not None:
+            for img_filename in images:
+                img = plt.imread(img_filename)
+                imagebox = OffsetImage(img, zoom=0.1)
+                ab = AnnotationBbox(imagebox,
+                                    (0.5, 0.5),
+                                    frameon=False,
+                                    xycoords='axes fraction')
+                ax.add_artist(ab)
 
         # Check fig_filename to show or save the figure
         if fig_filename is not None:
@@ -2163,6 +2183,14 @@ def _create_partial(func, *args, **kwargs):
     partial_func = partial(func, *args, **kwargs)
     partial_func.__name__ = f"{func.__name__} args={args} kwargs={kwargs}"
     return partial_func
+
+
+class NoAliasDumper(yaml.SafeDumper):
+    """
+    A YAML dumper that does not create aliases for duplicate objects.
+    """
+    def ignore_aliases(self, data):
+        return True
 
 
 # Example usage
