@@ -86,7 +86,7 @@ if __name__ == "__main__":
 
     StickyList = [[1, 0], [0, 1], [1, 1]]
     ListRandomSeeds = [10 * i for i in range(6)]
-    ListWidth = [50, 100, 200]
+    ListWidth = [50, 100, 200, 500, 1000, 2000]
 
     # Generate all combinations of parameters
     param_combinations = [(w, seed, piece_id, sticky) for w in ListWidth for seed in ListRandomSeeds for piece_id in range(20) for sticky in StickyList]
