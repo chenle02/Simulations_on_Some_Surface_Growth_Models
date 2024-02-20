@@ -181,18 +181,13 @@ branches
 Branches
 Experiments/exp1
 Experiments/exp2
-Experiments/exp3/*.joblib
-Experiments/exp3/*.yaml
 tests/sweepparameters/*.yaml
 
 tests/simulation/tmp
 
-Experiments/exp4/*.joblib
-Experiments/exp4/*.yaml
-Experiments/exp4/*.png
-
-Experiments/exp5/*.joblib
-Experiments/exp5/*.yaml
-Experiments/exp5/*.png
 
 Experiments/exp5-Easley
+
+Experiments/exp**/*.joblib
+Experiments/exp**/*.yaml
+Experiments/exp**/*.png
