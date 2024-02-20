@@ -10,7 +10,6 @@ This script is used to sweep the parameters of the Tetris Ballistic simultaions.
 """
 
 import os
-import logging
 import sys
 from multiprocessing import Pool
 from joblib import dump
@@ -99,8 +98,6 @@ def log_progress(progress_message):
 
 
 if __name__ == "__main__":
-
-
     ListWidth = [50, 100]
     ListRandomSeeds = [10 * i for i in range(100)]
     configs = [

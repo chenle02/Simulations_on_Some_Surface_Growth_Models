@@ -2,3 +2,4 @@
 rm *.joblib
 rm *.yaml
 rm *.png
+rm *.log
