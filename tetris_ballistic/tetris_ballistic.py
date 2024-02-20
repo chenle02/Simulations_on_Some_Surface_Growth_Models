@@ -2179,6 +2179,26 @@ class NoAliasDumper(yaml.SafeDumper):
         return True
 
 
+def load_density_from_config(file_path):
+    """
+    Load the config file and return the density parameters.
+
+    Args:
+        file_path (str): The path to the config file.
+
+    Return:
+        dict: The density parameters.
+    """
+    keys_to_ignore = {"steps", "width", "height", "seed"}
+
+    with open(file_path, 'r') as file:
+        config = yaml.safe_load(file)
+
+    # Remove specified keys
+    density = {k: v for k, v in config.items() if k not in keys_to_ignore}
+
+    return density
+
 # Example usage
 # tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=1000, seed=42)
 # tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=10, seed=42)
