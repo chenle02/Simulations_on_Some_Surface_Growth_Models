@@ -105,9 +105,31 @@ def generate_based_Piece_ID():
             TB.save_config(file_path)
 
 
-# Call the function to generate the configs
+def generate_All_Pieces():
+    os.makedirs(config_dir, exist_ok=True)
+
+    # Iterate through each piece_id
+    for state_name, state_value in piece_states.items():
+        density = {}
+        for piece_id in range(19):
+            density[f"Piece-{piece_id}"] = state_value
+
+        density["Piece-19"] = [0, 0]
+
+        TB = Tetris_Ballistic(width=base_config["width"],
+                              height=base_config["height"],
+                              steps=base_config["steps"],
+                              seed=base_config["seed"],
+                              density=density)
+
+        # Save the configuration to a file
+        file_path = os.path.join(config_dir, f"config_piece_all_{state_name}.yaml")
+        TB.save_config(file_path)
+
 
 print("1. Generate all configure files for each individual piece based on Piece_ID (0 -- 19). ")
 generate_based_Piece_ID()
 print("2. Generate all configure files for each individual type based on Type_ID (0 -- 7). ")
 generate_based_Type_ID()
+print("3. Generate all configure files with all pieces.")
+generate_All_Pieces()
