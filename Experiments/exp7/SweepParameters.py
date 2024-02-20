@@ -13,7 +13,34 @@ import os
 import sys
 from multiprocessing import Pool
 from joblib import dump
-from tetris_ballistic.tetris_ballistic import Tetris_Ballistic, load_density_from_config
+import subprocess
+
+
+def get_git_root(path):
+    """Return the absolute path of the Git repository's root."""
+    try:
+        # Run 'git rev-parse --show-toplevel' to get the root directory of the Git repo
+        git_root = subprocess.check_output(['git', 'rev-parse', '--show-toplevel'], cwd=path, universal_newlines=True)
+        return git_root.strip()  # Remove any trailing newline
+    except subprocess.CalledProcessError:
+        # Handle cases where the current directory is not part of a Git repo
+        return None
+
+
+# Use the current file's directory as the starting point
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Get the Git root directory
+git_root = get_git_root(current_dir)
+
+if git_root is not None:
+    # Construct the path to the module relative to the Git root
+    module_path = os.path.join(git_root, 'tetris_ballistic')
+    # Append the module path to sys.path
+    sys.path.append(module_path)
+    from tetris_ballistic.tetris_ballistic import Tetris_Ballistic, load_density_from_config
+else:
+    print("Error: Could not find the Git repository root.")
 
 
 class DualLogger:
