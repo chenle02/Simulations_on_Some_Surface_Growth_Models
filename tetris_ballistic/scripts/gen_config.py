@@ -56,14 +56,19 @@ config_dir = "../configs"
 
 
 def generate_based_Type_ID():
+    """
+    Generate default configuration files for each type of pieces from type = 1
+    to type = 6. Type 0 and type 7 are ignored since they are identical to the
+    configuration files for the piece 0 and piece 19.
+
+    For each type, there is sticky, nonsticky, and combined configuration files.
+
+    """
     os.makedirs(config_dir, exist_ok=True)
 
-    # Iterate through each type_id
-    for type_id in range(8):
+    for type_id in range(1, 7):
         density = {}
         for state_name, state_value in piece_states.items():
-            # config = base_config.copy()
-            # Set the specified state for all pieces of the current type_id
             for piece_id, current_type_id in piece_to_type_mapping.items():
                 if current_type_id == type_id:
                     density[f"Piece-{piece_id}"] = state_value
@@ -83,15 +88,18 @@ def generate_based_Type_ID():
 
 
 def generate_based_Piece_ID():
+    """
+    Generate default configuration files for each piece from 0 to 19.
+
+    For each piece, there is sticky, nonsticky, and combined configuration files.
+    """
     os.makedirs(config_dir, exist_ok=True)
 
-    # Iterate through each piece_id
     for piece_id in range(20):
 
         for state_name, state_value in piece_states.items():
             density = {}
             for i in range(20):
-                # Apply the specified state only to the current piece_id, others as nonsticky by default
                 density[f"Piece-{i}"] = state_value if i == piece_id else [0, 0]
 
             TB = Tetris_Ballistic(width=base_config["width"],
@@ -106,9 +114,13 @@ def generate_based_Piece_ID():
 
 
 def generate_All_Pieces():
+    """
+    Generate default configuration files for all pieces (Piece 0 -- Piece 18)
+
+    There is sticky, nonsticky, and combined configuration files.
+    """
     os.makedirs(config_dir, exist_ok=True)
 
-    # Iterate through each piece_id
     for state_name, state_value in piece_states.items():
         density = {}
         for piece_id in range(19):
