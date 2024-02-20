@@ -1,0 +1,3567 @@
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [1, 1], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_4_combined.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 578
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.50	        0.50	|	      0.50	        0.50	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_4_combined.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 1], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_17_sticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 627
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        1.00	|	      0.00	        1.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_17_sticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [1, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_7_nonsticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 793
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 1.00	        0.00	|	      1.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_7_nonsticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [1, 1], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_type_0_combined.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 707
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.50	        0.50	|	      0.49	        0.51	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0001
+
+Log-time vs slopes:
+ None
+Figure is saved as config_type_0_combined.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [1, 1], 'Piece-18': [1, 1], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_type_6_combined.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 584
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.25	        0.25	|	      0.24	        0.26	
+18       	 0.25	        0.25	|	      0.25	        0.26	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0003
+
+Log-time vs slopes:
+ None
+Figure is saved as config_type_6_combined.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [1, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_9_nonsticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 850
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 1.00	        0.00	|	      1.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_9_nonsticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [1, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_17_nonsticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 713
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 1.00	        0.00	|	      1.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_17_nonsticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 1], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_7_sticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 514
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        1.00	|	      0.00	        1.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_7_sticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [1, 0], 'Piece-2': [1, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_type_1_nonsticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 619
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.50	        0.00	|	      0.50	        0.00	
+2        	 0.50	        0.00	|	      0.50	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_type_1_nonsticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 1], 'Piece-4': [0, 1], 'Piece-5': [0, 1], 'Piece-6': [0, 1], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_type_2_sticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 534
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.25	|	      0.00	        0.25	
+4        	 0.00	        0.25	|	      0.00	        0.25	
+5        	 0.00	        0.25	|	      0.00	        0.25	
+6        	 0.00	        0.25	|	      0.00	        0.25	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0001
+
+Log-time vs slopes:
+ None
+Figure is saved as config_type_2_sticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [1, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_13_nonsticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 649
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 1.00	        0.00	|	      1.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_13_nonsticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [1, 1], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_14_combined.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 543
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.50	        0.50	|	      0.50	        0.50	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_14_combined.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [1, 0], 'Piece-1': [1, 0], 'Piece-2': [1, 0], 'Piece-3': [1, 0], 'Piece-4': [1, 0], 'Piece-5': [1, 0], 'Piece-6': [1, 0], 'Piece-7': [1, 0], 'Piece-8': [1, 0], 'Piece-9': [1, 0], 'Piece-10': [1, 0], 'Piece-11': [1, 0], 'Piece-12': [1, 0], 'Piece-13': [1, 0], 'Piece-14': [1, 0], 'Piece-15': [1, 0], 'Piece-16': [1, 0], 'Piece-17': [1, 0], 'Piece-18': [1, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_all_nonsticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 672
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.05	        0.00	|	      0.05	        0.00	
+1        	 0.05	        0.00	|	      0.05	        0.00	
+2        	 0.05	        0.00	|	      0.06	        0.00	
+3        	 0.05	        0.00	|	      0.05	        0.00	
+4        	 0.05	        0.00	|	      0.04	        0.00	
+5        	 0.05	        0.00	|	      0.06	        0.00	
+6        	 0.05	        0.00	|	      0.05	        0.00	
+7        	 0.05	        0.00	|	      0.06	        0.00	
+8        	 0.05	        0.00	|	      0.05	        0.00	
+9        	 0.05	        0.00	|	      0.06	        0.00	
+10       	 0.05	        0.00	|	      0.04	        0.00	
+11       	 0.05	        0.00	|	      0.06	        0.00	
+12       	 0.05	        0.00	|	      0.07	        0.00	
+13       	 0.05	        0.00	|	      0.04	        0.00	
+14       	 0.05	        0.00	|	      0.05	        0.00	
+15       	 0.05	        0.00	|	      0.05	        0.00	
+16       	 0.05	        0.00	|	      0.05	        0.00	
+17       	 0.05	        0.00	|	      0.07	        0.00	
+18       	 0.05	        0.00	|	      0.06	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0129
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_all_nonsticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 1]}
+Configure file ../../tetris_ballistic/configs/config_piece_19_sticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 3525
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        1.00	|	      0.00	        1.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_19_sticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [1, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_11_nonsticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 656
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 1.00	        0.00	|	      1.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_11_nonsticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [1, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_4_nonsticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 654
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 1.00	        0.00	|	      1.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_4_nonsticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [1, 1], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_11_combined.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 578
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.50	        0.50	|	      0.50	        0.50	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_11_combined.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [1, 1], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_2_combined.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 657
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.50	        0.50	|	      0.50	        0.51	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_2_combined.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [1, 1], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_15_combined.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 683
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.50	        0.50	|	      0.49	        0.51	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0002
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_15_combined.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [1, 1], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_3_combined.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 579
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.50	        0.50	|	      0.50	        0.50	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_3_combined.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [1, 1], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_6_combined.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 578
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.50	        0.50	|	      0.50	        0.50	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_6_combined.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 1], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_0_sticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 669
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        1.00	|	      0.00	        1.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_0_sticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [1, 1], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_16_combined.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 662
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.50	        0.50	|	      0.50	        0.50	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_16_combined.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [1, 1], 'Piece-2': [1, 1], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_type_1_combined.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 558
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.25	        0.25	|	      0.25	        0.25	
+2        	 0.25	        0.25	|	      0.25	        0.25	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_type_1_combined.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [1, 0]}
+Configure file ../../tetris_ballistic/configs/config_type_7_nonsticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 6265
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 1.00	        0.00	|	      1.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_type_7_nonsticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [1, 0], 'Piece-18': [1, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_type_6_nonsticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 630
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.50	        0.00	|	      0.50	        0.00	
+18       	 0.50	        0.00	|	      0.50	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_type_6_nonsticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 1], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_9_sticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 514
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        1.00	|	      0.00	        1.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_9_sticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [1, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_14_nonsticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 585
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 1.00	        0.00	|	      1.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_14_nonsticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 1], 'Piece-16': [0, 1], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_type_5_sticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 579
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.50	|	      0.00	        0.50	
+16       	 0.00	        0.50	|	      0.00	        0.50	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_type_5_sticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [1, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_1_nonsticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 788
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 1.00	        0.00	|	      1.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_1_nonsticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 1], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_10_sticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 570
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        1.00	|	      0.00	        1.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_10_sticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 1], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_type_0_sticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 669
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        1.00	|	      0.00	        1.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_type_0_sticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [1, 1], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_10_combined.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 637
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.50	        0.50	|	      0.50	        0.50	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_10_combined.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [1, 1], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_9_combined.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 616
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.50	        0.50	|	      0.50	        0.50	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_9_combined.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [1, 1], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_0_combined.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 707
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.50	        0.50	|	      0.49	        0.51	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0001
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_0_combined.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 1], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_15_sticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 637
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        1.00	|	      0.00	        1.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_15_sticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [1, 1], 'Piece-4': [1, 1], 'Piece-5': [1, 1], 'Piece-6': [1, 1], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_type_2_combined.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 566
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.12	        0.12	|	      0.12	        0.13	
+4        	 0.12	        0.12	|	      0.12	        0.13	
+5        	 0.12	        0.12	|	      0.13	        0.12	
+6        	 0.12	        0.12	|	      0.11	        0.14	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0027
+
+Log-time vs slopes:
+ None
+Figure is saved as config_type_2_combined.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [1, 1], 'Piece-1': [1, 1], 'Piece-2': [1, 1], 'Piece-3': [1, 1], 'Piece-4': [1, 1], 'Piece-5': [1, 1], 'Piece-6': [1, 1], 'Piece-7': [1, 1], 'Piece-8': [1, 1], 'Piece-9': [1, 1], 'Piece-10': [1, 1], 'Piece-11': [1, 1], 'Piece-12': [1, 1], 'Piece-13': [1, 1], 'Piece-14': [1, 1], 'Piece-15': [1, 1], 'Piece-16': [1, 1], 'Piece-17': [1, 1], 'Piece-18': [1, 1], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_all_combined.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 570
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.03	        0.03	|	      0.02	        0.03	
+1        	 0.03	        0.03	|	      0.02	        0.02	
+2        	 0.03	        0.03	|	      0.03	        0.03	
+3        	 0.03	        0.03	|	      0.04	        0.02	
+4        	 0.03	        0.03	|	      0.02	        0.03	
+5        	 0.03	        0.03	|	      0.02	        0.03	
+6        	 0.03	        0.03	|	      0.02	        0.03	
+7        	 0.03	        0.03	|	      0.02	        0.04	
+8        	 0.03	        0.03	|	      0.02	        0.03	
+9        	 0.03	        0.03	|	      0.02	        0.03	
+10       	 0.03	        0.03	|	      0.02	        0.02	
+11       	 0.03	        0.03	|	      0.03	        0.04	
+12       	 0.03	        0.03	|	      0.04	        0.03	
+13       	 0.03	        0.03	|	      0.02	        0.01	
+14       	 0.03	        0.03	|	      0.02	        0.03	
+15       	 0.03	        0.03	|	      0.02	        0.03	
+16       	 0.03	        0.03	|	      0.02	        0.02	
+17       	 0.03	        0.03	|	      0.04	        0.04	
+18       	 0.03	        0.03	|	      0.03	        0.02	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0349
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_all_combined.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [1, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_5_nonsticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 811
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 1.00	        0.00	|	      1.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_5_nonsticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [1, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_10_nonsticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 691
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 1.00	        0.00	|	      1.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_10_nonsticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 1], 'Piece-18': [0, 1], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_type_6_sticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 567
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.50	|	      0.00	        0.50	
+18       	 0.00	        0.50	|	      0.00	        0.50	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_type_6_sticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [1, 1], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_18_combined.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 650
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.50	        0.50	|	      0.50	        0.50	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_18_combined.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [1, 1], 'Piece-8': [1, 1], 'Piece-9': [1, 1], 'Piece-10': [1, 1], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_type_3_combined.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 525
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.12	        0.12	|	      0.12	        0.13	
+8        	 0.12	        0.12	|	      0.12	        0.13	
+9        	 0.12	        0.12	|	      0.12	        0.12	
+10       	 0.12	        0.12	|	      0.11	        0.14	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0024
+
+Log-time vs slopes:
+ None
+Figure is saved as config_type_3_combined.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [1, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_18_nonsticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 835
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 1.00	        0.00	|	      1.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_18_nonsticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [1, 1], 'Piece-16': [1, 1], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_type_5_combined.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 630
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.25	        0.25	|	      0.24	        0.26	
+16       	 0.25	        0.25	|	      0.25	        0.25	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0004
+
+Log-time vs slopes:
+ None
+Figure is saved as config_type_5_combined.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [1, 1], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_7_combined.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 597
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.50	        0.50	|	      0.50	        0.50	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_7_combined.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [1, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_6_nonsticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 654
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 1.00	        0.00	|	      1.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_6_nonsticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [1, 0], 'Piece-8': [1, 0], 'Piece-9': [1, 0], 'Piece-10': [1, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_type_3_nonsticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 617
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.25	        0.00	|	      0.24	        0.00	
+8        	 0.25	        0.00	|	      0.26	        0.00	
+9        	 0.25	        0.00	|	      0.25	        0.00	
+10       	 0.25	        0.00	|	      0.25	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0003
+
+Log-time vs slopes:
+ None
+Figure is saved as config_type_3_nonsticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [1, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_3_nonsticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 662
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 1.00	        0.00	|	      1.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_3_nonsticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 1], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_5_sticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 526
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        1.00	|	      0.00	        1.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_5_sticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [1, 0], 'Piece-4': [1, 0], 'Piece-5': [1, 0], 'Piece-6': [1, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_type_2_nonsticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 694
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.25	        0.00	|	      0.24	        0.00	
+4        	 0.25	        0.00	|	      0.26	        0.00	
+5        	 0.25	        0.00	|	      0.25	        0.00	
+6        	 0.25	        0.00	|	      0.25	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0003
+
+Log-time vs slopes:
+ None
+Figure is saved as config_type_2_nonsticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [1, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_type_0_nonsticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 835
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 1.00	        0.00	|	      1.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_type_0_nonsticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [1, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_0_nonsticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 835
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 1.00	        0.00	|	      1.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_0_nonsticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 1], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_8_sticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 570
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        1.00	|	      0.00	        1.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_8_sticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 1], 'Piece-8': [0, 1], 'Piece-9': [0, 1], 'Piece-10': [0, 1], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_type_3_sticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 472
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.25	|	      0.00	        0.25	
+8        	 0.00	        0.25	|	      0.00	        0.24	
+9        	 0.00	        0.25	|	      0.00	        0.25	
+10       	 0.00	        0.25	|	      0.00	        0.26	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0002
+
+Log-time vs slopes:
+ None
+Figure is saved as config_type_3_sticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [1, 0], 'Piece-16': [1, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_type_5_nonsticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 656
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.50	        0.00	|	      0.50	        0.00	
+16       	 0.50	        0.00	|	      0.50	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_type_5_nonsticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [1, 1], 'Piece-12': [1, 1], 'Piece-13': [1, 1], 'Piece-14': [1, 1], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_type_4_combined.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 579
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.12	        0.12	|	      0.12	        0.12	
+12       	 0.12	        0.12	|	      0.12	        0.13	
+13       	 0.12	        0.12	|	      0.12	        0.12	
+14       	 0.12	        0.12	|	      0.11	        0.15	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0034
+
+Log-time vs slopes:
+ None
+Figure is saved as config_type_4_combined.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [1, 1], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_1_combined.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 769
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.50	        0.50	|	      0.50	        0.50	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_1_combined.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [1, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_12_nonsticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 734
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 1.00	        0.00	|	      1.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_12_nonsticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 1], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_13_sticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 570
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        1.00	|	      0.00	        1.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_13_sticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [1, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_15_nonsticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 764
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 1.00	        0.00	|	      1.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_15_nonsticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [1, 1], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_13_combined.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 578
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.50	        0.50	|	      0.50	        0.50	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_13_combined.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [1, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_16_nonsticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 778
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 1.00	        0.00	|	      1.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_16_nonsticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [1, 1]}
+Configure file ../../tetris_ballistic/configs/config_type_7_combined.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 3961
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.50	        0.50	|	      0.51	        0.49	
+Jensen-Shannon Divergence: 0.0002
+
+Log-time vs slopes:
+ None
+Figure is saved as config_type_7_combined.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [1, 0], 'Piece-12': [1, 0], 'Piece-13': [1, 0], 'Piece-14': [1, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_type_4_nonsticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 639
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.25	        0.00	|	      0.24	        0.00	
+12       	 0.25	        0.00	|	      0.26	        0.00	
+13       	 0.25	        0.00	|	      0.25	        0.00	
+14       	 0.25	        0.00	|	      0.25	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0004
+
+Log-time vs slopes:
+ None
+Figure is saved as config_type_4_nonsticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [1, 1], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_17_combined.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 658
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.50	        0.50	|	      0.50	        0.51	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0001
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_17_combined.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [1, 1]}
+Configure file ../../tetris_ballistic/configs/config_piece_19_combined.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 3961
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.50	        0.50	|	      0.51	        0.49	
+Jensen-Shannon Divergence: 0.0002
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_19_combined.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [1, 1], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_12_combined.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 600
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.50	        0.50	|	      0.50	        0.50	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_12_combined.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [1, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_2_nonsticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 1360
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 1.00	        0.00	|	      1.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_2_nonsticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [1, 1], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_5_combined.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 612
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.50	        0.50	|	      0.50	        0.50	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_5_combined.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 1], 'Piece-2': [0, 1], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_type_1_sticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 501
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.50	|	      0.00	        0.50	
+2        	 0.00	        0.50	|	      0.00	        0.50	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_type_1_sticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [1, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_19_nonsticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 6265
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 1.00	        0.00	|	      1.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_19_nonsticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 1], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_3_sticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 526
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        1.00	|	      0.00	        1.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_3_sticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 1]}
+Configure file ../../tetris_ballistic/configs/config_type_7_sticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 3525
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        1.00	|	      0.00	        1.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_type_7_sticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 1], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_6_sticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 561
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        1.00	|	      0.00	        1.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_6_sticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 1], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_14_sticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 506
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        1.00	|	      0.00	        1.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_14_sticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 1], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_4_sticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 561
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        1.00	|	      0.00	        1.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_4_sticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 1], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_2_sticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 502
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        1.00	|	      0.00	        1.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_2_sticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 1], 'Piece-12': [0, 1], 'Piece-13': [0, 1], 'Piece-14': [0, 1], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_type_4_sticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 558
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.25	|	      0.00	        0.25	
+12       	 0.00	        0.25	|	      0.00	        0.25	
+13       	 0.00	        0.25	|	      0.00	        0.25	
+14       	 0.00	        0.25	|	      0.00	        0.25	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_type_4_sticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 1], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_11_sticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 570
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        1.00	|	      0.00	        1.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_11_sticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 1], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_16_sticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 612
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        1.00	|	      0.00	        1.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_16_sticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 1], 'Piece-1': [0, 1], 'Piece-2': [0, 1], 'Piece-3': [0, 1], 'Piece-4': [0, 1], 'Piece-5': [0, 1], 'Piece-6': [0, 1], 'Piece-7': [0, 1], 'Piece-8': [0, 1], 'Piece-9': [0, 1], 'Piece-10': [0, 1], 'Piece-11': [0, 1], 'Piece-12': [0, 1], 'Piece-13': [0, 1], 'Piece-14': [0, 1], 'Piece-15': [0, 1], 'Piece-16': [0, 1], 'Piece-17': [0, 1], 'Piece-18': [0, 1], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_all_sticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 488
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.05	|	      0.00	        0.05	
+1        	 0.00	        0.05	|	      0.00	        0.04	
+2        	 0.00	        0.05	|	      0.00	        0.07	
+3        	 0.00	        0.05	|	      0.00	        0.06	
+4        	 0.00	        0.05	|	      0.00	        0.05	
+5        	 0.00	        0.05	|	      0.00	        0.05	
+6        	 0.00	        0.05	|	      0.00	        0.05	
+7        	 0.00	        0.05	|	      0.00	        0.07	
+8        	 0.00	        0.05	|	      0.00	        0.05	
+9        	 0.00	        0.05	|	      0.00	        0.05	
+10       	 0.00	        0.05	|	      0.00	        0.03	
+11       	 0.00	        0.05	|	      0.00	        0.06	
+12       	 0.00	        0.05	|	      0.00	        0.06	
+13       	 0.00	        0.05	|	      0.00	        0.03	
+14       	 0.00	        0.05	|	      0.00	        0.05	
+15       	 0.00	        0.05	|	      0.00	        0.06	
+16       	 0.00	        0.05	|	      0.00	        0.03	
+17       	 0.00	        0.05	|	      0.00	        0.08	
+18       	 0.00	        0.05	|	      0.00	        0.05	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0270
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_all_sticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [1, 1], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_8_combined.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 637
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.50	        0.50	|	      0.50	        0.50	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_8_combined.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 1], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_18_sticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 614
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        1.00	|	      0.00	        1.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_18_sticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [1, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_8_nonsticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 691
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 1.00	        0.00	|	      1.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_8_nonsticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 1], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_1_sticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 753
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        1.00	|	      0.00	        1.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        0.00	|	      0.00	        0.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_1_sticky.png
+Loaded: {'steps': 12000.0, 'width': 100.0, 'height': 300.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 1], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ../../tetris_ballistic/configs/config_piece_12_sticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+Game Over, reach the top
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 150
+Steps: 12000
+Final Steps: 582
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	 0.00	        0.00	|	      0.00	        0.00	
+1        	 0.00	        0.00	|	      0.00	        0.00	
+2        	 0.00	        0.00	|	      0.00	        0.00	
+3        	 0.00	        0.00	|	      0.00	        0.00	
+4        	 0.00	        0.00	|	      0.00	        0.00	
+5        	 0.00	        0.00	|	      0.00	        0.00	
+6        	 0.00	        0.00	|	      0.00	        0.00	
+7        	 0.00	        0.00	|	      0.00	        0.00	
+8        	 0.00	        0.00	|	      0.00	        0.00	
+9        	 0.00	        0.00	|	      0.00	        0.00	
+10       	 0.00	        0.00	|	      0.00	        0.00	
+11       	 0.00	        0.00	|	      0.00	        0.00	
+12       	 0.00	        1.00	|	      0.00	        1.00	
+13       	 0.00	        0.00	|	      0.00	        0.00	
+14       	 0.00	        0.00	|	      0.00	        0.00	
+15       	 0.00	        0.00	|	      0.00	        0.00	
+16       	 0.00	        0.00	|	      0.00	        0.00	
+17       	 0.00	        0.00	|	      0.00	        0.00	
+18       	 0.00	        0.00	|	      0.00	        0.00	
+19       	 0.00	        0.00	|	      0.00	        0.00	
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Figure is saved as config_piece_12_sticky.png

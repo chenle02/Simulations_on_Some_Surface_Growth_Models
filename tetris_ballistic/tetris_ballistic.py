@@ -24,7 +24,8 @@ import imageio
 import os
 import joblib
 from functools import partial
-# from RD_CLI import Envelop, interface_width
+from tetris_ballistic.image_loader import TetrominoImageLoader
+
 np.set_printoptions(threshold=np.inf)  # Make sure that print() displays the entire array
 
 
@@ -121,6 +122,8 @@ class Tetris_Ballistic:
                  density=None,
                  config_file=None):
         self.set_seed(seed)  # Set initial seed
+
+        self.image_loader = TetrominoImageLoader()
 
         if config_file is not None and self.load_config(config_file):
             # Configuration successfully loaded by load_config
@@ -1900,13 +1903,17 @@ class Tetris_Ballistic:
 
         # Optionally add images
         if images is not None:
-            for img_filename in images:
+            n_images = len(images)
+            # Define the spread of the images. This value can be adjusted based on your visual preference.
+            spread = 0.05
+            start_x = 0.6 - spread * (n_images - 1) / 2  # Adjust starting x-position based on the number of images
+
+            for index, img_filename in enumerate(images):
                 img = plt.imread(img_filename)
-                imagebox = OffsetImage(img, zoom=0.1)
-                ab = AnnotationBbox(imagebox,
-                                    (0.5, 0.5),
-                                    frameon=False,
-                                    xycoords='axes fraction')
+                imagebox = OffsetImage(img, zoom=0.2)
+                # Calculate the x position for each image to be spread out
+                x_position = start_x + index * spread
+                ab = AnnotationBbox(imagebox, (x_position, 0.12), frameon=False, xycoords='axes fraction')
                 ax.add_artist(ab)
 
         # Check fig_filename to show or save the figure
@@ -2158,6 +2165,23 @@ class Tetris_Ballistic:
 
         """
         return joblib.load(filename)
+
+    def list_tetromino_images(self):
+        """
+        Obtain the list of Tetromino images.
+
+
+        Returns:
+            list of str: File names of Tetromino images.
+        """
+        images = []
+        for piece_id in range(20):
+            if self.config_data[f"Piece-{piece_id}"][0] > 0:
+                images.append(self.image_loader.get_image_path(piece_id, sticky=False))
+            if self.config_data[f"Piece-{piece_id}"][1] > 0:
+                images.append(self.image_loader.get_image_path(piece_id, sticky=True))
+
+        return images
 
 
 def _create_partial(func, *args, **kwargs):

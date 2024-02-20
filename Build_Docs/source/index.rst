@@ -25,10 +25,10 @@ Welcome to Surface Growth Models with Tetris Pieces's documentation!  Version |v
 
 
    doc_rst/Introduction
-   doc_rst/RD_CLI
-   doc_rst/Visualize_RD
    doc_rst/tetris_ballistic
-   doc_rst/cli
+   doc_rst/image_loader
+   .. doc_rst/scripts
+   .. doc_rst/cli
 
 
 Indices and tables
@@ -37,9 +37,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-
-.. Bibliography
-.. ============
-..
-.. .. bibliography::
-
