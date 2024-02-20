@@ -10,9 +10,28 @@ This script is used to sweep the parameters of the Tetris Ballistic simultaions.
 """
 
 import os
+import sys
 from multiprocessing import Pool
 from joblib import dump
 from tetris_ballistic.tetris_ballistic import Tetris_Ballistic, load_density_from_config
+
+
+class DualLogger:
+    def __init__(self, filepath, mode='a'):
+        self.terminal = sys.stdout
+        self.log = open(filepath, mode)
+
+    def write(self, message):
+        self.terminal.write(message)
+        self.log.write(message)
+
+    def flush(self):  # This flush method is needed for python 3 compatibility.
+        # This flushes the stream to the file, but not the terminal
+        self.terminal.flush()
+        self.log.flush()
+
+    def close(self):
+        self.log.close()
 
 
 def simulate(params, total_iterations):
@@ -23,6 +42,9 @@ def simulate(params, total_iterations):
     joblib_filename = f'{basename}_w={w}_seed={seed}.joblib'
     config_filename = f'{basename}_w={w}_seed={seed}.yaml'
     fig_filename = f'{basename}_w={w}_seed={seed}.png'
+    log_file_path = f'{basename}_w={w}_seed={seed}.log'
+
+    sys.stdout = DualLogger(log_file_path, mode='a')
 
     # Check if this simulation has already been completed
     if os.path.exists(joblib_filename):
@@ -65,6 +87,9 @@ def simulate(params, total_iterations):
     progress = (current_iteration / total_iterations) * 100
     progress_message = f"Progress: {progress:.2f}% Completed simulation: {joblib_filename}"
     log_progress(progress_message)
+
+    sys.stdout.close()  # Assuming sys.stdout was set to an instance of DualLogger
+    sys.stdout = sys.__stdout__
 
 
 def log_progress(progress_message):
