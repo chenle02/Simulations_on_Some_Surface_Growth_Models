@@ -2,7 +2,7 @@
 #SBATCH --job-name=Le
 #SBATCH --nodes=2
 #SBATCH --ntasks-per-node=48
-#SBATCH --partition=general
+#SBATCH --partition=abebeas_bg2
 #SBATCH --mem=96gb
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=lzc0090@auburn.edu

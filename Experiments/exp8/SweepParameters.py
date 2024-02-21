@@ -99,11 +99,13 @@ def log_progress(progress_message):
 
 if __name__ == "__main__":
     ListWidth = [50, 100]
-    ListRandomSeeds = [10 * i for i in range(100)]
+    ListRandomSeeds = [10 * i for i in range(800)]
     configs = [
         "../../tetris_ballistic/configs/config_piece_19_sticky.yaml",
         "../../tetris_ballistic/configs/config_piece_19_nonsticky.yaml",
         "../../tetris_ballistic/configs/config_piece_0_sticky.yaml",
+        "../../tetris_ballistic/configs/config_piece_0_nonsticky.yaml",
+        "../../tetris_ballistic/configs/config_piece_0_combined.yaml",
     ]
 
     # Generate all combinations of parameters
