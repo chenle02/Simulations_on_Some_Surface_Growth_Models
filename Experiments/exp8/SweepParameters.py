@@ -98,7 +98,7 @@ def log_progress(progress_message):
 
 
 if __name__ == "__main__":
-    ListWidth = [50, 100]
+    ListWidth = [50, 100, 200, 500, 1000]
     ListRandomSeeds = [10 * i for i in range(800)]
     configs = [
         "../../tetris_ballistic/configs/config_piece_19_sticky.yaml",
