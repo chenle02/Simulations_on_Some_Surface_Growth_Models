@@ -117,7 +117,7 @@ def PlotFluctuations(piece_id: int, type_: str, width: int, number: int = 0, out
     plt.tight_layout()
 
     if output_filename is None:
-        output_filename = f"Plot_{piece_id}_{type_}_w={width}_numberpaths={NumberSimulations}.png"
+        output_filename = f"Plot_piece_id={piece_id}_{type_}_w={width}_numberpaths={NumberSimulations}.png"
 
     plt.savefig(output_filename)
     plt.show()
