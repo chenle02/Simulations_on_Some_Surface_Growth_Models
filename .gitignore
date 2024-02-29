@@ -192,3 +192,8 @@ Experiments/exp**/*.joblib
 Experiments/exp**/*.yaml
 Experiments/exp**/*.png
 Experiments/exp8/myvenv
+
+Experiments/exp_demo/config_piece_0_sticky_w=50_seed=1510.mp4
+Experiments/exp_demo/config_piece_0_sticky_w=50_seed=1510_equal.mp4
+Experiments/exp_demo/mpv-shot0001.jpg
+Experiments/exp_demo/mpv-shot0002.jpg
