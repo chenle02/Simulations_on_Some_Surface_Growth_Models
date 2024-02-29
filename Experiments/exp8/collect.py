@@ -78,7 +78,8 @@ def PlotFluctuations(piece_id: int, type_: str, width: int, number: int = 0, out
     std_deviation = np.std(truncated_logfluctuations, axis=0, ddof=1)
 
     # Calculate the Standard Error of the Mean (SEM)
-    SEM = std_deviation / np.sqrt(NumberSimulations)
+    # SEM = std_deviation / np.sqrt(NumberSimulations)
+    SEM = std_deviation
 
     # Degrees of freedom
     df = NumberSimulations - 1
