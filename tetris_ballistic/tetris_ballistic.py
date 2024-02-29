@@ -412,6 +412,41 @@ class Tetris_Ballistic:
         self.SampleDist = np.zeros([20, 2])
         print("Substrate along with all statistics have been reset to all zeros.")
 
+    def resize(self, new_height):
+        """
+        Resize the substrate
+        ---------------------
+
+        Adjust the height of the substrate by keeping the bottom rows up to the specified new height.
+
+        Args:
+            new_height (int): The new height of the substrate.
+
+        Returns:
+            None
+        """
+        # Calculate the starting row index for slicing based on the new height
+        # Ensure that the start index is not less than 0
+        start_row = max(self.height - new_height, 0)
+
+        # Slice the substrate to keep the bottom rows up to the new height
+        self.substrate = self.substrate[start_row:self.height]
+
+        # Update the height attribute to reflect the change
+        self.height = new_height
+
+        print(f"There are {self.FinalSteps} steps")
+        a = int(np.max(self.substrate))
+        self.FinalSteps = a
+        print(f"{a} steps")
+        self.AvergeHeight = self.AvergeHeight[:self.FinalSteps]
+        for step in range(self.FinalSteps):
+            top_envelope = self._TopEnvelop(step + 1)
+            average = np.mean(top_envelope)
+            self.AvergeHeight[step] = average
+
+        print(f"Substrate has been resized to {self.height} x {self.width}")
+
     def Sample_Tetris(self, verbose=False):
         """
         Sampling the Tetris piece according to the configuration file
@@ -1936,7 +1971,8 @@ class Tetris_Ballistic:
                              video_filename="simulation.gif",
                              envelop=False,
                              show_average=False,
-                             aspect="auto"):
+                             aspect="auto",
+                             maximum_height=None):
         """
         Visualize the particle deposition simulation and generate a video
         -----------------------------------------------------------------
@@ -1962,6 +1998,8 @@ class Tetris_Ballistic:
             Flag to indicate whether to show the average height.
         aspect : str, optional (default: "auto"),
             Aspect ratio for the figure, other choices could be "equal", 1, or 2 etc...
+        maximum_height : int, optional (default: None)
+            The maximum height of the substrate to visualize. If None, the maximum height is set to the height of the substrate.
 
         Returns
         -------
@@ -2039,6 +2077,12 @@ class Tetris_Ballistic:
 
             if step % 100 == 0:
                 print(f"Step: {step} / {steps}")
+                print(f"top envelop: {np.max(top_envelope)}")
+
+            # if maximum_height is not None and np.max(top_envelope) >= maximum_height:
+            #     break
+            if step > 200:
+                break
 
         match extension:
             case ".gif":
