@@ -1891,7 +1891,7 @@ class Tetris_Ballistic:
 
             self.log_time_slopes[i] = [log_time, slope]
 
-    def ShowData(self, fig_filename=None, custom_text=None, images=None):
+    def ShowData(self, fig_filename=None, custom_text=None, images=None) -> None:
         """
         This function plots the log-log plot of the fluctuation and the average height versus time.
 
@@ -1956,20 +1956,13 @@ class Tetris_Ballistic:
         else:
             plt.show()  # Display the plot
 
-    def PlotStat(self, fig_filename="stat.png"):
-        """
-        ....
-        """
-        print(fig_filename)
-
     def visualize_simulation(self,
                              plot_title="",
                              rate=4,
                              video_filename="simulation.gif",
                              envelop=False,
                              show_average=False,
-                             aspect="auto",
-                             maximum_height=None):
+                             aspect="auto") -> None:
         """
         Visualize the particle deposition simulation and generate a video
         -----------------------------------------------------------------
@@ -1995,8 +1988,6 @@ class Tetris_Ballistic:
             Flag to indicate whether to show the average height.
         aspect : str, optional (default: "auto"),
             Aspect ratio for the figure, other choices could be "equal", 1, or 2 etc...
-        maximum_height : int, optional (default: None)
-            The maximum height of the substrate to visualize. If None, the maximum height is set to the height of the substrate.
 
         Returns
         -------
@@ -2076,10 +2067,10 @@ class Tetris_Ballistic:
                 print(f"Step: {step} / {steps}")
                 print(f"top envelop: {np.max(top_envelope)}")
 
-            # if maximum_height is not None and np.max(top_envelope) >= maximum_height:
+            # # if maximum_height is not None and np.max(top_envelope) >= maximum_height:
+            # #     break
+            # if step > 200:
             #     break
-            if step > 200:
-                break
 
         match extension:
             case ".gif":
