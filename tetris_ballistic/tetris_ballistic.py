@@ -433,17 +433,14 @@ class Tetris_Ballistic:
         self.substrate = self.substrate[start_row:self.height]
 
         # Update the height attribute to reflect the change
+        old_height = self.height
         self.height = new_height
 
-        print(f"There are {self.FinalSteps} steps")
-        a = int(np.max(self.substrate))
-        self.FinalSteps = a
-        print(f"{a} steps")
-        self.AvergeHeight = self.AvergeHeight[:self.FinalSteps]
-        for step in range(self.FinalSteps):
-            top_envelope = self._TopEnvelop(step + 1)
-            average = np.mean(top_envelope)
-            self.AvergeHeight[step] = average
+        # Update other attributes that depend on the height
+        last_step = int(np.max(self.substrate))
+        self.FinalSteps = last_step
+        self.AvergeHeight = self.AvergeHeight[:self.FinalSteps] - old_height + new_height
+        self.Fluctuation = self.Fluctuation[:self.FinalSteps]
 
         print(f"Substrate has been resized to {self.height} x {self.width}")
 
