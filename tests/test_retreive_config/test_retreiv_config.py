@@ -3,7 +3,7 @@
 import pytest
 import contextlib
 from tetris_ballistic.retrieve_default_configs import retrieve_default_configs as rdc
-
+from tetris_ballistic.retrieve_default_configs import config_dir
 
 def test_retreive_default_configs():
     """
@@ -21,6 +21,8 @@ def test_retreive_default_configs():
 
         print("\n\n3. Here is config for the piece id = 19 and sticky:")
         rdc(pattern="*piece_19_sticky.yaml")
+
+        print(f"config_dir = {config_dir}")
 
 # config_piece_0_combined.yaml
 # config_piece_0_nonsticky.yaml
