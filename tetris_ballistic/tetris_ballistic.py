@@ -24,7 +24,7 @@ import imageio
 import os
 import joblib
 from functools import partial
-from tetris_ballistic.image_loader import TetrominoImageLoader
+from .image_loader import TetrominoImageLoader
 
 np.set_printoptions(threshold=np.inf)  # Make sure that print() displays the entire array
 
