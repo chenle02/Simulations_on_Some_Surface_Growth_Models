@@ -1,3 +1,10 @@
+#!/usr/bin/env python3
+#
+# By Le Chen and Chatgpt
+# chenle02@gmail.com / le.chen@auburn.edu
+# Created at Mon Mar  4 01:49:06 PM EST 2024
+#
+
 """
 
 This module consists of utility functions for data analysis of the Tetris
@@ -14,7 +21,7 @@ import glob
 from scipy import stats
 import matplotlib.pyplot as plt
 from tetris_ballistic.tetris_ballistic import Tetris_Ballistic, load_density_from_config
-from tetris_ballistic.retrieve_default_configs import retrieve_default_configs as rdc, configs_dir
+# from tetris_ballistic.retrieve_default_configs import retrieve_default_configs as rdc, configs_dir
 
 
 def retrieve_fluctuations(pattern: str,
@@ -29,10 +36,34 @@ def retrieve_fluctuations(pattern: str,
 
     # Use glob to find files matching the pattern
     files = glob.glob(pattern)
-    if verbose:
-        print(f"Files found: {files}")
 
+    if verbose:
+        print(f"pattern = {pattern}")
+        print(f"Number of matches = {len(files)}")
+        for item, file in enumerate(files):
+            print(f"File {item}: {file}")
+        print("\n")
+
+    if len(files) == 0:
+        raise ValueError(f"No file found for the pattern: {pattern}")
+
+    # Load the data from the files
+    for file in files:
+        data = joblib.load(file)
+        TB = Tetris_Ballistic.load_simulation(file)
+        print(TB)
+        print("\n")
 
 # Debug and example usage
 if __name__ == "__main__":
-    retrieve_fluctuations("../Experiments/exp10/*w=50*.joblib", verbose=True)
+    pattern = "../Experiments/exp10/*w=50*.joblib"
+    retrieve_fluctuations(pattern, verbose=True)
+
+    # pattern = "../Experiments/exp10/*w=100*.joblib"
+    # retrieve_fluctuations(pattern, verbose=True)
+    #
+    # pattern = "../Experiments/exp10/*_sticky_*.joblib"
+    # retrieve_fluctuations(pattern, verbose=True)
+    #
+    # pattern = "../Experiments/exp10/*_nonsticky_*.joblib"
+    # retrieve_fluctuations(pattern, verbose=True)

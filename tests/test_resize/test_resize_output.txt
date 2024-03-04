@@ -40,3 +40,9 @@ Step: 100 / 600
 top envelop: 99.0
 Step: 200 / 600
 top envelop: 99.0
+Step: 300 / 600
+top envelop: 85.0
+Step: 400 / 600
+top envelop: 77.0
+Step: 500 / 600
+top envelop: 55.0

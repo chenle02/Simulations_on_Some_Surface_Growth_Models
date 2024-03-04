@@ -1795,7 +1795,7 @@ class Tetris_Ballistic:
 
         return hole_count
 
-    def PrintStatus(self, brief=False):
+    def PrintStatus(self, brief: bool=False, tostring: bool=False) -> str:
         """
         Print the step/status of the class
         ----------------------------------
@@ -1804,27 +1804,28 @@ class Tetris_Ballistic:
 
         Args:
             brief (bool): Whether to print out the substrate, height dynamics, average height, and Fluctuation or not.
+            tostring (bool): Whether to return the output as a string or print it out. Default is False.
         Returns:
-            None
+            str
         """
-        print("------------------------\n")
-        print("Status of the substrate:")
-        print(f"Width:  {self.width}")
-        print(f"Height: {self.height}")
-        print(f"Steps: {self.steps}")
-        print(f"Final Steps: {self.FinalSteps}")
-        print(f"Seed: {self.seed}")
-        print("Tetris distribution:\n")
+        output = []
+        output.append("------------------------\n")
+        output.append("Status of the substrate:")
+        output.append(f"Width:  {self.width}")
+        output.append(f"Height: {self.height}")
+        output.append(f"Steps: {self.steps}")
+        output.append(f"Final Steps: {self.FinalSteps}")
+        output.append(f"Seed: {self.seed}")
+        output.append("Tetris distribution:\n")
         probabilities = np.array([self.config_data[f"Piece-{i}"] for i in range(20)])
         total_sum = probabilities.sum()
-        print("Piece Id\t NS \t Sticky \t|\t Sample NS\t Sample Sticky\n")
+        output.append("Piece Id\t NS \t Sticky \t|\t Sample NS\t Sample Sticky\n")
         for Piece_id in range(20):
-            print(f"{Piece_id:<9}\t",
-                  f"{self.config_data[f'Piece-{Piece_id}'][0] / total_sum:.2f}\t".ljust(12),
-                  f"{self.config_data[f'Piece-{Piece_id}'][1] / total_sum:.2f}\t|\t".ljust(12),
-                  f"{self.SampleDist[Piece_id, 0] / self.FinalSteps:.2f}\t".ljust(12),
-                  f"{self.SampleDist[Piece_id, 1] / self.FinalSteps:.2f}\t"
-                  )
+            output.append(f"{Piece_id:<9}\t" +
+                          f"{self.config_data[f'Piece-{Piece_id}'][0] / total_sum:.2f}\t".ljust(12) +
+                          f"{self.config_data[f'Piece-{Piece_id}'][1] / total_sum:.2f}\t|\t".ljust(12) +
+                          f"{self.SampleDist[Piece_id, 0] / self.FinalSteps:.2f}\t".ljust(12) +
+                          f"{self.SampleDist[Piece_id, 1] / self.FinalSteps:.2f}")
 
         # Flatten the matrix to a 1D array for sampling
         flattened_probabilities = probabilities.flatten()
@@ -1836,14 +1837,29 @@ class Tetris_Ballistic:
         normalized_probabilities = np.clip(normalized_probabilities, epsilon, 1)
         normalized_sampledist = np.clip(normalized_sampledist, epsilon, 1)
         Divergence = 1 / 2 * (entropy(normalized_probabilities, normalized_sampledist) + entropy(normalized_sampledist, normalized_probabilities))
-        print(f"Jensen-Shannon Divergence: {Divergence:.4f}\n")
+        output.append(f"Jensen-Shannon Divergence: {Divergence:.4f}\n")
 
         if not brief:
-            print(f"Substrate:\n {self.substrate}")
-            print(f"Average Height:\n {self.AvergeHeight[:self.FinalSteps]}")
-            print(f"Fluctuation:\n {self.Fluctuation[:self.FinalSteps]}")
+            output.append(f"Substrate:\n {self.substrate}")
+            output.append(f"Average Height:\n {self.AverageHeight[:self.FinalSteps]}")
+            output.append(f"Fluctuation:\n {self.Fluctuation[:self.FinalSteps]}")
 
-        print(f"Log-time vs slopes:\n {self.log_time_slopes}")
+        output.append(f"Log-time vs slopes:\n {self.log_time_slopes}")
+
+        final_output = "\n".join(output)
+        if not tostring:
+            print(final_output)
+
+        return final_output
+
+    def __str__(self):
+        """
+        This function returns the string representation of the substrate.
+
+        Returns:
+            str: The string representation of the substrate.
+        """
+        return self.PrintStatus(brief=True, tostring=True)
 
     def ComputeSlope(self):
         """
