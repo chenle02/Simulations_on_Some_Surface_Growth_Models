@@ -7,7 +7,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='tetris_ballistic',
-    version='1.2.4',
+    version='1.2.5',
     packages=find_packages(),
     # entry_points={
     #     'console_scripts': [
@@ -15,6 +15,9 @@ setup(
     #     ],
     # },
     # include any other necessary setup options here
+    package_data={
+        "tetris_ballistic": ["configs/*.yaml", "data/*.png"],
+    },
     long_description=long_description,
     long_description_content_type="text/markdown",
 )
