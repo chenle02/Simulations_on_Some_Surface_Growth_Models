@@ -1,0 +1,6 @@
+List of configs: 
+0: config_piece_19_sticky.yaml
+1: config_piece_19_nonsticky.yaml
+2: config_piece_0_combined.yaml
+3: config_piece_0_nonsticky.yaml
+4: config_piece_0_sticky.yaml
