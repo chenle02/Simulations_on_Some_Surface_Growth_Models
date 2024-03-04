@@ -12,7 +12,7 @@ then
   echo ""
   exit 1
 fi
-
+module load python/3.10.5
 
 python3 setup.py sdist bdist_wheel
 pip3 install -e .
