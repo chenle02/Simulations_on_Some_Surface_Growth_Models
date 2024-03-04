@@ -8,7 +8,7 @@
 """
 This script is used to sweep the parameters of the Tetris Ballistic simultaions.
 """
-from tetris_ballistic.SweepParameters import SweepParameters as SP
+from tetris_ballistic.sweep_parameters import sweep_parameters as SP
 
 ListWidth = [50, 100, 200, 500, 1000, 1500]
 ListRandomSeeds = [10 * i for i in range(20)]
