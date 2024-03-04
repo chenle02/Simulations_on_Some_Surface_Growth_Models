@@ -11,7 +11,6 @@ By Le Chen, Mauricio Montes and Ian Ruau
 """
 
 import numpy as np
-# import cupy as np
 import random
 import yaml
 import re
