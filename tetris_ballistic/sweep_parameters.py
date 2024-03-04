@@ -16,8 +16,8 @@ import sys
 from multiprocessing import Pool
 from joblib import dump
 from itertools import chain
-from .tetris_ballistic import Tetris_Ballistic, load_density_from_config
-from .retrieve_default_configs import retrieve_default_configs as rdc, configs_dir
+from tetris_ballistic.tetris_ballistic import Tetris_Ballistic, load_density_from_config
+from tetris_ballistic.retrieve_default_configs import retrieve_default_configs as rdc, configs_dir
 
 
 class DualLogger:
@@ -125,11 +125,10 @@ def log_progress(progress_message):
         log_file.write(progress_message + "\n")
 
 
-def SweepParameters(list_width=[50, 100, 200],
-                    list_random_seeds=[10 * i for i in range(10)],
-                    config_patterns=["*piece_19_sticky.yaml", "*piece_19_nonsticky.yaml", "*piece_0*.yaml"],
-                    ratio=10
-                    ):
+def sweep_parameters(list_width=[50, 100, 200],
+                     list_random_seeds=[10 * i for i in range(10)],
+                     config_patterns=["*piece_19_sticky.yaml", "*piece_19_nonsticky.yaml", "*piece_0*.yaml"],
+                     ratio=10):
     """
     Conducts a parameter sweep for Tetris Ballistic simulations across various
     configurations, grid sizes, and seeds.
@@ -191,6 +190,6 @@ if __name__ == "__main__":
     config_patterns = ["*piece_19_sticky.yaml",
                        "*piece_19_nonsticky.yaml",
                        "*piece_0*.yaml"]
-    SweepParameters(list_width=ListWidth,
-                    list_random_seeds=ListRandomSeeds,
-                    config_patterns=config_patterns)
+    sweep_parameters(list_width=ListWidth,
+                     list_random_seeds=ListRandomSeeds,
+                     config_patterns=config_patterns)

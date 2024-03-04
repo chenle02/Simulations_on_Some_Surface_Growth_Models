@@ -30,48 +30,8 @@ Piece_id          (type_id, rot)                            Name                
 19                (7, 0) (7, 1) (7, 2) (7, 3)               1x1-piece               .. image:: ../images/Tetromino_1x1_Single.png
 ================  ========================================  =====================  =========================================================
 
-.. .. list-table::
-..    :header-rows: 1
-..    :widths: 5 15 40 40
-..    :align: left
-..
-..    * - index
-..      - (id, rot)
-..      - Name
-..      - Image
-..    * - 0
-..      - (0, 0) (0, 1) (0, 2) (0, 3)
-..      - O-piece
-..      - .. image:: ../images/Tetromino_O_Single.png
-..    * - 1
-..      - (1, 0) (1, 2)
-..      - I-piece, horizontal
-..      - .. image:: ../images/Tetromino_I_Horizontal.png
-..    * - 2
-..      - (1, 1) (1, 3)
-..      - I-piece, vertical
-..      - .. image:: ../images/Tetromino_I_Vertical.png
-..    * - 3
-..      - (2, 0)
-..      - L-piece, Up
-..      - .. image:: ../images/Tetromino_L_Up.png
-..    * - 4
-..      - (2, 1)
-..      - L-piece, Left
-..      - .. image:: ../images/Tetromino_L_Left.png
-..    * - 5
-..      - (2, 2)
-..      - L-piece, Down
-..      - .. image:: ../images/Tetromino_L_Down.png
-..    * - 6
-..      - (2, 2)
-..      - L-piece, Right
-..      - .. image:: ../images/Tetromino_L_Right.png
 
 .. automodule:: tetris_ballistic
    :members:
    :undoc-members:
    :show-inheritance:
-
-.. .. autoclass:: tetris_ballistic.Tetris_Ballistic
-..     :members:

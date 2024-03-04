@@ -1,5 +1,4 @@
 """
-
 This module simulates the surface growth by Tetris pieces. It includes
 functions to generate random Tetris pieces, calculate their landing positions
 on a substrate, and simulate a game of Tetris for a given number of steps and a
@@ -24,7 +23,7 @@ import imageio
 import os
 import joblib
 from functools import partial
-from .image_loader import TetrominoImageLoader
+from tetris_ballistic.image_loader import TetrominoImageLoader
 
 np.set_printoptions(threshold=np.inf)  # Make sure that print() displays the entire array
 
