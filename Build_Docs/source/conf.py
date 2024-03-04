@@ -20,16 +20,16 @@ import sys
 # release = version
 
 # The short X.Y version.
-version = '1.2.2'
+version = '1.2.5'
 
 # The full version, including alpha/beta/rc tags.
-release = '1.2.2'
+release = '1.2.5'
 
 sys.path.insert(0, os.path.abspath('../../'))
-sys.path.insert(0, os.path.abspath('../../../'))
+# sys.path.insert(0, os.path.abspath('../../../'))
 sys.path.insert(0, os.path.abspath('../../tetris_ballistic'))
 # sys.path.insert(0, os.path.abspath('../../tetris_ballistic/cli'))
-sys.path.insert(0, os.path.abspath('../../tetris_ballistic/scripts'))
+# sys.path.insert(0, os.path.abspath('../../tetris_ballistic/scripts'))
 
 
 # -- Project information -----------------------------------------------------
