@@ -13,8 +13,8 @@ def test_resize():
     output_file = "test_resize_output.txt"
 
     with open(output_file, "w") as file, contextlib.redirect_stdout(file):
-        ListWidth = [50, 80]
-        ListRandomSeeds = [10, 20]
+        ListWidth = [50, 80, 100, 150]
+        ListRandomSeeds = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]
         # config_patterns = ["*piece_19_sticky.yaml",
         #                    "*piece_19_nonsticky.yaml",
         #                    "*piece_0*.yaml",
