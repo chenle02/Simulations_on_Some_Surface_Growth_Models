@@ -15,4 +15,6 @@ def test_retreive_default_configs():
     with open(output_file, "w") as file, contextlib.redirect_stdout(file):
 
         pattern = "../../Experiments/exp10/*w=50*.joblib"
-        retrieve_fluctuations(pattern, verbose=True)
+        retrieve_fluctuations(pattern,
+                              verbose=True,
+                              output_file="fluctions_w=50.joblib")

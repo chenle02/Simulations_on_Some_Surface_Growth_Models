@@ -32,8 +32,6 @@ def retrieve_fluctuations(pattern: str,
 
     """
 
-    # pattern = f"./config_piece_{piece_id}_{type_}_w={width}*.joblib"
-
     # Use glob to find files matching the pattern
     files = glob.glob(pattern)
 
@@ -48,16 +46,41 @@ def retrieve_fluctuations(pattern: str,
         raise ValueError(f"No file found for the pattern: {pattern}")
 
     # Load the data from the files
+    list_of_fluctuations = []
+    list_of_len = []
     for file in files:
         data = joblib.load(file)
         TB = Tetris_Ballistic.load_simulation(file)
-        print(TB)
-        print("\n")
+        fl = TB.Fluctuation[:TB.FinalSteps]
+        list_of_fluctuations.append(fl)
+        list_of_len.append(len(fl))
+        # print(len(fl))
+        # print("\n")
+
+    min_len = min(list_of_len)
+    max_len = max(list_of_len)
+    ave_len = np.mean(list_of_len)
+    print(f"min_len = {min_len}, max_len = {max_len} and ave_len = {ave_len}")
+
+    result_array = np.zeros((len(list_of_fluctuations), min_len))
+    for i, array in enumerate(list_of_fluctuations):
+        length = min(min_len, array.size)
+        result_array[i, :length] = array[:length]
+
+    print(result_array.shape)
+
+    if output_filename is not None:
+        joblib.dump(result_array, output_filename)
+
+    return result_array
+
 
 # Debug and example usage
 if __name__ == "__main__":
     pattern = "../Experiments/exp10/*w=50*.joblib"
-    retrieve_fluctuations(pattern, verbose=True)
+    retrieve_fluctuations(pattern,
+                          verbose=True,
+                          output_filename="fluctuations_w=50.joblib")
 
     # pattern = "../Experiments/exp10/*w=100*.joblib"
     # retrieve_fluctuations(pattern, verbose=True)
