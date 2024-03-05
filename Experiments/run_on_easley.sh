@@ -1,15 +1,11 @@
 #!/usr/bin/env bash
-# #!/bin/bash
-if [[ $# -eq 0 ]] || [[ "" == "--help" ]]
-then
-  echo ""
-  echo ""
-  echo "Usage: $0 Script_to_run"
+
+# Improved Help Option Check
+if [[ "$1" == "--help" ]] || [[ $# -eq 0 ]]; then
+  echo -e "\nUsage: $0 Script_to_run"
   echo "Generate the job script on Easley HPC at Auburn."
   echo "by Le CHEN, (chenle02@gmail.com)"
-  echo "Tue Mar  5 10:58:56 AM EST 2024"
-  echo ""
-  echo ""
+  echo -e "Tue Mar  5 10:58:56 AM EST 2024\n"
   exit 1
 fi
 
@@ -24,7 +20,7 @@ if [[ -z "$job_name" ]]; then
     exit 1
 fi
 
-echo "Job name: $job_name" # Validate job name
+echo "Job name: $job_name" 
 
 # -------------------------
 # Step 1. Ask for partition
@@ -38,21 +34,15 @@ declare -A partition_options=(
 # Default partition
 default_partition_choice="1"
 
-# Prompt for partition selection
 echo "Select a partition:"
 for key in "${!partition_options[@]}"; do
     echo "$key. ${partition_options[$key]}"
 done
+
 read -p "Enter your choice [default: $default_partition_choice (mathdep_bg2)]: " partition_choice
 partition_choice="${partition_choice:-$default_partition_choice}"
 
-# Validate partition choice and set partition
-if [[ ! -z "${partition_options[$partition_choice]}" ]]; then
-    selected_partition="${partition_options[$partition_choice]}"
-else
-    echo "Invalid choice. Using default partition."
-    selected_partition="${partition_options[$default_partition_choice]}"
-fi
+selected_partition="${partition_options[$partition_choice]:-${partition_options[$default_partition_choice]}}"
 
 echo "Selected partition: $selected_partition"
 
@@ -60,12 +50,11 @@ echo "Selected partition: $selected_partition"
 # Step 2. Ask for emails
 # ----------------------
 email_options=(
-    "lzc0090@auburn.edu" # option 1
-    "mauricio.montes@auburn.edu" # option 2
-    "ian.ruau@auburn.edu" # option 3
+    "lzc0090@auburn.edu"
+    "mauricio.montes@auburn.edu"
+    "ian.ruau@auburn.edu"
 )
 
-# Prompt for email selection
 echo "Select email(s) to notify:"
 echo "1. ${email_options[0]}"
 echo "2. ${email_options[1]}"
@@ -74,39 +63,29 @@ echo "You can choose multiple options, e.g., 1, 2, or 1 2 3."
 read -p "Enter your choice(s) [default: 1]: " email_choices
 email_choices="${email_choices:-1}"
 
-# Process email selection
 IFS=', ' read -r -a selected_indexes <<< "$email_choices"
-declare -a selected_emails
+declare -a selected_emails=("${email_options[0]}") # Default to the first option
 
 for index in "${selected_indexes[@]}"; do
-    # Adjusting index to match array indexing (starting at 0)
-    let adjusted_index=index-1
-    if [[ adjusted_index -ge 0 && adjusted_index -lt ${#email_options[@]} ]]; then
-        selected_emails+=("${email_options[$adjusted_index]}")
+    ((index--)) # Adjust index to 0-based for array access
+    if [[ index -ge 0 && index -lt ${#email_options[@]} ]]; then
+        selected_emails[index]="${email_options[index]}"
     fi
 done
-
-# Fallback to default if no valid selection is made
-if [ ${#selected_emails[@]} -eq 0 ]; then
-    selected_emails+=("${email_options[0]}") # Default to the first option
-fi
 
 # Generate email list string
 email_list=$(IFS=,; echo "${selected_emails[*]}")
 
-# Display selected emails
 echo "Selected email(s) for notification: $email_list"
-
-
 
 # -----------------
 # Step 3. Finalize
 # -----------------
-# Confirmation
 echo "Finalize now:"
 echo "Job name: $job_name"
 echo "Using partition: $selected_partition"
 echo "Emails to notify: $email_list"
+
 # Generate the SLURM script with the specified options
 cat <<EOT > job_script.slurm
 #!/bin/bash
@@ -123,13 +102,13 @@ cat <<EOT > job_script.slurm
 
 # Your commands here
 module load python/anaconda/3.10.9
-cd $(git rev-parse --show-toplevel)
+cd \$(git rev-parse --show-toplevel)
 
-# Install the our package in editable mode
+# Install the package in editable mode
 pip3 install -e .
 
-# Change back to the current directory
-cd -
+# Change back to the initial directory
+cd - 
 
 # Now this is the script to run
 $1
@@ -137,15 +116,5 @@ $1
 echo "Starting job..."
 EOT
 
-echo ""
 echo "SLURM script 'job_script.slurm' created with the specified options."
-echo ""
-echo "------------------------------------------"
-echo ""
-cat job_script.slurm
-chmod 755 job_script.slurm
-echo ""
-echo "------------------------------------------"
-echo ""
-echo "Edit it if needed."
-echo ""
+echo "Review it and submit with 'sbatch job_script.slurm'."
