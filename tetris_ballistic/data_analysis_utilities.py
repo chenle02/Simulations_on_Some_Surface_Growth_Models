@@ -22,7 +22,7 @@ from scipy import stats
 import matplotlib.pyplot as plt
 from tetris_ballistic.tetris_ballistic import Tetris_Ballistic, load_density_from_config
 # from tetris_ballistic.retrieve_default_configs import retrieve_default_configs as rdc, configs_dir
-
+import sqlite3
 
 def retrieve_fluctuations(pattern: str,
                           output_filename: str = None,
@@ -45,17 +45,14 @@ def retrieve_fluctuations(pattern: str,
     if len(files) == 0:
         raise ValueError(f"No file found for the pattern: {pattern}")
 
-    # Load the data from the files
+    # Load the data from the joblib files
     list_of_fluctuations = []
     list_of_len = []
     for file in files:
-        data = joblib.load(file)
         TB = Tetris_Ballistic.load_simulation(file)
         fl = TB.Fluctuation[:TB.FinalSteps]
         list_of_fluctuations.append(fl)
         list_of_len.append(len(fl))
-        # print(len(fl))
-        # print("\n")
 
     min_len = min(list_of_len)
     max_len = max(list_of_len)
@@ -75,12 +72,28 @@ def retrieve_fluctuations(pattern: str,
     return result_array
 
 
+def create_database(db_name: str = "simulation_results.db"):
+    conn = sqlite3.connect(db_name)
+    c = conn.cursor()
+
+    # Create a table
+    c.execute('''CREATE TABLE IF NOT EXISTS simulations
+                (id INTEGER PRIMARY KEY,
+                width INT,
+                random_seed INT,
+                final_steps INT,
+                fluctuation BLOB,
+                slop REAL,
+                config_file TEXT)''')
+
+    # Commit the changes and close the connection to the database
+    conn.commit()
+    conn.close()
+
 # Debug and example usage
 if __name__ == "__main__":
     pattern = "../Experiments/exp10/*w=50*.joblib"
-    retrieve_fluctuations(pattern,
-                          verbose=True,
-                          output_filename="fluctuations_w=50.joblib")
+    retrieve_fluctuations(pattern, verbose=True, output_filename="fluctuations_w=50.joblib")
 
     # pattern = "../Experiments/exp10/*w=100*.joblib"
     # retrieve_fluctuations(pattern, verbose=True)
