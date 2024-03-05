@@ -184,7 +184,7 @@ Experiments/exp2
 tests/sweepparameters/*.yaml
 
 tests/simulation/tmp
-
+./tests/test_Sweep/simulation_results.db
 
 Experiments/exp5-Easley
 
