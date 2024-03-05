@@ -557,6 +557,8 @@ class Tetris_Ballistic:
             i = Update(i)
             if i == -1:
                 print("Game Over, reach the top")
+                self.Fluctuation = self.Fluctuation[:self.FinalSteps]
+                self.AvergeHeight = self.AvergeHeight[:self.FinalSteps]
                 break
 
         if compute_slope:
@@ -1795,7 +1797,7 @@ class Tetris_Ballistic:
 
         return hole_count
 
-    def PrintStatus(self, brief: bool=False, tostring: bool=False) -> str:
+    def PrintStatus(self, brief: bool = False, tostring: bool = False) -> str:
         """
         Print the step/status of the class
         ----------------------------------
