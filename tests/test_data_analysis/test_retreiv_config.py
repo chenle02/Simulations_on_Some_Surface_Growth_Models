@@ -4,7 +4,7 @@ import pytest
 import contextlib
 from tetris_ballistic.retrieve_default_configs import retrieve_default_configs as rdc
 from tetris_ballistic.retrieve_default_configs import configs_dir
-from tetris_ballistic.data_analysis_utitilies import retrieve_fluctuations
+from tetris_ballistic.data_analysis_utilities import retrieve_fluctuations
 
 def test_retreive_default_configs():
     """
