@@ -5,7 +5,7 @@ then
   echo ""
   echo ""
   echo "Usage: $0 dummy"
-  echo "Work under working directory."
+  echo "Two way of  synchronization between local and remote"
   echo "by Le CHEN, (chenle02@gmail.com)"
   echo "Thu 07 Mar 2024 02:20:39 AM EST"
   echo ""
@@ -13,6 +13,7 @@ then
   exit 1
 fi
 
-rsync -avz --progress \
-  lzc0090@Easley:/home/lzc0090/Dropbox/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/Experiments/exp11 \
-  ..
+local="."
+remote="lzc0090@Easley:/home/lzc0090/Dropbox/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/Experiments/exp11"
+rsync -avzu --progress "$remote/" "$local/"
+rsync -avzu --progress "$local/" "$remote/"
