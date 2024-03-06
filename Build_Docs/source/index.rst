@@ -25,10 +25,12 @@ Welcome to Surface Growth Models with Tetris Pieces's documentation!  Version |v
 
 
    doc_rst/Introduction
+   doc_rst/tetrominoes
    doc_rst/tetris_ballistic
    doc_rst/image_loader
    doc_rst/retrieve_default_configs
    doc_rst/sweep_parameters
+   doc_rst/data_analysis_utitilies
 
 
 Indices and tables

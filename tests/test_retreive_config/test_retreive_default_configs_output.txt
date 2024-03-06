@@ -93,3 +93,4 @@ The following configuration files are included:
 3. Here is config for the piece id = 19 and sticky:
 The following configuration files are included:
 1. config_piece_19_sticky.yaml
+config_dir = /home/lechen/Dropbox/Teaching/svn_teaching/2023_Fall_Math7820/GitHub/Simulations_on_Some_Surface_Growth_Models/tetris_ballistic/configs

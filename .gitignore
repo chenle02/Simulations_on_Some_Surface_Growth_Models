@@ -173,6 +173,7 @@ cython_debug/
 *.fdb_latexmk
 *.fls
 *.nav
+*.db
 Share-Slides/
 *.vrb
 
@@ -184,7 +185,6 @@ Experiments/exp2
 tests/sweepparameters/*.yaml
 
 tests/simulation/tmp
-
 
 Experiments/exp5-Easley
 
@@ -198,3 +198,4 @@ Experiments/exp_demo/config_piece_0_sticky_w=50_seed=1510.mp4
 Experiments/exp_demo/config_piece_0_sticky_w=50_seed=1510_equal.mp4
 Experiments/exp_demo/mpv-shot0001.jpg
 Experiments/exp_demo/mpv-shot0002.jpg
+Experiments/exp8.zip
