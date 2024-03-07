@@ -109,14 +109,14 @@ for stick in stickiness:
                          label="95% CI Lower")
 
         max_width_value = max(widths.keys())
-        min_log_fluc = 1.0 * combined_log_fluctuations_array.min()
+        min_log_fluc = 1.01 * combined_log_fluctuations_array.min()
         log_time = np.log10(np.arange(1, global_min_length + 1))
         plt.plot(log_time - (3 / 2) * np.log10(max_width_value), 1 / 3 * log_time + min_log_fluc, label="Slope 1/3", linestyle="--", color="red")
         plt.plot(log_time - (3 / 2) * np.log10(max_width_value), 1 / 2 * log_time + min_log_fluc, label="Slope 1/2", linestyle="-.", color="blue")
 
         plt.xlabel(r'Log$_{10}$(Step) - $\frac{3}{2}$ Log$_{10}$(Width)')
         plt.ylabel(r'Log$_{10}$(Fluctuation) - $\frac{1}{2}$ Log$_{10}$(Width)')
-        plt.title(f'Log-Log Plot with 95% CI for {stick} {type_value}')
+        plt.title(f'Log-Log Plot{" with 95% CI" if with_ci else ""} for {stick} {type_value}')
         plt.legend(loc='upper left')
 
         # Optionally add images
