@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
 from tetris_ballistic.sweep_parameters import sweep_parameters as sp
+from tetris_ballistic.data_analysis_utilities import retrieve_fluctuations, insert_joblibs
+from tetris_ballistic.tetris_ballistic import Tetris_Ballistic
 
+# pattern = "../../Experiments/exp10/*w=50*.joblib"
+# pattern = "../../Experiments/exp10/*w=80*.joblib"
+pattern = "../../Experiments/exp10/*.joblib"
+insert_joblibs(pattern, verbose=True)
 
 ListWidth = [50, 80, 100, 150]
 ListRandomSeeds = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]
@@ -17,3 +23,9 @@ config_patterns = ["*.yaml"]
 sp(list_width=ListWidth,
    list_random_seeds=ListRandomSeeds,
    config_patterns=config_patterns)
+
+# Generate the sqlite database
+pattern = "*.joblib"
+insert_joblibs(pattern,
+               verbose=True,
+               table_name="Simulations")
