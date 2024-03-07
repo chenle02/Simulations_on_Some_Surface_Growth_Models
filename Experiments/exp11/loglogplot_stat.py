@@ -45,16 +45,21 @@ for stick in stickiness:
         color_cycle = plt.rcParams['axes.prop_cycle'].by_key()['color']
         color_index = 0
 
+        global_min_length = 0
+
         for width_value, fluctuations in widths.items():
             color = color_cycle[color_index % len(color_cycle)]  # Cycle through colors
             color_index += 1  # Move to next color for next width_value
 
             # Determine the minimal length across all fluctuations for this type_value
             min_length = min(len(fluctuation) for fluctuation in fluctuations)
+            if min_length > global_min_length:
+                global_min_length = min_length
 
             combined_log_fluctuations = []  # To store all fluctuations up to min_length for calculating mean and CI
             log_time = np.log10(np.arange(1, min_length + 1)) - (3 / 2) * np.log10(width_value)
             number_path = 0
+
             for fluctuation in fluctuations:
                 number_path += 1
                 log_fluctuation_trimmed = np.log10(fluctuation[:min_length]) - (3 / 2) * np.log10(width_value)
@@ -94,10 +99,16 @@ for stick in stickiness:
                      linewidth=1.2,
                      label="95% CI Lower")
 
+        max_width_value = max(widths.keys())
+        log_time = np.log10(np.arange(1, global_min_length + 1)) - (3 / 2) * np.log10(max_width_value)
+        plt.plot(log_time, 1 / 3 * log_time - 1 * np.log10(max_width_value), label="Slope 1/3", linestyle="--", color="red")
+        plt.plot(log_time, 1 / 2 * log_time - 1 * np.log10(max_width_value), label="Slope 1/2", linestyle="-.", color="blue")
+
         plt.xlabel(r'Log$_{10}$(Step) - $\frac{3}{2}$ Log$_{10}$(Width)')
-        plt.ylabel(r'Log$_{10}$(Fluctuation) - $\frac{3}{2}$ Log$_{10}$(Width)')
+        plt.ylabel(r'Log$_{10}$(Fluctuation) - $\frac{1}{2}$ Log$_{10}$(Width)')
         plt.title(f'Log-Log Plot with 95% CI for {stick} {type_value}')
         plt.legend(loc='upper left')
+
 
         filename = f'combined_loglog_plot_CI_type_{stick}_{type_value}.png'
         plt.savefig(filename)

@@ -9,6 +9,7 @@ import sqlite3
 import numpy as np
 import joblib
 import pandas as pd
+# from tetris_ballistic.image_loader import TetrominoImageLoader as til
 
 # Connect to your SQLite database
 conn = sqlite3.connect('./simulation_results.db')
@@ -68,6 +69,7 @@ for stick in stickiness:
             # df.to_csv(f"fluctuations_{type_value}_w={width_value}.csv")
 
     print("Saving fluctuations_dict to disk...")
+
     joblib.dump(fluctuations_dict, f"fluctuations_{stick}_dict.joblib")
 
 # Clean up: close the cursor and connection
