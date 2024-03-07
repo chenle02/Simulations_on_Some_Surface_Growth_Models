@@ -11,10 +11,8 @@ import joblib
 import os
 from scipy.stats import t
 import matplotlib.colors as mcolors
-# from tetris_ballistic.image_loader import TetrominoImageLoader as TIL
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
-from tetris_ballistic.tetris_ballistic import Tetris_Ballistic
-from tetris_ballistic.retrieve_default_configs import retrieve_default_configs as rdc, configs_dir
+from tetris_ballistic.tetris_ballistic import obtain_images
 
 
 def make_darker(color, factor=0.5):
@@ -33,13 +31,6 @@ def make_darker(color, factor=0.5):
 
     # Convert the darker color back to hex format for plotting
     return mcolors.to_hex(rgb_darker)
-
-
-def obtain_images(type_value: str, stick: str):
-    config = rdc(pattern=f"config_{type_value}_{stick}.yaml")[0]
-    # print(f"config: {config}")
-    TB = Tetris_Ballistic(config_file=os.path.join(configs_dir, config))
-    return TB.list_tetromino_images()
 
 
 # Confidence level for 95% CI

@@ -23,6 +23,7 @@ import os
 import joblib
 from functools import partial
 from tetris_ballistic.image_loader import TetrominoImageLoader
+from tetris_ballistic.retrieve_default_configs import retrieve_default_configs as rdc, configs_dir
 
 np.set_printoptions(threshold=np.inf)  # Make sure that print() displays the entire array
 
@@ -2284,6 +2285,21 @@ def load_density_from_config(file_path):
     density = {k: v for k, v in config.items() if k not in keys_to_ignore}
 
     return density
+
+
+def obtain_images(type_value: str, stick: str):
+    """
+    Obtain the images for the Tetromino.
+
+    :param type_value: Type of tetrominoes (e.g., "piece_0", ..., "piece_19", "type_1", ..., "type_6", "piece_all").
+    :param stick: Stickiness of the tetrominoes (e.g., "sticky", "nonsticky", "combined").
+    :return: List of image filenames.
+    """
+    config = rdc(pattern=f"config_{type_value}_{stick}.yaml")[0]
+    # print(f"config: {config}")
+    TB = Tetris_Ballistic(config_file=os.path.join(configs_dir, config))
+    return TB.list_tetromino_images()
+
 
 # Example usage
 # tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=1000, seed=42)
