@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 from tetris_ballistic.data_analysis_utilities import insert_joblibs
 
-# Generate the sqlite database
-pattern = "*.joblib"
-insert_joblibs(pattern,
-               verbose=True,
-               table_name="Simulations")
+stickiness = ["sticky", "nonsticky", "combined"]
+for stick in stickiness:
+    pattern = f"*_{stick}_*.joblib"
+    insert_joblibs(pattern,
+                   verbose=True,
+                   table_name=f"{stick}",)
