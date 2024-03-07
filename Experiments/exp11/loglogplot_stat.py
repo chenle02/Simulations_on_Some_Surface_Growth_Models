@@ -225,6 +225,6 @@ for stick in stickiness:
                 ab = AnnotationBbox(imagebox, (x_position, 0.12), frameon=False, xycoords='axes fraction')
                 ax.add_artist(ab)
 
-        filename = f'combined_loglog_plot_CI_type_{stick}_{type_value}.png'
+        filename = f"combined_loglog_plot{'_CI' if with_ci else ''}_{stick}_{type_value}.png"
         plt.savefig(filename)
         plt.close()
