@@ -54,13 +54,13 @@ for type_value in distinct_types:
         # Fetch all fluctuation results for this type and width
         fluctuations = cursor.fetchall()
 
-        # # Convert fluctuations to a suitable format (e.g., list of NumPy arrays)
-        # # Assuming each fluctuation is a binary blob that can be directly converted into a NumPy array
-        # fluctuations_list = [np.frombuffer(fluctuation[0], dtype=np.float64) for fluctuation in fluctuations]
-        #
-        # # Store the fluctuations list in the sub-dictionary for the current type and width
-        # fluctuations_dict[type_value][width_value] = fluctuations_list
-        #
+        # Convert fluctuations to a suitable format (e.g., list of NumPy arrays)
+        # Assuming each fluctuation is a binary blob that can be directly converted into a NumPy array
+        fluctuations_list = [np.frombuffer(fluctuation[0], dtype=np.float64) for fluctuation in fluctuations]
+
+        # Store the fluctuations list in the sub-dictionary for the current type and width
+        fluctuations_dict[type_value][width_value] = fluctuations_list
+
         # # Save  the fluctuations_dict to a csv file for further analysis
         # df = pd.DataFrame(fluctuations_list)
         # df.to_csv(f"fluctuations_{type_value}_w={width_value}.csv")
