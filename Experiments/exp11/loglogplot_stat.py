@@ -112,12 +112,6 @@ for stick in stickiness:
 
                 slope, intercept, r_value, p_value, std_err = linregress(seg_log_time, seg_mean_log_curve)
 
-                # # Calculating regression line values
-                # reg_line = intercept + slope * seg_log_time
-                #
-                # # Plotting the regression line
-                # plt.plot(seg_log_time, reg_line, linestyle=':', color='red')
-
                 # # Determine the position for the slope label
                 # # mid_point_index = len(seg_log_time) // 2  # Mid-point of segment
                 # text_x = log_time[segment_indices[i + 1]]
@@ -125,6 +119,26 @@ for stick in stickiness:
                 # text_y = mean_log_curve[mid_point_index]
                 #
 
+                # Example values
+                log_time_length = len(log_time)  # Assuming log_time is already defined
+
+                # Calculate the total range in a logarithmic sense
+                total_range = np.log10(log_time_length)
+
+                # Generate segment boundaries in the log scale
+                segment_boundaries_log = np.logspace(0, total_range, num=number_of_segments + 1, base=10)
+
+                # Map to integer indices (round down to ensure we stay within bounds)
+                segment_indices = np.unique(np.floor(segment_boundaries_log).astype(int))
+
+                # Ensure the last index is included
+                segment_indices[-1] = min(segment_indices[-1], log_time_length - 1)
+
+                # # Calculating regression line values
+                # reg_line = intercept + slope * seg_log_time
+                #
+                # # Plotting the regression line
+                # plt.plot(seg_log_time, reg_line, linestyle=':', color='red')
 
                 # Calculate the mid-point x-coordinate for text placement
                 text_x = (seg_log_time[0] + seg_log_time[-1]) / 2
@@ -132,19 +146,22 @@ for stick in stickiness:
                 text_y = intercept + slope * text_x
 
                 # Adding the slope number as text on the plot
-                plt.text(text_x,
-                         text_y,
-                         f"{slope:.2f}",
-                         horizontalalignment='center',
-                         color=darker_color,
-                         fontsize=9)
-
-                # Adding the slope number as text on the plot
                 # plt.text(text_x,
                 #          text_y,
                 #          f"{slope:.2f}",
                 #          horizontalalignment='center',
-                #          color=darker_color)
+                #          color=darker_color,
+                #          fontsize=9)
+                plt.text(text_x, text_y, f"{slope:.2f}",
+                         horizontalalignment='center',
+                         color=make_darker(color, factor=0.8),
+                         fontsize=9,
+                         fontweight='bold',
+                         rotation=0,
+                         bbox=dict(facecolor='white',
+                                   alpha=0.2,
+                                   edgecolor='none',
+                                   boxstyle='round,pad=0.2'))
 
                 print(f"Segment {i+1}-{i+2}: Slope={slope}, R^2={r_value**2}")
 
