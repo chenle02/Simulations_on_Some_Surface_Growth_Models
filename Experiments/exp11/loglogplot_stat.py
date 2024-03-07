@@ -190,13 +190,18 @@ for stick in stickiness:
         plt.plot(log_time - (3 / 2) * np.log10(max_width_value),
                  1 / 3 * log_time + min_log_fluc,
                  label="Slope 1/3",
-                 linestyle="--",
+                 linestyle="-.",
                  color="red")
         plt.plot(log_time - (3 / 2) * np.log10(max_width_value),
                  1 / 2 * log_time + min_log_fluc,
                  label="Slope 1/2",
-                 linestyle="-.",
+                 linestyle="--",
                  color="blue")
+        plt.plot(log_time - (3 / 2) * np.log10(max_width_value),
+                 2 / 3 * log_time + min_log_fluc,
+                 label="Slope 2/3",
+                 linestyle="-.",
+                 color="red")
 
         plt.xlabel(r'Log$_{10}$(Step) - $\frac{3}{2}$ Log$_{10}$(Width)')
         plt.ylabel(r'Log$_{10}$(Fluctuation) - $\frac{1}{2}$ Log$_{10}$(Width)')
