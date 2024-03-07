@@ -35,6 +35,13 @@ def make_darker(color, factor=0.5):
     return mcolors.to_hex(rgb_darker)
 
 
+def obtain_images(type_value: str, stick: str):
+    config = rdc(pattern=f"config_{type_value}_{stick}.yaml")[0]
+    # print(f"config: {config}")
+    TB = Tetris_Ballistic(config_file=os.path.join(configs_dir, config))
+    return TB.list_tetromino_images()
+
+
 # Confidence level for 95% CI
 confidence = 0.95
 with_ci = False
@@ -79,12 +86,8 @@ for stick in stickiness:
 
             combined_log_fluctuations_array = np.array(combined_log_fluctuations)
 
-            # Calculate mean and SEM for each position up to the minimal length
+            # Calculate mean curve
             mean_log_curve = np.mean(combined_log_fluctuations_array, axis=0)
-            sem_log_curve = np.std(combined_log_fluctuations_array, axis=0, ddof=1)
-            df = number_path - 1  # Degrees of freedom
-            # ci_margin = t.ppf((1 + confidence) / 2., df) * sem_log_curve / np.sqrt(number_path)  # Calculate the 95% CI
-            ci_margin = t.ppf((1 + confidence) / 2., df) * sem_log_curve
 
             darker_color = make_darker(color, factor=0.5)  # Make it 50% darker
             plt.plot(log_time,
@@ -94,7 +97,12 @@ for stick in stickiness:
                      linewidth=1.8,
                      label=f"Mean {width_value}")
 
+            # Calculate 95% CI curve
             if with_ci:
+                sem_log_curve = np.std(combined_log_fluctuations_array, axis=0, ddof=1)
+                df = number_path - 1  # Degrees of freedom
+                # ci_margin = t.ppf((1 + confidence) / 2., df) * sem_log_curve / np.sqrt(number_path)  # Calculate the 95% CI
+                ci_margin = t.ppf((1 + confidence) / 2., df) * sem_log_curve
                 plt.plot(log_time,
                          mean_log_curve + ci_margin,
                          color=darker_color,
@@ -111,8 +119,16 @@ for stick in stickiness:
         max_width_value = max(widths.keys())
         min_log_fluc = 1.01 * combined_log_fluctuations_array.min()
         log_time = np.log10(np.arange(1, global_min_length + 1))
-        plt.plot(log_time - (3 / 2) * np.log10(max_width_value), 1 / 3 * log_time + min_log_fluc, label="Slope 1/3", linestyle="--", color="red")
-        plt.plot(log_time - (3 / 2) * np.log10(max_width_value), 1 / 2 * log_time + min_log_fluc, label="Slope 1/2", linestyle="-.", color="blue")
+        plt.plot(log_time - (3 / 2) * np.log10(max_width_value),
+                 1 / 3 * log_time + min_log_fluc,
+                 label="Slope 1/3",
+                 linestyle="--",
+                 color="red")
+        plt.plot(log_time - (3 / 2) * np.log10(max_width_value),
+                 1 / 2 * log_time + min_log_fluc,
+                 label="Slope 1/2",
+                 linestyle="-.",
+                 color="blue")
 
         plt.xlabel(r'Log$_{10}$(Step) - $\frac{3}{2}$ Log$_{10}$(Width)')
         plt.ylabel(r'Log$_{10}$(Fluctuation) - $\frac{1}{2}$ Log$_{10}$(Width)')
@@ -120,10 +136,7 @@ for stick in stickiness:
         plt.legend(loc='upper left')
 
         # Optionally add images
-        config = rdc(pattern=f"config_{type_value}_{stick}.yaml")[0]
-        print(f"config: {config}")
-        TB = Tetris_Ballistic(config_file=os.path.join(configs_dir, config))
-        images = TB.list_tetromino_images()
+        images = obtain_images(type_value, stick)
         n_images = len(images)
 
         if n_images < 10:
