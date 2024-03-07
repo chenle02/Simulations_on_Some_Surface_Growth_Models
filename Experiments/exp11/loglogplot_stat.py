@@ -122,21 +122,22 @@ for stick in stickiness:
         # Optionally add images
         config = rdc(pattern=f"config_{type_value}_{stick}.yaml")[0]
         print(f"config: {config}")
-        TB = Tetris_Ballistic()
-        TB.load_config(os.path.join(configs_dir, config))
+        TB = Tetris_Ballistic(config_file=os.path.join(configs_dir, config))
         images = TB.list_tetromino_images()
         n_images = len(images)
-        # Define the spread of the images. This value can be adjusted based on your visual preference.
-        spread = 0.05
-        start_x = 0.6 - spread * (n_images - 1) / 2  # Adjust starting x-position based on the number of images
 
-        for index, img_filename in enumerate(images):
-            img = plt.imread(img_filename)
-            imagebox = OffsetImage(img, zoom=0.2)
-            # Calculate the x position for each image to be spread out
-            x_position = start_x + index * spread
-            ab = AnnotationBbox(imagebox, (x_position, 0.12), frameon=False, xycoords='axes fraction')
-            ax.add_artist(ab)
+        if n_images < 10:
+            # Define the spread of the images. This value can be adjusted based on your visual preference.
+            spread = 0.05
+            start_x = 0.6 - spread * (n_images - 1) / 2  # Adjust starting x-position based on the number of images
+
+            for index, img_filename in enumerate(images):
+                img = plt.imread(img_filename)
+                imagebox = OffsetImage(img, zoom=0.2)
+                # Calculate the x position for each image to be spread out
+                x_position = start_x + index * spread
+                ab = AnnotationBbox(imagebox, (x_position, 0.12), frameon=False, xycoords='axes fraction')
+                ax.add_artist(ab)
 
         filename = f'combined_loglog_plot_CI_type_{stick}_{type_value}.png'
         plt.savefig(filename)
