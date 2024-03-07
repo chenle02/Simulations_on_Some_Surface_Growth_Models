@@ -8,7 +8,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import joblib
-import os
+from scipy.stats import linregress
 from scipy.stats import t
 import matplotlib.colors as mcolors
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
@@ -33,11 +33,22 @@ def make_darker(color, factor=0.5):
     return mcolors.to_hex(rgb_darker)
 
 
-# Confidence level for 95% CI
+# ------------------------------
+# Parameters for the script
+# ------------------------------
+# 1. Confidence level for 95% CI
 confidence = 0.95
+# 2. Whether include 95% CI in the plot
 with_ci = False
-
+# 3. Slope of the mean curve, how many segments to include
+number_of_segments = 10
+# 4. List of stickiness to include
 stickiness = ["sticky", "nonsticky", "combined"]
+
+
+# ------------------------------
+# Program runs from here.
+# ------------------------------
 for stick in stickiness:
     # Load the fluctuations_dict
     fluctuations_dict = joblib.load(f"fluctuations_{stick}_dict.joblib")
@@ -87,6 +98,55 @@ for stick in stickiness:
                      linestyle='-',
                      linewidth=1.8,
                      label=f"Mean {width_value}")
+
+            # Compute the slope of the mean curve
+            segment_indices = np.round(np.linspace(0, len(log_time), number_of_segments + 1)).astype(int)  # 11 endpoints for 10 segments
+            print(f"Segment indices: {segment_indices}")
+
+            for i in range(len(segment_indices) - 2):  # -2 ensures we look at pairs of segments
+                start_idx = segment_indices[i]
+                end_idx = segment_indices[i + 2]  # +2 to include the next segment fully
+
+                seg_log_time = log_time[start_idx:end_idx]
+                seg_mean_log_curve = mean_log_curve[start_idx:end_idx]
+
+                slope, intercept, r_value, p_value, std_err = linregress(seg_log_time, seg_mean_log_curve)
+
+                # # Calculating regression line values
+                # reg_line = intercept + slope * seg_log_time
+                #
+                # # Plotting the regression line
+                # plt.plot(seg_log_time, reg_line, linestyle=':', color='red')
+
+                # # Determine the position for the slope label
+                # # mid_point_index = len(seg_log_time) // 2  # Mid-point of segment
+                # text_x = log_time[segment_indices[i + 1]]
+                # # text_y = reg_line[mid_point_index] + (reg_line.max() - reg_line.min()) * 0.2  # Slightly above the line
+                # text_y = mean_log_curve[mid_point_index]
+                #
+
+
+                # Calculate the mid-point x-coordinate for text placement
+                text_x = (seg_log_time[0] + seg_log_time[-1]) / 2
+                # Calculate the corresponding y-value on the regression line for text placement
+                text_y = intercept + slope * text_x
+
+                # Adding the slope number as text on the plot
+                plt.text(text_x,
+                         text_y,
+                         f"{slope:.2f}",
+                         horizontalalignment='center',
+                         color=darker_color,
+                         fontsize=9)
+
+                # Adding the slope number as text on the plot
+                # plt.text(text_x,
+                #          text_y,
+                #          f"{slope:.2f}",
+                #          horizontalalignment='center',
+                #          color=darker_color)
+
+                print(f"Segment {i+1}-{i+2}: Slope={slope}, R^2={r_value**2}")
 
             # Calculate 95% CI curve
             if with_ci:
