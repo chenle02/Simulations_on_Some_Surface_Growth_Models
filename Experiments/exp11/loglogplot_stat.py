@@ -32,6 +32,7 @@ def make_darker(color, factor=0.5):
 
 # Confidence level for 95% CI
 confidence = 0.95
+with_ci = False
 
 stickiness = ["sticky", "nonsticky", "combined"]
 for stick in stickiness:
@@ -86,23 +87,26 @@ for stick in stickiness:
                      linestyle='-',
                      linewidth=1.8,
                      label=f"Mean {width_value}")
-            plt.plot(log_time,
-                     mean_log_curve + ci_margin,
-                     color=darker_color,
-                     linewidth=1.2,
-                     linestyle='--',
-                     label="95% CI Upper")
-            plt.plot(log_time,
-                     mean_log_curve - ci_margin,
-                     color=darker_color,
-                     linestyle='--',
-                     linewidth=1.2,
-                     label="95% CI Lower")
+
+            if with_ci:
+                plt.plot(log_time,
+                         mean_log_curve + ci_margin,
+                         color=darker_color,
+                         linewidth=1.2,
+                         linestyle='--',
+                         label="95% CI Upper")
+                plt.plot(log_time,
+                         mean_log_curve - ci_margin,
+                         color=darker_color,
+                         linestyle='--',
+                         linewidth=1.2,
+                         label="95% CI Lower")
 
         max_width_value = max(widths.keys())
-        log_time = np.log10(np.arange(1, global_min_length + 1)) - (3 / 2) * np.log10(max_width_value)
-        plt.plot(log_time, 1 / 3 * log_time - 1 * np.log10(max_width_value), label="Slope 1/3", linestyle="--", color="red")
-        plt.plot(log_time, 1 / 2 * log_time - 1 * np.log10(max_width_value), label="Slope 1/2", linestyle="-.", color="blue")
+        min_log_fluc = 1.0 * combined_log_fluctuations_array.min()
+        log_time = np.log10(np.arange(1, global_min_length + 1))
+        plt.plot(log_time - (3 / 2) * np.log10(max_width_value), 1 / 3 * log_time + min_log_fluc, label="Slope 1/3", linestyle="--", color="red")
+        plt.plot(log_time - (3 / 2) * np.log10(max_width_value), 1 / 2 * log_time + min_log_fluc, label="Slope 1/2", linestyle="-.", color="blue")
 
         plt.xlabel(r'Log$_{10}$(Step) - $\frac{3}{2}$ Log$_{10}$(Width)')
         plt.ylabel(r'Log$_{10}$(Fluctuation) - $\frac{1}{2}$ Log$_{10}$(Width)')
