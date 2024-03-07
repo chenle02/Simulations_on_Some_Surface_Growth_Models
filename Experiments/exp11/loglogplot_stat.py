@@ -8,7 +8,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import joblib
-from scipy.stats import sem, t
+from scipy.stats import t
 import matplotlib.colors as mcolors
 
 
@@ -29,73 +29,76 @@ def make_darker(color, factor=0.5):
     # Convert the darker color back to hex format for plotting
     return mcolors.to_hex(rgb_darker)
 
-# Load the fluctuations_dict
-fluctuations_dict = joblib.load('fluctuations_dict.joblib')
 
 # Confidence level for 95% CI
 confidence = 0.95
 
-for type_value, widths in fluctuations_dict.items():
-    plt.figure(figsize=(10, 6))  # Create a new figure for each type_value
+stickiness = ["sticky", "nonsticky", "combined"]
+for stick in stickiness:
+    # Load the fluctuations_dict
+    fluctuations_dict = joblib.load(f"fluctuations_{stick}_dict.joblib")
 
-    # Get the current color cycle from plt.rcParams
-    color_cycle = plt.rcParams['axes.prop_cycle'].by_key()['color']
-    color_index = 0
+    for type_value, widths in fluctuations_dict.items():
+        plt.figure(figsize=(10, 6))  # Create a new figure for each type_value
 
-    for width_value, fluctuations in widths.items():
-        color = color_cycle[color_index % len(color_cycle)]  # Cycle through colors
-        color_index += 1  # Move to next color for next width_value
+        # Get the current color cycle from plt.rcParams
+        color_cycle = plt.rcParams['axes.prop_cycle'].by_key()['color']
+        color_index = 0
 
-        # Determine the minimal length across all fluctuations for this type_value
-        min_length = min(len(fluctuation) for fluctuation in fluctuations)
+        for width_value, fluctuations in widths.items():
+            color = color_cycle[color_index % len(color_cycle)]  # Cycle through colors
+            color_index += 1  # Move to next color for next width_value
 
-        combined_log_fluctuations = []  # To store all fluctuations up to min_length for calculating mean and CI
-        log_time = np.log10(np.arange(1, min_length + 1)) - (3 / 2) * np.log10(width_value)
-        number_path = 0
-        for fluctuation in fluctuations:
-            number_path += 1
-            log_fluctuation_trimmed = np.log10(fluctuation[:min_length]) - (3 / 2) * np.log10(width_value)
-            combined_log_fluctuations.append(log_fluctuation_trimmed)  # Add trimmed fluctuation for mean and CI calculation
+            # Determine the minimal length across all fluctuations for this type_value
+            min_length = min(len(fluctuation) for fluctuation in fluctuations)
+
+            combined_log_fluctuations = []  # To store all fluctuations up to min_length for calculating mean and CI
+            log_time = np.log10(np.arange(1, min_length + 1)) - (3 / 2) * np.log10(width_value)
+            number_path = 0
+            for fluctuation in fluctuations:
+                number_path += 1
+                log_fluctuation_trimmed = np.log10(fluctuation[:min_length]) - (3 / 2) * np.log10(width_value)
+                combined_log_fluctuations.append(log_fluctuation_trimmed)  # Add trimmed fluctuation for mean and CI calculation
+                plt.plot(log_time,
+                         log_fluctuation_trimmed,
+                         linestyle='-',
+                         color=color,
+                         alpha=0.2)
+
+            combined_log_fluctuations_array = np.array(combined_log_fluctuations)
+
+            # Calculate mean and SEM for each position up to the minimal length
+            mean_log_curve = np.mean(combined_log_fluctuations_array, axis=0)
+            sem_log_curve = np.std(combined_log_fluctuations_array, axis=0, ddof=1)
+            df = number_path - 1  # Degrees of freedom
+            # ci_margin = t.ppf((1 + confidence) / 2., df) * sem_log_curve / np.sqrt(number_path)  # Calculate the 95% CI
+            ci_margin = t.ppf((1 + confidence) / 2., df) * sem_log_curve
+
+            darker_color = make_darker(color, factor=0.5)  # Make it 50% darker
             plt.plot(log_time,
-                     log_fluctuation_trimmed,
+                     mean_log_curve,
+                     color=darker_color,
                      linestyle='-',
-                     color=color,
-                     alpha=0.2)
+                     linewidth=1.8,
+                     label=f"Mean {width_value}")
+            plt.plot(log_time,
+                     mean_log_curve + ci_margin,
+                     color=darker_color,
+                     linewidth=1.2,
+                     linestyle='--',
+                     label="95% CI Upper")
+            plt.plot(log_time,
+                     mean_log_curve - ci_margin,
+                     color=darker_color,
+                     linestyle='--',
+                     linewidth=1.2,
+                     label="95% CI Lower")
 
-        combined_log_fluctuations_array = np.array(combined_log_fluctuations)
+        plt.xlabel(r'Log$_{10}$(Step) - $\frac{3}{2}$ Log$_{10}$(Width)')
+        plt.ylabel(r'Log$_{10}$(Fluctuation) - $\frac{3}{2}$ Log$_{10}$(Width)')
+        plt.title(f'Log-Log Plot with 95% CI for {stick} {type_value}')
+        plt.legend(loc='upper left')
 
-        # Calculate mean and SEM for each position up to the minimal length
-        mean_log_curve = np.mean(combined_log_fluctuations_array, axis=0)
-        sem_log_curve = np.std(combined_log_fluctuations_array, axis=0, ddof=1)
-        df = number_path - 1  # Degrees of freedom
-        # ci_margin = t.ppf((1 + confidence) / 2., df) * sem_log_curve / np.sqrt(number_path)  # Calculate the 95% CI
-        ci_margin = t.ppf((1 + confidence) / 2., df) * sem_log_curve
-
-        darker_color = make_darker(color, factor=0.5)  # Make it 50% darker
-        plt.plot(log_time,
-                 mean_log_curve,
-                 color=darker_color,
-                 linestyle='-',
-                 linewidth=1.8,
-                 label=f"Mean {width_value}")
-        plt.plot(log_time,
-                 mean_log_curve + ci_margin,
-                 color=darker_color,
-                 linewidth=1.8,
-                 linestyle='--',
-                 label="95% CI Upper")
-        plt.plot(log_time,
-                 mean_log_curve - ci_margin,
-                 color=darker_color,
-                 linestyle='--',
-                 linewidth=1.8,
-                 label="95% CI Lower")
-
-    plt.xlabel('Log10(Transformed X)')
-    plt.ylabel('Log10(Transformed Y)')
-    plt.title(f'Log-Log Plot with 95% CI for Type {type_value}')
-    plt.legend(loc='upper left')
-
-    filename = f'combined_loglog_plot_CI_type_{type_value}.png'
-    plt.savefig(filename)
-    plt.close()
+        filename = f'combined_loglog_plot_CI_type_{stick}_{type_value}.png'
+        plt.savefig(filename)
+        plt.close()
