@@ -8,8 +8,13 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import joblib
+import os
 from scipy.stats import t
 import matplotlib.colors as mcolors
+# from tetris_ballistic.image_loader import TetrominoImageLoader as TIL
+from matplotlib.offsetbox import OffsetImage, AnnotationBbox
+from tetris_ballistic.tetris_ballistic import Tetris_Ballistic
+from tetris_ballistic.retrieve_default_configs import retrieve_default_configs as rdc, configs_dir
 
 
 def make_darker(color, factor=0.5):
@@ -41,6 +46,7 @@ for stick in stickiness:
 
     for type_value, widths in fluctuations_dict.items():
         plt.figure(figsize=(10, 6))  # Create a new figure for each type_value
+        fig, ax = plt.subplots(figsize=(10, 5))  # Use fig for the figure reference
 
         # Get the current color cycle from plt.rcParams
         color_cycle = plt.rcParams['axes.prop_cycle'].by_key()['color']
@@ -113,6 +119,24 @@ for stick in stickiness:
         plt.title(f'Log-Log Plot with 95% CI for {stick} {type_value}')
         plt.legend(loc='upper left')
 
+        # Optionally add images
+        config = rdc(pattern=f"config_{type_value}_{stick}.yaml")[0]
+        print(f"config: {config}")
+        TB = Tetris_Ballistic()
+        TB.load_config(os.path.join(configs_dir, config))
+        images = TB.list_tetromino_images()
+        n_images = len(images)
+        # Define the spread of the images. This value can be adjusted based on your visual preference.
+        spread = 0.05
+        start_x = 0.6 - spread * (n_images - 1) / 2  # Adjust starting x-position based on the number of images
+
+        for index, img_filename in enumerate(images):
+            img = plt.imread(img_filename)
+            imagebox = OffsetImage(img, zoom=0.2)
+            # Calculate the x position for each image to be spread out
+            x_position = start_x + index * spread
+            ab = AnnotationBbox(imagebox, (x_position, 0.12), frameon=False, xycoords='axes fraction')
+            ax.add_artist(ab)
 
         filename = f'combined_loglog_plot_CI_type_{stick}_{type_value}.png'
         plt.savefig(filename)
