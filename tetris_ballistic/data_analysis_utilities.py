@@ -17,6 +17,8 @@ Author:
 
 import numpy as np
 import joblib
+from multiprocessing import Pool
+from itertools import chain
 import glob
 import re
 import os
@@ -31,7 +33,9 @@ def retrieve_fluctuations(pattern: str,
                           output_filename: str = None,
                           verbose: bool = False):
     """
-    aaa
+
+    This function retrieves the fluctuations from the joblib files matching the
+    pattern. It gives a basic code snippet to load the data from the joblib.
 
     """
 
@@ -181,6 +185,101 @@ def insert_joblibs(pattern: str = "*.joblib",
     conn.close()
 
     return list_of_fluctuations, list_of_len
+
+
+def generate_one_animation(joblib_file: str) -> None:
+    """
+
+    Generates animations from joblib files matching a specified joblib file of
+    the Tetris Ballistic model and save it as .mp4 file.
+
+    This function searches for joblib files based on a given pattern, loads
+    simulations from these files, and generates visualizations saved as .mp4
+    files. It provides an option to output progress and skips the generation of
+    animations for simulations that already have corresponding .mp4 files.
+
+    Parameters:
+    - joblib_file (str): The file name of the joblib file.
+
+    Raises:
+    - ValueError: If no files match the provided pattern.
+
+    Returns:
+    - None: This function does not return anything.
+
+    """
+    video_filename = joblib_file.replace(".joblib", ".mp4")
+
+    if os.path.exists(video_filename):
+        print(f"Skipping {video_filename} as it already exists.")
+        return
+
+    # Resize the simulation
+    simulation = Tetris_Ballistic.load_simulation(joblib_file)
+    target_height = int((simulation.width * 1.2) // 5 * 5)
+    five_times_height = simulation.height // 5 * 5
+    if simulation.height > target_height:
+        simulation.resize(target_height)
+    elif five_times_height < simulation.height:
+        simulation.resize(five_times_height)
+
+    setup = joblib_file.replace('.joblib', '').replace('config_', ' ').replace('_', ' ')
+    title = f"Tetris Ballistic for {setup}"
+    simulation.visualize_simulation(plot_title=title,
+                                    rate=4,
+                                    video_filename=video_filename,
+                                    envelop=True,
+                                    show_average=True,
+                                    aspect="auto")
+
+    print(f"Successfully generated {video_filename}.")
+
+
+def generate_animations(patterns: list[str], verbose: bool = False) -> None:
+    """
+    Generates animations from joblib files matching a list of patterns and
+    saves them as .mp4 files.
+
+    This function searches for joblib files based on a given pattern, loads
+    simulations from these files, and generates visualizations saved as .mp4
+    files. It provides an option to output progress and skips the generation of
+    animations for simulations that already have corresponding .mp4 files.
+
+    Parameters:
+    - patterns (List[str): The pattern used to match joblib files.
+    - verbose (bool, optional): Whether to output progress. Default is False.
+
+    Raises:
+    - ValueError: If no files match the provided pattern.
+
+    Returns:
+    - None: This function does not return anything.
+
+    """
+    matched_files_set = set()
+
+    for pattern in patterns:
+        matched_files_set.update(glob.glob(pattern))
+
+    matched_files = list(matched_files_set)
+
+    if not matched_files:
+        raise ValueError(f"No files found matching the patterns: {patterns}")
+
+    print(f"Number of files matched: {len(matched_files)}")
+    for index, file in enumerate(matched_files, start=1):
+        print(f"File {index}: {file}")
+
+    if verbose:
+        user_decision = input("Do you want to continue with the animation generation? (yes/no): ")
+        if user_decision.lower() not in ['yes', 'y']:
+            print("Aborting the animation generation process.")
+            return
+
+    # Use multiprocessing Pool to run simulations in parallel
+    with Pool() as pool:
+        pool.starmap(generate_one_animation, [(joblib_file,) for joblib_file in matched_files])
+
 
 # Debug and example usage
 if __name__ == "__main__":

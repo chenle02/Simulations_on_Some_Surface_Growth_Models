@@ -23,6 +23,7 @@ import os
 import joblib
 from functools import partial
 from tetris_ballistic.image_loader import TetrominoImageLoader
+from tetris_ballistic.retrieve_default_configs import retrieve_default_configs as rdc, configs_dir
 
 np.set_printoptions(threshold=np.inf)  # Make sure that print() displays the entire array
 
@@ -410,7 +411,7 @@ class Tetris_Ballistic:
         self.SampleDist = np.zeros([20, 2])
         print("Substrate along with all statistics have been reset to all zeros.")
 
-    def resize(self, new_height):
+    def resize(self, new_height: int) -> None:
         """
         Resize the substrate
         ---------------------
@@ -1137,16 +1138,16 @@ class Tetris_Ballistic:
            - 010
            - X0X
         + rot = 1
-           - 0
+           - 0X
            - 10
-           - 0
+           - 0X
         + rot = 2
-           - X0
+           - X0X
            - 010
         + rot = 3
-           - 0
+           - X0
            - 01
-           - 0
+           - X0
 
         Args:
             position (int): The position or column of the pivot.
@@ -1187,16 +1188,16 @@ class Tetris_Ballistic:
            - 010
            - X0X
         + rot = 1
-           - 0
+           - 0X
            - 10
-           - 0
+           - 0X
         + rot = 2
-           - X0
+           - X0X
            - 010
         + rot = 3
-           - 0
+           - X0
            - 01
-           - 0
+           - X0
 
         Args:
             i (int): The step number.
@@ -1284,8 +1285,8 @@ class Tetris_Ballistic:
 
                 landing_row_outright = self._ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self.height
                 landing_row_pivot = self._ffnz(position)
-                landing_row_left = self._ffnz(position - 1) if position > 1 else self.height
-                landing_row_outleft = self._ffnz(position - 2) + 1 if position > 2 and sticky else self.height
+                landing_row_left = self._ffnz(position - 1) + 1 if position > 1 else self.height
+                landing_row_outleft = self._ffnz(position - 2) + 2 if position > 2 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -2047,6 +2048,10 @@ class Tetris_Ballistic:
             )
 
             top_envelope = self._TopEnvelop(step)
+            very_top = min(top_envelope)
+            if very_top <= 0:
+                break
+
             if envelop:
                 # Compute and plot the top envelope
                 ax.plot(range(self.width),
@@ -2082,11 +2087,6 @@ class Tetris_Ballistic:
             if step % 100 == 0:
                 print(f"Step: {step} / {steps}")
                 print(f"top envelop: {np.max(top_envelope)}")
-
-            # # if maximum_height is not None and np.max(top_envelope) >= maximum_height:
-            # #     break
-            # if step > 200:
-            #     break
 
         match extension:
             case ".gif":
@@ -2284,6 +2284,21 @@ def load_density_from_config(file_path):
     density = {k: v for k, v in config.items() if k not in keys_to_ignore}
 
     return density
+
+
+def obtain_images(type_value: str, stick: str):
+    """
+    Obtain the images for the Tetromino.
+
+    :param type_value: Type of tetrominoes (e.g., "piece_0", ..., "piece_19", "type_1", ..., "type_6", "piece_all").
+    :param stick: Stickiness of the tetrominoes (e.g., "sticky", "nonsticky", "combined").
+    :return: List of image filenames.
+    """
+    config = rdc(pattern=f"config_{type_value}_{stick}.yaml")[0]
+    # print(f"config: {config}")
+    TB = Tetris_Ballistic(config_file=os.path.join(configs_dir, config))
+    return TB.list_tetromino_images()
+
 
 # Example usage
 # tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=1000, seed=42)

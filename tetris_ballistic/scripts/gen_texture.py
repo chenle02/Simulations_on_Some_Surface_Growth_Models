@@ -14,6 +14,25 @@ def add_high_contrast_border(original_image_path, border_size=5, border_color='r
     # Open the original image
     original = Image.open(original_image_path)
 
+    # Check if the image has an alpha channel (transparency)
+    if original.mode == 'RGBA':
+        # Create a white background image
+        background = Image.new("RGB", original.size, (255, 255, 255))
+
+        # Paste the original image onto the background using its alpha channel for transparency
+        background.paste(original, mask=original.split()[3]) # Use the alpha channel as the mask
+
+        original = background
+    elif original.mode == 'LA' or (original.mode == 'P' and 'transparency' in original.info):
+        # Convert images with less common transparency types
+        original = original.convert("RGBA")
+        background = Image.new("RGB", original.size, (255, 255, 255))
+        background.paste(original, mask=original.split()[3])
+        original = background
+    else:
+        # For images without transparency, directly convert to RGB to ensure compatibility
+        original = original.convert("RGB")
+
     # Add a high-contrast border
     bordered_image = ImageOps.expand(original, border=border_size, fill=border_color)
 
