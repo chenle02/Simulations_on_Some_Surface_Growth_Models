@@ -1138,16 +1138,16 @@ class Tetris_Ballistic:
            - 010
            - X0X
         + rot = 1
-           - 0
+           - 0X
            - 10
-           - 0
+           - 0X
         + rot = 2
-           - X0
+           - X0X
            - 010
         + rot = 3
-           - 0
+           - X0
            - 01
-           - 0
+           - X0
 
         Args:
             position (int): The position or column of the pivot.
@@ -1188,16 +1188,16 @@ class Tetris_Ballistic:
            - 010
            - X0X
         + rot = 1
-           - 0
+           - 0X
            - 10
-           - 0
+           - 0X
         + rot = 2
-           - X0
+           - X0X
            - 010
         + rot = 3
-           - 0
+           - X0
            - 01
-           - 0
+           - X0
 
         Args:
             i (int): The step number.
@@ -1286,7 +1286,7 @@ class Tetris_Ballistic:
                 landing_row_outright = self._ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self.height
                 landing_row_pivot = self._ffnz(position)
                 landing_row_left = self._ffnz(position - 1) if position > 1 else self.height
-                landing_row_outleft = self._ffnz(position - 2) + 1 if position > 2 and sticky else self.height
+                landing_row_outleft = self._ffnz(position - 2) + 2 if position > 2 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
