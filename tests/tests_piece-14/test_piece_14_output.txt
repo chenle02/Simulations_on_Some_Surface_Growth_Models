@@ -1,0 +1,82 @@
+Loaded: {'steps': 120.0, 'width': 50.0, 'height': 50.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [1, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ./config_piece_14_nonsticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 50
+Steps: 120
+Final Steps: 120
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	0.00	       0.00	|	     0.00	       0.00
+1        	0.00	       0.00	|	     0.00	       0.00
+2        	0.00	       0.00	|	     0.00	       0.00
+3        	0.00	       0.00	|	     0.00	       0.00
+4        	0.00	       0.00	|	     0.00	       0.00
+5        	0.00	       0.00	|	     0.00	       0.00
+6        	0.00	       0.00	|	     0.00	       0.00
+7        	0.00	       0.00	|	     0.00	       0.00
+8        	0.00	       0.00	|	     0.00	       0.00
+9        	0.00	       0.00	|	     0.00	       0.00
+10       	0.00	       0.00	|	     0.00	       0.00
+11       	0.00	       0.00	|	     0.00	       0.00
+12       	0.00	       0.00	|	     0.00	       0.00
+13       	0.00	       0.00	|	     0.00	       0.00
+14       	1.00	       0.00	|	     1.00	       0.00
+15       	0.00	       0.00	|	     0.00	       0.00
+16       	0.00	       0.00	|	     0.00	       0.00
+17       	0.00	       0.00	|	     0.00	       0.00
+18       	0.00	       0.00	|	     0.00	       0.00
+19       	0.00	       0.00	|	     0.00	       0.00
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Step: 100 / 120
+top envelop: 47.0
+Loaded: {'steps': 120.0, 'width': 50.0, 'height': 50.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 1], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 0]}
+Configure file ./config_piece_14_sticky.yaml loaded successfully.
+Substrate along with all statistics have been reset to all zeros.
+------------------------
+
+Status of the substrate:
+Width:  50
+Height: 50
+Steps: 120
+Final Steps: 120
+Seed: 12.0
+Tetris distribution:
+
+Piece Id	 NS 	 Sticky 	|	 Sample NS	 Sample Sticky
+
+0        	0.00	       0.00	|	     0.00	       0.00
+1        	0.00	       0.00	|	     0.00	       0.00
+2        	0.00	       0.00	|	     0.00	       0.00
+3        	0.00	       0.00	|	     0.00	       0.00
+4        	0.00	       0.00	|	     0.00	       0.00
+5        	0.00	       0.00	|	     0.00	       0.00
+6        	0.00	       0.00	|	     0.00	       0.00
+7        	0.00	       0.00	|	     0.00	       0.00
+8        	0.00	       0.00	|	     0.00	       0.00
+9        	0.00	       0.00	|	     0.00	       0.00
+10       	0.00	       0.00	|	     0.00	       0.00
+11       	0.00	       0.00	|	     0.00	       0.00
+12       	0.00	       0.00	|	     0.00	       0.00
+13       	0.00	       0.00	|	     0.00	       0.00
+14       	0.00	       1.00	|	     0.00	       1.00
+15       	0.00	       0.00	|	     0.00	       0.00
+16       	0.00	       0.00	|	     0.00	       0.00
+17       	0.00	       0.00	|	     0.00	       0.00
+18       	0.00	       0.00	|	     0.00	       0.00
+19       	0.00	       0.00	|	     0.00	       0.00
+Jensen-Shannon Divergence: 0.0000
+
+Log-time vs slopes:
+ None
+Step: 100 / 120
+top envelop: 44.0

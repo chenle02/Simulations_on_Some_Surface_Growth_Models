@@ -1285,7 +1285,7 @@ class Tetris_Ballistic:
 
                 landing_row_outright = self._ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self.height
                 landing_row_pivot = self._ffnz(position)
-                landing_row_left = self._ffnz(position - 1) if position > 1 else self.height
+                landing_row_left = self._ffnz(position - 1) + 1 if position > 1 else self.height
                 landing_row_outleft = self._ffnz(position - 2) + 2 if position > 2 and sticky else self.height
 
                 # Find minimum landing row
