@@ -18,7 +18,7 @@ rm *piece_14_*.joblib *type_4*.joblib *piece_all*.joblib
 ./Sweep.py
 
 # 2. Delete the related entries in the database and then add the newly generated
-# entries back 
+# entries back
 #
 DATABASE_PATH="simulation_results.db"
 #
