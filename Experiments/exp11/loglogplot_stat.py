@@ -12,25 +12,7 @@ from scipy.stats import linregress
 from scipy.stats import t
 import matplotlib.colors as mcolors
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
-from tetris_ballistic.tetris_ballistic import obtain_images
-
-
-def make_darker(color, factor=0.5):
-    """
-    Make a color darker.
-
-    :param color: Original color in a format recognized by matplotlib (e.g., name, hex).
-    :param factor: Factor by which to darken the color (0 to 1, where 0 is no change and 1 is black).
-    :return: Darker color as a hex string.
-    """
-    # Convert the original color to RGB
-    rgb_original = mcolors.to_rgb(color)
-
-    # Calculate the new color by interpolating towards black
-    rgb_darker = [max(0, c * (1 - factor)) for c in rgb_original]
-
-    # Convert the darker color back to hex format for plotting
-    return mcolors.to_hex(rgb_darker)
+from tetris_ballistic.tetris_ballistic import obtain_images, make_darker
 
 
 # ------------------------------
