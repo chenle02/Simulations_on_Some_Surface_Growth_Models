@@ -17,9 +17,3 @@ config_patterns = ["*.yaml"]
 sp(list_width=ListWidth,
    list_random_seeds=ListRandomSeeds,
    config_patterns=config_patterns)
-
-# Generate the sqlite database
-pattern = "*.joblib"
-insert_joblibs(pattern,
-               verbose=True,
-               table_name="Simulations")
