@@ -2048,6 +2048,10 @@ class Tetris_Ballistic:
             )
 
             top_envelope = self._TopEnvelop(step)
+            very_top = min(top_envelope)
+            if very_top <= 0:
+                break
+
             if envelop:
                 # Compute and plot the top envelope
                 ax.plot(range(self.width),
@@ -2083,11 +2087,6 @@ class Tetris_Ballistic:
             if step % 100 == 0:
                 print(f"Step: {step} / {steps}")
                 print(f"top envelop: {np.max(top_envelope)}")
-
-            # # if maximum_height is not None and np.max(top_envelope) >= maximum_height:
-            # #     break
-            # if step > 200:
-            #     break
 
         match extension:
             case ".gif":

@@ -223,7 +223,8 @@ def generate_one_animation(joblib_file: str) -> None:
     elif five_times_height < simulation.height:
         simulation.resize(five_times_height)
 
-    title = f"Tetris Ballistic for {joblib_file.replace('.joblib', '')}"
+    setup = joblib_file.replace('.joblib', '').replace('config_', ' ').replace('_', ' ')
+    title = f"Tetris Ballistic for {setup}"
     simulation.visualize_simulation(plot_title=title,
                                     rate=4,
                                     video_filename=video_filename,
