@@ -235,7 +235,7 @@ def generate_one_animation(joblib_file: str) -> None:
     print(f"Successfully generated {video_filename}.")
 
 
-def generate_animations(patterns: list[str]) -> None:
+def generate_animations(patterns: list[str], verbose: bool = False) -> None:
     """
     Generates animations from joblib files matching a list of patterns and
     saves them as .mp4 files.
@@ -247,6 +247,7 @@ def generate_animations(patterns: list[str]) -> None:
 
     Parameters:
     - patterns (List[str): The pattern used to match joblib files.
+    - verbose (bool, optional): Whether to output progress. Default is False.
 
     Raises:
     - ValueError: If no files match the provided pattern.
@@ -265,17 +266,15 @@ def generate_animations(patterns: list[str]) -> None:
     if not matched_files:
         raise ValueError(f"No files found matching the patterns: {patterns}")
 
-    print("List of joblib files: ")
-    for i, joblib_file in enumerate(matched_files):
-        print(f"{i}: {joblib_file}")
-
     print(f"Number of files matched: {len(matched_files)}")
     for index, file in enumerate(matched_files, start=1):
         print(f"File {index}: {file}")
-    user_decision = input("Do you want to continue with the animation generation? (yes/no): ")
-    if user_decision.lower() not in ['yes', 'y']:
-        print("Aborting the animation generation process.")
-        return
+
+    if verbose:
+        user_decision = input("Do you want to continue with the animation generation? (yes/no): ")
+        if user_decision.lower() not in ['yes', 'y']:
+            print("Aborting the animation generation process.")
+            return
 
     # Use multiprocessing Pool to run simulations in parallel
     with Pool() as pool:
