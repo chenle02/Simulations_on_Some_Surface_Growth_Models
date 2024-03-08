@@ -5,7 +5,7 @@
 # Created at Thu Mar  7 06:56:50 PM EST 2024
 #
 
-from tetris_ballistic.data_analysis_utilities import generate_animations as ga
+from tetris_ballistic.data_analysis_utilities import generate_animations
 
-partern = "*w=50_seed=10.joblib"
-ga(partern, verbose=True)
+parterns = ["*w=50_seed=10.joblib"]
+generate_animations(parterns)

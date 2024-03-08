@@ -214,11 +214,14 @@ def generate_one_animation(joblib_file: str) -> None:
         print(f"Skipping {video_filename} as it already exists.")
         return
 
-
-    # Assuming the rest of the process is encapsulated within these steps
+    # Resize the simulation
     simulation = Tetris_Ballistic.load_simulation(joblib_file)
-    if simulation.height > simulation.width * 1.2:
-        simulation.resize(int(simulation.width * 1.2))
+    target_height = int((simulation.width * 1.2) // 5 * 5)
+    five_times_height = simulation.height // 5 * 5
+    if simulation.height > target_height:
+        simulation.resize(target_height)
+    elif five_times_height < simulation.height:
+        simulation.resize(five_times_height)
 
     title = f"Tetris Ballistic for {joblib_file.replace('.joblib', '')}"
     simulation.visualize_simulation(plot_title=title,
@@ -231,9 +234,9 @@ def generate_one_animation(joblib_file: str) -> None:
     print(f"Successfully generated {video_filename}.")
 
 
-def generate_animations(patterns: List[str], verbose: bool = False) -> None:
+def generate_animations(patterns: list[str]) -> None:
     """
-    Generates animations from joblib files matching a specified pattern and
+    Generates animations from joblib files matching a list of patterns and
     saves them as .mp4 files.
 
     This function searches for joblib files based on a given pattern, loads
@@ -243,7 +246,6 @@ def generate_animations(patterns: List[str], verbose: bool = False) -> None:
 
     Parameters:
     - patterns (List[str): The pattern used to match joblib files.
-    - verbose (bool, optional): If set to True, prints detailed progress updates and information. Defaults to False.
 
     Raises:
     - ValueError: If no files match the provided pattern.
@@ -252,8 +254,15 @@ def generate_animations(patterns: List[str], verbose: bool = False) -> None:
     - None: This function does not return anything.
 
     """
+    matched_files_set = set()
 
-    matched_files = glob.glob([pattern for pattern in patterns])
+    for pattern in patterns:
+        matched_files_set.update(glob.glob(pattern))
+
+    matched_files = list(matched_files_set)
+
+    if not matched_files:
+        raise ValueError(f"No files found matching the patterns: {patterns}")
 
     print("List of joblib files: ")
     for i, joblib_file in enumerate(matched_files):
@@ -267,38 +276,9 @@ def generate_animations(patterns: List[str], verbose: bool = False) -> None:
         print("Aborting the animation generation process.")
         return
 
-    if not matched_files:
-        raise ValueError(f"No files found matching the pattern: {pattern}")
-
-    for index, joblib_file in enumerate(matched_files, start=1):
-        video_filename = joblib_file.replace(".joblib", ".mp4")
-
-        if os.path.exists(video_filename):
-            if verbose:
-                print(f"[{index}/{len(matched_files)}] Skipping {video_filename} as it already exists.")
-            continue
-
-        if verbose:
-            print(f"[{index}/{len(matched_files)}] Processing {joblib_file}...")
-
-        # Assuming the rest of the process is encapsulated within these steps
-        simulation = Tetris_Ballistic.load_simulation(joblib_file)
-        if simulation.height > simulation.width * 1.2:
-            simulation.resize(int(simulation.width * 1.2))
-
-        title = f"Tetris Ballistic for {joblib_file.replace('.joblib', '')}"
-        simulation.visualize_simulation(plot_title=title,
-                                        rate=4,
-                                        video_filename=video_filename,
-                                        envelop=True,
-                                        show_average=True,
-                                        aspect="auto")
-
-        if verbose:
-            print(f"Successfully generated {video_filename}.")
-
-    if verbose:
-        print("Completed generating animations for all matched files.")
+    # Use multiprocessing Pool to run simulations in parallel
+    with Pool() as pool:
+        pool.starmap(generate_one_animation, [(joblib_file,) for joblib_file in matched_files])
 
 
 # Debug and example usage
