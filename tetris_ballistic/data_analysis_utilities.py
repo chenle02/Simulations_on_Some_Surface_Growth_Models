@@ -17,6 +17,8 @@ Author:
 
 import numpy as np
 import joblib
+from multiprocessing import Pool
+from itertools import chain
 import glob
 import re
 import os
@@ -31,7 +33,9 @@ def retrieve_fluctuations(pattern: str,
                           output_filename: str = None,
                           verbose: bool = False):
     """
-    aaa
+
+    This function retrieves the fluctuations from the joblib files matching the
+    pattern. It gives a basic code snippet to load the data from the joblib.
 
     """
 
@@ -181,6 +185,121 @@ def insert_joblibs(pattern: str = "*.joblib",
     conn.close()
 
     return list_of_fluctuations, list_of_len
+
+
+def generate_one_animation(joblib_file: str) -> None:
+    """
+
+    Generates animations from joblib files matching a specified joblib file of
+    the Tetris Ballistic model and save it as .mp4 file.
+
+    This function searches for joblib files based on a given pattern, loads
+    simulations from these files, and generates visualizations saved as .mp4
+    files. It provides an option to output progress and skips the generation of
+    animations for simulations that already have corresponding .mp4 files.
+
+    Parameters:
+    - joblib_file (str): The file name of the joblib file.
+
+    Raises:
+    - ValueError: If no files match the provided pattern.
+
+    Returns:
+    - None: This function does not return anything.
+
+    """
+    video_filename = joblib_file.replace(".joblib", ".mp4")
+
+    if os.path.exists(video_filename):
+        print(f"Skipping {video_filename} as it already exists.")
+        return
+
+
+    # Assuming the rest of the process is encapsulated within these steps
+    simulation = Tetris_Ballistic.load_simulation(joblib_file)
+    if simulation.height > simulation.width * 1.2:
+        simulation.resize(int(simulation.width * 1.2))
+
+    title = f"Tetris Ballistic for {joblib_file.replace('.joblib', '')}"
+    simulation.visualize_simulation(plot_title=title,
+                                    rate=4,
+                                    video_filename=video_filename,
+                                    envelop=True,
+                                    show_average=True,
+                                    aspect="auto")
+
+    print(f"Successfully generated {video_filename}.")
+
+
+def generate_animations(patterns: List[str], verbose: bool = False) -> None:
+    """
+    Generates animations from joblib files matching a specified pattern and
+    saves them as .mp4 files.
+
+    This function searches for joblib files based on a given pattern, loads
+    simulations from these files, and generates visualizations saved as .mp4
+    files. It provides an option to output progress and skips the generation of
+    animations for simulations that already have corresponding .mp4 files.
+
+    Parameters:
+    - patterns (List[str): The pattern used to match joblib files.
+    - verbose (bool, optional): If set to True, prints detailed progress updates and information. Defaults to False.
+
+    Raises:
+    - ValueError: If no files match the provided pattern.
+
+    Returns:
+    - None: This function does not return anything.
+
+    """
+
+    matched_files = glob.glob([pattern for pattern in patterns])
+
+    print("List of joblib files: ")
+    for i, joblib_file in enumerate(matched_files):
+        print(f"{i}: {joblib_file}")
+
+    print(f"Number of files matched: {len(matched_files)}")
+    for index, file in enumerate(matched_files, start=1):
+        print(f"File {index}: {file}")
+    user_decision = input("Do you want to continue with the animation generation? (yes/no): ")
+    if user_decision.lower() not in ['yes', 'y']:
+        print("Aborting the animation generation process.")
+        return
+
+    if not matched_files:
+        raise ValueError(f"No files found matching the pattern: {pattern}")
+
+    for index, joblib_file in enumerate(matched_files, start=1):
+        video_filename = joblib_file.replace(".joblib", ".mp4")
+
+        if os.path.exists(video_filename):
+            if verbose:
+                print(f"[{index}/{len(matched_files)}] Skipping {video_filename} as it already exists.")
+            continue
+
+        if verbose:
+            print(f"[{index}/{len(matched_files)}] Processing {joblib_file}...")
+
+        # Assuming the rest of the process is encapsulated within these steps
+        simulation = Tetris_Ballistic.load_simulation(joblib_file)
+        if simulation.height > simulation.width * 1.2:
+            simulation.resize(int(simulation.width * 1.2))
+
+        title = f"Tetris Ballistic for {joblib_file.replace('.joblib', '')}"
+        simulation.visualize_simulation(plot_title=title,
+                                        rate=4,
+                                        video_filename=video_filename,
+                                        envelop=True,
+                                        show_average=True,
+                                        aspect="auto")
+
+        if verbose:
+            print(f"Successfully generated {video_filename}.")
+
+    if verbose:
+        print("Completed generating animations for all matched files.")
+
 
 # Debug and example usage
 if __name__ == "__main__":

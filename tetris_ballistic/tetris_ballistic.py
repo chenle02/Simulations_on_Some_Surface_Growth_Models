@@ -411,7 +411,7 @@ class Tetris_Ballistic:
         self.SampleDist = np.zeros([20, 2])
         print("Substrate along with all statistics have been reset to all zeros.")
 
-    def resize(self, new_height):
+    def resize(self, new_height: int) -> None:
         """
         Resize the substrate
         ---------------------
