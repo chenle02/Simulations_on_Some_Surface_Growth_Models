@@ -2290,14 +2290,41 @@ def obtain_images(type_value: str, stick: str):
     """
     Obtain the images for the Tetromino.
 
-    :param type_value: Type of tetrominoes (e.g., "piece_0", ..., "piece_19", "type_1", ..., "type_6", "piece_all").
-    :param stick: Stickiness of the tetrominoes (e.g., "sticky", "nonsticky", "combined").
-    :return: List of image filenames.
+    Args:
+        type_value (str): Type of tetrominoes (e.g., "piece_0", ..., "piece_19", "type_1", ..., "type_6", "piece_all").
+        stick (str): Stickiness of the tetrominoes (e.g., "sticky", "nonsticky", "combined").
+
+    Returns:
+      List of image filenames.
     """
     config = rdc(pattern=f"config_{type_value}_{stick}.yaml")[0]
     # print(f"config: {config}")
     TB = Tetris_Ballistic(config_file=os.path.join(configs_dir, config))
     return TB.list_tetromino_images()
+
+
+def make_darker(color: str, factor=0.5):
+    """
+    Make a color darker.
+
+    Args:
+        color (str): Original color in a format recognized by matplotlib (e.g., name, hex).
+        factor (float): A number between 0 and 1. 0 means no change, 1 means black.
+
+    Returns:
+        Darker color as a hex string.
+
+    Example usage:
+        darker_red = make_darker('red', factor=0.5)  # Make red 50% darker
+    """
+    # Convert the original color to RGB
+    rgb_original = mcolors.to_rgb(color)
+
+    # Calculate the new color by interpolating towards black
+    rgb_darker = [max(0, c * (1 - factor)) for c in rgb_original]
+
+    # Convert the darker color back to hex format for plotting
+    return mcolors.to_hex(rgb_darker)
 
 
 # Example usage
