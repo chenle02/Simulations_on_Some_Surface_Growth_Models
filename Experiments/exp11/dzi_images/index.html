@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OpenSeadragon 3x3 Grid Example</title>
+    <script src="/home/lechen/Dropbox/Develop/openseadragon-bin-4.1.0/openseadragon.js"></script>
+    <style>
+        /* Ensure the viewer takes up the full window */
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        #openseadragon-viewer {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="openseadragon-viewer"></div>
+    <script>
+        var viewer = OpenSeadragon({
+            id: "openseadragon-viewer",
+            prefixUrl: "/home/lechen/Dropbox/Develop/openseadragon-bin-4.1.0/images",
+            tileSources: [
+                {
+                    tileSource: "./image1_1.dzi",
+                    x: 0,  // These x, y, and width values are placeholders
+                    y: 0,  // You'll need to adjust them based on your images' aspect ratios
+                    width: 1
+                },
+                {
+                    tileSource: "./image2_1.dzi",
+                    x: 1,  // Position to the right of the first image
+                    y: 0,
+                    width: 1
+                },
+                {
+                    tileSource: "./image3_1.dzi",
+                    x: 2,  // Position to the right of the first image
+                    y: 0,
+                    width: 1
+                },
+                {
+                    tileSource: "./image1_2.dzi",
+                    x: 0,  // These x, y, and width values are placeholders
+                    y: 1,  // You'll need to adjust them based on your images' aspect ratios
+                    width: 1
+                },
+                {
+                    tileSource: "./image2_2.dzi",
+                    x: 1,  // Position to the right of the first image
+                    y: 1,
+                    width: 1
+                },
+                {
+                    tileSource: "./image3_2.dzi",
+                    x: 2,  // Position to the right of the first image
+                    y: 1,
+                    width: 1
+                },
+                {
+                    tileSource: "./image1_3.dzi",
+                    x: 0,  // These x, y, and width values are placeholders
+                    y: 2,  // You'll need to adjust them based on your images' aspect ratios
+                    width: 1
+                },
+                {
+                    tileSource: "./image2_3.dzi",
+                    x: 1,  // Position to the right of the first image
+                    y: 2,
+                    width: 1
+                },
+                {
+                    tileSource: "./image3_3.dzi",
+                    x: 2,  // Position to the right of the first image
+                    y: 2,
+                    width: 1
+                },
+            ],
+          maxZoomPixelRatio: 2, // Allows higher zoom ratio
+          zoomPerClick: 2.2,     // Increases the zoom factor per click
+          zoomPerScroll: 1.4,    // Increases the zoom factor per scroll
+          maxZoomLevel: 10       // Allows zooming in up to 10 times the size of the viewer
+        });
+    </script>
+</body>
+</html>
