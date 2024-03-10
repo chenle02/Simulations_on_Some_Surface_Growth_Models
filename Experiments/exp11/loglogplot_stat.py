@@ -10,7 +10,6 @@ import numpy as np
 import joblib
 from scipy.stats import linregress
 from scipy.stats import t
-import matplotlib.colors as mcolors
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 from tetris_ballistic.tetris_ballistic import obtain_images, make_darker
 
@@ -59,7 +58,6 @@ def loglogplot_stat(number_of_segments: int = 10, with_ci: bool = False) -> None
                              alpha=0.2)
 
                 combined_log_fluctuations_array = np.array(combined_log_fluctuations)
-
 
                 # Calculate mean curve
                 mean_log_curve = np.mean(combined_log_fluctuations_array, axis=0)
@@ -179,7 +177,7 @@ def loglogplot_stat(number_of_segments: int = 10, with_ci: bool = False) -> None
 
             plt.xlabel(r'Log$_{10}$(Step) - $\frac{3}{2}$ Log$_{10}$(Width)')
             plt.ylabel(r'Log$_{10}$(Fluctuation) - $\frac{1}{2}$ Log$_{10}$(Width)')
-            plt.title(f'Log-Log plots{" with 95% CI" if with_ci else ""} for {stick} {type_value}')
+            plt.title(f'Log-Log plots{" with 95% CI" if with_ci else ""} for {stick} {type_value.replace("_", " ")}')
             plt.legend(loc='upper left')
 
             # Optionally add images

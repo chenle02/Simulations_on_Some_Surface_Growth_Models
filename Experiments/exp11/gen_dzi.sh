@@ -14,15 +14,15 @@ then
 fi
 
 
-image1_1="./loglog_plot_type_piece_19.png"
-image2_1="./loglog_plot_type_type_2.png"
-image3_1="./loglog_plot_type_piece_all.png"
-image1_2="./loglog_plot_type_type_1.png"
-image2_2="./loglog_plot_type_type_3.png"
-image3_2="./loglog_plot_type_type_5.png"
-image1_3="./loglog_plot_type_piece_0.png"
-image2_3="./loglog_plot_type_type_4.png"
-image3_3="./loglog_plot_type_type_6.png"
+image1_1="./combined_loglog_plot_sticky_piece_19.png"
+image2_1="./combined_loglog_plot_sticky_type_2.png"
+image3_1="./combined_loglog_plot_sticky_piece_all.png"
+image1_2="./combined_loglog_plot_sticky_type_1.png"
+image2_2="./combined_loglog_plot_sticky_type_3.png"
+image3_2="./combined_loglog_plot_sticky_type_5.png"
+image1_3="./combined_loglog_plot_sticky_piece_0.png"
+image2_3="./combined_loglog_plot_sticky_type_4.png"
+image3_3="./combined_loglog_plot_sticky_type_6.png"
 
 # create a 3x3 dzi image
 
@@ -41,6 +41,9 @@ convert_to_dzi() {
     vips dzsave "$image_path" "$OUTPUT_DIR/$output_base" --suffix .jpg[Q=80] --layout=dz
     echo "Converted $image_path to DZI format."
 }
+
+# First remove all subdirectories in the output directory
+find $OUTPUT_DIR -type d -mindepth 1 -exec rm -r {} +
 
 # Process each image
 convert_to_dzi $image1_1 "image1_1"
