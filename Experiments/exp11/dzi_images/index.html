@@ -1,10 +1,10 @@
+
 <!DOCTYPE html>
 <html>
 <head>
     <title>OpenSeadragon 3x3 Grid Example</title>
     <script src="/home/lechen/Dropbox/Develop/openseadragon-bin-4.1.0/openseadragon.js"></script>
     <style>
-        /* Ensure the viewer takes up the full window */
         body, html {
             height: 100%;
             margin: 0;
@@ -21,67 +21,434 @@
     <script>
         var viewer = OpenSeadragon({
             id: "openseadragon-viewer",
-            prefixUrl: "/home/lechen/Dropbox/Develop/openseadragon-bin-4.1.0/images",
+            prefixUrl: "/home/lechen/Dropbox/Develop/openseadragon-bin-4.1.0/images/",
             tileSources: [
+
                 {
-                    tileSource: "./image1_1.dzi",
-                    x: 0,  // These x, y, and width values are placeholders
-                    y: 0,  // You'll need to adjust them based on your images' aspect ratios
+                    tileSource: "./combined_original_sticky_piece_19.dzi",
+                    x: 1,
+                    y: 0.0,
                     width: 1
                 },
+
                 {
-                    tileSource: "./image2_1.dzi",
-                    x: 1,  // Position to the right of the first image
-                    y: 0,
-                    width: 1
-                },
-                {
-                    tileSource: "./image3_1.dzi",
-                    x: 2,  // Position to the right of the first image
-                    y: 0,
-                    width: 1
-                },
-                {
-                    tileSource: "./image1_2.dzi",
-                    x: 0,  // These x, y, and width values are placeholders
-                    y: 0.5,  // You'll need to adjust them based on your images' aspect ratios
-                    width: 1
-                },
-                {
-                    tileSource: "./image2_2.dzi",
-                    x: 1,  // Position to the right of the first image
+                    tileSource: "./combined_original_sticky_piece_3.dzi",
+                    x: 1,
                     y: 0.5,
                     width: 1
                 },
+
                 {
-                    tileSource: "./image3_2.dzi",
-                    x: 2,  // Position to the right of the first image
+                    tileSource: "./combined_original_sticky_piece_4.dzi",
+                    x: 1,
+                    y: 1.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_sticky_piece_5.dzi",
+                    x: 1,
+                    y: 1.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_sticky_piece_6.dzi",
+                    x: 1,
+                    y: 2.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_sticky_piece_2.dzi",
+                    x: 2,
+                    y: 0.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_sticky_piece_7.dzi",
+                    x: 2,
                     y: 0.5,
                     width: 1
                 },
+
                 {
-                    tileSource: "./image1_3.dzi",
-                    x: 0,  // These x, y, and width values are placeholders
-                    y: 1,  // You'll need to adjust them based on your images' aspect ratios
+                    tileSource: "./combined_original_sticky_piece_8.dzi",
+                    x: 2,
+                    y: 1.0,
                     width: 1
                 },
+
                 {
-                    tileSource: "./image2_3.dzi",
-                    x: 1,  // Position to the right of the first image
-                    y: 1,
+                    tileSource: "./combined_original_sticky_piece_9.dzi",
+                    x: 2,
+                    y: 1.5,
                     width: 1
                 },
+
                 {
-                    tileSource: "./image3_3.dzi",
-                    x: 2,  // Position to the right of the first image
-                    y: 1,
+                    tileSource: "./combined_original_sticky_piece_10.dzi",
+                    x: 2,
+                    y: 2.0,
                     width: 1
                 },
+
+                {
+                    tileSource: "./combined_original_sticky_piece_1.dzi",
+                    x: 3,
+                    y: 0.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_sticky_piece_11.dzi",
+                    x: 3,
+                    y: 0.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_sticky_piece_12.dzi",
+                    x: 3,
+                    y: 1.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_sticky_piece_15.dzi",
+                    x: 3,
+                    y: 1.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_sticky_piece_16.dzi",
+                    x: 3,
+                    y: 2.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_sticky_piece_0.dzi",
+                    x: 4,
+                    y: 0.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_sticky_piece_13.dzi",
+                    x: 4,
+                    y: 0.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_sticky_piece_14.dzi",
+                    x: 4,
+                    y: 1.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_sticky_piece_17.dzi",
+                    x: 4,
+                    y: 1.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_sticky_piece_18.dzi",
+                    x: 4,
+                    y: 2.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_piece_19.dzi",
+                    x: 1,
+                    y: 3.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_piece_3.dzi",
+                    x: 1,
+                    y: 3.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_piece_4.dzi",
+                    x: 1,
+                    y: 4.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_piece_5.dzi",
+                    x: 1,
+                    y: 4.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_piece_6.dzi",
+                    x: 1,
+                    y: 5.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_piece_2.dzi",
+                    x: 2,
+                    y: 3.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_piece_7.dzi",
+                    x: 2,
+                    y: 3.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_piece_8.dzi",
+                    x: 2,
+                    y: 4.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_piece_9.dzi",
+                    x: 2,
+                    y: 4.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_piece_10.dzi",
+                    x: 2,
+                    y: 5.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_piece_1.dzi",
+                    x: 3,
+                    y: 3.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_piece_11.dzi",
+                    x: 3,
+                    y: 3.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_piece_12.dzi",
+                    x: 3,
+                    y: 4.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_piece_15.dzi",
+                    x: 3,
+                    y: 4.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_piece_16.dzi",
+                    x: 3,
+                    y: 5.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_piece_0.dzi",
+                    x: 4,
+                    y: 3.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_piece_13.dzi",
+                    x: 4,
+                    y: 3.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_piece_14.dzi",
+                    x: 4,
+                    y: 4.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_piece_17.dzi",
+                    x: 4,
+                    y: 4.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_piece_18.dzi",
+                    x: 4,
+                    y: 5.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_piece_19.dzi",
+                    x: 5.5,
+                    y: 1.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_piece_3.dzi",
+                    x: 5.5,
+                    y: 2.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_piece_4.dzi",
+                    x: 5.5,
+                    y: 2.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_piece_5.dzi",
+                    x: 5.5,
+                    y: 3.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_piece_6.dzi",
+                    x: 5.5,
+                    y: 3.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_piece_2.dzi",
+                    x: 6.5,
+                    y: 1.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_piece_7.dzi",
+                    x: 6.5,
+                    y: 2.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_piece_8.dzi",
+                    x: 6.5,
+                    y: 2.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_piece_9.dzi",
+                    x: 6.5,
+                    y: 3.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_piece_10.dzi",
+                    x: 6.5,
+                    y: 3.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_piece_1.dzi",
+                    x: 7.5,
+                    y: 1.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_piece_11.dzi",
+                    x: 7.5,
+                    y: 2.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_piece_12.dzi",
+                    x: 7.5,
+                    y: 2.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_piece_15.dzi",
+                    x: 7.5,
+                    y: 3.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_piece_16.dzi",
+                    x: 7.5,
+                    y: 3.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_piece_0.dzi",
+                    x: 8.5,
+                    y: 1.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_piece_13.dzi",
+                    x: 8.5,
+                    y: 2.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_piece_14.dzi",
+                    x: 8.5,
+                    y: 2.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_piece_17.dzi",
+                    x: 8.5,
+                    y: 3.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_piece_18.dzi",
+                    x: 8.5,
+                    y: 3.5,
+                    width: 1
+                },
+
             ],
-          maxZoomPixelRatio: 2, // Allows higher zoom ratio
-          zoomPerClick: 2.2,     // Increases the zoom factor per click
-          zoomPerScroll: 1.4,    // Increases the zoom factor per scroll
-          maxZoomLevel: 10       // Allows zooming in up to 10 times the size of the viewer
+            maxZoomPixelRatio: 2,
+            zoomPerClick: 2.2,
+            zoomPerScroll: 1.4,
+            maxZoomLevel: 10
         });
     </script>
 </body>

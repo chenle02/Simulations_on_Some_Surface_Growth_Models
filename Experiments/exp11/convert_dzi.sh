@@ -22,10 +22,18 @@ mkdir -p $OUTPUT_DIR
 # List of your images
 declare -a images=($(ls combined_*.png))
 
+# First remove all subdirectories in the output directory
+find $OUTPUT_DIR -type d -mindepth 1 -exec rm -r {} +
+cd $OUTPUT_DIR
+rm *.dzi
+cd -
+
+
 # Generate DZI files for each image
 for img in "${images[@]}"; do
     base=$(basename "$img" .png)
-    vips dzsave "$img" "$OUTPUT_DIR/${base}.dzi" --suffix .jpg[Q=80]
+    echo "Processing $img..."
+    vips dzsave "$img" "$OUTPUT_DIR/${base}" --suffix .jpg[Q=80]
 done
 
 echo "DZI generation complete."

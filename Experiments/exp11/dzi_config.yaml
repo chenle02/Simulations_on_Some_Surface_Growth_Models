@@ -3,95 +3,95 @@ results:
   - name: "Sticky"
     Shift: "(0,0)"
     rows:
-      - row: 1
+      - number: 1
         images:
-          - "./combined_original_sticky_piece_19.png"
-          - "./combined_original_sticky_piece_3.png"
-          - "./combined_original_sticky_piece_4.png"
-          - "./combined_original_sticky_piece_5.png"
-          - "./combined_original_sticky_piece_6.png"
-      - row: 2
+          - "combined_original_sticky_piece_19.png"
+          - "combined_original_sticky_piece_3.png"
+          - "combined_original_sticky_piece_4.png"
+          - "combined_original_sticky_piece_5.png"
+          - "combined_original_sticky_piece_6.png"
+      - number: 2
         images:
-          - "./combined_original_sticky_piece_2.png"
-          - "./combined_original_sticky_piece_7.png"
-          - "./combined_original_sticky_piece_8.png"
-          - "./combined_original_sticky_piece_9.png"
-          - "./combined_original_sticky_piece_10.png"
-      - row: 3
+          - "combined_original_sticky_piece_2.png"
+          - "combined_original_sticky_piece_7.png"
+          - "combined_original_sticky_piece_8.png"
+          - "combined_original_sticky_piece_9.png"
+          - "combined_original_sticky_piece_10.png"
+      - number: 3
         images:
-          - "./combined_original_sticky_piece_1.png"
-          - "./combined_original_sticky_piece_11.png"
-          - "./combined_original_sticky_piece_12.png"
-          - "./combined_original_sticky_piece_15.png"
-          - "./combined_original_sticky_piece_16.png"
-      - row: 4
+          - "combined_original_sticky_piece_1.png"
+          - "combined_original_sticky_piece_11.png"
+          - "combined_original_sticky_piece_12.png"
+          - "combined_original_sticky_piece_15.png"
+          - "combined_original_sticky_piece_16.png"
+      - number: 4
         images:
-          - "./combined_original_sticky_piece_0.png"
-          - "./combined_original_sticky_piece_13.png"
-          - "./combined_original_sticky_piece_14.png"
-          - "./combined_original_sticky_piece_17.png"
-          - "./combined_original_sticky_piece_18.png"
+          - "combined_original_sticky_piece_0.png"
+          - "combined_original_sticky_piece_13.png"
+          - "combined_original_sticky_piece_14.png"
+          - "combined_original_sticky_piece_17.png"
+          - "combined_original_sticky_piece_18.png"
 
   - name: "nonsticky"
-    Shift: "(0,4)"
+    Shift: "(0,6)"
     rows:
-      - row: 1
+      - number: 1
         images:
-          - "./combined_original_nonsticky_piece_19.png"
-          - "./combined_original_nonsticky_piece_3.png"
-          - "./combined_original_nonsticky_piece_4.png"
-          - "./combined_original_nonsticky_piece_5.png"
-          - "./combined_original_nonsticky_piece_6.png"
-      - row: 2
+          - "combined_original_nonsticky_piece_19.png"
+          - "combined_original_nonsticky_piece_3.png"
+          - "combined_original_nonsticky_piece_4.png"
+          - "combined_original_nonsticky_piece_5.png"
+          - "combined_original_nonsticky_piece_6.png"
+      - number: 2
         images:
-          - "./combined_original_nonsticky_piece_2.png"
-          - "./combined_original_nonsticky_piece_7.png"
-          - "./combined_original_nonsticky_piece_8.png"
-          - "./combined_original_nonsticky_piece_9.png"
-          - "./combined_original_nonsticky_piece_10.png"
-      - row: 3
+          - "combined_original_nonsticky_piece_2.png"
+          - "combined_original_nonsticky_piece_7.png"
+          - "combined_original_nonsticky_piece_8.png"
+          - "combined_original_nonsticky_piece_9.png"
+          - "combined_original_nonsticky_piece_10.png"
+      - number: 3
         images:
-          - "./combined_original_nonsticky_piece_1.png"
-          - "./combined_original_nonsticky_piece_11.png"
-          - "./combined_original_nonsticky_piece_12.png"
-          - "./combined_original_nonsticky_piece_15.png"
-          - "./combined_original_nonsticky_piece_16.png"
-      - row: 4
+          - "combined_original_nonsticky_piece_1.png"
+          - "combined_original_nonsticky_piece_11.png"
+          - "combined_original_nonsticky_piece_12.png"
+          - "combined_original_nonsticky_piece_15.png"
+          - "combined_original_nonsticky_piece_16.png"
+      - number: 4
         images:
-          - "./combined_original_nonsticky_piece_0.png"
-          - "./combined_original_nonsticky_piece_13.png"
-          - "./combined_original_nonsticky_piece_14.png"
-          - "./combined_original_nonsticky_piece_17.png"
-          - "./combined_original_nonsticky_piece_18.png"
+          - "combined_original_nonsticky_piece_0.png"
+          - "combined_original_nonsticky_piece_13.png"
+          - "combined_original_nonsticky_piece_14.png"
+          - "combined_original_nonsticky_piece_17.png"
+          - "combined_original_nonsticky_piece_18.png"
 
   - name: "combined"
-    Shift: "(6,2)"
+    Shift: "(4.5,3)"
     rows:
-      - row: 1
+      - number: 1
         images:
-          - "./combined_original_combined_piece_19.png"
-          - "./combined_original_combined_piece_3.png"
-          - "./combined_original_combined_piece_4.png"
-          - "./combined_original_combined_piece_5.png"
-          - "./combined_original_combined_piece_6.png"
-      - row: 2
+          - "combined_original_combined_piece_19.png"
+          - "combined_original_combined_piece_3.png"
+          - "combined_original_combined_piece_4.png"
+          - "combined_original_combined_piece_5.png"
+          - "combined_original_combined_piece_6.png"
+      - number: 2
         images:
-          - "./combined_original_combined_piece_2.png"
-          - "./combined_original_combined_piece_7.png"
-          - "./combined_original_combined_piece_8.png"
-          - "./combined_original_combined_piece_9.png"
-          - "./combined_original_combined_piece_10.png"
-      - row: 3
+          - "combined_original_combined_piece_2.png"
+          - "combined_original_combined_piece_7.png"
+          - "combined_original_combined_piece_8.png"
+          - "combined_original_combined_piece_9.png"
+          - "combined_original_combined_piece_10.png"
+      - number: 3
         images:
-          - "./combined_original_combined_piece_1.png"
-          - "./combined_original_combined_piece_11.png"
-          - "./combined_original_combined_piece_12.png"
-          - "./combined_original_combined_piece_15.png"
-          - "./combined_original_combined_piece_16.png"
-      - row: 4
+          - "combined_original_combined_piece_1.png"
+          - "combined_original_combined_piece_11.png"
+          - "combined_original_combined_piece_12.png"
+          - "combined_original_combined_piece_15.png"
+          - "combined_original_combined_piece_16.png"
+      - number: 4
         images:
-          - "./combined_original_combined_piece_0.png"
-          - "./combined_original_combined_piece_13.png"
-          - "./combined_original_combined_piece_14.png"
-          - "./combined_original_combined_piece_17.png"
-          - "./combined_original_combined_piece_18.png"
+          - "combined_original_combined_piece_0.png"
+          - "combined_original_combined_piece_13.png"
+          - "combined_original_combined_piece_14.png"
+          - "combined_original_combined_piece_17.png"
+          - "combined_original_combined_piece_18.png"
