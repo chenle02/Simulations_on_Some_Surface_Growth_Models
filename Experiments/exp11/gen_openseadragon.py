@@ -72,8 +72,8 @@ for result in config.get('results', []):
 html_content += '''
             ],
             maxZoomPixelRatio: 2,
-            zoomPerClick: 2.2,
-            zoomPerScroll: 1.4,
+            zoomPerClick: 1.5,
+            zoomPerScroll: 1.1,
             maxZoomLevel: 10
         });
     </script>
