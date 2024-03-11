@@ -1,5 +1,12 @@
 title: "Simulation results"
 results:
+  # - name: "Title"
+  #   Shift: "(5,0)"
+  #   rows:
+  #     - number: 1
+  #       images:
+  #         - "Title.png"
+
   - name: "Sticky -- piece"
     Shift: "(0,0)"
     rows:
