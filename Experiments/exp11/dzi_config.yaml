@@ -1,0 +1,314 @@
+title: "Simulation results"
+results:
+  # - name: "Title"
+  #   Shift: "(5,0)"
+  #   rows:
+  #     - number: 1
+  #       images:
+  #         - "Title.png"
+
+  - name: "Sticky -- piece"
+    Shift: "(0,0)"
+    rows:
+      - number: 1
+        images:
+          - "combined_original_sticky_piece_19.png"
+          - "combined_original_sticky_piece_3.png"
+          - "combined_original_sticky_piece_4.png"
+          - "combined_original_sticky_piece_5.png"
+          - "combined_original_sticky_piece_6.png"
+      - number: 2
+        images:
+          - "combined_original_sticky_piece_2.png"
+          - "combined_original_sticky_piece_7.png"
+          - "combined_original_sticky_piece_8.png"
+          - "combined_original_sticky_piece_9.png"
+          - "combined_original_sticky_piece_10.png"
+      - number: 3
+        images:
+          - "combined_original_sticky_piece_1.png"
+          - "combined_original_sticky_piece_11.png"
+          - "combined_original_sticky_piece_12.png"
+          - "combined_original_sticky_piece_15.png"
+          - "combined_original_sticky_piece_16.png"
+      - number: 4
+        images:
+          - "combined_original_sticky_piece_0.png"
+          - "combined_original_sticky_piece_13.png"
+          - "combined_original_sticky_piece_14.png"
+          - "combined_original_sticky_piece_17.png"
+          - "combined_original_sticky_piece_18.png"
+
+  - name: "nonsticky -- piece"
+    Shift: "(0,6)"
+    rows:
+      - number: 1
+        images:
+          - "combined_original_nonsticky_piece_19.png"
+          - "combined_original_nonsticky_piece_3.png"
+          - "combined_original_nonsticky_piece_4.png"
+          - "combined_original_nonsticky_piece_5.png"
+          - "combined_original_nonsticky_piece_6.png"
+      - number: 2
+        images:
+          - "combined_original_nonsticky_piece_2.png"
+          - "combined_original_nonsticky_piece_7.png"
+          - "combined_original_nonsticky_piece_8.png"
+          - "combined_original_nonsticky_piece_9.png"
+          - "combined_original_nonsticky_piece_10.png"
+      - number: 3
+        images:
+          - "combined_original_nonsticky_piece_1.png"
+          - "combined_original_nonsticky_piece_11.png"
+          - "combined_original_nonsticky_piece_12.png"
+          - "combined_original_nonsticky_piece_15.png"
+          - "combined_original_nonsticky_piece_16.png"
+      - number: 4
+        images:
+          - "combined_original_nonsticky_piece_0.png"
+          - "combined_original_nonsticky_piece_13.png"
+          - "combined_original_nonsticky_piece_14.png"
+          - "combined_original_nonsticky_piece_17.png"
+          - "combined_original_nonsticky_piece_18.png"
+
+  - name: "combined -- piece"
+    Shift: "(4.5,3)"
+    rows:
+      - number: 1
+        images:
+          - "combined_original_combined_piece_19.png"
+          - "combined_original_combined_piece_3.png"
+          - "combined_original_combined_piece_4.png"
+          - "combined_original_combined_piece_5.png"
+          - "combined_original_combined_piece_6.png"
+      - number: 2
+        images:
+          - "combined_original_combined_piece_2.png"
+          - "combined_original_combined_piece_7.png"
+          - "combined_original_combined_piece_8.png"
+          - "combined_original_combined_piece_9.png"
+          - "combined_original_combined_piece_10.png"
+      - number: 3
+        images:
+          - "combined_original_combined_piece_1.png"
+          - "combined_original_combined_piece_11.png"
+          - "combined_original_combined_piece_12.png"
+          - "combined_original_combined_piece_15.png"
+          - "combined_original_combined_piece_16.png"
+      - number: 4
+        images:
+          - "combined_original_combined_piece_0.png"
+          - "combined_original_combined_piece_13.png"
+          - "combined_original_combined_piece_14.png"
+          - "combined_original_combined_piece_17.png"
+          - "combined_original_combined_piece_18.png"
+
+  - name: "loglog-Sticky -- piece"
+    Shift: "(13.5,0)"
+    rows:
+      - number: 1
+        images:
+          - "combined_loglog_plot_sticky_piece_19.png"
+          - "combined_loglog_plot_sticky_piece_3.png"
+          - "combined_loglog_plot_sticky_piece_4.png"
+          - "combined_loglog_plot_sticky_piece_5.png"
+          - "combined_loglog_plot_sticky_piece_6.png"
+      - number: 2
+        images:
+          - "combined_loglog_plot_sticky_piece_2.png"
+          - "combined_loglog_plot_sticky_piece_7.png"
+          - "combined_loglog_plot_sticky_piece_8.png"
+          - "combined_loglog_plot_sticky_piece_9.png"
+          - "combined_loglog_plot_sticky_piece_10.png"
+      - number: 3
+        images:
+          - "combined_loglog_plot_sticky_piece_1.png"
+          - "combined_loglog_plot_sticky_piece_11.png"
+          - "combined_loglog_plot_sticky_piece_12.png"
+          - "combined_loglog_plot_sticky_piece_15.png"
+          - "combined_loglog_plot_sticky_piece_16.png"
+      - number: 4
+        images:
+          - "combined_loglog_plot_sticky_piece_0.png"
+          - "combined_loglog_plot_sticky_piece_13.png"
+          - "combined_loglog_plot_sticky_piece_14.png"
+          - "combined_loglog_plot_sticky_piece_17.png"
+          - "combined_loglog_plot_sticky_piece_18.png"
+
+  - name: "loglog-nonsticky -- piece"
+    Shift: "(13.5,6)"
+    rows:
+      - number: 1
+        images:
+          - "combined_loglog_plot_nonsticky_piece_19.png"
+          - "combined_loglog_plot_nonsticky_piece_3.png"
+          - "combined_loglog_plot_nonsticky_piece_4.png"
+          - "combined_loglog_plot_nonsticky_piece_5.png"
+          - "combined_loglog_plot_nonsticky_piece_6.png"
+      - number: 2
+        images:
+          - "combined_loglog_plot_nonsticky_piece_2.png"
+          - "combined_loglog_plot_nonsticky_piece_7.png"
+          - "combined_loglog_plot_nonsticky_piece_8.png"
+          - "combined_loglog_plot_nonsticky_piece_9.png"
+          - "combined_loglog_plot_nonsticky_piece_10.png"
+      - number: 3
+        images:
+          - "combined_loglog_plot_nonsticky_piece_1.png"
+          - "combined_loglog_plot_nonsticky_piece_11.png"
+          - "combined_loglog_plot_nonsticky_piece_12.png"
+          - "combined_loglog_plot_nonsticky_piece_15.png"
+          - "combined_loglog_plot_nonsticky_piece_16.png"
+      - number: 4
+        images:
+          - "combined_loglog_plot_nonsticky_piece_0.png"
+          - "combined_loglog_plot_nonsticky_piece_13.png"
+          - "combined_loglog_plot_nonsticky_piece_14.png"
+          - "combined_loglog_plot_nonsticky_piece_17.png"
+          - "combined_loglog_plot_nonsticky_piece_18.png"
+
+  - name: "loglog-combined -- piece"
+    Shift: "(9,3)"
+    rows:
+      - number: 1
+        images:
+          - "combined_loglog_plot_combined_piece_19.png"
+          - "combined_loglog_plot_combined_piece_3.png"
+          - "combined_loglog_plot_combined_piece_4.png"
+          - "combined_loglog_plot_combined_piece_5.png"
+          - "combined_loglog_plot_combined_piece_6.png"
+      - number: 2
+        images:
+          - "combined_loglog_plot_combined_piece_2.png"
+          - "combined_loglog_plot_combined_piece_7.png"
+          - "combined_loglog_plot_combined_piece_8.png"
+          - "combined_loglog_plot_combined_piece_9.png"
+          - "combined_loglog_plot_combined_piece_10.png"
+      - number: 3
+        images:
+          - "combined_loglog_plot_combined_piece_1.png"
+          - "combined_loglog_plot_combined_piece_11.png"
+          - "combined_loglog_plot_combined_piece_12.png"
+          - "combined_loglog_plot_combined_piece_15.png"
+          - "combined_loglog_plot_combined_piece_16.png"
+      - number: 4
+        images:
+          - "combined_loglog_plot_combined_piece_0.png"
+          - "combined_loglog_plot_combined_piece_13.png"
+          - "combined_loglog_plot_combined_piece_14.png"
+          - "combined_loglog_plot_combined_piece_17.png"
+          - "combined_loglog_plot_combined_piece_18.png"
+
+  - name: "Sticky -- type"
+    Shift: "(2,12)"
+    rows:
+      - number: 1
+        images:
+          - "combined_original_sticky_piece_19.png"
+          - "combined_original_sticky_type_2.png"
+          - "combined_original_sticky_piece_all.png"
+      - number: 2
+        images:
+          - "combined_original_sticky_type_1.png"
+          - "combined_original_sticky_type_3.png"
+          - "combined_original_sticky_type_5.png"
+      - number: 3
+        images:
+          - "combined_original_sticky_piece_0.png"
+          - "combined_original_sticky_type_4.png"
+          - "combined_original_sticky_type_6.png"
+
+  - name: "nonsticky -- type"
+    Shift: "(2,15.5)"
+    rows:
+      - number: 1
+        images:
+          - "combined_original_nonsticky_piece_19.png"
+          - "combined_original_nonsticky_type_2.png"
+          - "combined_original_nonsticky_piece_all.png"
+      - number: 2
+        images:
+          - "combined_original_nonsticky_type_1.png"
+          - "combined_original_nonsticky_type_3.png"
+          - "combined_original_nonsticky_type_5.png"
+      - number: 3
+        images:
+          - "combined_original_nonsticky_piece_0.png"
+          - "combined_original_nonsticky_type_4.png"
+          - "combined_original_nonsticky_type_6.png"
+
+  - name: "combined -- type"
+    Shift: "(5.5,13.75)"
+    rows:
+      - number: 1
+        images:
+          - "combined_original_combined_piece_19.png"
+          - "combined_original_combined_type_2.png"
+          - "combined_original_combined_piece_all.png"
+      - number: 2
+        images:
+          - "combined_original_combined_type_1.png"
+          - "combined_original_combined_type_3.png"
+          - "combined_original_combined_type_5.png"
+      - number: 3
+        images:
+          - "combined_original_combined_piece_0.png"
+          - "combined_original_combined_type_4.png"
+          - "combined_original_combined_type_6.png"
+
+  - name: "loglog-Sticky -- type"
+    Shift: "(12.5,12)"
+    rows:
+      - number: 1
+        images:
+          - "combined_loglog_plot_sticky_piece_19.png"
+          - "combined_loglog_plot_sticky_type_2.png"
+          - "combined_loglog_plot_sticky_piece_all.png"
+      - number: 2
+        images:
+          - "combined_loglog_plot_sticky_type_1.png"
+          - "combined_loglog_plot_sticky_type_3.png"
+          - "combined_loglog_plot_sticky_type_5.png"
+      - number: 3
+        images:
+          - "combined_loglog_plot_sticky_piece_0.png"
+          - "combined_loglog_plot_sticky_type_4.png"
+          - "combined_loglog_plot_sticky_type_6.png"
+
+  - name: "loglog-nonsticky -- type"
+    Shift: "(12.5,15.5)"
+    rows:
+      - number: 1
+        images:
+          - "combined_loglog_plot_nonsticky_piece_19.png"
+          - "combined_loglog_plot_nonsticky_type_2.png"
+          - "combined_loglog_plot_nonsticky_piece_all.png"
+      - number: 2
+        images:
+          - "combined_loglog_plot_nonsticky_type_1.png"
+          - "combined_loglog_plot_nonsticky_type_3.png"
+          - "combined_loglog_plot_nonsticky_type_5.png"
+      - number: 3
+        images:
+          - "combined_loglog_plot_nonsticky_piece_0.png"
+          - "combined_loglog_plot_nonsticky_type_4.png"
+          - "combined_loglog_plot_nonsticky_type_6.png"
+
+  - name: "loglog-combined -- type"
+    Shift: "(9,13.75)"
+    rows:
+      - number: 1
+        images:
+          - "combined_loglog_plot_combined_piece_19.png"
+          - "combined_loglog_plot_combined_type_2.png"
+          - "combined_loglog_plot_combined_piece_all.png"
+      - number: 2
+        images:
+          - "combined_loglog_plot_combined_type_1.png"
+          - "combined_loglog_plot_combined_type_3.png"
+          - "combined_loglog_plot_combined_type_5.png"
+      - number: 3
+        images:
+          - "combined_loglog_plot_combined_piece_0.png"
+          - "combined_loglog_plot_combined_type_4.png"
+          - "combined_loglog_plot_combined_type_6.png"

@@ -10,7 +10,6 @@ import numpy as np
 import joblib
 from scipy.stats import linregress
 from scipy.stats import t
-import matplotlib.colors as mcolors
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 from tetris_ballistic.tetris_ballistic import obtain_images, make_darker
 
@@ -29,6 +28,7 @@ def loglogplot_stat(number_of_segments: int = 10, with_ci: bool = False) -> None
             plt.figure(figsize=(10, 6))  # Create a new figure for each type_value
             fig, ax = plt.subplots(figsize=(10, 5))  # Use fig for the figure reference
 
+<<<<<<< HEAD
             # Get the current color cycle from plt.rcParams
             color_cycle = plt.rcParams['axes.prop_cycle'].by_key()['color']
             color_index = 0
@@ -59,13 +59,105 @@ def loglogplot_stat(number_of_segments: int = 10, with_ci: bool = False) -> None
                              alpha=0.2)
 
                 combined_log_fluctuations_array = np.array(combined_log_fluctuations)
+||||||| 2a75b54b
+    # Convert the darker color back to hex format for plotting
+    return mcolors.to_hex(rgb_darker)
+=======
+            # Get the current color cycle from plt.rcParams
+            color_cycle = plt.rcParams['axes.prop_cycle'].by_key()['color']
+            color_index = 0
+>>>>>>> Tetris_Domino_Le
 
+            global_min_length = 0
+
+<<<<<<< HEAD
+                # Calculate mean curve
+                mean_log_curve = np.mean(combined_log_fluctuations_array, axis=0)
+                log_time = np.log10(np.arange(1, min_length + 1)) - (3 / 2) * np.log10(width_value)
+||||||| 2a75b54b
+# ------------------------------
+# Parameters for the script
+# ------------------------------
+# 1. Confidence level for 95% CI
+confidence = 0.95
+# 2. Whether include 95% CI in the plot
+with_ci = False
+# 3. Slope of the mean curve, how many segments to include
+number_of_segments = 10
+# 4. List of stickiness to include
+stickiness = ["sticky", "nonsticky", "combined"]
+=======
+            for width_value, fluctuations in widths.items():
+                color = color_cycle[color_index % len(color_cycle)]  # Cycle through colors
+                color_index += 1  # Move to next color for next width_value
+>>>>>>> Tetris_Domino_Le
+
+<<<<<<< HEAD
+                darker_color = make_darker(color, factor=0.5)  # Make it 50% darker
+||||||| 2a75b54b
+
+# ------------------------------
+# Program runs from here.
+# ------------------------------
+for stick in stickiness:
+    # Load the fluctuations_dict
+    fluctuations_dict = joblib.load(f"fluctuations_{stick}_dict.joblib")
+
+    for type_value, widths in fluctuations_dict.items():
+        plt.figure(figsize=(10, 6))  # Create a new figure for each type_value
+        fig, ax = plt.subplots(figsize=(10, 5))  # Use fig for the figure reference
+
+        # Get the current color cycle from plt.rcParams
+        color_cycle = plt.rcParams['axes.prop_cycle'].by_key()['color']
+        color_index = 0
+
+        global_min_length = 0
+
+        for width_value, fluctuations in widths.items():
+            color = color_cycle[color_index % len(color_cycle)]  # Cycle through colors
+            color_index += 1  # Move to next color for next width_value
+
+            # Determine the minimal length across all fluctuations for this type_value
+            min_length = min(len(fluctuation) for fluctuation in fluctuations)
+            if min_length > global_min_length:
+                global_min_length = min_length
+
+            combined_log_fluctuations = []  # To store all fluctuations up to min_length for calculating mean and CI
+            log_time = np.log10(np.arange(1, min_length + 1)) - (3 / 2) * np.log10(width_value)
+            number_path = 0
+
+            for fluctuation in fluctuations:
+                number_path += 1
+                log_fluctuation_trimmed = np.log10(fluctuation[:min_length]) - (3 / 2) * np.log10(width_value)
+                combined_log_fluctuations.append(log_fluctuation_trimmed)  # Add trimmed fluctuation for mean and CI calculation
+=======
+                # Determine the minimal length across all fluctuations for this type_value
+                min_length = min(len(fluctuation) for fluctuation in fluctuations)
+                if min_length > global_min_length:
+                    global_min_length = min_length
+
+                combined_log_fluctuations = []  # To store all fluctuations up to min_length for calculating mean and CI
+                number_path = 0
+
+                for fluctuation in fluctuations:
+                    number_path += 1
+                    log_time = np.log10(np.arange(1, len(fluctuation) + 1)) - (3 / 2) * np.log10(width_value)
+                    log_fluctuation_trimmed = np.log10(fluctuation[:min_length]) - (1 / 2) * np.log10(width_value)
+                    combined_log_fluctuations.append(log_fluctuation_trimmed)  # Add trimmed fluctuation for mean and CI calculation
+                    plt.plot(log_time,
+                             np.log10(fluctuation) - (1 / 2) * np.log10(width_value),
+                             linestyle='-',
+                             color=color,
+                             alpha=0.2)
+
+                combined_log_fluctuations_array = np.array(combined_log_fluctuations)
 
                 # Calculate mean curve
                 mean_log_curve = np.mean(combined_log_fluctuations_array, axis=0)
                 log_time = np.log10(np.arange(1, min_length + 1)) - (3 / 2) * np.log10(width_value)
 
                 darker_color = make_darker(color, factor=0.5)  # Make it 50% darker
+>>>>>>> Tetris_Domino_Le
                 plt.plot(log_time,
                          mean_log_curve,
                          color=darker_color,
@@ -177,10 +269,19 @@ def loglogplot_stat(number_of_segments: int = 10, with_ci: bool = False) -> None
                      linestyle="-.",
                      color="red")
 
+<<<<<<< HEAD
             plt.xlabel(r'Log$_{10}$(Step) - $\frac{3}{2}$ Log$_{10}$(Width)')
             plt.ylabel(r'Log$_{10}$(Fluctuation) - $\frac{1}{2}$ Log$_{10}$(Width)')
             plt.title(f'Log-Log plots{" with 95% CI" if with_ci else ""} for {stick} {type_value}')
             plt.legend(loc='upper left')
+||||||| 2a75b54b
+                print(f"Segment {i+1}-{i+2}: Slope={slope}, R^2={r_value**2}")
+=======
+            plt.xlabel(r'Log$_{10}$(Step) - $\frac{3}{2}$ Log$_{10}$(Width)')
+            plt.ylabel(r'Log$_{10}$(Fluctuation) - $\frac{1}{2}$ Log$_{10}$(Width)')
+            plt.title(f'Log-Log plots{" with 95% CI" if with_ci else ""} for {stick} {type_value.replace("_", " ")}')
+            plt.legend(loc='upper left')
+>>>>>>> Tetris_Domino_Le
 
             # Optionally add images
             images = obtain_images(type_value, stick)

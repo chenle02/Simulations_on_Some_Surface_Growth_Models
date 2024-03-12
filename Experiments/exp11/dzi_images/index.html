@@ -1,0 +1,1255 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OpenSeadragon 3x3 Grid Example</title>
+    <!-- <script src="/home/lechen/Dropbox/Develop/openseadragon-bin-4.1.0/openseadragon.js"></script> -->
+    <script src="https://openseadragon.github.io/openseadragon/openseadragon.min.js"></script>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        #openseadragon-viewer {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="openseadragon-viewer"></div>
+    <script>
+        var viewer = OpenSeadragon({
+            id: "openseadragon-viewer",
+            // prefixUrl: "/home/lechen/Dropbox/Develop/openseadragon-bin-4.1.0/images/",
+            prefixUrl: "https://openseadragon.github.io/openseadragon/images/",
+            tileSources: [
+
+                {
+                    tileSource: "./combined_original_sticky_piece_19.dzi",
+                    x: 1,
+                    y: 0.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_sticky_piece_3.dzi",
+                    x: 1,
+                    y: 0.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_sticky_piece_4.dzi",
+                    x: 1,
+                    y: 1.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_sticky_piece_5.dzi",
+                    x: 1,
+                    y: 1.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_sticky_piece_6.dzi",
+                    x: 1,
+                    y: 2.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_sticky_piece_2.dzi",
+                    x: 2,
+                    y: 0.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_sticky_piece_7.dzi",
+                    x: 2,
+                    y: 0.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_sticky_piece_8.dzi",
+                    x: 2,
+                    y: 1.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_sticky_piece_9.dzi",
+                    x: 2,
+                    y: 1.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_sticky_piece_10.dzi",
+                    x: 2,
+                    y: 2.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_sticky_piece_1.dzi",
+                    x: 3,
+                    y: 0.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_sticky_piece_11.dzi",
+                    x: 3,
+                    y: 0.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_sticky_piece_12.dzi",
+                    x: 3,
+                    y: 1.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_sticky_piece_15.dzi",
+                    x: 3,
+                    y: 1.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_sticky_piece_16.dzi",
+                    x: 3,
+                    y: 2.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_sticky_piece_0.dzi",
+                    x: 4,
+                    y: 0.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_sticky_piece_13.dzi",
+                    x: 4,
+                    y: 0.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_sticky_piece_14.dzi",
+                    x: 4,
+                    y: 1.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_sticky_piece_17.dzi",
+                    x: 4,
+                    y: 1.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_sticky_piece_18.dzi",
+                    x: 4,
+                    y: 2.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_piece_19.dzi",
+                    x: 1,
+                    y: 3.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_piece_3.dzi",
+                    x: 1,
+                    y: 3.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_piece_4.dzi",
+                    x: 1,
+                    y: 4.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_piece_5.dzi",
+                    x: 1,
+                    y: 4.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_piece_6.dzi",
+                    x: 1,
+                    y: 5.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_piece_2.dzi",
+                    x: 2,
+                    y: 3.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_piece_7.dzi",
+                    x: 2,
+                    y: 3.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_piece_8.dzi",
+                    x: 2,
+                    y: 4.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_piece_9.dzi",
+                    x: 2,
+                    y: 4.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_piece_10.dzi",
+                    x: 2,
+                    y: 5.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_piece_1.dzi",
+                    x: 3,
+                    y: 3.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_piece_11.dzi",
+                    x: 3,
+                    y: 3.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_piece_12.dzi",
+                    x: 3,
+                    y: 4.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_piece_15.dzi",
+                    x: 3,
+                    y: 4.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_piece_16.dzi",
+                    x: 3,
+                    y: 5.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_piece_0.dzi",
+                    x: 4,
+                    y: 3.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_piece_13.dzi",
+                    x: 4,
+                    y: 3.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_piece_14.dzi",
+                    x: 4,
+                    y: 4.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_piece_17.dzi",
+                    x: 4,
+                    y: 4.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_piece_18.dzi",
+                    x: 4,
+                    y: 5.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_piece_19.dzi",
+                    x: 5.5,
+                    y: 1.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_piece_3.dzi",
+                    x: 5.5,
+                    y: 2.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_piece_4.dzi",
+                    x: 5.5,
+                    y: 2.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_piece_5.dzi",
+                    x: 5.5,
+                    y: 3.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_piece_6.dzi",
+                    x: 5.5,
+                    y: 3.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_piece_2.dzi",
+                    x: 6.5,
+                    y: 1.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_piece_7.dzi",
+                    x: 6.5,
+                    y: 2.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_piece_8.dzi",
+                    x: 6.5,
+                    y: 2.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_piece_9.dzi",
+                    x: 6.5,
+                    y: 3.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_piece_10.dzi",
+                    x: 6.5,
+                    y: 3.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_piece_1.dzi",
+                    x: 7.5,
+                    y: 1.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_piece_11.dzi",
+                    x: 7.5,
+                    y: 2.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_piece_12.dzi",
+                    x: 7.5,
+                    y: 2.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_piece_15.dzi",
+                    x: 7.5,
+                    y: 3.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_piece_16.dzi",
+                    x: 7.5,
+                    y: 3.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_piece_0.dzi",
+                    x: 8.5,
+                    y: 1.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_piece_13.dzi",
+                    x: 8.5,
+                    y: 2.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_piece_14.dzi",
+                    x: 8.5,
+                    y: 2.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_piece_17.dzi",
+                    x: 8.5,
+                    y: 3.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_piece_18.dzi",
+                    x: 8.5,
+                    y: 3.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_sticky_piece_19.dzi",
+                    x: 14.5,
+                    y: 0.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_sticky_piece_3.dzi",
+                    x: 14.5,
+                    y: 0.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_sticky_piece_4.dzi",
+                    x: 14.5,
+                    y: 1.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_sticky_piece_5.dzi",
+                    x: 14.5,
+                    y: 1.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_sticky_piece_6.dzi",
+                    x: 14.5,
+                    y: 2.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_sticky_piece_2.dzi",
+                    x: 15.5,
+                    y: 0.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_sticky_piece_7.dzi",
+                    x: 15.5,
+                    y: 0.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_sticky_piece_8.dzi",
+                    x: 15.5,
+                    y: 1.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_sticky_piece_9.dzi",
+                    x: 15.5,
+                    y: 1.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_sticky_piece_10.dzi",
+                    x: 15.5,
+                    y: 2.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_sticky_piece_1.dzi",
+                    x: 16.5,
+                    y: 0.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_sticky_piece_11.dzi",
+                    x: 16.5,
+                    y: 0.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_sticky_piece_12.dzi",
+                    x: 16.5,
+                    y: 1.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_sticky_piece_15.dzi",
+                    x: 16.5,
+                    y: 1.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_sticky_piece_16.dzi",
+                    x: 16.5,
+                    y: 2.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_sticky_piece_0.dzi",
+                    x: 17.5,
+                    y: 0.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_sticky_piece_13.dzi",
+                    x: 17.5,
+                    y: 0.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_sticky_piece_14.dzi",
+                    x: 17.5,
+                    y: 1.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_sticky_piece_17.dzi",
+                    x: 17.5,
+                    y: 1.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_sticky_piece_18.dzi",
+                    x: 17.5,
+                    y: 2.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_nonsticky_piece_19.dzi",
+                    x: 14.5,
+                    y: 3.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_nonsticky_piece_3.dzi",
+                    x: 14.5,
+                    y: 3.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_nonsticky_piece_4.dzi",
+                    x: 14.5,
+                    y: 4.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_nonsticky_piece_5.dzi",
+                    x: 14.5,
+                    y: 4.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_nonsticky_piece_6.dzi",
+                    x: 14.5,
+                    y: 5.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_nonsticky_piece_2.dzi",
+                    x: 15.5,
+                    y: 3.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_nonsticky_piece_7.dzi",
+                    x: 15.5,
+                    y: 3.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_nonsticky_piece_8.dzi",
+                    x: 15.5,
+                    y: 4.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_nonsticky_piece_9.dzi",
+                    x: 15.5,
+                    y: 4.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_nonsticky_piece_10.dzi",
+                    x: 15.5,
+                    y: 5.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_nonsticky_piece_1.dzi",
+                    x: 16.5,
+                    y: 3.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_nonsticky_piece_11.dzi",
+                    x: 16.5,
+                    y: 3.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_nonsticky_piece_12.dzi",
+                    x: 16.5,
+                    y: 4.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_nonsticky_piece_15.dzi",
+                    x: 16.5,
+                    y: 4.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_nonsticky_piece_16.dzi",
+                    x: 16.5,
+                    y: 5.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_nonsticky_piece_0.dzi",
+                    x: 17.5,
+                    y: 3.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_nonsticky_piece_13.dzi",
+                    x: 17.5,
+                    y: 3.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_nonsticky_piece_14.dzi",
+                    x: 17.5,
+                    y: 4.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_nonsticky_piece_17.dzi",
+                    x: 17.5,
+                    y: 4.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_nonsticky_piece_18.dzi",
+                    x: 17.5,
+                    y: 5.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_combined_piece_19.dzi",
+                    x: 10,
+                    y: 1.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_combined_piece_3.dzi",
+                    x: 10,
+                    y: 2.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_combined_piece_4.dzi",
+                    x: 10,
+                    y: 2.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_combined_piece_5.dzi",
+                    x: 10,
+                    y: 3.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_combined_piece_6.dzi",
+                    x: 10,
+                    y: 3.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_combined_piece_2.dzi",
+                    x: 11,
+                    y: 1.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_combined_piece_7.dzi",
+                    x: 11,
+                    y: 2.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_combined_piece_8.dzi",
+                    x: 11,
+                    y: 2.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_combined_piece_9.dzi",
+                    x: 11,
+                    y: 3.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_combined_piece_10.dzi",
+                    x: 11,
+                    y: 3.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_combined_piece_1.dzi",
+                    x: 12,
+                    y: 1.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_combined_piece_11.dzi",
+                    x: 12,
+                    y: 2.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_combined_piece_12.dzi",
+                    x: 12,
+                    y: 2.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_combined_piece_15.dzi",
+                    x: 12,
+                    y: 3.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_combined_piece_16.dzi",
+                    x: 12,
+                    y: 3.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_combined_piece_0.dzi",
+                    x: 13,
+                    y: 1.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_combined_piece_13.dzi",
+                    x: 13,
+                    y: 2.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_combined_piece_14.dzi",
+                    x: 13,
+                    y: 2.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_combined_piece_17.dzi",
+                    x: 13,
+                    y: 3.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_combined_piece_18.dzi",
+                    x: 13,
+                    y: 3.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_sticky_piece_19.dzi",
+                    x: 3,
+                    y: 6.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_sticky_type_2.dzi",
+                    x: 3,
+                    y: 6.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_sticky_piece_all.dzi",
+                    x: 3,
+                    y: 7.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_sticky_type_1.dzi",
+                    x: 4,
+                    y: 6.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_sticky_type_3.dzi",
+                    x: 4,
+                    y: 6.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_sticky_type_5.dzi",
+                    x: 4,
+                    y: 7.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_sticky_piece_0.dzi",
+                    x: 5,
+                    y: 6.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_sticky_type_4.dzi",
+                    x: 5,
+                    y: 6.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_sticky_type_6.dzi",
+                    x: 5,
+                    y: 7.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_piece_19.dzi",
+                    x: 3,
+                    y: 7.75,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_type_2.dzi",
+                    x: 3,
+                    y: 8.25,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_piece_all.dzi",
+                    x: 3,
+                    y: 8.75,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_type_1.dzi",
+                    x: 4,
+                    y: 7.75,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_type_3.dzi",
+                    x: 4,
+                    y: 8.25,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_type_5.dzi",
+                    x: 4,
+                    y: 8.75,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_piece_0.dzi",
+                    x: 5,
+                    y: 7.75,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_type_4.dzi",
+                    x: 5,
+                    y: 8.25,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_nonsticky_type_6.dzi",
+                    x: 5,
+                    y: 8.75,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_piece_19.dzi",
+                    x: 6.5,
+                    y: 6.875,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_type_2.dzi",
+                    x: 6.5,
+                    y: 7.375,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_piece_all.dzi",
+                    x: 6.5,
+                    y: 7.875,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_type_1.dzi",
+                    x: 7.5,
+                    y: 6.875,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_type_3.dzi",
+                    x: 7.5,
+                    y: 7.375,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_type_5.dzi",
+                    x: 7.5,
+                    y: 7.875,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_piece_0.dzi",
+                    x: 8.5,
+                    y: 6.875,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_type_4.dzi",
+                    x: 8.5,
+                    y: 7.375,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_original_combined_type_6.dzi",
+                    x: 8.5,
+                    y: 7.875,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_sticky_piece_19.dzi",
+                    x: 13.5,
+                    y: 6.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_sticky_type_2.dzi",
+                    x: 13.5,
+                    y: 6.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_sticky_piece_all.dzi",
+                    x: 13.5,
+                    y: 7.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_sticky_type_1.dzi",
+                    x: 14.5,
+                    y: 6.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_sticky_type_3.dzi",
+                    x: 14.5,
+                    y: 6.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_sticky_type_5.dzi",
+                    x: 14.5,
+                    y: 7.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_sticky_piece_0.dzi",
+                    x: 15.5,
+                    y: 6.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_sticky_type_4.dzi",
+                    x: 15.5,
+                    y: 6.5,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_sticky_type_6.dzi",
+                    x: 15.5,
+                    y: 7.0,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_nonsticky_piece_19.dzi",
+                    x: 13.5,
+                    y: 7.75,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_nonsticky_type_2.dzi",
+                    x: 13.5,
+                    y: 8.25,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_nonsticky_piece_all.dzi",
+                    x: 13.5,
+                    y: 8.75,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_nonsticky_type_1.dzi",
+                    x: 14.5,
+                    y: 7.75,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_nonsticky_type_3.dzi",
+                    x: 14.5,
+                    y: 8.25,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_nonsticky_type_5.dzi",
+                    x: 14.5,
+                    y: 8.75,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_nonsticky_piece_0.dzi",
+                    x: 15.5,
+                    y: 7.75,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_nonsticky_type_4.dzi",
+                    x: 15.5,
+                    y: 8.25,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_nonsticky_type_6.dzi",
+                    x: 15.5,
+                    y: 8.75,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_combined_piece_19.dzi",
+                    x: 10,
+                    y: 6.875,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_combined_type_2.dzi",
+                    x: 10,
+                    y: 7.375,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_combined_piece_all.dzi",
+                    x: 10,
+                    y: 7.875,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_combined_type_1.dzi",
+                    x: 11,
+                    y: 6.875,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_combined_type_3.dzi",
+                    x: 11,
+                    y: 7.375,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_combined_type_5.dzi",
+                    x: 11,
+                    y: 7.875,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_combined_piece_0.dzi",
+                    x: 12,
+                    y: 6.875,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_combined_type_4.dzi",
+                    x: 12,
+                    y: 7.375,
+                    width: 1
+                },
+
+                {
+                    tileSource: "./combined_loglog_plot_combined_type_6.dzi",
+                    x: 12,
+                    y: 7.875,
+                    width: 1
+                },
+
+            ],
+            maxZoomPixelRatio: 2,
+            zoomPerClick: 1.5,
+            zoomPerScroll: 1.1,
+            maxZoomLevel: 10
+        });
+    </script>
+</body>
+</html>
