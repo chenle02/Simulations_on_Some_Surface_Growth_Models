@@ -1,6 +1,6 @@
 #!/bin/bash
-#SBATCH --job-name=Makeup
-#SBATCH --partition=mathdep_bg2
+#SBATCH --job-name=Update-5-9
+#SBATCH --partition=abebeas_bg2
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=48
 #SBATCH --mem=48gb
@@ -21,6 +21,6 @@ pip3 install -e .
 cd - 
 
 # Now this is the script to run
-Sweep.py
+update_piece_5-9.sh
 
 echo "Starting job..."

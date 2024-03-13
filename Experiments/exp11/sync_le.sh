@@ -16,4 +16,4 @@ fi
 local="."
 remote="lzc0090@Easley:/home/lzc0090/Dropbox/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/Experiments/exp11"
 rsync -avzu --progress "$remote/" "$local/"
-rsync -avzu --progress "$local/" "$remote/"
+# rsync -avzu --progress "$local/" "$remote/"
