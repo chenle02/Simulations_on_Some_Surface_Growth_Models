@@ -14,11 +14,11 @@ then
 fi
 
 # Define your text, output file, and desired font size
-TEXT=$4
-OUTPUT_FILE="$3.png"
-BASENAME=$3
 FONT_SIZE=$1
 SCALE=$2
+OUTPUT_FILE="$3.png"
+BASENAME=$3
+TEXT=$4
 FONT_PATH="/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf" # Adjust the font path as needed
 DZI_DIR="./dzi_images"
 

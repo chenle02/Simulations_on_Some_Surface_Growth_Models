@@ -13,4 +13,4 @@ then
   exit 1
 fi
 
-pass sudo | sudo -S rsync -r . /mnt/Auburn-Server/public_html/Tetris_Ballistic/exp11/dzi_images
+pass sudo | sudo -S rsync -av --progress . /mnt/Auburn-Server/public_html/Tetris_Ballistic/exp11/dzi_images
