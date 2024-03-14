@@ -54,25 +54,25 @@ class Tetris_Ballistic:
     Note:
         1. Here is one example of density:
             >>> density = {'Piece-0': [0, 1],
-                        'Piece-1': [0, 1],
-                        'Piece-2': [0, 1],
-                        'Piece-3': [0, 1],
-                        'Piece-4': [0, 1],
-                        'Piece-5': [0, 1],
-                        'Piece-6': [0, 1],
-                        'Piece-7': [0, 1],
-                        'Piece-8': [0, 1],
-                        'Piece-9': [0, 1],
-                        'Piece-10': [0, 1],
-                        'Piece-11': [0, 1],
-                        'Piece-12': [0, 1],
-                        'Piece-13': [0, 1],
-                        'Piece-14': [0, 1],
-                        'Piece-15': [0, 1],
-                        'Piece-16': [0, 1],
-                        'Piece-17': [0, 1],
-                        'Piece-18': [0, 1],
-                        'Piece-19': [0, 0]}
+                           'Piece-1': [0, 1],
+                           'Piece-2': [0, 1],
+                           'Piece-3': [0, 1],
+                           'Piece-4': [0, 1],
+                           'Piece-5': [0, 1],
+                           'Piece-6': [0, 1],
+                           'Piece-7': [0, 1],
+                           'Piece-8': [0, 1],
+                           'Piece-9': [0, 1],
+                           'Piece-10': [0, 1],
+                           'Piece-11': [0, 1],
+                           'Piece-12': [0, 1],
+                           'Piece-13': [0, 1],
+                           'Piece-14': [0, 1],
+                           'Piece-15': [0, 1],
+                           'Piece-16': [0, 1],
+                           'Piece-17': [0, 1],
+                           'Piece-18': [0, 1],
+                           'Piece-19': [0, 0]}
 
         2. The data type for the substrate is np.uint32, which is a 32-bit
         unsigned integer. The maximum value is 2^32 - 1 = 4294967295. Roughly
@@ -790,12 +790,12 @@ class Tetris_Ballistic:
            - XX0
            - 001
         + rot = 2
-           - 10
-           - 0
-           - 0
+           - 01
+           - X0
+           - X0
         + rot = 3
            - 100
-           - 0
+           - 0XX
 
         Args:
             position (int): The position or column of the pivot.
@@ -820,7 +820,7 @@ class Tetris_Ballistic:
             case 2:
                 self.substrate[landing_row - 1, position] = i
                 self.substrate[landing_row - 1, position - 1] = i
-                self.substrate[landing_row + 0, position] = i
+                self.substrate[landing_row, position] = i
                 self.substrate[landing_row + 1, position] = i
             case 3:
                 self.substrate[landing_row - 1, position] = i
@@ -833,19 +833,19 @@ class Tetris_Ballistic:
         Updates the substrate with an L piece.
 
         + rot = 0
-           - 0
-           - 0
+           - 0X
+           - 0X
            - 10
         + rot = 1
            - XX0
            - 001
         + rot = 2
-           - 10
-           - 0
-           - 0
+           - 01
+           - X0
+           - X0
         + rot = 3
            - 100
-           - 0
+           - 0XX
 
         Args:
             i (int): The step number.
@@ -908,7 +908,7 @@ class Tetris_Ballistic:
 
                 landing_row_outright = self._ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self.height
                 landing_row_pivot = self._ffnz(position)
-                landing_row_outleft1 = self._ffnz(position - 1) + 1 if position > 1 and sticky else self.height
+                landing_row_outleft1 = self._ffnz(position - 1) + 1 if position > 1 and sticky else self._ffnz(position - 1) + 2
                 landing_row_outleft2 = self._ffnz(position - 2) + 3 if position > 2 and sticky else self.height
 
                 # Find minimum landing row
@@ -966,10 +966,10 @@ class Tetris_Ballistic:
            - XX0
         + rot = 2
            - 10
-           - 0
-           - 0
+           - 0X
+           - 0X
         + rot = 3
-           - 0
+           - 0XX
            - 100
 
         Args:
@@ -995,7 +995,7 @@ class Tetris_Ballistic:
             case 2:
                 self.substrate[landing_row - 1, position] = i
                 self.substrate[landing_row - 1, position + 1] = i
-                self.substrate[landing_row + 0, position] = i
+                self.substrate[landing_row, position] = i
                 self.substrate[landing_row + 1, position] = i
             case 3:
                 self.substrate[landing_row - 1, position] = i
@@ -1016,10 +1016,10 @@ class Tetris_Ballistic:
            - XX0
         + rot = 2
            - 10
-           - 0
-           - 0
+           - 0X
+           - 0X
         + rot = 3
-           - 0
+           - 0XX
            - 100
 
         Args:
@@ -1083,7 +1083,7 @@ class Tetris_Ballistic:
             case 2:
                 position = random.randint(0, self.width - 2)
 
-                landing_row_outright1 = self._ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self.height
+                landing_row_outright1 = self._ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self._ffnz(position + 1) + 2
                 landing_row_outright2 = self._ffnz(position + 2) + 3 if position < self.width - 2 and sticky else self.height
                 landing_row_pivot = self._ffnz(position)
                 landing_row_outleft = self._ffnz(position - 1) + 1 if position > 1 and sticky else self.height
@@ -2328,21 +2328,14 @@ def make_darker(color: str, factor=0.5):
 
 
 # Example usage
-# tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=1000, seed=42)
-# tetris_simulator = Tetris_Ballistic(width=10, height=20, steps=10, seed=42)
-# tetris_simulator.Simulate()
-# tetris_simulator.ComputeSlope()
-# tetris_simulator.save_config("save_config.yaml")
-# tetris_simulator.Test_All()
-# tetris_simulator.Sample_Tetris()
-# tetris_simulator.Sample_Tetris()
-# tetris_simulator.Sample_Tetris()
-# tetris_simulator.Sample_Tetris()
-# tetris_simulator.Sample_Tetris()
-# tetris_simulator = Tetris_Ballistic(config_file="config.yaml")
-# tetris_simulator.Sample_Tetris()
-# tetris_simulator.Sample_Tetris()
-# tetris_simulator.Sample_Tetris()
-# tetris_simulator.Sample_Tetris()
-# tetris_simulator.Sample_Tetris()
-# tetris_simulator.Test_All()
+# Debug only
+# piece_id_list = {5, 9}
+# for piece_id in piece_id_list:
+#     TB = Tetris_Ballistic(config_file=f"../tests/test_piece-9_nonsticky/config_piece_{piece_id}_nonsticky.yaml")
+#     TB.Simulate()
+#     TB.visualize_simulation(plot_title=f"Piece {piece_id}, nonsticky",
+#                             rate=4,
+#                             video_filename=f"simulation_piece_{piece_id}_nonsticky.mp4",
+#                             envelop=True,
+#                             show_average=True,
+#                             aspect="auto")
