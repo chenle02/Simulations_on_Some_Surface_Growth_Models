@@ -52,6 +52,7 @@ echo "3. Analysis"
 # 4. Generate the images again
 echo "4. plots"
 ./loglogplot_stat.py
+./plotfluctuations.py
 
 # 5. Generate the video files again
 echo "5. Animations"
