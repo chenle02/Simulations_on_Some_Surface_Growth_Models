@@ -57,3 +57,8 @@ echo "4. plots"
 echo "5. Animations"
 rm *piece_5*.mp4 *type_2*.mp4 *piece_9*.mp4 *type_3*.mp4 *piece_all*.mp4
 ./gen_anemation.py
+
+# 6. Generate dzi images
+echo "5. Animations"
+./convert_dzi.sh yes 
+./gen_openseadragon.py a
