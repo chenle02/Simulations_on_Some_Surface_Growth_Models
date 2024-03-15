@@ -26,7 +26,8 @@ html_content = '''
 <html>
 <head>
     <title>OpenSeadragon 3x3 Grid Example</title>
-    <script src="/home/lechen/Dropbox/Develop/openseadragon-bin-4.1.0/openseadragon.js"></script>
+    <!-- <script src="/home/lechen/Dropbox/Develop/openseadragon-bin-4.1.0/openseadragon.js"></script> -->
+    <script src="https://openseadragon.github.io/openseadragon/openseadragon.min.js"></script>
     <style>
         body, html {
             height: 100%;
@@ -44,7 +45,8 @@ html_content = '''
     <script>
         var viewer = OpenSeadragon({
             id: "openseadragon-viewer",
-            prefixUrl: "/home/lechen/Dropbox/Develop/openseadragon-bin-4.1.0/images/",
+            // prefixUrl: "/home/lechen/Dropbox/Develop/openseadragon-bin-4.1.0/images/",
+            prefixUrl: "https://openseadragon.github.io/openseadragon/images/",
             tileSources: [
 '''
 

@@ -30,7 +30,7 @@ cd -
 
 # Generate DZI files for each image
 echo "Generating title image ..."
-./str2png.sh 96 Title "Simulation results for Tetris decomposition"
+./str2png.sh 96 1 Title "Simulation results for Tetris decomposition"
 
 # Generate DZI files for each image
 for img in "${images[@]}"; do
