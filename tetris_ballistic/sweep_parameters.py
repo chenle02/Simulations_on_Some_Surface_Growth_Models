@@ -128,6 +128,7 @@ def log_progress(progress_message):
 def sweep_parameters(list_width=[50, 100, 200],
                      list_random_seeds=[10 * i for i in range(10)],
                      config_patterns=["*piece_19_sticky.yaml", "*piece_19_nonsticky.yaml", "*piece_0*.yaml"],
+                     config_dir=None,
                      ratio=10):
     """
     Conducts a parameter sweep for Tetris Ballistic simulations across various
@@ -142,6 +143,7 @@ def sweep_parameters(list_width=[50, 100, 200],
         list_width (List[int]): Grid widths to be used in the simulations. The height is determined by the given ratio.
         list_random_seeds (List[int]): Seed values for the random number generator, ensuring diverse simulation outcomes.
         config_patterns (List[str]): Filename patterns for configuration files, used to select specific simulation configurations from the configs directory.
+        config_dir (str): Directory containing configuration files for simulations. If not provided, the default directory is used.
         ratio (float): The height-to-width ratio of the simulation grid. Used to compute the grid's height from its width.
 
     The function first retrieves configuration filenames matching the given
@@ -154,17 +156,20 @@ def sweep_parameters(list_width=[50, 100, 200],
     significantly reducing the total processing time when dealing with numerous
     simulations.
     """
-    configs = list(chain(*(rdc(pattern=pattern, verbose=False) for pattern in config_patterns)))
+    configs = list(chain(*(rdc(pattern=pattern, dir=config_dir, verbose=False) for pattern in config_patterns)))
     print("List of configs: ")
     for i, config in enumerate(configs):
         print(f"{i}: {config}")
 
     # Generate all combinations of parameters
+    if config_dir is None:
+        config_dir = configs_dir
+
     param_combinations = [
         (w,
          seed,
          os.path.basename(config),
-         load_density_from_config(os.path.join(configs_dir, config))
+         load_density_from_config(os.path.join(config_dir, config))
          )
         for w in list_width
         for seed in list_random_seeds
@@ -185,11 +190,9 @@ def sweep_parameters(list_width=[50, 100, 200],
 
 # Sample usage
 if __name__ == "__main__":
-    ListWidth = [50, 100]
+    ListWidth = [50, 100, 150]
     ListRandomSeeds = [10 * i for i in range(10)]
-    config_patterns = ["*piece_19_sticky.yaml",
-                       "*piece_19_nonsticky.yaml",
-                       "*piece_0*.yaml"]
+    config_patterns = ["*.yaml"]
     sweep_parameters(list_width=ListWidth,
                      list_random_seeds=ListRandomSeeds,
                      config_patterns=config_patterns)
