@@ -174,7 +174,7 @@ def loglogplot_stat(number_of_segments: int = 10, with_ci: bool = False) -> None
 
         plt.xlabel(r'Log$_{10}$(Step) - $\frac{3}{2}$ Log$_{10}$(Width)')
         plt.ylabel(r'Log$_{10}$(Fluctuation) - $\frac{1}{2}$ Log$_{10}$(Width)')
-        plt.title(f'Log-Log plots{" with 95% CI" if with_ci else ""} for {percentage}% of nonsticky for combined piece 0')
+        plt.title(f'Log-Log plots{" with 95% CI" if with_ci else ""} for {percentage}% of nonsticky for combined piece 19')
         plt.legend(loc='upper left')
 
         # Optionally add images

@@ -32,9 +32,9 @@ def plotfluctuations(with_ci: bool = False) -> None:
     confidence = 0.95
     for stick in stickiness:
         # Load the fluctuations_dict
-        fluctuations_dict = joblib.load(f"fluctuations_{stick}_dict.joblib")
+        fluctuations_dict = joblib.load("fluctuations_dict.joblib")
 
-        for type_value, widths in fluctuations_dict.items():
+        for percentage, widths in fluctuations_dict.items():
             plt.figure(figsize=(10, 6))  # Create a new figure for each type_value
             fig, ax = plt.subplots(figsize=(10, 5))  # Use fig for the figure reference
 
@@ -99,11 +99,11 @@ def plotfluctuations(with_ci: bool = False) -> None:
 
             plt.xlabel('step or time')
             plt.ylabel('fluctuation')
-            plt.title(f'Fluctuations{" with 95% CI" if with_ci else ""} for {stick} {type_value.replace("_", " ")}')
+            plt.title(f'Fluctuations{" with 95% CI" if with_ci else ""} for {percentage}% of nonsticky for combined piece 19')
             plt.legend(loc='upper left')
 
             # Optionally add images
-            images = obtain_images(type_value, stick)
+            images = obtain_images("piece_19", "combined")
             n_images = len(images)
 
             if n_images < 10:
@@ -119,7 +119,7 @@ def plotfluctuations(with_ci: bool = False) -> None:
                     ab = AnnotationBbox(imagebox, (x_position, 0.12), frameon=False, xycoords='axes fraction')
                     ax.add_artist(ab)
 
-            filename = f"combined_original{'_CI' if with_ci else ''}_{stick}_{type_value}.png"
+            filename = f"combined_original{'_CI' if with_ci else ''}_combined_percentage_{percentage}.png"
             plt.savefig(filename)
             plt.close()
 
