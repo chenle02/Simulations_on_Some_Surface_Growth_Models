@@ -27,6 +27,10 @@ def generate_config_files(start_num, end_num, step):
 
 if __name__ == "__main__":
     start_num = 5
-    end_num = 50
+    end_num = 100
     step = 5
+    generate_config_files(start_num, end_num, step)
+    start_num = 98
+    end_num = 100
+    step = 1
     generate_config_files(start_num, end_num, step)

@@ -5,75 +5,52 @@
 # Created at Wed Mar  6 10:16:49 AM EST 2024
 #
 
-import sqlite3
 import numpy as np
 import joblib
-import pandas as pd
-# from tetris_ballistic.image_loader import TetrominoImageLoader as til
+import os
+import glob
+import re
+from tetris_ballistic.tetris_ballistic import Tetris_Ballistic
 
-# Connect to your SQLite database
-conn = sqlite3.connect('./simulation_results.db')
+# Regex pattern to match filename and extract components
+pattern_parse = r'config_(?P<type>piece_\d+)_combined_(?P<percentage>percentage_\d+)_w=(?P<width>\d+)_seed=(?P<seed>\d+).joblib'
 
-# Create a cursor object
-cursor = conn.cursor()
+# Initialize the fluctuations dictionary
+fluctuations_dict = {}
 
-# stickiness = ["sticky", "nonsticky", "combined"]
-stickiness = ["combined"]
-for stick in stickiness:
-    # SQL query to select distinct types from the Simulations table
-    query_types = f"SELECT DISTINCT type FROM {stick} ORDER BY type ASC"
 
-    # Execute the query for distinct types
-    cursor.execute(query_types)
+# Generate numbers from 5 to 95 in steps of 5
+percentages = list(range(5, 100, 5))
+percentages += [98, 99]
 
-    # Fetch all distinct type results
-    distinct_types = cursor.fetchall()
+# Process files for each percentage
+for percentage in percentages:
+    # Ensure the dictionary for this percentage is initialized
+    formatted_percentage = str(percentage).zfill(2)
+    fluctuations_dict[formatted_percentage] = {}
+    print(f"Working on percentage files with percentage = {formatted_percentage}...")
+    pattern = f"*_percentage_{formatted_percentage}_*.joblib"
+    files = glob.glob(pattern)
 
-    # Initialize a dictionary to store the fluctuations
-    fluctuations_dict = {}
+    for file in files:
+        print(f"Add file: {file}")
+        basename = os.path.basename(file)
+        match = re.match(pattern_parse, basename)
+        if match:
+            data = match.groupdict()
+            width = int(data['width'])
 
-    for type_value in distinct_types:
-        type_value = type_value[0]  # Extract the type value
-        print(f"Processing type: {type_value}")
+            # Load simulation from file
+            TB = Tetris_Ballistic.load_simulation(file)
+            fl = TB.Fluctuation[:TB.FinalSteps]
 
-        # SQL query to select distinct widths for the current type
-        query_widths = f"SELECT DISTINCT width FROM {stick} WHERE type = ? ORDER BY width ASC"
-        cursor.execute(query_widths, (type_value,))
+            # Initialize the list for this width if it does not exist
+            if width not in fluctuations_dict[formatted_percentage]:
+                fluctuations_dict[formatted_percentage][width] = []
 
-        # Fetch all distinct width results for this type
-        distinct_widths = cursor.fetchall()
+            # Append fluctuation data
+            fluctuations_dict[formatted_percentage][width].append(fl)
 
-        # Initialize the sub-dictionary for this type if not already initialized
-        if type_value not in fluctuations_dict:
-            fluctuations_dict[type_value] = {}
-
-        for width_value in distinct_widths:
-            width_value = width_value[0]  # Extract the width value
-            print(f"Processing width: {width_value}")
-
-            # Prepare the SQL query to select fluctuation values for the current type and width
-            query_fluctuations = f"SELECT fluctuation FROM {stick} WHERE type = ? AND width = ?"
-            cursor.execute(query_fluctuations, (type_value, width_value))
-
-            # Fetch all fluctuation results for this type and width
-            fluctuations = cursor.fetchall()
-
-            # Convert fluctuations to a suitable format (e.g., list of NumPy arrays)
-            # Assuming each fluctuation is a binary blob that can be directly converted into a NumPy array
-            fluctuations_list = [np.frombuffer(fluctuation[0], dtype=np.float64) for fluctuation in fluctuations]
-
-            # Store the fluctuations list in the sub-dictionary for the current type and width
-            fluctuations_dict[type_value][width_value] = fluctuations_list
-
-            # # Save  the fluctuations_dict to a csv file for further analysis
-            # df = pd.DataFrame(fluctuations_list)
-            # df.to_csv(f"fluctuations_{type_value}_w={width_value}.csv")
-
-    print("Saving fluctuations_dict to disk...")
-
-    joblib.dump(fluctuations_dict, f"fluctuations_{stick}_dict.joblib")
-
-# Clean up: close the cursor and connection
-cursor.close()
-conn.close()
-
+# Saving the complete fluctuations dictionary to disk
+print("Saving fluctuations_dict to disk...")
+joblib.dump(fluctuations_dict, "fluctuations_dict.joblib")
