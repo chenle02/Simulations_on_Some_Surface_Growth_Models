@@ -178,7 +178,7 @@ def loglogplot_stat(number_of_segments: int = 10, with_ci: bool = False) -> None
         plt.legend(loc='upper left')
 
         # Optionally add images
-        images = obtain_images("piece_0", "combined")
+        images = obtain_images("piece_19", "combined")
         n_images = len(images)
 
         if n_images < 10:

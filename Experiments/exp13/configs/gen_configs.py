@@ -13,7 +13,7 @@ def generate_config_file(filename, num):
         f.write("height: 300\n")
         f.write("seed: 12\n")
         for i in range(20):
-            if i == 0:
+            if i == 19:
                 f.write(f"Piece-{i}: [{num}, {100-num}]\n")
             else:
                 f.write(f"Piece-{i}: [0, 0]\n")
@@ -21,7 +21,7 @@ def generate_config_file(filename, num):
 
 def generate_config_files(start_num, end_num, step):
     for num in range(start_num, end_num, step):
-        filename = f"config_piece_0_combined_percentage_{num:02d}.yaml"
+        filename = f"config_piece_19_combined_percentage_{num:02d}.yaml"
         generate_config_file(filename, num)
 
 
