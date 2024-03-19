@@ -14,21 +14,30 @@ html_template = """
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
+            margin: 1px;
+            padding: 1px;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             align-items: center;
+            background-color: #f0f0f0; /* Light grey background for the whole page */
         }
         .image-pair {
-            margin: 20px;
+            margin: 1px;
+            padding: 1px;
+            background-color: #ffffff; /* White background for each pair */
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1); /* Subtle shadow around each pair */
+            border: 1px solid #e0e0e0; /* Light grey border */
+            border-radius: 5px; /* Optional: Adds rounded corners */
             text-align: center;
         }
         img {
             width: 300px; /* You can adjust this to better fit your images */
             height: auto;
-            margin: 10px;
+            margin: 0px;
+        }
+        p {
+            font-size: 10px;
         }
     </style>
 </head>
@@ -43,9 +52,9 @@ for percentage in percentages:
     original_img = f"combined_original_combined_percentage_{formatted_percentage}.png"
     html_template += f"""
     <div class="image-pair">
+        <p>{percentage}% nonsticky + {100-percentage}% sticky</p>
         <img src="{original_img}" alt="Original {formatted_percentage}%"/>
         <img src="{loglog_img}" alt="Log-Log Plot {formatted_percentage}%"/>
-        <p>Percentage: {formatted_percentage}%</p>
     </div><br>
     """
 
