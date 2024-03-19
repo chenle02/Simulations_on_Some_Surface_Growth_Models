@@ -1,0 +1,14 @@
+ERROR: Could not install packages due to an OSError: [Errno 2] No such file or directory: '/mmfs1/home/lzc0090/.local/lib/python3.10/site-packages/tetris-ballistic.egg-link'
+
+Traceback (most recent call last):
+  File "/mmfs1/home/lzc0090/Dropbox/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/Experiments/exp13/./Sweep.py", line 2, in <module>
+    from tetris_ballistic.sweep_parameters import sweep_parameters as sp
+ModuleNotFoundError: No module named 'tetris_ballistic'
+Traceback (most recent call last):
+  File "/mmfs1/home/lzc0090/Dropbox/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/Experiments/exp13/./analysis.py", line 13, in <module>
+    from tetris_ballistic.tetris_ballistic import Tetris_Ballistic
+ModuleNotFoundError: No module named 'tetris_ballistic'
+Traceback (most recent call last):
+  File "/mmfs1/home/lzc0090/Dropbox/Simulations_on_Some_Surface_Growth_Models/branches/Tetris_Domino_Le/Experiments/exp13/./loglogplot_stat.py", line 14, in <module>
+    from tetris_ballistic.tetris_ballistic import obtain_images, make_darker
+ModuleNotFoundError: No module named 'tetris_ballistic'
