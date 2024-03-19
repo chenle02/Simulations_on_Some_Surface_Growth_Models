@@ -47,6 +47,30 @@
 
     <div class="block">
         <video controls>
+            <source src="config_piece_19_combined_percentage_05_w=50_seed=10.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="image-pair">
+            <p>5% nonsticky + 95% sticky</p>
+            <img src="combined_loglog_plot_combined_percentage_05.png" alt="Log-Log Plot 05%"/>
+            <img src="combined_original_combined_percentage_05.png" alt="Original 05%"/>
+        </div>
+    </div>
+    
+    <div class="block">
+        <video controls>
+            <source src="config_piece_19_combined_percentage_50_w=50_seed=10.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="image-pair">
+            <p>50% nonsticky + 50% sticky</p>
+            <img src="combined_loglog_plot_combined_percentage_50.png" alt="Log-Log Plot 50%"/>
+            <img src="combined_original_combined_percentage_50.png" alt="Original 50%"/>
+        </div>
+    </div>
+    
+    <div class="block">
+        <video controls>
             <source src="config_piece_19_combined_percentage_90_w=50_seed=10.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
@@ -94,4 +118,23 @@
     </div>
     
 </body>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const videos = document.querySelectorAll('video');
+    videos.forEach(video => {
+        // Wait for the metadata to load to know the video duration
+        video.addEventListener('loadedmetadata', function() {
+            // Seek to just before the last second to ensure the last frame shows
+            this.currentTime = Math.max(0, this.duration - 1);
+        });
+
+        // Optional: If you want the video to end up paused on the last frame
+        // when it naturally finishes playing, you can still include the 'ended' event listener
+        video.addEventListener('ended', function() {
+            this.currentTime = Math.max(0, this.duration - 1);
+            this.pause(); // Ensure the video is paused on the last frame
+        });
+    });
+});
+</script>
 </html>

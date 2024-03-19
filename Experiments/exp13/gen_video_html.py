@@ -55,10 +55,12 @@ video_html_template = """
 
 # Data for the videos and their corresponding images
 video_data = [
-    {"percentage": 90, "seed": 10},
-    {"percentage": 95, "seed": 10},
-    {"percentage": 98, "seed": 10},
-    {"percentage": 99, "seed": 10},
+    {"percentage": "05", "seed": 10},
+    {"percentage": "50", "seed": 10},
+    {"percentage": "90", "seed": 10},
+    {"percentage": "95", "seed": 10},
+    {"percentage": "98", "seed": 10},
+    {"percentage": "99", "seed": 10},
 ]
 for data in video_data:
     percentage = data["percentage"]
@@ -73,7 +75,7 @@ for data in video_data:
             Your browser does not support the video tag.
         </video>
         <div class="image-pair">
-            <p>{percentage}% nonsticky + {100-percentage}% sticky</p>
+            <p>{int(percentage)}% nonsticky + {100-int(percentage)}% sticky</p>
             <img src="{loglog_img}" alt="Log-Log Plot {percentage}%"/>
             <img src="{original_img}" alt="Original {percentage}%"/>
         </div>
@@ -82,6 +84,25 @@ for data in video_data:
 # Closing tags for HTML
 video_html_template += """
 </body>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const videos = document.querySelectorAll('video');
+    videos.forEach(video => {
+        // Wait for the metadata to load to know the video duration
+        video.addEventListener('loadedmetadata', function() {
+            // Seek to just before the last second to ensure the last frame shows
+            this.currentTime = Math.max(0, this.duration - 1);
+        });
+
+        // Optional: If you want the video to end up paused on the last frame
+        // when it naturally finishes playing, you can still include the 'ended' event listener
+        video.addEventListener('ended', function() {
+            this.currentTime = Math.max(0, this.duration - 1);
+            this.pause(); // Ensure the video is paused on the last frame
+        });
+    });
+});
+</script>
 </html>
 """
 
