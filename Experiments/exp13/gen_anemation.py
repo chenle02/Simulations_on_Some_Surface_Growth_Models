@@ -7,5 +7,5 @@
 
 from tetris_ballistic.data_analysis_utilities import generate_animations
 
-parterns = ["*percentage_99_w=50_seed=10.joblib"]
+parterns = ["*percentage_9*_w=50_seed=10.joblib"]
 generate_animations(parterns)
