@@ -13,6 +13,22 @@ import re
 from tetris_ballistic.tetris_ballistic import Tetris_Ballistic
 
 
+
+
 TB = Tetris_Ballistic.load_simulation('holes_counted.joblib')
+
+keys_with_value_1 =[]
+
+
+for key, value in TB.items():
+    if value == 1:
+        keys_with_value_1.append(key)
+
+# Print the keys with value 1
+print("Dictionary entries with value 1:")
+for key in keys_with_value_1:
+    print(key)
+
+
 print(TB)
 
