@@ -1798,6 +1798,18 @@ class Tetris_Ballistic:
 
         return hole_count
 
+    def height_to_frame(self, height):
+        """
+        This will return the minimum frame number of a given substrate given the
+        height of a substrate. This can be used with count_holes_stack to
+        identify the number of holes given a specific height of the substrate.
+        """
+        
+        frame_id = self.substrate[height, :]
+        frame_id = int( (np.min(frame_id[np.nonzero(frame_id)])) )
+
+        return frame_id
+
     def PrintStatus(self, brief: bool = False, tostring: bool = False) -> str:
         """
         Print the step/status of the class
