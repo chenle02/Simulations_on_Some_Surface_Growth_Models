@@ -19,6 +19,15 @@ pattern = f"*_w={width}*.joblib"
 
 files = glob.glob(pattern)
 dic_me = {}
+height = 50
+TB = Tetris_Ballistic.load_simulation(files[3])
+print(TB.width)
+frame_id = TB.substrate[height, :]
+frame_id = int( (np.min(frame_id[np.nonzero(frame_id)])) )
+
+print(frame_id)
+
+print(TB.count_holes_stack(frame_id))
 
 #for file in files:
 
@@ -29,10 +38,6 @@ dic_me = {}
 
 #    dic_me[file] = [TB.count_holes_stack(TB.FinalSteps // 3), TB.count_holes_stack(int(TB.FinalSteps * (2/3))), TB.count_holes_stack()]
 
-
-TB = Tetris_Ballistic.load_simulation(files[0])
-
-print(TB._ffnz(1))
 
 
 # Saving the complete fluctuations dictionary to disk
