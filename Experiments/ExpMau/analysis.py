@@ -20,16 +20,21 @@ pattern = f"*_w={width}*.joblib"
 files = glob.glob(pattern)
 dic_me = {}
 
-for file in files:
+#for file in files:
 
 
-    fl =[]
+#    fl =[]
     # Load simulation from file
-    TB = Tetris_Ballistic.load_simulation(file)
+#    TB = Tetris_Ballistic.load_simulation(file)
 
-    dic_me[file] = [TB.count_holes_stack(TB.FinalSteps // 3), TB.count_holes_stack(int(TB.FinalSteps * (2/3))), TB.count_holes_stack()]
+#    dic_me[file] = [TB.count_holes_stack(TB.FinalSteps // 3), TB.count_holes_stack(int(TB.FinalSteps * (2/3))), TB.count_holes_stack()]
+
+
+TB = Tetris_Ballistic.load_simulation(files[0])
+
+print(TB._ffnz(1))
 
 
 # Saving the complete fluctuations dictionary to disk
-print("Saving hole counting to disk...")
-joblib.dump(dic_me, "holes_counted.joblib")
+#print("Saving hole counting to disk...")
+#joblib.dump(dic_me, "holes_counted.joblib")
