@@ -41,6 +41,21 @@ test_list = []
 
 test_hist = {}
 
+def hole_statistics(substrate, interval = 10):
+    steps = substrate.height // interval 
+
+    hole_hist = {}
+
+    for i in range(interval):
+        hole_hist[min(int(i*steps), substrate.height-1)] = substrate.count_holes_stack(min(int(i*steps), substrate.height-1))
+
+    return hole_hist
+
+my_list = hole_statistics(TB, interval)
+
+print("mau", my_list)
+
+
 for i in range(interval):
     test_list.append(min(int(i*steps), TB.height-1))
 
