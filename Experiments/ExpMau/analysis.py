@@ -21,13 +21,48 @@ files = glob.glob(pattern)
 dic_me = {}
 height = 50
 TB = Tetris_Ballistic.load_simulation(files[3])
-print(TB.width)
+print("The width is:", TB.width)
 frame_id = TB.substrate[height, :]
 frame_id = int( (np.min(frame_id[np.nonzero(frame_id)])) )
 
-print(frame_id)
+print(f"At height {height}, the frame id is {frame_id}")
 
-print(TB.count_holes_stack(frame_id))
+print("With",TB.count_holes_stack(frame_id), "holes in the substrate at that height")
+
+height_list = []
+
+hole_hist = {}
+
+interval = 10
+
+steps = TB.height // interval
+
+test_list = []
+
+test_hist = {}
+
+for i in range(interval):
+    test_list.append(min(int(i*steps), TB.height-1))
+
+for i in range(interval):
+    test_hist[test_list[i]] = TB.count_holes_stack(test_list[i])
+
+for i in range(10):
+    height_list.append(min(int(TB.height*(1/(i+1))), TB.height-1))
+
+height_list.reverse()
+
+for i in range(10):
+    hole_hist[height_list[i]] = TB.count_holes_stack(height_list[i])
+
+
+print(height_list)
+print(hole_hist)
+
+print(" --- ")
+
+print(test_list)
+print(test_hist)
 
 #for file in files:
 
