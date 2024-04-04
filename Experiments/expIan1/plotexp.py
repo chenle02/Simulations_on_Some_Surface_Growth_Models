@@ -12,6 +12,8 @@ import os
 # import re
 from tetris_ballistic.tetris_ballistic import Tetris_Ballistic
 import matplotlib.pyplot as plt
+from shapely.geometry import LineString, MultiLineString
+from intersect import intersection
 
 # Regex pattern to match filename and extract components
 # pattern_parse = r'config_(?P<type>piece_\d+)_combined_(?P<percentage>percentage_\d+)_w=(?P<width>\d+)_seed=(?P<seed>\d+).joblib'
@@ -46,6 +48,8 @@ alpha = 0.1
 beta = 0.9
 logfl = np.log10(fl)
 maxfl = np.max(logfl)
+alphaline = np.full((fl.size), alpha * maxfl) #  Horizontal line at alpha level
+betaline = np.full((fl.size), beta * maxfl) # Horizontal line at beta level
 print('Maximum is ', maxfl)
 print('Fluctuation vector size= ', fl.size)
 slope1 = np.polyfit(np.log10(range(1, fl.size)), np.log10(fl[1:fl.size]), 1)
@@ -56,10 +60,32 @@ print('First slope = ', s1)
 print('Second slope = ', s2)
 print(slope1)
 print(slope2)
-plt.plot(np.log10(range(fl.size)), np.log10(fl))
+plt.plot(np.log10(range(fl.size)), logfl)
+plt.plot(np.log10(range(fl.size)), alphaline)
+plt.plot(np.log10(range(fl.size)), betaline)
+alphagraph = LineString(np.column_stack((np.log10(range(fl.size)), alphaline)))
+betagraph = LineString(np.column_stack((np.log10(range(fl.size)), betaline)))
+logflgraph = LineString(np.column_stack((np.log10(range(fl.size)), logfl)))
+intersection_af = alphagraph.intersection(logflgraph)
+intersection_bf = betagraph.intersection(logflgraph)
+
+x, y = intersection(np.log10(range(fl.size)), alphaline, np.log10(range(fl.size)), logfl)
+plt.plot(np.log10(range(fl.size)), alphagraph)
+plt.plot(np.log10(range(fl.size)), logflgraph)
+plt.plot(x, y, '*k')
+
+#if intersection_af.geom_type == 'MultiPoint':
+#    plt.plot(*LineString(intersection_af).xy, 'o')
+#elif intersection_af.geom_type == 'Point':
+#    plt.plot(*intersection_af.xy, 'o')
+
+# if intersection_bf.geom_type == 'MultiPoint':
+#    plt.plot(*LineString(intersection_bf).xy, 'o')
+#elif intersection_bf.geom_type == 'Point':
+#    plt.plot(*intersection_bf.xy, 'o')
 plt.axhline(y=maxfl, color='g') #  Line at maximum
-plt.axhline(y=beta * maxfl, color='g') #  Line at (1-beta) %
-plt.axhline(y=alpha * maxfl, color='g') #  Line at alpha %
+# plt.axhline(y=beta * maxfl, color='g') #  Line at beta % level
+# plt.axhline(y=alpha * maxfl, color='g') #  Line at alpha % level
 # plt.axvline(x=2, color='b')
 # plt.axvline(x=3.5, color='r')
 # plt.axhline(y=np.log10(fl[100]), color='b')
