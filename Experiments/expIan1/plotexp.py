@@ -6,10 +6,10 @@
 #
 
 import numpy as np
-import joblib
+# import joblib
 import os
-import glob
-import re
+# import glob
+# import re
 from tetris_ballistic.tetris_ballistic import Tetris_Ballistic
 import matplotlib.pyplot as plt
 
@@ -26,7 +26,7 @@ fluctuations_dict = {}
 
 # Process files for each percentage
 # for percentage in percentages:
-    # Ensure the dictionary for this percentage is initialized
+# Ensure the dictionary for this percentage is initialized
 #     formatted_percentage = str(percentage).zfill(2)
 #     fluctuations_dict[formatted_percentage] = {}
 #     print(f"Working on percentage files with percentage = {formatted_percentage}...")
@@ -42,7 +42,12 @@ width = 200
 # Load simulation from file
 TB = Tetris_Ballistic.load_simulation(file)
 fl = TB.Fluctuation[:TB.FinalSteps]
-print(fl.size)
+alpha = 0.1
+beta = 0.9
+logfl = np.log10(fl)
+maxfl = np.max(logfl)
+print('Maximum is ', maxfl)
+print('Fluctuation vector size= ', fl.size)
 slope1 = np.polyfit(np.log10(range(1, fl.size)), np.log10(fl[1:fl.size]), 1)
 slope2 = np.polyfit(np.log10(range(100, int(10**3.5))), np.log10(fl[100:int(10**3.5)]), 1)
 s1 = (np.log10(fl[100]) - np.log10(fl[1])) / (2 - 0)
@@ -52,11 +57,14 @@ print('Second slope = ', s2)
 print(slope1)
 print(slope2)
 plt.plot(np.log10(range(fl.size)), np.log10(fl))
-plt.axvline(x=2, color='b')
-plt.axvline(x=3.5, color='r')
-plt.axhline(y=np.log10(fl[100]), color='b')
-plt.axhline(y=np.log10(fl[int(10**3.5)]), color='r')
-x1, y1 = [0, 2], [np.log10(fl[1]), np.log10(fl[100])]
-x2, y2 = [2, 3.5], [np.log10(fl[100]), np.log10(fl[int(10**3.5)])]
-plt.plot(x1, y1, x2, y2)
+plt.axhline(y=maxfl, color='g') #  Line at maximum
+plt.axhline(y=beta * maxfl, color='g') #  Line at (1-beta) %
+plt.axhline(y=alpha * maxfl, color='g') #  Line at alpha %
+# plt.axvline(x=2, color='b')
+# plt.axvline(x=3.5, color='r')
+# plt.axhline(y=np.log10(fl[100]), color='b')
+# plt.axhline(y=np.log10(fl[int(10**3.5)]), color='r')
+# x1, y1 = [0, 2], [np.log10(fl[1]), np.log10(fl[100])]
+# x2, y2 = [2, 3.5], [np.log10(fl[100]), np.log10(fl[int(10**3.5)])]
+# plt.plot(x1, y1, x2, y2)
 plt.show()
