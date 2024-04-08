@@ -169,17 +169,13 @@ def count_holes_stats(self, frame_id=None, verbose=False):
 #print("mode", mode2)
 
 
-for file in files:
+#for file in files:
+#
+#    job = Tetris_Ballistic.load_simulation(file)
+#    hole_stat = count_holes_stats(job)
+#    raw_values = list(hole_stat.values())
+#    dic_me[file] = [statistics.mean(raw_values), statistics.median(raw_values), statistics.mode(raw_values)]
 
-    job = Tetris_Ballistic.load_simulation(file)
-    hole_stat = count_holes_stats(job)
-    raw_values = list(hole_stat.values())
-    dic_me[file] = [statistics.mean(raw_values), statistics.median(raw_values), statistics.mode(raw_values)]
-
-
-print("Saving hole info...")
-
-joblib.dump(dic_me, "hole_stats.joblib")
 
 load_data = joblib.load('hole_stats.joblib')
 
