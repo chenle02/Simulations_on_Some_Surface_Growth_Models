@@ -1842,6 +1842,8 @@ class Tetris_Ballistic:
             if self.Fluctuation[i] > threshold * hmax:
                 return i
 
+        return self.FinalSteps
+
     def ComputeSlope_fine(self, low_threshold: float = 0.1, high_threshold: float = 0.9) -> float:
         """
         Compute the slope of the substrate given the low and high thresholds
