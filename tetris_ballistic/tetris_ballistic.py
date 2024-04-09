@@ -1837,18 +1837,16 @@ class Tetris_Ballistic:
         return self.PrintStatus(brief=True, tostring=True)
 
     def hitting_time(self, threshold: float = 0.1) -> int:
-        """
-        ...
-        """
         hmax = np.max(self.Fluctuation)
         for i in range(self.FinalSteps):
             if self.Fluctuation[i] > threshold * hmax:
                 return i
 
-    def ComputeSlope_fine(self, low_threshold: float = 0.1, high_threshold: float = 0.9):
+    def ComputeSlope_fine(self, low_threshold: float = 0.1, high_threshold: float = 0.9) -> float:
         """
-        Compute the slope of the substrate given the low and high thresholds   
+        Compute the slope of the substrate given the low and high thresholds
         """
+
         low_time = self.hitting_time(low_threshold)
         high_time = self.hitting_time(high_threshold)
         print(f"Low time: {low_time}, High time: {high_time}")
@@ -2334,3 +2332,16 @@ def make_darker(color: str, factor=0.5):
 #                             envelop=True,
 #                             show_average=True,
 #                             aspect="auto")
+
+# TB = Tetris_Ballistic(config_file="../tests/test_slope/config_piece_14_nonsticky.yaml")
+# TB.Simulate()
+# # print(f"Fluctuation {TB.Fluctuation}")
+# s = TB.ComputeSlope_fine(low_threshold=0.1, high_threshold=0.99)
+# print(f"Piece 14, non-sticky: slope = {s}\n\n")
+#
+# TB = Tetris_Ballistic(config_file="./config_piece_14_sticky.yaml")
+# TB.Simulate()
+# # print(f"Fluctuation {TB.Fluctuation}")
+# s = TB.ComputeSlope_fine(low_threshold=0.1, high_threshold=0.99)
+# print(f"Piece 14, sticky: slope = {s}")
+

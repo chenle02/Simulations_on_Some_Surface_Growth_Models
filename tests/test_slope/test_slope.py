@@ -15,12 +15,13 @@ def test_T():
 
         TB = Tetris_Ballistic(config_file="./config_piece_14_nonsticky.yaml")
         TB.Simulate()
-        # print(f"Fluctuation {TB.Fluctuation}")
-        s = TB.ComputeSlope_fine(low_threshold=0.1, high_threshold=0.99)
-        print(f"Piece 14, non-sticky: slope = {s}\n\n")
+        list_upper_threshholds = [0.7, 0.8, 0.9, 0.99]
+        for i in list_upper_threshholds:
+            s = TB.ComputeSlope_fine(low_threshold=0.1, high_threshold=i)
+            print(f"Piece 14, non-sticky with upper threshold = {i}: slope = {s}")
 
         TB = Tetris_Ballistic(config_file="./config_piece_14_sticky.yaml")
         TB.Simulate()
-        # print(f"Fluctuation {TB.Fluctuation}")
-        s = TB.ComputeSlope_fine(low_threshold=0.1, high_threshold=0.99)
-        print(f"Piece 14, sticky: slope = {s}")
+        for i in list_upper_threshholds:
+            s = TB.ComputeSlope_fine(low_threshold=0.1, high_threshold=i)
+            print(f"Piece 14, sticky with upper threshold = {i}: slope = {s}")

@@ -37,11 +37,18 @@ Jensen-Shannon Divergence: 0.0000
 
 Log-time vs slopes:
  None
+Low time: 119, High time: 4001
+Slope : 0.5519911808724146
+Piece 14, non-sticky with upper threshold = 0.7: slope = 0.5519911808724146
+Low time: 119, High time: 6289
+Slope : 0.5238978893661526
+Piece 14, non-sticky with upper threshold = 0.8: slope = 0.5238978893661526
+Low time: 119, High time: 7852
+Slope : 0.511227388155207
+Piece 14, non-sticky with upper threshold = 0.9: slope = 0.511227388155207
 Low time: 119, High time: 9732
 Slope : 0.5023531475658753
-Piece 14, non-sticky: slope = 0.5023531475658753
-
-
+Piece 14, non-sticky with upper threshold = 0.99: slope = 0.5023531475658753
 Loaded: {'steps': 10000.0, 'width': 80.0, 'height': 800.0, 'seed': 12.0, 'Piece-0': [0, 0], 'Piece-1': [0, 0], 'Piece-2': [0, 0], 'Piece-3': [0, 0], 'Piece-4': [0, 0], 'Piece-5': [0, 0], 'Piece-6': [0, 0], 'Piece-7': [0, 0], 'Piece-8': [0, 0], 'Piece-9': [0, 0], 'Piece-10': [0, 0], 'Piece-11': [0, 0], 'Piece-12': [0, 0], 'Piece-13': [0, 0], 'Piece-14': [0, 0], 'Piece-15': [0, 0], 'Piece-16': [0, 0], 'Piece-17': [0, 0], 'Piece-18': [0, 0], 'Piece-19': [0, 1]}
 Configure file ./config_piece_14_sticky.yaml loaded successfully.
 Substrate along with all statistics have been reset to all zeros.
@@ -81,6 +88,15 @@ Jensen-Shannon Divergence: 0.0000
 
 Log-time vs slopes:
  None
+Low time: 49, High time: 2616
+Slope : 0.42601073333358525
+Piece 14, sticky with upper threshold = 0.7: slope = 0.42601073333358525
+Low time: 49, High time: 2728
+Slope : 0.43137294810201765
+Piece 14, sticky with upper threshold = 0.8: slope = 0.43137294810201765
+Low time: 49, High time: 3963
+Slope : 0.40950508219118775
+Piece 14, sticky with upper threshold = 0.9: slope = 0.40950508219118775
 Low time: 49, High time: 5392
 Slope : 0.42316003091649396
-Piece 14, sticky: slope = 0.42316003091649396
+Piece 14, sticky with upper threshold = 0.99: slope = 0.42316003091649396
