@@ -1839,10 +1839,10 @@ class Tetris_Ballistic:
     def hitting_time(self, threshold: float = 0.1) -> int:
         hmax = np.max(self.Fluctuation)
         for i in range(self.FinalSteps):
-            if self.Fluctuation[i] > threshold * hmax:
+            if self.Fluctuation[i] >= threshold * hmax:
                 return i
 
-        return self.FinalSteps
+        return self.FinalSteps - 1
 
     def ComputeSlope_fine(self, low_threshold: float = 0.1, high_threshold: float = 0.9) -> float:
         """
