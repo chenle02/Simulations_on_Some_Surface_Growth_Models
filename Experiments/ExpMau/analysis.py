@@ -12,6 +12,7 @@ import glob
 import re
 from tetris_ballistic.tetris_ballistic import Tetris_Ballistic
 import statistics
+import matplotlib.pyplot as plt
 
 
 # Regex pattern to match filename and extract components
@@ -29,28 +30,23 @@ frame_id = int( (np.min(frame_id[np.nonzero(frame_id)])) )
 
 print(f"At height {height}, the frame id is {frame_id}")
 
-print("With",TB.count_holes_stack(frame_id), "holes in the substrate at that height")
+print("With",TB.count_holes_stack(height), "holes in the substrate at that height")
 
-height_list = []
+step_list = [min(int((TB.FinalSteps)*(i+1)//10), TB.FinalSteps -1) for i in range(10)]
 
-hole_hist = {}
-
-interval = 10
-
-steps = TB.height // interval
-
-test_list = []
-
-test_hist = {}
+def model_holes(substrate):
+    step_list
+    growth_rate
+    for i in range(len(step_list)):
+        filtered = substrate[step_list[i] <= substrate]
+        growth_rate[f'step_list[i]'] = Tetris_Ballistic(filtered.count_holes_stack)
 
 
+#TODO Plot time vs hole growth
 
 
 
-
-def hole_statistics(substrate, interval = 10):
-    steps = substrate.height // interval 
-
+def hole_statistics(steps, substrate, interval = 10):
     hole_hist = {}
 
     for i in range(interval):
@@ -58,6 +54,11 @@ def hole_statistics(substrate, interval = 10):
 
     return hole_hist
 
+
+#maufile = hole_statistics(TB)
+#joblib.dump(maufile, "holes_counted.joblib")
+#mau_load = joblib.load("holes_counted.joblib")
+#print(mau_load)
 
 def count_holes_stats(self, frame_id=None, verbose=False):
         """
@@ -177,9 +178,9 @@ def count_holes_stats(self, frame_id=None, verbose=False):
 #    dic_me[file] = [statistics.mean(raw_values), statistics.median(raw_values), statistics.mode(raw_values)]
 
 
-load_data = joblib.load('hole_stats.joblib')
+#load_data = joblib.load('hole_stats.joblib')
 
-print(load_data)
+#print(load_data)
 
 #for file in files:
 
