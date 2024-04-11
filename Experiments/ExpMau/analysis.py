@@ -32,15 +32,19 @@ print(f"At height {height}, the frame id is {frame_id}")
 
 print("With",TB.count_holes_stack(height), "holes in the substrate at that height")
 
-step_list = [min(int((TB.FinalSteps)*(i+1)//10), TB.FinalSteps -1) for i in range(10)]
+#step_list = [min(int((TB.FinalSteps)*(i+1)//10), TB.FinalSteps -1) for i in range(10)]
 
 def model_holes(substrate):
-    step_list
-    growth_rate
+    step_list = [min(int((substrate.FinalSteps)*(i+1)//10), substrate.FinalSteps -1) for i in range(10)]
+    growth_rate = {}
     for i in range(len(step_list)):
-        filtered = substrate[step_list[i] <= substrate]
-        growth_rate[f'step_list[i]'] = Tetris_Ballistic(filtered.count_holes_stack)
+        growth_rate[step_list[i]] = substrate.count_holes_stack(step_list[i])
 
+    return growth_rate
+
+test = model_holes(TB)
+
+print(test)
 
 #TODO Plot time vs hole growth
 
