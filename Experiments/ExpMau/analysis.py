@@ -34,30 +34,87 @@ print("With",TB.count_holes_stack(height), "holes in the substrate at that heigh
 
 #step_list = [min(int((TB.FinalSteps)*(i+1)//10), TB.FinalSteps -1) for i in range(10)]
 
-def model_holes(substrate):
-    step_list = [min(int((substrate.FinalSteps)*(i+1)//10), substrate.FinalSteps -1) for i in range(10)]
+def model_holes(substrate, interval = 10):
+    step_list = [min(int((substrate.FinalSteps)*(i+1)//interval), substrate.FinalSteps -1) for i in range(interval)]
     growth_rate = {}
     for i in range(len(step_list)):
         growth_rate[step_list[i]] = substrate.count_holes_stack(step_list[i])
 
     return growth_rate
 
-test = model_holes(TB)
+#for file in files:
+#    job = Tetris_Ballistic.load_simulation(file)
+#    list_me = range(len(files))
+#    hole_stat = model_holes(job)
+#    steps = list(hole_stat.keys())
+#    holes = list(hole_stat.values())
+#    coefficients = np.polyfit(steps, holes, 1)
+#    poly_eq = np.poly1d(coefficients)
+#    plt.plot(steps, holes, color ='green', marker='o',linestyle ='--')
+#    plt.plot(steps, poly_eq(steps), color = 'red', label =f'Linear fit: y = {coefficients[0]:.2f}x + {coefficients[1]:.2f}')
+#
+#    plt.xlabel('Time')
+#    plt.ylabel('Hole Count')
+#    plt.title('Hole growth over time')
+#    plt.legend()
+#    plt.grid(True)
+#    #plt.axis('scaled')
+#
+#    plt.savefig(f'{file.replace("joblib", "png")}')
+#    plt.close()
+#    #joblib.dump(hole_stat, f'mautest_holes.joblib')
+#    print("Done with:TB")
 
-print(test)
+
+#TODO Compare hole growth to perimeter of substrate
+
+def peri_hole(self, frame_id): 
+    perimeter = self._ffnz(0) 
+    vis_substrate = np.copy(self.substrate)
+
+    if frame_id is None:
+        frame_id = self.FinalSteps  # Use self.FinalSteps if frame_id is not provided
+    else:
+        # filter out the values greater than the current frame_id
+        vis_substrate[self.substrate > frame_id] = 0
+
+
+    for i in range(vis_substrate.shape[1]-1):
+        perimeter += abs(self._ffnz(i) - self._ffnz(i+1))
+
+    return perimeter
+
+print("Final Perimeter",peri_hole(TB, frame_id = None))
+
+
+#TODO Create Perimeter List, Compare Number of Holes, Time
+def peri_v_holes(self, interval = 10):
+    peri_list= []
+    step_list = [min(int((self.FinalSteps)*(i+1)//interval), self.FinalSteps -1) for i in range(interval)]
+    for step in step_list:
+        peri_list.append(peri_hole(self, step))
+        
+    hole_stat = model_holes(self)
+    holes = list(hole_stat.values())
+
+    plt.plot(holes,step_list , color ='green', marker='o', linestyle ='--')
+#
+    plt.xlabel('perimeter')
+    plt.ylabel('Hole Count')
+    plt.title('Hole growth over perimeter')
+    plt.legend()
+    plt.grid(True)
+#
+    plt.savefig('holes_v_perimeter.png')
+    plt.close()
+#TODO Need to look at why there are more holes vs the perimeter. Might need 3d plot
+
+peri_v_holes(TB)
+
+
 
 #TODO Plot time vs hole growth
-
-
-
-def hole_statistics(steps, substrate, interval = 10):
-    hole_hist = {}
-
-    for i in range(interval):
-        hole_hist[min(int(i*steps), substrate.height-1)] = substrate.count_holes_stack(min(int(i*steps), substrate.height-1))
-
-    return hole_hist
-
+#joblib.dump(test, "hole_growth.joblib")
 
 #maufile = hole_statistics(TB)
 #joblib.dump(maufile, "holes_counted.joblib")
