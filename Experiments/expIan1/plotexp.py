@@ -51,18 +51,18 @@ for piece_id in range(19):
             values = []
             for seed in seeds:
                 values.append(list_of_slopes[piece_id][sticky][seed][threshold])
-                print(f"Data= {values}")
+            print(f"Data= {values}")
 
-                # Calculate the mean
-                mean = np.mean(values)
+            # Calculate the mean
+            mean = np.mean(values)
 
-                # Calculate the standard deviation
-                std_dev = np.std(values)
+            # Calculate the standard deviation
+            std_dev = np.std(values)
 
-                # Calculate the standard error of the mean
-                sem = std_dev / np.sqrt(len(values))
+            # Calculate the standard error of the mean
+            sem = std_dev / np.sqrt(len(values))
 
-                print(f"Piece {piece_id} and sticky configuration {sticky} and threshold {threshold}:")
-                print(f"Mean of the dataset: {mean:.2f}")
-                print(f"Standard Deviation of the dataset: {std_dev:.2f}")
-                print(f"Standard Error of the Mean: {sem:.2f}")
+            print(f"Piece {piece_id} and sticky configuration {sticky} and threshold {threshold}:")
+            print(f"Mean of the dataset: {mean:.2f}")
+            print(f"Standard Deviation of the dataset: {std_dev:.2f}")
+            print(f"Standard Error of the Mean: {sem:.2f}")
