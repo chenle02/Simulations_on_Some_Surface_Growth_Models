@@ -126,31 +126,60 @@ def peri_hole(self, frame_id):
 
 
 #TODO Create Perimeter List, Compare Number of Holes, Time
-def peri_v_holes(self, interval = 10):
-    peri_list= []
-    step_list = [min(int((self.FinalSteps)*(i+1)//interval), self.FinalSteps -1) for i in range(interval)]
+# def peri_v_holes(self, interval = 10):
+#     peri_list= []
+#     step_list = [min(int((self.FinalSteps)*(i+1)//interval), self.FinalSteps -1) for i in range(interval)]
+#     for step in step_list:
+#         print(step)
+#         peri_list.append(peri_hole(self, frame_id=step))
+#         print(peri_list)
+#         
+#     hole_stat = model_holes(self)
+#     holes = list(hole_stat.values())
+#     print(holes)
+#     print(peri_list)
+#
+#     fig = plt.figure()
+#     ax = fig.add_subplot(projection ='3d')
+#     ax.scatter(step_list, holes, peri_list)
+#
+#     plt.xlabel('step list')
+#     plt.ylabel('holes')
+#     ax.set_label('perimeter list')
+#     plt.savefig('holes_v_perimeter.png')
+#     plt.show()
+# #    plt.close()
+  
+
+def peri_v_holes(self, interval=10):
+    peri_list = []
+    # Generate steps for intervals
+    step_list = [min(int((self.FinalSteps) * (i + 1) // interval), self.FinalSteps - 1) for i in range(interval)]
     for step in step_list:
         print(step)
-        peri_list.append(peri_hole(self, frame_id=step))
+        peri_list.append(peri_hole(self, frame_id=step))  # Assuming peri_hole is defined correctly
         print(peri_list)
-        
+
+    # Assuming model_holes is defined correctly and returns a dict with numerical values
     hole_stat = model_holes(self)
     holes = list(hole_stat.values())
     print(holes)
     print(peri_list)
 
+    # Create a 3D plot
     fig = plt.figure()
-    ax = fig.add_subplot(projection ='3d')
-    ax.scatter(step_list, holes, peri_list)
+    ax = fig.add_subplot(111, projection='3d')  # Corrected to add 111
+    ax.scatter(step_list, holes, peri_list, color='b')  # Added color for clarity
 
-    plt.xlabel('step list')
-    plt.ylabel('holes')
-    ax.set_label('perimeter list')
+    # Set labels correctly
+    ax.set_xlabel('Step List')
+    ax.set_ylabel('Holes')
+    ax.set_zlabel('Perimeter List')
+
+    # Save and show the plot
     plt.savefig('holes_v_perimeter.png')
     plt.show()
-#    plt.close()
-    
-            
+
 
     #plt.plot(peri_list, holes, color ='green', marker='o', linestyle ='--')
 #
