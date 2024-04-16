@@ -195,6 +195,7 @@ Experiments/exp**/*.yaml
 Experiments/exp**/*.png
 Experiments/exp8/myvenv
 Experiments/exp8.zip
+Experiments/ExpMau/*.png
 
 Experiments/exp_demo/config_piece_0_sticky_w=50_seed=1510.mp4
 Experiments/exp_demo/config_piece_0_sticky_w=50_seed=1510_equal.mp4
