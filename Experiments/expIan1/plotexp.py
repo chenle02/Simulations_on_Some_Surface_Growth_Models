@@ -26,6 +26,7 @@ stickiness = ['1-0', '0-1', '1-1']
 seeds = [0, 10, 20, 30, 40, 50]
 thresholds = [.2, .3, .4, .5, .6, .7, .8, .9, 1]
 list_of_slopes = {}
+print("Compute the slope first...")
 for piece_id in range(19):
     list_of_slopes[piece_id] = {}
     for sticky in stickiness:
@@ -39,22 +40,34 @@ for piece_id in range(19):
                 s = TB.ComputeSlope_fine(low_threshold=0.1, high_threshold=threshold)
                 list_of_slopes[piece_id][sticky][seed][threshold] = s
 
-for piece_id in range(19):
-    for sticky in stickiness:
-        for threshold in thresholds:
-            # Simulate a dataset of n=100 numbers, for example, random numbers from a normal distribution
-            data = list_of_slopes[piece_id][sticky][:][threshold]
+print("Collecting the slope first...")
+values = []
+piece_id = 0
+sticky = "0-1"
+threshold = 0.6
 
-            # Calculate the mean
-            mean = np.mean(data)
+for seed in seeds:
+    values.append(list_of_slopes[piece_id][sticky][seed][threshold])
 
-            # Calculate the standard deviation
-            std_dev = np.std(data)
+print(f"Values: {values}")
 
-            # Calculate the standard error of the mean
-            sem = std_dev / np.sqrt(len(data))
-
-            print(f"Piece {piece_id} and sticky configuration {sticky} and threshold {threshold}:")
-            print(f"Mean of the dataset: {mean:.2f}")
-            print(f"Standard Deviation of the dataset: {std_dev:.2f}")
-            print(f"Standard Error of the Mean: {sem:.2f}")
+# for piece_id in range(19):
+#     for sticky in stickiness:
+#         for threshold in thresholds:
+#             # Simulate a dataset of n=100 numbers, for example, random numbers from a normal distribution
+#             data = list_of_slopes[piece_id][sticky][:][threshold]
+#             print(f"Data= {data}")
+#
+#             # Calculate the mean
+#             mean = np.mean(data)
+#
+#             # Calculate the standard deviation
+#             std_dev = np.std(data)
+#
+#             # Calculate the standard error of the mean
+#             sem = std_dev / np.sqrt(len(data))
+#
+#             print(f"Piece {piece_id} and sticky configuration {sticky} and threshold {threshold}:")
+#             print(f"Mean of the dataset: {mean:.2f}")
+#             print(f"Standard Deviation of the dataset: {std_dev:.2f}")
+#             print(f"Standard Error of the Mean: {sem:.2f}")

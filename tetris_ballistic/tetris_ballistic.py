@@ -1851,12 +1851,12 @@ class Tetris_Ballistic:
 
         low_time = self.hitting_time(low_threshold)
         high_time = self.hitting_time(high_threshold)
-        print(f"Low time: {low_time}, High time: {high_time}")
+        # print(f"Low time: {low_time}, High time: {high_time}")
 
         logTime = np.log10(np.array(range(low_time, high_time + 1)))
         logFluc = np.log10(self.Fluctuation[low_time:high_time + 1])
         slope, _ = np.polyfit(logTime, logFluc, 1)
-        print(f"Slope : {slope}")
+        # print(f"Slope : {slope}")
         return slope
 
     def ComputeSlope(self):
