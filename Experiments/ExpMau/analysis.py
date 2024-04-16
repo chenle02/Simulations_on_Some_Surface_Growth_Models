@@ -151,7 +151,7 @@ def peri_hole(self, frame_id):
 # #    plt.close()
   
 
-def peri_v_holes(self, interval=10):
+def peri_v_holes(self, interval=250):
     peri_list = []
     # Generate steps for intervals
     step_list = [min(int((self.FinalSteps) * (i + 1) // interval), self.FinalSteps - 1) for i in range(interval)]
@@ -161,14 +161,14 @@ def peri_v_holes(self, interval=10):
         print(peri_list)
 
     # Assuming model_holes is defined correctly and returns a dict with numerical values
-    hole_stat = model_holes(self)
+    hole_stat = model_holes(self, interval = interval)
     holes = list(hole_stat.values())
     print(holes)
     print(peri_list)
 
     # Create a 3D plot
     fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')  # Corrected to add 111
+    ax = fig.add_subplot(projection='3d')  # Corrected to add 111
     ax.scatter(step_list, holes, peri_list, color='b')  # Added color for clarity
 
     # Set labels correctly
@@ -193,7 +193,7 @@ def peri_v_holes(self, interval=10):
     #plt.close()
 #TODO Need to look at why there are more holes vs the perimeter. Might need 3d plot
 
-#peri_v_holes(TB)
+peri_v_holes(TB)
 
 
 
