@@ -41,33 +41,28 @@ for piece_id in range(19):
                 list_of_slopes[piece_id][sticky][seed][threshold] = s
 
 print("Collecting the slope first...")
-values = []
-piece_id = 0
-sticky = "0-1"
-threshold = 0.6
+# piece_id = 0
+# sticky = "0-1"
+# threshold = 0.6
 
-for seed in seeds:
-    values.append(list_of_slopes[piece_id][sticky][seed][threshold])
+for piece_id in range(19):
+    for sticky in stickiness:
+        for threshold in thresholds:
+            values = []
+            for seed in seeds:
+                values.append(list_of_slopes[piece_id][sticky][seed][threshold])
+                print(f"Data= {values}")
 
-print(f"Values: {values}")
+                # Calculate the mean
+                mean = np.mean(values)
 
-# for piece_id in range(19):
-#     for sticky in stickiness:
-#         for threshold in thresholds:
-#             # Simulate a dataset of n=100 numbers, for example, random numbers from a normal distribution
-#             data = list_of_slopes[piece_id][sticky][:][threshold]
-#             print(f"Data= {data}")
-#
-#             # Calculate the mean
-#             mean = np.mean(data)
-#
-#             # Calculate the standard deviation
-#             std_dev = np.std(data)
-#
-#             # Calculate the standard error of the mean
-#             sem = std_dev / np.sqrt(len(data))
-#
-#             print(f"Piece {piece_id} and sticky configuration {sticky} and threshold {threshold}:")
-#             print(f"Mean of the dataset: {mean:.2f}")
-#             print(f"Standard Deviation of the dataset: {std_dev:.2f}")
-#             print(f"Standard Error of the Mean: {sem:.2f}")
+                # Calculate the standard deviation
+                std_dev = np.std(values)
+
+                # Calculate the standard error of the mean
+                sem = std_dev / np.sqrt(len(values))
+
+                print(f"Piece {piece_id} and sticky configuration {sticky} and threshold {threshold}:")
+                print(f"Mean of the dataset: {mean:.2f}")
+                print(f"Standard Deviation of the dataset: {std_dev:.2f}")
+                print(f"Standard Error of the Mean: {sem:.2f}")
