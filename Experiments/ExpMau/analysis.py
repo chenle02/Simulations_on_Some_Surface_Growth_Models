@@ -65,11 +65,48 @@ def model_holes(substrate, interval = 10):
 #    #joblib.dump(hole_stat, f'mautest_holes.joblib')
 #    print("Done with:TB")
 
+def firstnz(substrate, column):
+    """
+    Finds the first non-zero entry in the specified column of the
+    substrate.
+
+    This method scans the column from top to bottom (starting from index 0)
+    and returns the index of the first non-zero entry. If all entries in
+    the column are zero, a special value (indicating this condition) is
+    returned.
+
+    Args:
+        substrate (np array): The numpy array to search through
+
+        column (int): The column index in the substrate to search in. It should
+                    be within the range of the substrate's columns.
+
+    Returns:
+        int: The index of the first non-zero entry in the specified column. If the
+            column contains only zeros, returns the value of self.height,
+            which indicates that no non-zero entry was found.
+    """
+    # Check if the column index is within the valid range
+    if column < 0 or column >= substrate.shape[1]:
+        print("Column index is out of bounds")
+        raise ValueError("Column index is out of bounds")
+
+    i = 0
+    flag = substrate.shape[0]
+    while (flag == substrate.shape[0]) and (i < substrate.shape[0]):
+        if substrate[i, column] == 0:
+            i = i + 1
+        else:
+            flag = i
+
+    return flag
+
 
 #TODO Compare hole growth to perimeter of substrate
 
 def peri_hole(self, frame_id): 
     perimeter = self._ffnz(0) 
+    print(perimeter)
     vis_substrate = np.copy(self.substrate)
 
     if frame_id is None:
@@ -80,11 +117,12 @@ def peri_hole(self, frame_id):
 
 
     for i in range(vis_substrate.shape[1]-1):
-        perimeter += abs(self._ffnz(i) - self._ffnz(i+1))
+        perimeter += abs(firstnz(vis_substrate,i) - firstnz(vis_substrate,i+1))
 
     return perimeter
 
-print("Final Perimeter",peri_hole(TB, frame_id = None))
+#print("Final Perimeter",peri_hole(TB, frame_id = None))
+#print("Initial Perimeter",peri_hole(TB, frame_id = 5000))
 
 
 #TODO Create Perimeter List, Compare Number of Holes, Time
@@ -92,24 +130,41 @@ def peri_v_holes(self, interval = 10):
     peri_list= []
     step_list = [min(int((self.FinalSteps)*(i+1)//interval), self.FinalSteps -1) for i in range(interval)]
     for step in step_list:
-        peri_list.append(peri_hole(self, step))
+        print(step)
+        peri_list.append(peri_hole(self, frame_id=step))
+        print(peri_list)
         
     hole_stat = model_holes(self)
     holes = list(hole_stat.values())
+    print(holes)
+    print(peri_list)
 
-    plt.plot(holes,step_list , color ='green', marker='o', linestyle ='--')
-#
-    plt.xlabel('perimeter')
-    plt.ylabel('Hole Count')
-    plt.title('Hole growth over perimeter')
-    plt.legend()
-    plt.grid(True)
-#
+    fig = plt.figure()
+    ax = fig.add_subplot(projection ='3d')
+    ax.scatter(step_list, holes, peri_list)
+
+    plt.xlabel('step list')
+    plt.ylabel('holes')
+    ax.set_label('perimeter list')
     plt.savefig('holes_v_perimeter.png')
-    plt.close()
+    plt.show()
+#    plt.close()
+    
+            
+
+    #plt.plot(peri_list, holes, color ='green', marker='o', linestyle ='--')
+#
+    #plt.xlabel('perimeter')
+    #plt.ylabel('Hole Count')
+    #plt.title('Hole growth over perimeter')
+    #plt.legend()
+    #plt.grid(True)
+#
+    #plt.savefig('holes_v_perimeter.png')
+    #plt.close()
 #TODO Need to look at why there are more holes vs the perimeter. Might need 3d plot
 
-peri_v_holes(TB)
+#peri_v_holes(TB)
 
 
 
