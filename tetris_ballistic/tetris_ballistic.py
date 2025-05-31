@@ -1859,6 +1859,66 @@ class Tetris_Ballistic:
         print(f"Slope : {slope}")
         return slope
 
+    def ComputeEndpointSlope(self, low_threshold: float = 0.1, high_threshold: float = 0.9):
+        """
+        Detect the premature (low_threshold) and saturation (high_threshold) points
+        in the fluctuation vs. time curve, then compute the slope between those
+        two endpoints on the log–log plot.
+
+        Args:
+            low_threshold (float): Fraction of max fluctuation to mark premature point.
+            high_threshold (float): Fraction of max fluctuation to mark saturation point.
+
+        Returns:
+            tuple:
+                low_time (int): Index where fluctuation first exceeds low_threshold * max.
+                high_time (int): Index where fluctuation first exceeds high_threshold * max.
+                slope (float): Endpoint slope = [log Fluc(high_time) - log Fluc(low_time)]
+                               / [log time(high_time) - log time(low_time)].
+        """
+        # Find indices for thresholds
+        low_time = self.hitting_time(low_threshold)
+        high_time = self.hitting_time(high_threshold)
+        # Prepare log–log arrays
+        time = np.arange(1, self.FinalSteps + 1)
+        logTime = np.log10(time)
+        logFluc = np.log10(self.Fluctuation)
+        # Compute slope between the two endpoints
+        slope = (logFluc[high_time] - logFluc[low_time]) / (logTime[high_time] - logTime[low_time])
+        print(f"Endpoint slope between times {low_time} and {high_time}: {slope}")
+        return low_time, high_time, slope
+    
+    def ComputeSlopeLocal(self):
+        """
+        Compute local log–log slopes via centered finite differences.
+        Returns local slopes, their median, and a robust error bound (half-IQR).
+
+        Returns:
+            logTime_centers (np.ndarray): midpoints of log(time) for each slope.
+            slopes (np.ndarray): array of local slopes d log Fluc / d log time.
+            median_slope (float): median of the local slopes.
+            half_iqr (float): half the interquartile range (IQR) of the slopes.
+        """
+        # need at least 3 points to form a centered difference
+        if self.FinalSteps < 3:
+            return np.array([]), np.array([]), None, None
+        # prepare log–log arrays
+        time = np.arange(1, self.FinalSteps + 1)
+        logTime = np.log10(time)
+        logFluc = np.log10(self.Fluctuation)
+        # centered differences
+        dt = logTime[2:] - logTime[:-2]
+        dF = logFluc[2:] - logFluc[:-2]
+        slopes = dF / dt
+        logTime_centers = logTime[1:-1]
+        median_slope = float(np.median(slopes))
+        # half interquartile range for error bound
+        q25 = np.percentile(slopes, 25)
+        q75 = np.percentile(slopes, 75)
+        half_iqr = float((q75 - q25) / 2.0)
+        return logTime_centers, slopes, median_slope, half_iqr
+
+
     def ComputeSlope(self):
         """
         Compute the slope of the substrate
