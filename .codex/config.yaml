@@ -1,0 +1,10 @@
+model: o4-mini
+approvalMode: full-auto
+fullAutoErrorMode: ask-user
+notify: true
+
+ignorePaths:
+  - Build_docs/bib_entries/**
+  - Build_docs/bib_files/**
+  - Build_docs/audio_files/*.wav
+
