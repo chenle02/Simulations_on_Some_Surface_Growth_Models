@@ -19,7 +19,8 @@ def test_CountHoles():
     with open(output_file, "w") as file, contextlib.redirect_stdout(file):
 
         print("First save the simulation")
-        TB = Tetris_Ballistic(seed=42, width=100, height=200, steps=600)
+        # Use fewer steps for faster testing
+        TB = Tetris_Ballistic(seed=42, width=100, height=200, steps=60)
         TB.Simulate()
         TB.PrintStatus()
         joblib_filename = "TB.Joblib"

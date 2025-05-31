@@ -1,4 +1,4 @@
-from pkg_resources import resource_filename
+from importlib import resources
 
 
 class TetrominoImageLoader:
@@ -62,4 +62,5 @@ class TetrominoImageLoader:
         piece_name, rotation = self.piece_info[piece_id]
         sticky_suffix = "_bordered" if not sticky else ""
         filename = f"Tetromino_{piece_name}_{rotation}{sticky_suffix}.png"
-        return resource_filename(__name__, f'data/{filename}')
+        # Return the filesystem path to the image resource in this package
+        return str(resources.files(__package__).joinpath('data', filename))

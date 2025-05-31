@@ -107,5 +107,5 @@ Below is a breakdown of each location and its purpose.
 
 ---
 
-*This README will help contributors understand how the test suite is structured and
+*This README will help contributors understand how the test suite is structured and maintained.*
 

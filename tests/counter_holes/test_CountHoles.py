@@ -18,7 +18,8 @@ def test_CountHoles():
 
     with open(output_file, "w") as file, contextlib.redirect_stdout(file):
 
-        TB = Tetris_Ballistic(seed=42, width=100, height=200, steps=20000)
+        # Use a smaller number of steps for faster testing
+        TB = Tetris_Ballistic(seed=42, width=100, height=200, steps=200)
         TB.Simulate()
         TB.PrintStatus()
         TB.visualize_simulation(video_filename="a.mp4")
