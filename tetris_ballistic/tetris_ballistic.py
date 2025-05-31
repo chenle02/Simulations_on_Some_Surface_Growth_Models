@@ -1666,16 +1666,14 @@ class Tetris_Ballistic:
         #         top_envelope[pos] = np.argmax(self.substrate[:, pos] > 0) - 1
         #     else:
         #         top_envelope[pos] = self.height - 1
-        top_envelope = self._TopEnvelop(step + 1)
-
-        # self.HeightDynamics[step] = top_envelope
-        average = np.mean(top_envelope)
+        top_env = self._TopEnvelop(step + 1)
+        # convert row indices to heights measured from bottom
+        heights = self.height - 1 - top_env
+        # average height across the width
+        average = np.mean(heights)
         self.AvergeHeight[step] = average
-
-        self.Fluctuation[step] = 0
-        for pos in range(self.width):
-            self.Fluctuation[step] += np.power(top_envelope[pos] - average, 2) / self.width
-        self.Fluctuation[step] = np.sqrt(self.Fluctuation[step])
+        # compute fluctuation as standard deviation of heights
+        self.Fluctuation[step] = np.sqrt(np.mean((heights - average) ** 2))
 
     def count_holes(self):
         """
@@ -1888,16 +1886,20 @@ class Tetris_Ballistic:
         print(f"Endpoint slope between times {low_time} and {high_time}: {slope}")
         return low_time, high_time, slope
     
-    def ComputeSlopeLocal(self):
+    def ComputeSlopeLocal(self, low_frac: float = 0.1, high_frac: float = 0.9):
         """
-        Compute local log–log slopes via centered finite differences.
-        Returns local slopes, their median, and a robust error bound (half-IQR).
+        Compute local log–log slopes via centered finite differences,
+        trimming the first and last fractions to avoid transient and saturation.
+
+        Args:
+            low_frac (float): Fraction of initial slopes to discard. Default 0.1.
+            high_frac (float): Fraction of final slopes to discard. Default 0.9.
 
         Returns:
-            logTime_centers (np.ndarray): midpoints of log(time) for each slope.
-            slopes (np.ndarray): array of local slopes d log Fluc / d log time.
-            median_slope (float): median of the local slopes.
-            half_iqr (float): half the interquartile range (IQR) of the slopes.
+            logTime_centers_trim (np.ndarray): midpoints of log(time) for trimmed slopes.
+            slopes_trim (np.ndarray): trimmed array of local slopes d log Fluc / d log time.
+            median_slope (float): median of the trimmed slopes.
+            half_iqr (float): half the interquartile range (IQR) of trimmed slopes.
         """
         # need at least 3 points to form a centered difference
         if self.FinalSteps < 3:
@@ -1906,17 +1908,28 @@ class Tetris_Ballistic:
         time = np.arange(1, self.FinalSteps + 1)
         logTime = np.log10(time)
         logFluc = np.log10(self.Fluctuation)
-        # centered differences
+        # centered differences on interior points
         dt = logTime[2:] - logTime[:-2]
         dF = logFluc[2:] - logFluc[:-2]
         slopes = dF / dt
         logTime_centers = logTime[1:-1]
-        median_slope = float(np.median(slopes))
-        # half interquartile range for error bound
-        q25 = np.percentile(slopes, 25)
-        q75 = np.percentile(slopes, 75)
+        # determine trimming indices
+        n = len(slopes)
+        i0 = int(np.floor(low_frac * n))
+        i1 = int(np.ceil(high_frac * n))
+        if i1 <= i0:
+            # no trimming possible
+            slopes_trim = slopes.copy()
+            logTime_centers_trim = logTime_centers.copy()
+        else:
+            slopes_trim = slopes[i0:i1]
+            logTime_centers_trim = logTime_centers[i0:i1]
+        # median and half-IQR of trimmed slopes
+        median_slope = float(np.median(slopes_trim))
+        q25 = np.percentile(slopes_trim, 25)
+        q75 = np.percentile(slopes_trim, 75)
         half_iqr = float((q75 - q25) / 2.0)
-        return logTime_centers, slopes, median_slope, half_iqr
+        return logTime_centers_trim, slopes_trim, median_slope, half_iqr
 
 
     def ComputeSlope(self):

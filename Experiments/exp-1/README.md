@@ -36,8 +36,13 @@ the results in a SQLite database.
 
 ## What is stored
 
-- **slope**: Robust estimate of the growth exponent v. Computed as the
-  median of local log–log slopes (d log Fluc / d log time).  A half‐IQR
-  error bound is printed to the console for each run.
+-- **slope**: Robust estimate of the growth exponent v.
+  1) First, compute the **local** slopes d log Fluc / d log time via centered finite
+     differences, discarding the first and last 10% of points.
+     • The **median** of these local slopes is the primary estimate and the
+       half‐interquartile range (half‐IQR) is shown as its uncertainty.
+  2) If the local‐slope estimate is too noisy (half‐IQR > 50% of the median),
+     fallback to the **endpoint** slope (between 10% and 90% of max fluctuation).
+  The final chosen slope is stored in the `slope` column.
 
 Feel free to customize `Sweep.py` (e.g. adding/removing config patterns or seeds).

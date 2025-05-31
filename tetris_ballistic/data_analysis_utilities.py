@@ -159,11 +159,10 @@ def insert_joblibs(pattern: str = "*.joblib",
             fl = TB.Fluctuation[:TB.FinalSteps]
             final_steps = TB.FinalSteps
             # Use the robust median‐of‐local‐slopes as the stored exponent
-            try:
-                _, _, median_slope, half_iqr = TB.ComputeSlopeLocal()
-                slope = float(median_slope)
-            except Exception:
-                # Fallback: endpoint slope or zero
+            # Use the selected robust slope estimate if available
+            slope = getattr(TB, 'estimated_slope', None)
+            if slope is None:
+                # Fallback to endpoint slope or 0.0
                 slope = getattr(TB, 'endpoint_slope', 0.0) or 0.0
 
             list_of_fluctuations.append(fl)

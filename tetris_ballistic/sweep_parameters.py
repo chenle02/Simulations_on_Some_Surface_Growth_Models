@@ -18,6 +18,7 @@ from joblib import dump
 from itertools import chain
 from tetris_ballistic.tetris_ballistic import Tetris_Ballistic, load_density_from_config
 from tetris_ballistic.retrieve_default_configs import retrieve_default_configs as rdc, configs_dir
+import numpy as np
 
 
 class DualLogger:
@@ -98,24 +99,32 @@ def simulate(params, ratio: float, total_iterations: int):
     try:
         # endpoint slope between 10% and 90% of max fluctuation
         low_t, high_t, endpoint_slope = TB.ComputeEndpointSlope(low_threshold=0.1,
-                                                               high_threshold=0.9)
+                                                                high_threshold=0.9)
         print(f"Endpoint slope between steps {low_t} and {high_t}: {endpoint_slope:.4f}")
-        # local slope median and error bound
-        _, _, local_median, local_half_iqr = TB.ComputeSlopeLocal()
-        print(f"Local median slope ± half-IQR: {local_median:.4f} ± {local_half_iqr:.4f}")
+        # compute local slopes via global polyfit sliding-window
+        TB.ComputeSlope()
+        if TB.log_time_slopes is not None:
+            slopes_arr = TB.log_time_slopes[:, 1]
+            local_median = float(np.median(slopes_arr))
+            q25 = np.percentile(slopes_arr, 25)
+            q75 = np.percentile(slopes_arr, 75)
+            local_half_iqr = float((q75 - q25) / 2.0)
+            print(f"Local median slope ± half-IQR: {local_median:.4f} ± {local_half_iqr:.4f}")
+        else:
+            local_median = None
+            local_half_iqr = None
+        # choose robust estimate: prefer local_median if half-IQR reasonable
+        if local_median is None or local_half_iqr is None or local_half_iqr > abs(local_median) * 0.5:
+            TB.estimated_slope = endpoint_slope
+            print(f"Using endpoint slope as estimate: {endpoint_slope:.4f}")
+        else:
+            TB.estimated_slope = local_median
+            print(f"Using local median slope as estimate: {local_median:.4f}")
     except Exception as e:
-        # In case of failure, record None and log warning
         endpoint_slope = None
         low_t = high_t = None
-        local_median = None
-        local_half_iqr = None
+        TB.estimated_slope = None
         print(f"Warning: failed to compute slopes: {e}")
-    # Attach slope estimates to the simulation object for later analysis
-    TB.endpoint_low_time = low_t
-    TB.endpoint_high_time = high_t
-    TB.endpoint_slope = endpoint_slope
-    TB.local_median_slope = local_median
-    TB.local_half_IQR = local_half_iqr
     title = basename.replace("_", " ")
     title = title.replace("config", "Config: ")
     list_images = TB.list_tetromino_images()
