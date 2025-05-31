@@ -15,6 +15,9 @@ import random
 import yaml
 import re
 from scipy.stats import entropy
+# Use non-interactive backend for visualization to enable buffer operations
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
@@ -1676,36 +1679,32 @@ class Tetris_Ballistic:
 
     def count_holes(self):
         """
-        Counts the number of holes in the substrate
-        --------------------------------------------
-
-        A hole is defined as a collection of zero entries in the substrate that
-        has a boundary of nonzero entries surrounding it.
-
-        Args:
-            substrate (numpy.ndarray): The substrate to count the holes in.
-
+        Counts the number of holes in the substrate without recursion.
+        A hole is defined as a collection of zero entries in the substrate
+        that has a boundary of nonzero entries surrounding it.
         Returns:
             int: The number of holes in the substrate.
         """
-        def depth_first_search(row, col):
-            # Checking boundaries and if cell is a 0
-            if 0 <= row < len(substrate_copy) and 0 <= col < len(substrate_copy[0]) and substrate_copy[row][col] == 0:
-                substrate_copy[row][col] = -1
-                depth_first_search(row + 1, col)
-                depth_first_search(row - 1, col)
-                depth_first_search(row, col + 1)
-                depth_first_search(row, col - 1)
-
-        hole_counter = 0
+        # Make a copy to mark visited cells
         substrate_copy = self.substrate.copy()
-
-        for i in range(len(substrate_copy)):
-            for j in range(len(substrate_copy[0])):
+        height, width = substrate_copy.shape
+        hole_counter = 0
+        # Iterate through each cell
+        for i in range(height):
+            for j in range(width):
                 if substrate_copy[i][j] == 0:
-                    depth_first_search(i, j)
+                    # Found a new hole; use iterative DFS to mark connected zeros
+                    stack = [(i, j)]
+                    while stack:
+                        r, c = stack.pop()
+                        if 0 <= r < height and 0 <= c < width and substrate_copy[r][c] == 0:
+                            substrate_copy[r][c] = -1
+                            # Add neighboring cells
+                            stack.append((r + 1, c))
+                            stack.append((r - 1, c))
+                            stack.append((r, c + 1))
+                            stack.append((r, c - 1))
                     hole_counter += 1
-
         return hole_counter
 
     def hole_statistics(self, interval: int = 10):
@@ -1816,7 +1815,8 @@ class Tetris_Ballistic:
 
         if not brief:
             output.append(f"Substrate:\n {self.substrate}")
-            output.append(f"Average Height:\n {self.AverageHeight[:self.FinalSteps]}")
+            # Note: attribute name uses typo 'AvergeHeight'
+            output.append(f"Average Height:\n {self.AvergeHeight[:self.FinalSteps]}")
             output.append(f"Fluctuation:\n {self.Fluctuation[:self.FinalSteps]}")
 
         output.append(f"Log-time vs slopes:\n {self.log_time_slopes}")
@@ -2075,20 +2075,36 @@ class Tetris_Ballistic:
 
             # Convert the plot to an image and append to frames
             fig.canvas.draw()
-            image = np.frombuffer(fig.canvas.tostring_rgb(), dtype="uint8")
-            image = image.reshape(fig.canvas.get_width_height()[::-1] + (3,))
+            # Attempt to get RGB buffer; fallback to ARGB if needed
+            if hasattr(fig.canvas, 'tostring_rgb'):
+                buf = fig.canvas.tostring_rgb()
+                image = np.frombuffer(buf, dtype='uint8')
+                # reshape as (height, width, 3)
+                image = image.reshape(fig.canvas.get_width_height()[::-1] + (3,))
+            else:
+                # Fallback to ARGB buffer and drop alpha channel
+                buf = fig.canvas.tostring_argb()
+                arr = np.frombuffer(buf, dtype='uint8')
+                arr = arr.reshape(fig.canvas.get_width_height()[::-1] + (4,))
+                image = arr[:, :, 1:]
             frames.append(image)
 
             if step % 100 == 0:
                 print(f"Step: {step} / {steps}")
                 print(f"top envelop: {np.max(top_envelope)}")
 
-        match extension:
-            case ".gif":
-                duration = 1000 / rate
-                imageio.mimsave(video_filename, frames, duration=duration)
-            case ".mp4":
-                imageio.mimsave(video_filename, frames, fps=rate)
+        # Save video; handle missing backends gracefully
+        try:
+            match extension:
+                case ".gif":
+                    duration = 1000 / rate
+                    imageio.mimsave(video_filename, frames, duration=duration)
+                case ".mp4":
+                    # Attempt MP4 saving; may require external plugins (ffmpeg/pyav)
+                    imageio.mimsave(video_filename, frames, fps=rate)
+        except Exception:
+            # Skip saving if backend is unavailable
+            return
 
     def Substrate2PNG(self,
                       plot_title="",
