@@ -161,6 +161,11 @@ cython_debug/
 
 # For latex related
 *.aux
+ # Experiment outputs
+ /experiments/*.joblib
+ /experiments/*.mp4
+ /experiments/*.gif
+ /experiments/*.png
 *.toc
 *.bcf
 *.xml
