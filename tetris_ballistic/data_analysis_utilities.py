@@ -154,11 +154,17 @@ def insert_joblibs(pattern: str = "*.joblib",
             width = int(data['width'])
             random_seed = int(data['seed'])
 
+            # Load simulation and extract fluctuation
             TB = Tetris_Ballistic.load_simulation(file)
             fl = TB.Fluctuation[:TB.FinalSteps]
-
             final_steps = TB.FinalSteps
-            slope = 0.0
+            # Use the robust median‐of‐local‐slopes as the stored exponent
+            try:
+                _, _, median_slope, half_iqr = TB.ComputeSlopeLocal()
+                slope = float(median_slope)
+            except Exception:
+                # Fallback: endpoint slope or zero
+                slope = getattr(TB, 'endpoint_slope', 0.0) or 0.0
 
             list_of_fluctuations.append(fl)
             list_of_len.append(len(fl))

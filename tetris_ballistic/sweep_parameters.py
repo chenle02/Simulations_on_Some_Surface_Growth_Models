@@ -92,7 +92,30 @@ def simulate(params, ratio: float, total_iterations: int):
         print(f"Save the config file: {config_filename}")
         TB.save_config(config_filename)
 
+    # Run the deposition simulation
     TB.Simulate()
+    # Compute scaling exponents
+    try:
+        # endpoint slope between 10% and 90% of max fluctuation
+        low_t, high_t, endpoint_slope = TB.ComputeEndpointSlope(low_threshold=0.1,
+                                                               high_threshold=0.9)
+        print(f"Endpoint slope between steps {low_t} and {high_t}: {endpoint_slope:.4f}")
+        # local slope median and error bound
+        _, _, local_median, local_half_iqr = TB.ComputeSlopeLocal()
+        print(f"Local median slope ± half-IQR: {local_median:.4f} ± {local_half_iqr:.4f}")
+    except Exception as e:
+        # In case of failure, record None and log warning
+        endpoint_slope = None
+        low_t = high_t = None
+        local_median = None
+        local_half_iqr = None
+        print(f"Warning: failed to compute slopes: {e}")
+    # Attach slope estimates to the simulation object for later analysis
+    TB.endpoint_low_time = low_t
+    TB.endpoint_high_time = high_t
+    TB.endpoint_slope = endpoint_slope
+    TB.local_median_slope = local_median
+    TB.local_half_IQR = local_half_iqr
     title = basename.replace("_", " ")
     title = title.replace("config", "Config: ")
     list_images = TB.list_tetromino_images()
@@ -106,6 +129,7 @@ def simulate(params, ratio: float, total_iterations: int):
                 custom_text=title,
                 images=list_images)
 
+    # Save the simulation object (including slope estimates)
     dump(TB, joblib_filename)
 
     print(f"Finished simulation: {joblib_filename}")
