@@ -17,6 +17,7 @@ setup(
         'matplotlib>=3.0.0',
         'imageio>=2.0.0',
         'joblib>=0.14.0',
+        'pandas>=1.0.0',
     ],
     # Optional development dependencies
     extras_require={
