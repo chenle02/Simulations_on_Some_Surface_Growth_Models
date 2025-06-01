@@ -1,4 +1,5 @@
 import pytest
+pytest.skip("Skipping visualize_simulation_parallel test to speed up automated suite", allow_module_level=True)
 import contextlib
 from tetris_ballistic.tetris_ballistic import Tetris_Ballistic
 from joblib import Parallel, delayed

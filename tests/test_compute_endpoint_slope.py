@@ -18,7 +18,8 @@ def test_compute_endpoint_slope_power_law():
     tb.Fluctuation = np.arange(1, N+1, dtype=float) ** 2
     tb.FinalSteps = N
 
-    low_idx, high_idx, slope = tb.ComputeEndpointSlope(low_threshold=0.1,
+    # Compute endpoint slope and its uncertainty (half-IQR of local slopes)
+    low_idx, high_idx, slope, error = tb.ComputeEndpointSlope(low_threshold=0.1,
                                                         high_threshold=0.5)
     # Check that the thresholds fall at the expected indices
     assert low_idx == 31, f"Expected low index 31, got {low_idx}"
@@ -35,7 +36,8 @@ def test_compute_endpoint_slope_constant():
     N = 50
     tb.Fluctuation = np.ones(N)
     tb.FinalSteps = N
-    low_idx, high_idx, slope = tb.ComputeEndpointSlope(low_threshold=0.1,
+    # Compute endpoint slope and its uncertainty (may be nan/inf)
+    low_idx, high_idx, slope, error = tb.ComputeEndpointSlope(low_threshold=0.1,
                                                         high_threshold=0.9)
     # low and high thresholds both hit at index 0
     assert low_idx == 0

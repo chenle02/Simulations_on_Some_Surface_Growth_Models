@@ -14,7 +14,14 @@ Author:
 import os
 import sys
 from multiprocessing import Pool
-from joblib import dump
+try:
+    from joblib import dump
+except ImportError:
+    import pickle
+    def dump(obj, filename):
+        """Fallback dump using pickle if joblib is unavailable."""
+        with open(filename, 'wb') as f:
+            pickle.dump(obj, f)
 from itertools import chain
 from tetris_ballistic.tetris_ballistic import Tetris_Ballistic, load_density_from_config
 from tetris_ballistic.retrieve_default_configs import retrieve_default_configs as rdc, configs_dir
@@ -97,10 +104,11 @@ def simulate(params, ratio: float, total_iterations: int):
     TB.Simulate()
     # Compute scaling exponents
     try:
-        # endpoint slope between 10% and 90% of max fluctuation
-        low_t, high_t, endpoint_slope = TB.ComputeEndpointSlope(low_threshold=0.1,
-                                                                high_threshold=0.9)
-        print(f"Endpoint slope between steps {low_t} and {high_t}: {endpoint_slope:.4f}")
+        # endpoint slope between 10% and 90% of max fluctuation (with uncertainty)
+        low_t, high_t, endpoint_slope, endpoint_half_iqr = TB.ComputeEndpointSlope(
+            low_threshold=0.1, high_threshold=0.9)
+        print(f"Endpoint slope between steps {low_t} and {high_t}: "
+              f"{endpoint_slope:.4f} ± {endpoint_half_iqr:.4f}")
         # compute local slopes via global polyfit sliding-window
         TB.ComputeSlope()
         if TB.log_time_slopes is not None:

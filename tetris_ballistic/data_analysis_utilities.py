@@ -16,7 +16,21 @@ Author:
 """
 
 import numpy as np
-import joblib
+try:
+    import joblib
+except ImportError:
+    import pickle
+    class _JoblibFallback:
+        """Fallback for joblib using pickle."""
+        @staticmethod
+        def dump(obj, filename):
+            with open(filename, 'wb') as f:
+                pickle.dump(obj, f)
+        @staticmethod
+        def load(filename):
+            with open(filename, 'rb') as f:
+                return pickle.load(f)
+    joblib = _JoblibFallback()
 from multiprocessing import Pool
 from itertools import chain
 import glob
