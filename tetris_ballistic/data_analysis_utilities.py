@@ -170,6 +170,16 @@ def insert_joblibs(pattern: str = "*.joblib",
                 local_median REAL,
                 local_half_iqr REAL)'''
     c.execute(sql_command)
+    # Ensure table has necessary columns (in case created by older schema)
+    # SQLite only adds columns if they do not already exist
+    c.execute(f"PRAGMA table_info({table_name});")
+    existing_cols = [row[1] for row in c.fetchall()]
+    for col_name, col_type in [("endpoint_slope", "REAL"),
+                               ("endpoint_error", "REAL"),
+                               ("local_median", "REAL"),
+                               ("local_half_iqr", "REAL")]:
+        if col_name not in existing_cols:
+            c.execute(f"ALTER TABLE {table_name} ADD COLUMN {col_name} {col_type}")
 
     # Use glob to find files matching the pattern
     files = glob.glob(pattern)

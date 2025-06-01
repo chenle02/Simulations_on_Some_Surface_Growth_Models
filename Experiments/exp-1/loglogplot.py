@@ -31,10 +31,22 @@ for filepath in fluctuation_files:
         colormap = plt.cm.viridis
         # Plot each width's fluctuation curves
         for idx, width_value in enumerate(unique_widths):
-            fluctuations = widths[width_value]
-            print(f'  Type: {type_value}, Width: {width_value}, # paths: {len(fluctuations)}')
+            # Extract fluctuations and slope estimates for this width
+            data = widths[width_value]
+            fluctuations = data.get('fluctuations', [])
+            ep_slopes = np.array(data.get('endpoint_slopes', []), dtype=float)
+            ep_errors = np.array(data.get('endpoint_errors', []), dtype=float)
+            local_meds = np.array(data.get('local_medians', []), dtype=float)
+            local_iqrs = np.array(data.get('local_half_iqrs', []), dtype=float)
+            # Compute mean slope estimates and error bounds
+            ep_mean = np.mean(ep_slopes) if ep_slopes.size > 0 else np.nan
+            ep_err = np.mean(ep_errors) if ep_errors.size > 0 else np.nan
+            loc_mean = np.mean(local_meds) if local_meds.size > 0 else np.nan
+            loc_err = np.mean(local_iqrs) if local_iqrs.size > 0 else np.nan
+            print(f'  Type: {type_value}, Width: {width_value}, # paths: {len(fluctuations)}',
+                  f'EpSlope={ep_mean:.3f}±{ep_err:.3f}, LocMed={loc_mean:.3f}±{loc_err:.3f}')
             color = colormap(idx / max(len(unique_widths)-1, 1))
-            # Plot each individual fluctuation path
+            # Plot each individual fluctuation path, label the first with slope info
             for path_idx, fluctuation in enumerate(fluctuations):
                 if len(fluctuation) > 0:
                     x = np.arange(1, len(fluctuation) + 1)
@@ -42,8 +54,11 @@ for filepath in fluctuation_files:
                     y_data = np.log10(fluctuation)
                     x_off = x_data - (3/2) * np.log10(width_value)
                     y_off = y_data - (1/2) * np.log10(width_value)
-                    # Label only the first path for each width to show in legend
-                    label = f'Width {width_value}' if path_idx == 0 else ''
+                    if path_idx == 0:
+                        label = (f'W{width_value}: Ep {ep_mean:.2f}±{ep_err:.2f}, '
+                                 f'Loc {loc_mean:.2f}±{loc_err:.2f}')
+                    else:
+                        label = ''
                     plt.plot(x_off, y_off, linestyle='-', color=color, alpha=0.2, label=label)
         plt.xlabel('Log10(Transformed X) - 3/2 Log10(Width)')
         plt.ylabel('Log10(Transformed Y) - 1/2 Log10(Width)')
