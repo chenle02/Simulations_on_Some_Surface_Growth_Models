@@ -14,7 +14,7 @@ import numpy as np
 import random
 import yaml
 import re
-from scipy.stats import entropy
+from scipy.stats import entropy, linregress
 # Use non-interactive backend for visualization to enable buffer operations
 import matplotlib
 matplotlib.use('Agg')
@@ -1901,32 +1901,13 @@ class Tetris_Ballistic:
         time = np.arange(1, self.FinalSteps + 1)
         logTime = np.log10(time)
         logFluc = np.log10(self.Fluctuation)
-        # Compute slope between the two endpoints
-        slope = (logFluc[high_time] - logFluc[low_time]) / (logTime[high_time] - logTime[low_time])
-        # Estimate uncertainty via half-IQR of local slopes in [low_time, high_time]
-        # Centered finite differences for local log–log slopes
-        if self.FinalSteps >= 3:
-            dt = logTime[2:] - logTime[:-2]
-            dF = logFluc[2:] - logFluc[:-2]
-            local_slopes = dF / dt
-            # local_slopes[j] corresponds to center index j+1 in the original arrays
-            start_idx = max(low_time - 1, 0)
-            end_idx = min(high_time - 1, len(local_slopes) - 1)
-            if end_idx >= start_idx:
-                window = local_slopes[start_idx:end_idx + 1]
-                # filter out non-finite values (e.g., from log10 zeros)
-                window = window[np.isfinite(window)]
-                if window.size > 0:
-                    q25 = np.percentile(window, 25)
-                    q75 = np.percentile(window, 75)
-                    error = float((q75 - q25) / 2.0)
-                else:
-                    error = float('nan')
-            else:
-                error = float('nan')
-        else:
-            error = float('nan')
-        print(f"Endpoint slope between times {low_time} and {high_time}: {slope} ± {error}")
+        # Perform linear regression on the log–log data between the endpoints to obtain slope and error
+        x = logTime[low_time:high_time + 1]
+        y = logFluc[low_time:high_time + 1]
+        # linregress returns slope, intercept, r-value, p-value, stderr
+        slope_reg, intercept, r_value, p_value, stderr = linregress(x, y)
+        slope = slope_reg
+        error = stderr
         return low_time, high_time, slope, error
     
     def ComputeSlopeLocal(self, low_frac: float = 0.0, high_frac: float = 1.0):
