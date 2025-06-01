@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import sqlite3
 import numpy as np
 import joblib
@@ -50,18 +51,24 @@ for stick in stickiness:
             local_meds = []
             local_iqrs = []
             for fl_blob, ep_s, ep_e, lm, li in rows:
+                # Reconstruct fluctuation array from blob
                 fl_list.append(np.frombuffer(fl_blob, dtype=np.float64))
                 ep_slopes.append(ep_s)
                 ep_errors.append(ep_e)
                 local_meds.append(lm)
                 local_iqrs.append(li)
+            # Clean up slope lists: convert None to nan and ensure float type
+            ep_slopes_clean = [float(x) if x is not None else np.nan for x in ep_slopes]
+            ep_errors_clean = [float(x) if x is not None else np.nan for x in ep_errors]
+            local_meds_clean = [float(x) if x is not None else np.nan for x in local_meds]
+            local_iqrs_clean = [float(x) if x is not None else np.nan for x in local_iqrs]
             # store
             results[type_value][width_value] = {
                 'fluctuations': fl_list,
-                'endpoint_slopes': ep_slopes,
-                'endpoint_errors': ep_errors,
-                'local_medians': local_meds,
-                'local_half_iqrs': local_iqrs,
+                'endpoint_slopes': ep_slopes_clean,
+                'endpoint_errors': ep_errors_clean,
+                'local_medians': local_meds_clean,
+                'local_half_iqrs': local_iqrs_clean,
             }
     # save per-stickiness result
     out_file = f"fluctuations_{stick}_dict.joblib"

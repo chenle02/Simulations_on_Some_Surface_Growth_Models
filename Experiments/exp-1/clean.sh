@@ -5,3 +5,4 @@ rm *.joblib
 rm *.log
 rm *.png
 rm *.yaml
+rm *.db
