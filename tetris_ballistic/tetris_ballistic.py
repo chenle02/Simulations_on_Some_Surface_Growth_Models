@@ -15,6 +15,7 @@ import random
 import yaml
 import re
 from scipy.stats import entropy, linregress
+from scipy.signal import savgol_filter
 # Use non-interactive backend for visualization to enable buffer operations
 import matplotlib
 matplotlib.use('Agg')
@@ -1868,11 +1869,13 @@ class Tetris_Ballistic:
         high_time = self.hitting_time(high_threshold)
         print(f"Low time: {low_time}, High time: {high_time}")
 
-        logTime = np.log10(np.array(range(low_time, high_time + 1)))
+        # Prepare log–log arrays between thresholds
+        logTime = np.log10(np.arange(low_time, high_time + 1))
         logFluc = np.log10(self.Fluctuation[low_time:high_time + 1])
-        slope, _ = np.polyfit(logTime, logFluc, 1)
-        print(f"Slope : {slope}")
-        return slope
+        # Perform linear regression to get slope and stderr
+        slope_reg, intercept, r_value, p_value, stderr = linregress(logTime, logFluc)
+        print(f"Fine slope between times {low_time} and {high_time}: {slope_reg:.4f} ± {stderr:.4f}")
+        return slope_reg, stderr
 
     def ComputeEndpointSlope(self, low_threshold: float = 0.1, high_threshold: float = 0.9):
         """
@@ -1957,7 +1960,56 @@ class Tetris_Ballistic:
         q75 = np.percentile(slopes_trim, 75)
         half_iqr = float((q75 - q25) / 2.0)
         return logTime_centers_trim, slopes_trim, median_slope, half_iqr
+    
+    def ComputeSlopeSavitzky(self, window_length: int = 21, polyorder: int = 3):
+        """
+        Compute local log–log slopes using a Savitzky–Golay filter.
+        Returns logTime, slopes, median slope, half-IQR.
+        """
+        n = self.FinalSteps
+        if n < window_length or window_length % 2 == 0:
+            return np.array([]), np.array([]), None, None
+        time = np.arange(1, n + 1)
+        logTime = np.log10(time)
+        logFluc = np.log10(self.Fluctuation[:n])
+        # Derivative via Savitzky–Golay filter
+        delta = logTime[1] - logTime[0]
+        slopes = savgol_filter(logFluc,
+                               window_length=window_length,
+                               polyorder=polyorder,
+                               deriv=1,
+                               delta=delta,
+                               mode='interp')
+        median_slope = float(np.median(slopes))
+        q25, q75 = np.percentile(slopes, [25, 75])
+        half_iqr = float((q75 - q25) / 2.0)
+        return logTime, slopes, median_slope, half_iqr
 
+    def ComputeSlopeWindow(self, half_window: int = 10):
+        """
+        Compute local log–log slopes via linear fits over sliding windows of ±half_window.
+        Returns logTime_centers, slopes, median slope, half-IQR.
+        """
+        n = self.FinalSteps
+        if n < 2 * half_window + 1:
+            return np.array([]), np.array([]), None, None
+        time = np.arange(1, n + 1)
+        logTime = np.log10(time)
+        logFluc = np.log10(self.Fluctuation[:n])
+        centers = []
+        slopes = []
+        for i in range(half_window, n - half_window):
+            x = logTime[i-half_window:i+half_window+1]
+            y = logFluc[i-half_window:i+half_window+1]
+            slope, _ = np.polyfit(x, y, 1)
+            centers.append(logTime[i])
+            slopes.append(slope)
+        centers = np.array(centers)
+        slopes = np.array(slopes)
+        median_slope = float(np.median(slopes))
+        q25, q75 = np.percentile(slopes, [25, 75])
+        half_iqr = float((q75 - q25) / 2.0)
+        return centers, slopes, median_slope, half_iqr
 
     def ComputeSlope(self):
         """
