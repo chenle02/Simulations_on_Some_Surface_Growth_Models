@@ -8,6 +8,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import joblib
+import os
 from scipy.stats import t
 import matplotlib.colors as mcolors
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
@@ -31,8 +32,12 @@ def plotfluctuations(with_ci: bool = False) -> None:
     stickiness = ["sticky", "nonsticky", "combined"]
     confidence = 0.95
     for stick in stickiness:
-        # Load the fluctuations_dict
-        fluctuations_dict = joblib.load(f"fluctuations_{stick}_dict.joblib")
+        # Load the fluctuations_dict, skip if not generated
+        dict_file = f"fluctuations_{stick}_dict.joblib"
+        if not os.path.exists(dict_file):
+            print(f"Missing {dict_file}: please run analysis.py to generate fluctuation dictionaries.")
+            continue
+        fluctuations_dict = joblib.load(dict_file)
 
         for type_value, widths in fluctuations_dict.items():
             plt.figure(figsize=(10, 6))  # Create a new figure for each type_value
@@ -44,7 +49,12 @@ def plotfluctuations(with_ci: bool = False) -> None:
 
             global_min_length = 0
 
-            for width_value, fluctuations in widths.items():
+            for width_value, data in widths.items():
+                # Extract fluctuation list from data dict or assume list
+                if isinstance(data, dict):
+                    fluctuations = data.get('fluctuations', [])
+                else:
+                    fluctuations = data
                 color = color_cycle[color_index % len(color_cycle)]  # Cycle through colors
                 color_index += 1  # Move to next color for next width_value
 
