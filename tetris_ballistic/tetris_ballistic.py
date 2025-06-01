@@ -1914,9 +1914,14 @@ class Tetris_Ballistic:
             end_idx = min(high_time - 1, len(local_slopes) - 1)
             if end_idx >= start_idx:
                 window = local_slopes[start_idx:end_idx + 1]
-                q25 = np.percentile(window, 25)
-                q75 = np.percentile(window, 75)
-                error = float((q75 - q25) / 2.0)
+                # filter out non-finite values (e.g., from log10 zeros)
+                window = window[np.isfinite(window)]
+                if window.size > 0:
+                    q25 = np.percentile(window, 25)
+                    q75 = np.percentile(window, 75)
+                    error = float((q75 - q25) / 2.0)
+                else:
+                    error = float('nan')
             else:
                 error = float('nan')
         else:
