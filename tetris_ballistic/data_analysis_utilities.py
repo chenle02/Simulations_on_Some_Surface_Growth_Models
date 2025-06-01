@@ -66,14 +66,33 @@ def retrieve_fluctuations(pattern: str,
     if len(files) == 0:
         raise ValueError(f"No file found for the pattern: {pattern}")
 
-    # Load the data from the joblib files
+    # Load the data from the joblib files and collect slopes
     list_of_fluctuations = []
     list_of_len = []
+    endpoint_slopes = []
+    endpoint_errors = []
+    local_medians = []
+    local_half_iqrs = []
     for file in files:
         TB = Tetris_Ballistic.load_simulation(file)
+        # Fluctuation time series
         fl = TB.Fluctuation[:TB.FinalSteps]
         list_of_fluctuations.append(fl)
         list_of_len.append(len(fl))
+        # Endpoint slope and error estimate (default thresholds 0.1, 0.9)
+        try:
+            _, _, ep_slope, ep_err = TB.ComputeEndpointSlope()
+        except Exception:
+            ep_slope, ep_err = np.nan, np.nan
+        endpoint_slopes.append(ep_slope)
+        endpoint_errors.append(ep_err)
+        # Local median slope and half-IQR
+        try:
+            _, _, med_slope, half_iqr = TB.ComputeSlopeLocal()
+        except Exception:
+            med_slope, half_iqr = np.nan, np.nan
+        local_medians.append(med_slope)
+        local_half_iqrs.append(half_iqr)
 
     min_len = min(list_of_len)
     max_len = max(list_of_len)
@@ -88,7 +107,14 @@ def retrieve_fluctuations(pattern: str,
     print(result_array.shape)
 
     if output_filename is not None:
-        joblib.dump(result_array, output_filename)
+        # Dump fluctuations and slope estimates together
+        joblib.dump({
+            'fluctuations': result_array,
+            'endpoint_slopes': np.array(endpoint_slopes),
+            'endpoint_errors': np.array(endpoint_errors),
+            'local_medians': np.array(local_medians),
+            'local_half_iqrs': np.array(local_half_iqrs)
+        }, output_filename)
 
     return result_array
 
@@ -99,6 +125,7 @@ def create_database(db_name: str = "simulation_results.db",
     c = conn.cursor()
 
     # Create a table
+    # Create table with fields for both endpoint and local slope estimates
     sql_command = f'''CREATE TABLE IF NOT EXISTS {table_name}
                 (id INTEGER PRIMARY KEY,
                 type TEXT,
@@ -107,7 +134,10 @@ def create_database(db_name: str = "simulation_results.db",
                 random_seed INT,
                 final_steps INT,
                 fluctuation BLOB,
-                slope REAL)'''
+                endpoint_slope REAL,
+                endpoint_error REAL,
+                local_median REAL,
+                local_half_iqr REAL)'''
 
     c.execute(sql_command)
 
@@ -126,7 +156,7 @@ def insert_joblibs(pattern: str = "*.joblib",
     conn = sqlite3.connect("simulation_results.db")
     c = conn.cursor()
 
-    # Create a table if not exists
+    # Create a table if not exists, extended with slope estimates
     sql_command = f'''CREATE TABLE IF NOT EXISTS {table_name}
                 (id INTEGER PRIMARY KEY,
                 type TEXT,
@@ -135,8 +165,10 @@ def insert_joblibs(pattern: str = "*.joblib",
                 random_seed INT,
                 final_steps INT,
                 fluctuation BLOB,
-                slope REAL)'''
-
+                endpoint_slope REAL,
+                endpoint_error REAL,
+                local_median REAL,
+                local_half_iqr REAL)'''
     c.execute(sql_command)
 
     # Use glob to find files matching the pattern
@@ -150,7 +182,10 @@ def insert_joblibs(pattern: str = "*.joblib",
         print("\n")
 
     if len(files) == 0:
-        raise ValueError(f"No file found for the pattern: {pattern}")
+        # No matching files: nothing to insert
+        if verbose:
+            print(f"No files found for the pattern: {pattern}")
+        return [], []
 
     # Regex pattern to match filename and extract components
     pattern_parse = r'config_(?P<type>piece_\d+|type_\d+|piece_all)_(?P<sticky>sticky|nonsticky|combined)_w=(?P<width>\d+)_seed=(?P<seed>\d+).joblib'
@@ -168,30 +203,38 @@ def insert_joblibs(pattern: str = "*.joblib",
             width = int(data['width'])
             random_seed = int(data['seed'])
 
-            # Load simulation and extract fluctuation
-            TB = Tetris_Ballistic.load_simulation(file)
-            fl = TB.Fluctuation[:TB.FinalSteps]
-            final_steps = TB.FinalSteps
-            # Use the robust median‐of‐local‐slopes as the stored exponent
-            # Use the selected robust slope estimate if available
-            slope = getattr(TB, 'estimated_slope', None)
-            if slope is None:
-                # Fallback to endpoint slope or 0.0
-                slope = getattr(TB, 'endpoint_slope', 0.0) or 0.0
+        # Load simulation and extract fluctuation and slope estimates
+        TB = Tetris_Ballistic.load_simulation(file)
+        fl = TB.Fluctuation[:TB.FinalSteps]
+        final_steps = TB.FinalSteps
+        # Record fluctuation and length for summary
+        list_of_fluctuations.append(fl)
+        list_of_len.append(len(fl))
+        # Convert the fluctuation array to binary for DB
+        fluctuation_blob = sqlite3.Binary(fl.tobytes())
+        # Endpoint slope and error
+        try:
+            _, _, endpoint_slope, endpoint_error = TB.ComputeEndpointSlope()
+        except Exception:
+            endpoint_slope, endpoint_error = None, None
+        # Local median slope and half-IQR
+        try:
+            _, _, local_median, local_half_iqr = TB.ComputeSlopeLocal()
+        except Exception:
+            local_median, local_half_iqr = None, None
 
-            list_of_fluctuations.append(fl)
-            list_of_len.append(len(fl))
-
-            # Convert the fluctuation array to a binary format
-            fluctuation_blob = sqlite3.Binary(fl.tobytes())
-
-            # Insert the data into the table
-            c.execute(f'''INSERT INTO {table_name} (type, sticky, width, random_seed, final_steps, fluctuation, slope)
-                          VALUES (?, ?, ?, ?, ?, ?, ?)''',
-                      (type_, sticky, width, random_seed, final_steps, fluctuation_blob, slope))
-
-            if verbose:
-                print(f"Matched file: {file} and added the entry to the database.")
+        # Insert the data into the table
+        c.execute(f'''INSERT INTO {table_name}
+                     (type, sticky, width, random_seed, final_steps,
+                      fluctuation, endpoint_slope, endpoint_error,
+                      local_median, local_half_iqr)
+                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
+                  (type_, sticky, width, random_seed, final_steps,
+                   fluctuation_blob,
+                   endpoint_slope, endpoint_error,
+                   local_median, local_half_iqr))
+        if verbose:
+            print(f"Matched file: {file} and added the entry to the database.")
 
     if verbose and len(list_of_len) > 0:
         min_len = min(list_of_len)

@@ -1,10 +1,3 @@
-#!/usr/bin/env python3
-#
-# By Le Chen and Chatgpt
-# chenle02@gmail.com / le.chen@auburn.edu
-# Created at Wed Mar  6 10:16:49 AM EST 2024
-#
-
 import sqlite3
 import numpy as np
 import joblib
@@ -19,58 +12,61 @@ cursor = conn.cursor()
 
 stickiness = ["sticky", "nonsticky", "combined"]
 for stick in stickiness:
-    # SQL query to select distinct types from the Simulations table
-    query_types = f"SELECT DISTINCT type FROM {stick} ORDER BY type ASC"
+    # SQL: select types for this stickiness from unified Simulations table
+    query_types = (
+        "SELECT DISTINCT type FROM Simulations"
+        " WHERE sticky = ? ORDER BY type ASC"
+    )
+    cursor.execute(query_types, (stick,))
+    distinct_types = [row[0] for row in cursor.fetchall()]
 
-    # Execute the query for distinct types
-    cursor.execute(query_types)
-
-    # Fetch all distinct type results
-    distinct_types = cursor.fetchall()
-
-    # Initialize a dictionary to store the fluctuations
-    fluctuations_dict = {}
-
+    # Build dictionary: { type: { width: {data} } }
+    results = {}
     for type_value in distinct_types:
-        type_value = type_value[0]  # Extract the type value
-        print(f"Processing type: {type_value}")
-
-        # SQL query to select distinct widths for the current type
-        query_widths = f"SELECT DISTINCT width FROM {stick} WHERE type = ? ORDER BY width ASC"
-        cursor.execute(query_widths, (type_value,))
-
-        # Fetch all distinct width results for this type
-        distinct_widths = cursor.fetchall()
-
-        # Initialize the sub-dictionary for this type if not already initialized
-        if type_value not in fluctuations_dict:
-            fluctuations_dict[type_value] = {}
-
-        for width_value in distinct_widths:
-            width_value = width_value[0]  # Extract the width value
-            print(f"Processing width: {width_value}")
-
-            # Prepare the SQL query to select fluctuation values for the current type and width
-            query_fluctuations = f"SELECT fluctuation FROM {stick} WHERE type = ? AND width = ?"
-            cursor.execute(query_fluctuations, (type_value, width_value))
-
-            # Fetch all fluctuation results for this type and width
-            fluctuations = cursor.fetchall()
-
-            # Convert fluctuations to a suitable format (e.g., list of NumPy arrays)
-            # Assuming each fluctuation is a binary blob that can be directly converted into a NumPy array
-            fluctuations_list = [np.frombuffer(fluctuation[0], dtype=np.float64) for fluctuation in fluctuations]
-
-            # Store the fluctuations list in the sub-dictionary for the current type and width
-            fluctuations_dict[type_value][width_value] = fluctuations_list
-
-            # # Save  the fluctuations_dict to a csv file for further analysis
-            # df = pd.DataFrame(fluctuations_list)
-            # df.to_csv(f"fluctuations_{type_value}_w={width_value}.csv")
-
-    print("Saving fluctuations_dict to disk...")
-
-    joblib.dump(fluctuations_dict, f"fluctuations_{stick}_dict.joblib")
+        print(f"Processing type: {type_value} (sticky={stick})")
+        # widths for this type and stickiness
+        query_widths = (
+            "SELECT DISTINCT width FROM Simulations"
+            " WHERE type = ? AND sticky = ? ORDER BY width ASC"
+        )
+        cursor.execute(query_widths, (type_value, stick))
+        widths = [row[0] for row in cursor.fetchall()]
+        results[type_value] = {}
+        for width_value in widths:
+            print(f"  Width: {width_value}")
+            # fetch fluctuations and slope estimates
+            query_data = (
+                "SELECT fluctuation, endpoint_slope, endpoint_error,"
+                " local_median, local_half_iqr"
+                " FROM Simulations"
+                " WHERE type = ? AND width = ? AND sticky = ?"
+            )
+            cursor.execute(query_data, (type_value, width_value, stick))
+            rows = cursor.fetchall()
+            # parse into lists
+            fl_list = []
+            ep_slopes = []
+            ep_errors = []
+            local_meds = []
+            local_iqrs = []
+            for fl_blob, ep_s, ep_e, lm, li in rows:
+                fl_list.append(np.frombuffer(fl_blob, dtype=np.float64))
+                ep_slopes.append(ep_s)
+                ep_errors.append(ep_e)
+                local_meds.append(lm)
+                local_iqrs.append(li)
+            # store
+            results[type_value][width_value] = {
+                'fluctuations': fl_list,
+                'endpoint_slopes': ep_slopes,
+                'endpoint_errors': ep_errors,
+                'local_medians': local_meds,
+                'local_half_iqrs': local_iqrs,
+            }
+    # save per-stickiness result
+    out_file = f"fluctuations_{stick}_dict.joblib"
+    print(f"Saving results to {out_file}")
+    joblib.dump(results, out_file)
 
 # Clean up: close the cursor and connection
 cursor.close()

@@ -1924,20 +1924,23 @@ class Tetris_Ballistic:
         print(f"Endpoint slope between times {low_time} and {high_time}: {slope} ± {error}")
         return low_time, high_time, slope, error
     
-    def ComputeSlopeLocal(self, low_frac: float = 0.1, high_frac: float = 0.9):
+    def ComputeSlopeLocal(self, low_frac: float = 0.0, high_frac: float = 1.0):
         """
-        Compute local log–log slopes via centered finite differences,
-        trimming the first and last fractions to avoid transient and saturation.
+        Compute local log–log slopes via centered finite differences.
+
+        This method computes slopes at interior points and selects a contiguous
+        slice of those slopes based on low_frac and high_frac fractions:
+        keep indices from floor(low_frac * n) to ceil(high_frac * n).
 
         Args:
-            low_frac (float): Fraction of initial slopes to discard. Default 0.1.
-            high_frac (float): Fraction of final slopes to discard. Default 0.9.
+            low_frac (float): Fraction of initial slopes to discard. Default 0.0.
+            high_frac (float): Fraction of slopes to keep (end bound). Default 1.0.
 
         Returns:
-            logTime_centers_trim (np.ndarray): midpoints of log(time) for trimmed slopes.
-            slopes_trim (np.ndarray): trimmed array of local slopes d log Fluc / d log time.
-            median_slope (float): median of the trimmed slopes.
-            half_iqr (float): half the interquartile range (IQR) of trimmed slopes.
+            logTime_centers_trim (np.ndarray): midpoints of log(time) for selected slopes.
+            slopes_trim (np.ndarray): selected array of local slopes.
+            median_slope (float): median of the selected slopes.
+            half_iqr (float): half the interquartile range (IQR) of selected slopes.
         """
         # need at least 3 points to form a centered difference
         if self.FinalSteps < 3:
