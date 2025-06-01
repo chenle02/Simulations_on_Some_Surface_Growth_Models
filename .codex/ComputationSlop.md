@@ -68,3 +68,25 @@ The `ComputeSlope()` routine performs a series of global log–log fits over inc
 5. The resulting curve of `m_j` vs. `log10(t_j)` reveals how the effective exponent approaches its asymptote over time.
 
 This sliding‐window polyfit method captures the transient relaxation of the growth exponent, and can be used to identify when the system enters its true scaling regime.
+
+## 6. Simulation length and saturation detection
+
+In the current implementation, each Tetris‐Ballistic simulation is run up to a fixed maximum number of steps
+
+```python
+steps = ratio * width * width
+```
+or until the lattice completely fills (a “Game Over” when the height limit is reached).  There is no early‐stop upon reaching saturation in the fluctuation.
+
+Instead, saturation is detected in post‐processing via the `ComputeEndpointSlope(low_threshold, high_threshold)` routine:
+
+1. **Compute maximum fluctuation**:  `F_max = max( Fluctuation[0:FinalSteps] )`
+2. **Find saturation time**:  the first index `t_s` where `Fluctuation[t_s] >= high_threshold * F_max` (default `high_threshold = 0.9`).
+3. **Find premature time**:  similarly with `low_threshold = 0.1`.
+4. **Endpoint slope**: the slope between `(log10(t_p), log10(F(t_p)))` and `(log10(t_s), log10(F(t_s)))`.
+
+This threshold‐crossing approach localizes the true start of the power‐law and
+the onset of the plateau, without altering the simulation run length.  You may
+adjust `low_threshold` and `high_threshold` to tune sensitivity to early‐time
+transients or noise in the tail.
+
