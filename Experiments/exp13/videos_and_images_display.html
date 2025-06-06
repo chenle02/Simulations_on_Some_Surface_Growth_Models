@@ -1,0 +1,140 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Video and Image Display</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            background-color: #f0f0f0; /* Light grey background */
+        }
+        .block {
+            margin: 20px;
+            display: flex;
+            align-items: flex-start;
+            background-color: #ffffff; /* White background */
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1); /* Subtle shadow */
+            padding: 15px;
+            border-radius: 5px; /* Optional: Adds rounded corners */
+        }
+        video {
+            width: 300px; /* Adjust as needed */
+            height: auto;
+            margin-right: 2px;
+        }
+        img {
+            width: 300px; /* Adjust as needed */
+            height: auto;
+            margin-top: 2px;
+        }
+        .image-pair {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+        }
+        p {
+            font-size: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="block">
+        <video controls>
+            <source src="config_piece_19_combined_percentage_05_w=50_seed=10.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="image-pair">
+            <p>5% nonsticky + 95% sticky</p>
+            <img src="combined_loglog_plot_combined_percentage_05.png" alt="Log-Log Plot 05%"/>
+            <img src="combined_original_combined_percentage_05.png" alt="Original 05%"/>
+        </div>
+    </div>
+    
+    <div class="block">
+        <video controls>
+            <source src="config_piece_19_combined_percentage_50_w=50_seed=10.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="image-pair">
+            <p>50% nonsticky + 50% sticky</p>
+            <img src="combined_loglog_plot_combined_percentage_50.png" alt="Log-Log Plot 50%"/>
+            <img src="combined_original_combined_percentage_50.png" alt="Original 50%"/>
+        </div>
+    </div>
+    
+    <div class="block">
+        <video controls>
+            <source src="config_piece_19_combined_percentage_90_w=50_seed=10.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="image-pair">
+            <p>90% nonsticky + 10% sticky</p>
+            <img src="combined_loglog_plot_combined_percentage_90.png" alt="Log-Log Plot 90%"/>
+            <img src="combined_original_combined_percentage_90.png" alt="Original 90%"/>
+        </div>
+    </div>
+    
+    <div class="block">
+        <video controls>
+            <source src="config_piece_19_combined_percentage_95_w=50_seed=10.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="image-pair">
+            <p>95% nonsticky + 5% sticky</p>
+            <img src="combined_loglog_plot_combined_percentage_95.png" alt="Log-Log Plot 95%"/>
+            <img src="combined_original_combined_percentage_95.png" alt="Original 95%"/>
+        </div>
+    </div>
+    
+    <div class="block">
+        <video controls>
+            <source src="config_piece_19_combined_percentage_98_w=50_seed=10.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="image-pair">
+            <p>98% nonsticky + 2% sticky</p>
+            <img src="combined_loglog_plot_combined_percentage_98.png" alt="Log-Log Plot 98%"/>
+            <img src="combined_original_combined_percentage_98.png" alt="Original 98%"/>
+        </div>
+    </div>
+    
+    <div class="block">
+        <video controls>
+            <source src="config_piece_19_combined_percentage_99_w=50_seed=10.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="image-pair">
+            <p>99% nonsticky + 1% sticky</p>
+            <img src="combined_loglog_plot_combined_percentage_99.png" alt="Log-Log Plot 99%"/>
+            <img src="combined_original_combined_percentage_99.png" alt="Original 99%"/>
+        </div>
+    </div>
+    
+</body>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const videos = document.querySelectorAll('video');
+    videos.forEach(video => {
+        // Wait for the metadata to load to know the video duration
+        video.addEventListener('loadedmetadata', function() {
+            // Seek to just before the last second to ensure the last frame shows
+            this.currentTime = Math.max(0, this.duration - 1);
+        });
+
+        // Optional: If you want the video to end up paused on the last frame
+        // when it naturally finishes playing, you can still include the 'ended' event listener
+        video.addEventListener('ended', function() {
+            this.currentTime = Math.max(0, this.duration - 1);
+            this.pause(); // Ensure the video is paused on the last frame
+        });
+    });
+});
+</script>
+</html>
