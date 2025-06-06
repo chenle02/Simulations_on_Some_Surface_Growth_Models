@@ -1,22 +1,5 @@
 #!/usr/bin/env python3
-"""Parameter sweep launcher for experiment 13.
-
-This script was copied from an older repository where ``tetris_ballistic`` was
-already installed as a package.  When executed directly from this repository the
-package might not be on ``PYTHONPATH`` which leads to ``ModuleNotFoundError``.
-
-The small block below adds the project root (two directories up from this file)
-to ``sys.path`` so that ``tetris_ballistic`` can be imported without requiring a
-prior ``pip install -e .`` step.
-"""
-
-from pathlib import Path
-import sys
-
-# Add the project root to Python's search path if needed
-ROOT_DIR = Path(__file__).resolve().parents[2]
-if str(ROOT_DIR) not in sys.path:
-    sys.path.insert(0, str(ROOT_DIR))
+"""Parameter sweep launcher for experiment 13."""
 
 from tetris_ballistic.sweep_parameters import sweep_parameters as sp
 from tetris_ballistic.data_analysis_utilities import insert_joblibs
@@ -28,3 +11,8 @@ sp(list_width=ListWidth,
    list_random_seeds=ListRandomSeeds,
    config_dir="configs",
    config_patterns=config_patterns)
+
+# After running simulations, insert results (including slope) into the DB
+print("Inserting simulation results into database...")
+insert_joblibs(pattern="config_*_w=*_*seed=*.joblib")
+print("Done.")
