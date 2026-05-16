@@ -16,6 +16,7 @@ Usage:
 """
 
 import argparse
+import glob
 import json
 import os
 import sys
@@ -156,6 +157,45 @@ def _serialize(obj):
     raise TypeError(f"Not serializable: {type(obj)}")
 
 
+def _cells_dir(exp_dir):
+    return os.path.join(exp_dir, "kpz_cells")
+
+
+def _cell_path(exp_dir, pct, L):
+    return os.path.join(_cells_dir(exp_dir), f"cell_pct{pct:02d}_L{L:04d}.json")
+
+
+def _per_pct_path(exp_dir, pct):
+    return os.path.join(_cells_dir(exp_dir), f"per_pct{pct:02d}.json")
+
+
+def _atomic_write_json(path, data):
+    """Write JSON atomically: write to .tmp then rename.
+
+    Prevents corrupted partial writes when a job is killed mid-write.
+    Critical for resumability of long HPC runs.
+    """
+    os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+    tmp = path + ".tmp"
+    with open(tmp, "w") as f:
+        json.dump(data, f, indent=2, default=_serialize)
+    os.replace(tmp, path)
+
+
+def aggregate_results(exp_dir):
+    """Stream-aggregate per-pct JSON files into a single results.json.
+
+    Replaces the old in-memory dict approach. At any scale (300 or 10K
+    cells), memory peak stays at one per-pct dict in flight.
+    """
+    out = {}
+    for path in sorted(glob.glob(os.path.join(_cells_dir(exp_dir), "per_pct*.json"))):
+        with open(path) as f:
+            data = json.load(f)
+        out[str(data["pct"])] = data
+    return out
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -177,76 +217,111 @@ def main():
         "--n-eval", type=int, default=150,
         help="Number of log-spaced evaluation points",
     )
+    parser.add_argument(
+        "--resume", action="store_true",
+        help="Skip cells whose per-cell JSON already exists in kpz_cells/",
+    )
+    parser.add_argument(
+        "--aggregate-only", action="store_true",
+        help="Skip all computation; just stream-aggregate existing per-pct JSON",
+    )
     args = parser.parse_args()
 
     exp_dir = os.path.abspath(args.exp_dir)
     if not os.path.isdir(exp_dir):
         sys.exit(f"--exp-dir not found: {exp_dir}")
+    os.makedirs(_cells_dir(exp_dir), exist_ok=True)
 
     percentages = [int(x) for x in args.pcts.split(",")]
     widths = [int(x) for x in args.widths.split(",")]
 
     print("=" * 60)
     print(f"KPZ Slope Extraction — {exp_dir}")
+    if args.resume:
+        print("(--resume: skipping cells with existing per-cell JSON)")
+    if args.aggregate_only:
+        print("(--aggregate-only: skipping all computation)")
     print("=" * 60)
 
-    all_results = {}
+    if not args.aggregate_only:
+        for pct in percentages:
+            print(f"\n--- Percentage = {pct}% ---")
+            per_L_data = {}
+            cells_for_pct = {}
+            L_vals, beta_vals, err_vals = [], [], []
 
-    for pct in percentages:
-        print(f"\n--- Percentage = {pct}% ---")
-        per_L_data = {}
-        L_vals, beta_vals, err_vals = [], [], []
+            for L in widths:
+                cell_path = _cell_path(exp_dir, pct, L)
+                if args.resume and os.path.exists(cell_path):
+                    print(f"  L={L}: resume — loaded {os.path.basename(cell_path)}")
+                    with open(cell_path) as f:
+                        cell = json.load(f)
+                    plateau = None
+                    elt = np.array(cell.get("eval_log_t", []))
+                    sm = np.array(cell.get("slope_med", []))
+                    slo = np.array(cell.get("slope_lo", []))
+                    shi = np.array(cell.get("slope_hi", []))
+                else:
+                    print(f"  L={L}: loading + bootstrap...", end=" ", flush=True)
+                    cell, elt, sm, slo, shi, plateau = run_single_cell(
+                        exp_dir, pct, L, n_eval=args.n_eval, n_boot=args.n_boot
+                    )
+                    cell["eval_log_t"] = elt.tolist()
+                    cell["slope_med"] = sm.tolist()
+                    cell["slope_lo"] = slo.tolist()
+                    cell["slope_hi"] = shi.tolist()
+                    _atomic_write_json(cell_path, cell)
+                    gw = cell["growth_window_beta"]
+                    gwci = cell["growth_window_ci"]
+                    pstat = " + plateau" if cell["plateau_detected"] else ""
+                    print(f"β̂(growth-win)={gw:.4f} [{gwci[0]:.4f}, {gwci[1]:.4f}]{pstat}")
 
-        for L in widths:
-            print(f"  L={L}: loading + bootstrap...", end=" ", flush=True)
-            cell, elt, sm, slo, shi, plateau = run_single_cell(
-                exp_dir, pct, L, n_eval=args.n_eval, n_boot=args.n_boot
-            )
-            per_L_data[L] = (elt, sm, slo, shi, plateau)
+                per_L_data[L] = (elt, sm, slo, shi, plateau)
+                cells_for_pct[str(L)] = cell
 
-            L_vals.append(L)
-            beta_vals.append(cell["beta_for_extrap"])
-            err_vals.append(cell["beta_err_for_extrap"])
+                L_vals.append(L)
+                beta_vals.append(cell["beta_for_extrap"])
+                err_vals.append(cell["beta_err_for_extrap"])
 
-            gw = cell["growth_window_beta"]
-            gwci = cell["growth_window_ci"]
-            pstat = " + plateau" if cell["plateau_detected"] else ""
-            print(f"β̂(growth-win)={gw:.4f} [{gwci[0]:.4f}, {gwci[1]:.4f}]{pstat}")
+            plot_local_slopes(pct, per_L_data, widths, exp_dir)
 
-            all_results.setdefault(str(pct), {})[str(L)] = cell
+            L_arr = np.array(L_vals, dtype=float)
+            beta_arr = np.array(beta_vals)
+            err_arr = np.array(err_vals)
+            extrap = extrapolate_to_infinity(L_arr, beta_arr, err_arr)
+            beta_inf, beta_inf_err, popt, _ = extrap
 
-        plot_local_slopes(pct, per_L_data, widths, exp_dir)
+            print(f"  → β∞ = {beta_inf:.4f} ± {beta_inf_err:.4f}")
+            if popt is not None:
+                print(f"    (c={popt[1]:.4f}, ω={popt[2]:.4f})")
 
-        L_arr = np.array(L_vals, dtype=float)
-        beta_arr = np.array(beta_vals)
-        err_arr = np.array(err_vals)
-        extrap = extrapolate_to_infinity(L_arr, beta_arr, err_arr)
-        beta_inf, beta_inf_err, popt, _ = extrap
+            per_pct = {
+                "pct": pct,
+                "cells": cells_for_pct,
+                "extrapolation": {
+                    "beta_inf": beta_inf,
+                    "beta_inf_err": beta_inf_err,
+                    "fit_converged": popt is not None,
+                },
+            }
+            if popt is not None:
+                per_pct["extrapolation"]["c"] = float(popt[1])
+                per_pct["extrapolation"]["omega"] = float(popt[2])
+            _atomic_write_json(_per_pct_path(exp_dir, pct), per_pct)
 
-        print(f"  → β∞ = {beta_inf:.4f} ± {beta_inf_err:.4f}")
-        if popt is not None:
-            print(f"    (c={popt[1]:.4f}, ω={popt[2]:.4f})")
+            plot_extrapolation(pct, L_arr, beta_arr, err_arr, extrap, exp_dir)
 
-        all_results[str(pct)]["extrapolation"] = {
-            "beta_inf": beta_inf,
-            "beta_inf_err": beta_inf_err,
-            "fit_converged": popt is not None,
-        }
-        if popt is not None:
-            all_results[str(pct)]["extrapolation"]["c"] = float(popt[1])
-            all_results[str(pct)]["extrapolation"]["omega"] = float(popt[2])
-
-        plot_extrapolation(pct, L_arr, beta_arr, err_arr, extrap, exp_dir)
-
+    all_results = aggregate_results(exp_dir)
     results_path = os.path.join(exp_dir, "results.json")
-    with open(results_path, "w") as f:
-        json.dump(all_results, f, indent=2, default=_serialize)
+    _atomic_write_json(results_path, all_results)
     print(f"\nResults written to {results_path}")
 
     print("\n" + "=" * 60)
     print("SUMMARY")
     print("=" * 60)
     for pct in percentages:
+        if str(pct) not in all_results:
+            continue
         ext = all_results[str(pct)]["extrapolation"]
         flag = "✓" if 0.25 <= ext["beta_inf"] <= 0.40 else "✗"
         print(f"  pct={pct:2d}%: β∞ = {ext['beta_inf']:.4f} "

@@ -12,7 +12,7 @@
 |---|---|---|---|---|---|---|
 | 0 | 11:35 EDT | 11:55 EDT | **GREEN** | n/a | 54821e4 + (next) | 9 golden refs, 12 fast tests pass, baseline locked |
 | 1 | 11:55 EDT | 12:30 EDT | **GREEN** | **30.2×** on large | (next) | Incremental heights; bit-equality at atol=1e-12 (FP roundoff only) |
-| 2 | TBD | TBD | pending | — | — | Streaming analysis |
+| 2 | 12:30 EDT | 12:45 EDT | **GREEN** | n/a (memory) | (next) | Streaming per-cell JSON + resume + atomic writes |
 | 3 | TBD | TBD | pending | — | — | Slurm array |
 | 4 | TBD | TBD | pending | — | — | Numba kernel |
 | 5 | TBD | TBD | pending | — | — | Industrial polish |
@@ -83,4 +83,28 @@ The steps/sec dropping with L is the smoking-gun confirmation that `_UpdateStatu
 **Test suite timing**:
 - Fast tests: 55s → 5.3s (10× — they run the medium configs)
 - Slow tests (L=200, 3 seeds): NEW capability, ran in 16.4s — at baseline this would have been ~7 minutes.
+
+### Phase 2 — Streaming analysis (2026-05-16 12:30-12:45 EDT)
+
+**Status**: **GREEN** — all 20 fast tests pass.
+
+**What changed**:
+- Added `_atomic_write_json` (write-tmp + rename) for crash-safe per-cell writes.
+- Added `_cells_dir`, `_cell_path`, `_per_pct_path` helpers (consistent layout in `<exp>/kpz_cells/`).
+- Added `aggregate_results(exp_dir)` that stream-collects per-pct JSON files.
+- Modified `main()` to write per-cell + per-pct JSON immediately after computing each, then stream-aggregate at the end.
+- Added `--resume` flag (skip cells whose JSON exists) and `--aggregate-only` (rebuild results.json from existing per-pct JSON without re-computation).
+
+**Why this matters for HPC scaling**: At 10K cells, the old in-memory `all_results` dict would have grown to several GB (each cell stores eval_log_t + slope_med + slope_lo + slope_hi arrays of length ~150 each in JSON form). Writing per-cell + aggregating once at the end caps in-flight memory at one per-pct dict.
+
+**Resumability verified**: ran the pipeline twice on exp13/pct=90 — second run loaded both cells from `kpz_cells/` and produced identical β∞ without re-computing anything.
+
+**Tests added** (`tests/test_streaming_analysis.py`, 8 pure-unit tests, 1.35 s total):
+- atomic write leaves no .tmp on success
+- atomic write creates parent dirs
+- cell/per_pct path formats stable
+- aggregate handles empty dir
+- aggregate handles multi-pct
+- aggregate ignores per-cell files (only per_pct)
+- atomic write overwrites existing
 
