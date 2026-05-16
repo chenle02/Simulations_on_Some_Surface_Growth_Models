@@ -63,9 +63,16 @@ def test_fluctuation_matches_golden(golden_cell):
     assert n == golden_cell["final_steps"], (
         f"FinalSteps mismatch: got {n}, expected {golden_cell['final_steps']}"
     )
+    # Tolerance rationale: the legacy Fluctuation formula
+    #   sqrt( sum((h_i - mean)^2) / W )
+    # is the *population* standard deviation (divisor W). Phase 1 uses
+    # np.std(heights), which is the same population std but with a
+    # different summation order, so results differ at FP roundoff
+    # (~1e-15 absolute). 1e-12 is a safety margin still 4 orders of
+    # magnitude tighter than the smallest physically meaningful scale.
     np.testing.assert_allclose(
         fluct, golden_cell["fluctuation"],
-        atol=0.0, rtol=0.0,
+        atol=1e-12, rtol=1e-12,
         err_msg=f"Fluctuation diverged for pct={golden_cell['pct']} "
                 f"L={golden_cell['L']} seed={golden_cell['seed']}",
     )
@@ -93,5 +100,5 @@ def test_slow_L200_matches_golden(golden_dir):
         data = np.load(path)
         fluct, avg, n = _run_one(50, 200, seed)
         assert n == int(data["final_steps"])
-        np.testing.assert_allclose(fluct, data["fluctuation"], atol=0.0, rtol=0.0)
+        np.testing.assert_allclose(fluct, data["fluctuation"], atol=1e-12, rtol=1e-12)
         np.testing.assert_allclose(avg, data["avg_height"], atol=0.0, rtol=0.0)

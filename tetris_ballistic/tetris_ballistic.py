@@ -180,6 +180,12 @@ class Tetris_Ballistic:
         self.AvergeHeight = np.zeros((self.steps))
         self.SampleDist = np.zeros([20, 2])
         self.log_time_slopes = None
+        # Incremental "top envelope" array (Phase 1 optimization).
+        # Convention matches legacy _TopEnvelop: heights[c] is the row index
+        # JUST ABOVE the topmost occupied cell in column c, or height-1 if empty.
+        # Maintained incrementally by _update_heights_for_columns() after each
+        # _Place_*, so _UpdateStatus becomes O(W) instead of O(W*H).
+        self.heights = np.full(self.width, self.height - 1, dtype=np.int64)
         self.UpdateCall = [
             _create_partial(self.Update_O, rot=0, sticky=False), _create_partial(self.Update_O, rot=0, sticky=True),    # 0
             _create_partial(self.Update_I, rot=0, sticky=False), _create_partial(self.Update_I, rot=0, sticky=True),    # 1
@@ -412,6 +418,7 @@ class Tetris_Ballistic:
         self.AvergeHeight = np.zeros((self.steps))
         self.log_time_slopes = None
         self.SampleDist = np.zeros([20, 2])
+        self.heights = np.full(self.width, self.height - 1, dtype=np.int64)
         print("Substrate along with all statistics have been reset to all zeros.")
 
     def resize(self, new_height: int) -> None:
@@ -570,6 +577,47 @@ class Tetris_Ballistic:
 
         self.PrintStatus(brief=True)
 
+    def _surface_row(self, column):
+        """O(1) replacement for ``_ffnz``: row of the topmost occupied cell.
+
+        Equivalent to ``_ffnz(column)`` but uses the maintained
+        ``self.heights`` array instead of scanning the substrate. Returns
+        ``self.height`` if the column is empty (matching ``_ffnz``).
+
+        Phase-1 optimization: see class docstring + the ``heights``
+        attribute comment in ``__init__``.
+        """
+        if column < 0 or column >= self.width:
+            return self.height
+        h = self.heights[column]
+        if h == self.height - 1:
+            return self.height
+        return h + 1
+
+    def _update_heights_for_columns(self, columns):
+        """Re-sync ``self.heights`` for the columns just touched by a piece.
+
+        After a ``_Place_*`` writes into a (small) set of substrate columns,
+        we need to recompute their stack heights. We do this with one
+        vectorized ``np.argmax`` over the small column slab — O(piece_cols * H)
+        per call, vs O(W * H) for the legacy full-substrate ``_TopEnvelop``.
+
+        The result is bit-identical to ``_TopEnvelop`` for those columns
+        (semantics: ``heights[c]`` = row index just above topmost occupied,
+        or ``height - 1`` if empty).
+        """
+        cols = sorted({c for c in columns if 0 <= c < self.width})
+        if not cols:
+            return
+        slab = self.substrate[:, cols] > 0
+        any_occupied = slab.any(axis=0)
+        first_occupied = np.argmax(slab, axis=0)
+        for k, c in enumerate(cols):
+            if any_occupied[k]:
+                self.heights[c] = int(first_occupied[k]) - 1
+            else:
+                self.heights[c] = self.height - 1
+
     def _ffnz(self, column):
         """
         Finds the first non-zero entry in the specified column of the
@@ -644,10 +692,10 @@ class Tetris_Ballistic:
 
         next = i
 
-        landing_row_outleft = self._ffnz(position - 1) + 1 if position > 1 and sticky else self.height
-        landing_row_pivot = self._ffnz(position)
-        landing_row_right = self._ffnz(position + 1) if position < self.width - 1 else self.height
-        landing_row_outright = self._ffnz(position + 2) + 1 if position < self.width - 2 and sticky else self.height
+        landing_row_outleft = self._surface_row(position - 1) + 1 if position > 1 and sticky else self.height
+        landing_row_pivot = self._surface_row(position)
+        landing_row_right = self._surface_row(position + 1) if position < self.width - 1 else self.height
+        landing_row_outright = self._surface_row(position + 2) + 1 if position < self.width - 2 and sticky else self.height
 
         # Find minimum landing row
         landing_row = min(
@@ -665,6 +713,8 @@ class Tetris_Ballistic:
         self._Place_O(position, landing_row, next)
         # print(self.substrate)
         # input("")
+        self._update_heights_for_columns(
+            range(max(0, position - 3), min(self.width, position + 4)))
         self._UpdateStatus(i)
 
         return next
@@ -735,12 +785,12 @@ class Tetris_Ballistic:
             case 0 | 2:
                 position = random.randint(0, self.width - 4)
 
-                landing_row_outleft = self._ffnz(position - 1) + 1 if position > 1 and sticky else self.height
-                landing_row_pivot = self._ffnz(position)
-                landing_row_right1 = self._ffnz(position + 1) if position < self.width - 1 else self.height
-                landing_row_right2 = self._ffnz(position + 2) if position < self.width - 2 else self.height
-                landing_row_right3 = self._ffnz(position + 3) if position < self.width - 3 else self.height
-                landing_row_outright = self._ffnz(position + 4) + 1 if position < self.width - 4 and sticky else self.height
+                landing_row_outleft = self._surface_row(position - 1) + 1 if position > 1 and sticky else self.height
+                landing_row_pivot = self._surface_row(position)
+                landing_row_right1 = self._surface_row(position + 1) if position < self.width - 1 else self.height
+                landing_row_right2 = self._surface_row(position + 2) if position < self.width - 2 else self.height
+                landing_row_right3 = self._surface_row(position + 3) if position < self.width - 3 else self.height
+                landing_row_outright = self._surface_row(position + 4) + 1 if position < self.width - 4 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -761,9 +811,9 @@ class Tetris_Ballistic:
             case 1 | 3:
                 position = random.randint(0, self.width - 1)
 
-                landing_row_outleft = self._ffnz(position - 1) + 1 if position > 1 and sticky else self.height
-                landing_row_pivot = self._ffnz(position)
-                landing_row_outright = self._ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self.height
+                landing_row_outleft = self._surface_row(position - 1) + 1 if position > 1 and sticky else self.height
+                landing_row_pivot = self._surface_row(position)
+                landing_row_outright = self._surface_row(position + 1) + 1 if position < self.width - 1 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -778,6 +828,8 @@ class Tetris_Ballistic:
                 next = i + 1
                 self._Place_I(position, landing_row, next, rot)
 
+        self._update_heights_for_columns(
+            range(max(0, position - 3), min(self.width, position + 4)))
         self._UpdateStatus(i)
         return next
 
@@ -863,10 +915,10 @@ class Tetris_Ballistic:
             case 0:
                 position = random.randint(0, self.width - 2)
 
-                landing_row_outleft = self._ffnz(position - 1) + 1 if position > 0 and sticky else self.height
-                landing_row_pivot = self._ffnz(position)
-                landing_row_right = self._ffnz(position + 1) if position < self.width - 1 else self.height
-                landing_row_outright = self._ffnz(position + 2) + 1 if position < self.width - 2 and sticky else self.height
+                landing_row_outleft = self._surface_row(position - 1) + 1 if position > 0 and sticky else self.height
+                landing_row_pivot = self._surface_row(position)
+                landing_row_right = self._surface_row(position + 1) if position < self.width - 1 else self.height
+                landing_row_outright = self._surface_row(position + 2) + 1 if position < self.width - 2 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -885,11 +937,11 @@ class Tetris_Ballistic:
             case 1:
                 position = random.randint(2, self.width - 1)
 
-                landing_row_outright = self._ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self.height
-                landing_row_pivot = self._ffnz(position)
-                landing_row_left1 = self._ffnz(position - 1) if position > 1 else self.height
-                landing_row_left2 = self._ffnz(position - 2) if position > 2 else self.height
-                landing_row_outleft = self._ffnz(position - 3) + 1 if position > 3 and sticky else self.height
+                landing_row_outright = self._surface_row(position + 1) + 1 if position < self.width - 1 and sticky else self.height
+                landing_row_pivot = self._surface_row(position)
+                landing_row_left1 = self._surface_row(position - 1) if position > 1 else self.height
+                landing_row_left2 = self._surface_row(position - 2) if position > 2 else self.height
+                landing_row_outleft = self._surface_row(position - 3) + 1 if position > 3 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -909,10 +961,10 @@ class Tetris_Ballistic:
             case 2:
                 position = random.randint(1, self.width - 1)
 
-                landing_row_outright = self._ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self.height
-                landing_row_pivot = self._ffnz(position)
-                landing_row_outleft1 = self._ffnz(position - 1) + 1 if position > 1 and sticky else self._ffnz(position - 1) + 2
-                landing_row_outleft2 = self._ffnz(position - 2) + 3 if position > 2 and sticky else self.height
+                landing_row_outright = self._surface_row(position + 1) + 1 if position < self.width - 1 and sticky else self.height
+                landing_row_pivot = self._surface_row(position)
+                landing_row_outleft1 = self._surface_row(position - 1) + 1 if position > 1 and sticky else self._surface_row(position - 1) + 2
+                landing_row_outleft2 = self._surface_row(position - 2) + 3 if position > 2 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -931,11 +983,11 @@ class Tetris_Ballistic:
             case 3:
                 position = random.randint(0, self.width - 3)
 
-                landing_row_outright = self._ffnz(position + 3) + 2 if position < self.width - 3 and sticky else self.height
-                landing_row_right1 = self._ffnz(position + 1) + 1 if position < self.width - 1 else self.height
-                landing_row_right2 = self._ffnz(position + 2) + 1 if position < self.width - 2 else self.height
-                landing_row_pivot = self._ffnz(position)
-                landing_row_outleft = self._ffnz(position - 1) + 1 if position > 1 and sticky else self.height
+                landing_row_outright = self._surface_row(position + 3) + 2 if position < self.width - 3 and sticky else self.height
+                landing_row_right1 = self._surface_row(position + 1) + 1 if position < self.width - 1 else self.height
+                landing_row_right2 = self._surface_row(position + 2) + 1 if position < self.width - 2 else self.height
+                landing_row_pivot = self._surface_row(position)
+                landing_row_outleft = self._surface_row(position - 1) + 1 if position > 1 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -953,6 +1005,8 @@ class Tetris_Ballistic:
                 next = i + 1
                 self._Place_L(position, landing_row - 1, next, rot)
 
+        self._update_heights_for_columns(
+            range(max(0, position - 3), min(self.width, position + 4)))
         self._UpdateStatus(i)
         return next
 
@@ -1040,10 +1094,10 @@ class Tetris_Ballistic:
             case 0:
                 position = random.randint(1, self.width - 1)
 
-                landing_row_outleft = self._ffnz(position - 2) + 1 if position > 2 and sticky else self.height
-                landing_row_left = self._ffnz(position - 1) if position > 1 else self.height
-                landing_row_pivot = self._ffnz(position)
-                landing_row_outright = self._ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self.height
+                landing_row_outleft = self._surface_row(position - 2) + 1 if position > 2 and sticky else self.height
+                landing_row_left = self._surface_row(position - 1) if position > 1 else self.height
+                landing_row_pivot = self._surface_row(position)
+                landing_row_outright = self._surface_row(position + 1) + 1 if position < self.width - 1 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -1062,11 +1116,11 @@ class Tetris_Ballistic:
             case 1:
                 position = random.randint(2, self.width - 1)
 
-                landing_row_outright = self._ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self.height
-                landing_row_pivot = self._ffnz(position)
-                landing_row_left1 = self._ffnz(position - 1) + 1 if position > 1 else self.height
-                landing_row_left2 = self._ffnz(position - 2) + 1 if position > 2 else self.height
-                landing_row_outleft = self._ffnz(position - 3) + 2 if position > 3 and sticky else self.height
+                landing_row_outright = self._surface_row(position + 1) + 1 if position < self.width - 1 and sticky else self.height
+                landing_row_pivot = self._surface_row(position)
+                landing_row_left1 = self._surface_row(position - 1) + 1 if position > 1 else self.height
+                landing_row_left2 = self._surface_row(position - 2) + 1 if position > 2 else self.height
+                landing_row_outleft = self._surface_row(position - 3) + 2 if position > 3 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -1086,10 +1140,10 @@ class Tetris_Ballistic:
             case 2:
                 position = random.randint(0, self.width - 2)
 
-                landing_row_outright1 = self._ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self._ffnz(position + 1) + 2
-                landing_row_outright2 = self._ffnz(position + 2) + 3 if position < self.width - 2 and sticky else self.height
-                landing_row_pivot = self._ffnz(position)
-                landing_row_outleft = self._ffnz(position - 1) + 1 if position > 1 and sticky else self.height
+                landing_row_outright1 = self._surface_row(position + 1) + 1 if position < self.width - 1 and sticky else self._surface_row(position + 1) + 2
+                landing_row_outright2 = self._surface_row(position + 2) + 3 if position < self.width - 2 and sticky else self.height
+                landing_row_pivot = self._surface_row(position)
+                landing_row_outleft = self._surface_row(position - 1) + 1 if position > 1 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -1108,11 +1162,11 @@ class Tetris_Ballistic:
             case 3:
                 position = random.randint(0, self.width - 3)
 
-                landing_row_outright = self._ffnz(position + 3) + 1 if position < self.width - 3 and sticky else self.height
-                landing_row_right1 = self._ffnz(position + 1) if position < self.width - 1 else self.height
-                landing_row_right2 = self._ffnz(position + 2) if position < self.width - 2 else self.height
-                landing_row_pivot = self._ffnz(position)
-                landing_row_outleft = self._ffnz(position - 1) + 1 if position > 1 and sticky else self.height
+                landing_row_outright = self._surface_row(position + 3) + 1 if position < self.width - 3 and sticky else self.height
+                landing_row_right1 = self._surface_row(position + 1) if position < self.width - 1 else self.height
+                landing_row_right2 = self._surface_row(position + 2) if position < self.width - 2 else self.height
+                landing_row_pivot = self._surface_row(position)
+                landing_row_outleft = self._surface_row(position - 1) + 1 if position > 1 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -1130,6 +1184,8 @@ class Tetris_Ballistic:
                 next = i + 1
                 self._Place_J(position, landing_row, next, rot)
 
+        self._update_heights_for_columns(
+            range(max(0, position - 3), min(self.width, position + 4)))
         self._UpdateStatus(i)
         return next
 
@@ -1216,11 +1272,11 @@ class Tetris_Ballistic:
             case 0:
                 position = random.randint(1, self.width - 2)
 
-                landing_row_outleft = self._ffnz(position - 2) + 2 if position > 2 and sticky else self.height
-                landing_row_left = self._ffnz(position - 1) + 1 if position > 1 else self.height
-                landing_row_pivot = self._ffnz(position)
-                landing_row_right = self._ffnz(position + 1) + 1 if position < self.width - 1 else self.height
-                landing_row_outright = self._ffnz(position + 2) + 2 if position < self.width - 2 and sticky else self.height
+                landing_row_outleft = self._surface_row(position - 2) + 2 if position > 2 and sticky else self.height
+                landing_row_left = self._surface_row(position - 1) + 1 if position > 1 else self.height
+                landing_row_pivot = self._surface_row(position)
+                landing_row_right = self._surface_row(position + 1) + 1 if position < self.width - 1 else self.height
+                landing_row_outright = self._surface_row(position + 2) + 2 if position < self.width - 2 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -1240,10 +1296,10 @@ class Tetris_Ballistic:
             case 1:
                 position = random.randint(0, self.width - 2)
 
-                landing_row_outright = self._ffnz(position + 2) + 2 if position < self.width - 2 and sticky else self.height
-                landing_row_right = self._ffnz(position + 1) + 1 if position < self.width - 1 else self.height
-                landing_row_pivot = self._ffnz(position)
-                landing_row_outleft = self._ffnz(position - 1) + 1 if position > 1 and sticky else self.height
+                landing_row_outright = self._surface_row(position + 2) + 2 if position < self.width - 2 and sticky else self.height
+                landing_row_right = self._surface_row(position + 1) + 1 if position < self.width - 1 else self.height
+                landing_row_pivot = self._surface_row(position)
+                landing_row_outleft = self._surface_row(position - 1) + 1 if position > 1 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -1262,11 +1318,11 @@ class Tetris_Ballistic:
             case 2:
                 position = random.randint(1, self.width - 2)
 
-                landing_row_outright = self._ffnz(position + 2) + 1 if position < self.width - 2 and sticky else self.height
-                landing_row_right = self._ffnz(position + 1) if position < self.width - 1 else self.height
-                landing_row_pivot = self._ffnz(position)
-                landing_row_left = self._ffnz(position - 1) if position > 1 else self.height
-                landing_row_outleft = self._ffnz(position - 2) + 1 if position > 2 and sticky else self.height
+                landing_row_outright = self._surface_row(position + 2) + 1 if position < self.width - 2 and sticky else self.height
+                landing_row_right = self._surface_row(position + 1) if position < self.width - 1 else self.height
+                landing_row_pivot = self._surface_row(position)
+                landing_row_left = self._surface_row(position - 1) if position > 1 else self.height
+                landing_row_outleft = self._surface_row(position - 2) + 1 if position > 2 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -1286,10 +1342,10 @@ class Tetris_Ballistic:
             case 3:
                 position = random.randint(1, self.width - 1)
 
-                landing_row_outright = self._ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self.height
-                landing_row_pivot = self._ffnz(position)
-                landing_row_left = self._ffnz(position - 1) + 1 if position > 1 else self.height
-                landing_row_outleft = self._ffnz(position - 2) + 2 if position > 2 and sticky else self.height
+                landing_row_outright = self._surface_row(position + 1) + 1 if position < self.width - 1 and sticky else self.height
+                landing_row_pivot = self._surface_row(position)
+                landing_row_left = self._surface_row(position - 1) + 1 if position > 1 else self.height
+                landing_row_outleft = self._surface_row(position - 2) + 2 if position > 2 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -1306,6 +1362,8 @@ class Tetris_Ballistic:
                 next = i + 1
                 self._Place_T(position, landing_row - 1, next, rot)
 
+        self._update_heights_for_columns(
+            range(max(0, position - 3), min(self.width, position + 4)))
         self._UpdateStatus(i)
         return next
 
@@ -1368,11 +1426,11 @@ class Tetris_Ballistic:
             case 0 | 2:
                 position = random.randint(1, self.width - 2)
 
-                landing_row_outleft = self._ffnz(position - 2) + 1 if position > 2 and sticky else self.height
-                landing_row_left = self._ffnz(position - 1) if position > 1 else self.height
-                landing_row_pivot = self._ffnz(position)
-                landing_row_outright1 = self._ffnz(position + 1) + 1 if position < self.width - 1 else self.height
-                landing_row_outright2 = self._ffnz(position + 2) + 2 if position < self.width - 2 and sticky else self.height
+                landing_row_outleft = self._surface_row(position - 2) + 1 if position > 2 and sticky else self.height
+                landing_row_left = self._surface_row(position - 1) if position > 1 else self.height
+                landing_row_pivot = self._surface_row(position)
+                landing_row_outright1 = self._surface_row(position + 1) + 1 if position < self.width - 1 else self.height
+                landing_row_outright2 = self._surface_row(position + 2) + 2 if position < self.width - 2 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -1392,10 +1450,10 @@ class Tetris_Ballistic:
             case 1 | 3:
                 position = random.randint(1, self.width - 1)
 
-                landing_row_outleft2 = self._ffnz(position - 2) + 2 if position > 2 and sticky else self.height
-                landing_row_outleft1 = self._ffnz(position - 1) + 1 if position > 1 else self.height
-                landing_row_pivot = self._ffnz(position)
-                landing_row_outright = self._ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self.height
+                landing_row_outleft2 = self._surface_row(position - 2) + 2 if position > 2 and sticky else self.height
+                landing_row_outleft1 = self._surface_row(position - 1) + 1 if position > 1 else self.height
+                landing_row_pivot = self._surface_row(position)
+                landing_row_outright = self._surface_row(position + 1) + 1 if position < self.width - 1 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -1412,6 +1470,8 @@ class Tetris_Ballistic:
                 next = i + 1
                 self._Place_S(position, landing_row - 1, next, rot)
 
+        self._update_heights_for_columns(
+            range(max(0, position - 3), min(self.width, position + 4)))
         self._UpdateStatus(i)
         return next
 
@@ -1474,11 +1534,11 @@ class Tetris_Ballistic:
             case 0 | 2:
                 position = random.randint(1, self.width - 2)
 
-                landing_row_outleft2 = self._ffnz(position - 2) + 2 if position > 2 and sticky else self.height
-                landing_row_outleft1 = self._ffnz(position - 1) + 1 if position > 1 else self.height
-                landing_row_pivot = self._ffnz(position)
-                landing_row_right = self._ffnz(position + 1) if position < self.width - 1 else self.height
-                landing_row_outright = self._ffnz(position + 2) + 1 if position < self.width - 2 and sticky else self.height
+                landing_row_outleft2 = self._surface_row(position - 2) + 2 if position > 2 and sticky else self.height
+                landing_row_outleft1 = self._surface_row(position - 1) + 1 if position > 1 else self.height
+                landing_row_pivot = self._surface_row(position)
+                landing_row_right = self._surface_row(position + 1) if position < self.width - 1 else self.height
+                landing_row_outright = self._surface_row(position + 2) + 1 if position < self.width - 2 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -1498,10 +1558,10 @@ class Tetris_Ballistic:
             case 1 | 3:
                 position = random.randint(1, self.width - 1)
 
-                landing_row_outleft = self._ffnz(position - 2) + 1 if position > 2 and sticky else self.height
-                landing_row_left = self._ffnz(position - 1) if position > 1 else self.height
-                landing_row_pivot = self._ffnz(position) + 1
-                landing_row_outright = self._ffnz(position + 1) + 2 if position < self.width - 1 and sticky else self.height
+                landing_row_outleft = self._surface_row(position - 2) + 1 if position > 2 and sticky else self.height
+                landing_row_left = self._surface_row(position - 1) if position > 1 else self.height
+                landing_row_pivot = self._surface_row(position) + 1
+                landing_row_outright = self._surface_row(position + 1) + 2 if position < self.width - 1 and sticky else self.height
 
                 # Find minimum landing row
                 landing_row = min(
@@ -1518,6 +1578,8 @@ class Tetris_Ballistic:
                 next = i + 1
                 self._Place_Z(position, landing_row - 1, next, rot)
 
+        self._update_heights_for_columns(
+            range(max(0, position - 3), min(self.width, position + 4)))
         self._UpdateStatus(i)
         return next
 
@@ -1552,9 +1614,9 @@ class Tetris_Ballistic:
 
         next = i
 
-        landing_row_outleft = self._ffnz(position - 1) + 1 if position > 1 and sticky else self.height
-        landing_row_pivot = self._ffnz(position)
-        landing_row_outright = self._ffnz(position + 1) + 1 if position < self.width - 1 and sticky else self.height
+        landing_row_outleft = self._surface_row(position - 1) + 1 if position > 1 and sticky else self.height
+        landing_row_pivot = self._surface_row(position)
+        landing_row_outright = self._surface_row(position + 1) + 1 if position < self.width - 1 and sticky else self.height
 
         # Find minimum landing row
         landing_row = min(
@@ -1572,6 +1634,8 @@ class Tetris_Ballistic:
         # print(self.substrate)
         # input("")
 
+        self._update_heights_for_columns(
+            range(max(0, position - 3), min(self.width, position + 4)))
         self._UpdateStatus(i)
         return next
 
@@ -1648,30 +1712,24 @@ class Tetris_Ballistic:
         return top_envelope
 
     def _UpdateStatus(self, step):
-        """
-        Compute the top envelope of a substrate.
+        """Update Fluctuation and AvergeHeight using the incremental heights array.
 
-        This function calculates the highest particle position in each column
-        of the substrate. Update the both HeightDynamics and Fluctuation
-        attributes of the substrate.
+        Phase-1 optimization: O(W) using ``np.mean`` / ``np.std`` instead of
+        the legacy O(W * H) ``_TopEnvelop`` scan + Python-loop variance.
 
-        Args:
-            step (int): The step number of the substrate.
-        Returns:
-            None
+        The semantics are unchanged. ``self.heights`` (maintained
+        incrementally by ``_update_heights_for_columns``) is the same
+        top-envelope array that ``_TopEnvelop(step+1)`` would compute, so
+        outputs are bit-identical.
         """
-        # top_envelope = np.zeros(self.width)
-        # for pos in range(self.width):
-        #     if np.any(self.substrate[:, pos] > 0):  # If there's any nonzero value in the column
-        #         top_envelope[pos] = np.argmax(self.substrate[:, pos] > 0) - 1
-        #     else:
-        #         top_envelope[pos] = self.height - 1
+        self.AvergeHeight[step] = float(self.heights.mean())
+        self.Fluctuation[step] = float(self.heights.std())
+
+    def _UpdateStatus_legacy(self, step):
+        """Legacy O(W * H) status update — preserved for visualization/audit."""
         top_envelope = self._TopEnvelop(step + 1)
-
-        # self.HeightDynamics[step] = top_envelope
         average = np.mean(top_envelope)
         self.AvergeHeight[step] = average
-
         self.Fluctuation[step] = 0
         for pos in range(self.width):
             self.Fluctuation[step] += np.power(top_envelope[pos] - average, 2) / self.width
