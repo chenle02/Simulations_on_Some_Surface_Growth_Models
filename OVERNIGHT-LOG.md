@@ -14,7 +14,8 @@
 | 1 | 11:55 EDT | 12:30 EDT | **GREEN** | **30.2×** on large | (next) | Incremental heights; bit-equality at atol=1e-12 (FP roundoff only) |
 | 2 | 12:30 EDT | 12:45 EDT | **GREEN** | n/a (memory) | (next) | Streaming per-cell JSON + resume + atomic writes |
 | 3 | 12:45 EDT | 13:10 EDT | **GREEN** | n/a (HPC) | (next) | run_one_cell + grid.yaml + job_array.slurm + 12 tests |
-| 4 | TBD | TBD | pending | — | — | Numba kernel |
+| 4a | 13:10 EDT | 13:20 EDT | **GREEN** | **47×** total | (next) | Cached sampling CDF (no numba needed) |
+| 4b | TBD | TBD | pending | — | — | @njit kernel for 1x1 piece path |
 | 5 | TBD | TBD | pending | — | — | Industrial polish |
 | 6 | TBD | TBD | pending | — | — | Final report |
 
@@ -134,4 +135,38 @@ The steps/sec dropping with L is the smoking-gun confirmation that `_UpdateStatu
 - Slow (2 tests, 1.45 s): e2e cell run + idempotent re-run; bit-equality vs direct construction.
 
 **Bug found + fixed during testing**: my initial test assumed `Fluctuation.shape == (steps,)` always; in reality `Simulate()` trims the array to `FinalSteps` on early game-over. Test updated to accept either shape.
+
+### Phase 4 decision-gate profile (2026-05-16 13:10 EDT)
+
+`cProfile` on Phase-1 L=200 run revealed:
+
+| Function | % of runtime |
+|---|---|
+| Update_1x1 (dispatch + landing-row) | 58% |
+| **Sample_Tetris (piece sampling) ★** | **40%** |
+| _UpdateStatus (std + mean) | 29% |
+| _update_heights_for_columns | 22% |
+| np.std internals | 19% |
+
+**Huge surprise**: `Sample_Tetris` was 40% of runtime. The legacy code rebuilt the 40-element probability vector from `self.config_data` on EVERY step + called `np.random.choice(40, p=...)`. Most of this work could be cached. This made Phase 4a (no numba) a low-hanging fruit BEFORE the Phase-4b numba kernel.
+
+### Phase 4a — Cached sampling CDF (2026-05-16 13:10-13:20 EDT)
+
+**Status**: **GREEN** — bit-equality preserved (modulo FP roundoff), additional ~2× speedup.
+
+**Change**: Cache the normalized probability vector + cumulative sum (CDF) in `__init__`. `Sample_Tetris` now does `np.searchsorted(self._sample_cdf, np.random.random())` — a single Python call to vectorized C code, vs the legacy `[self.config_data[f"Piece-{i}"] for i in range(20)] → np.array → flatten → normalize → np.random.choice` chain.
+
+**Bit-equality surprise**: I expected this to break bit-equality because the random-number-consumption pattern changes. It didn't. Reason: `np.random.choice(40, p=p)` internally implements `np.searchsorted(cumsum(p), np.random.uniform())` — same RNG draw, same algorithm, just exposed at a different API level. So the trajectory is byte-identical.
+
+**Benchmark**:
+
+| Config | Phase 0 | Phase 1 | Phase 4a | Cumulative |
+|---|---|---|---|---|
+| small (L=50) | 1,239 | 8,847 | **17,494** | **14.1×** |
+| medium (L=100) | 652 | 9,342 | **16,834** | **25.8×** |
+| large (L=200) | 307 | 9,266 | **14,436** | **47.0×** |
+
+Wall-clock for the large config: 140s → 2.98s.
+
+All 30 fast tests + 3 slow tests pass.
 

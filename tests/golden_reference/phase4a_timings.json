@@ -1,0 +1,29 @@
+{
+  "label": "phase4a_cdf_cache",
+  "configs": {
+    "small": {
+      "width": 50,
+      "height": 100,
+      "steps_requested": 5000,
+      "steps_executed": 2498,
+      "elapsed_seconds": 0.14279297506436706,
+      "steps_per_second": 17493.857795693184
+    },
+    "medium": {
+      "width": 100,
+      "height": 200,
+      "steps_requested": 20000,
+      "steps_executed": 10878,
+      "elapsed_seconds": 0.6461998841259629,
+      "steps_per_second": 16833.8006044575
+    },
+    "large": {
+      "width": 200,
+      "height": 400,
+      "steps_requested": 80000,
+      "steps_executed": 43064,
+      "elapsed_seconds": 2.9831141701433808,
+      "steps_per_second": 14435.92083434412
+    }
+  }
+}
