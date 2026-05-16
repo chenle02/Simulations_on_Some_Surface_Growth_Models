@@ -5,8 +5,10 @@
 # Created at Mon Feb 19 02:57:07 PM EST 2024
 #
 
-import yaml
 import os
+
+import yaml
+
 from tetris_ballistic.tetris_ballistic import Tetris_Ballistic
 
 # Ensure that PyYAML uses a custom representer for lists to keep them inline

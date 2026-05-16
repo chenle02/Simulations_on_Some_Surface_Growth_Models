@@ -7,7 +7,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='tetris_ballistic',
-    version='1.2.7',
+    version='2.0.0',
     packages=find_packages(),
     # Runtime dependencies
     install_requires=[

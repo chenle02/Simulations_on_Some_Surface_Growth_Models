@@ -10,23 +10,28 @@ By Le Chen, Mauricio Montes and Ian Ruau
 
 """
 
-import numpy as np
 import random
-import yaml
 import re
-from scipy.stats import entropy
+
 # Use non-interactive backend for visualization to enable buffer operations
 import matplotlib
+import numpy as np
+import yaml
+from scipy.stats import entropy
+
 matplotlib.use('Agg')
-import matplotlib.pyplot as plt
-import matplotlib.colors as mcolors
-from matplotlib.offsetbox import OffsetImage, AnnotationBbox
-import imageio
 import os
-import joblib
 from functools import partial
+
+import imageio
+import joblib
+import matplotlib.colors as mcolors
+import matplotlib.pyplot as plt
+from matplotlib.offsetbox import AnnotationBbox, OffsetImage
+
 from tetris_ballistic.image_loader import TetrominoImageLoader
-from tetris_ballistic.retrieve_default_configs import retrieve_default_configs as rdc, configs_dir
+from tetris_ballistic.retrieve_default_configs import configs_dir
+from tetris_ballistic.retrieve_default_configs import retrieve_default_configs as rdc
 
 np.set_printoptions(threshold=np.inf)  # Make sure that print() displays the entire array
 
@@ -583,7 +588,8 @@ class Tetris_Ballistic:
         if os.environ.get("TETRIS_USE_KERNEL", "1") != "0":
             try:
                 from tetris_ballistic._kernel_1x1 import (
-                    is_1x1_only, simulate_1x1_kernel,
+                    is_1x1_only,
+                    simulate_1x1_kernel,
                 )
             except ImportError:
                 is_1x1_only = None

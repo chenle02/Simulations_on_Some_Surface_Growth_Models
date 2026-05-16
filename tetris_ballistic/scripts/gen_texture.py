@@ -5,9 +5,9 @@
 # Created at Tue 13 Feb 2024 11:46:57 AM CST
 #
 
-from PIL import Image, ImageOps
-import glob
 import os
+
+from PIL import Image, ImageOps
 
 
 def add_high_contrast_border(original_image_path, border_size=5, border_color='red'):

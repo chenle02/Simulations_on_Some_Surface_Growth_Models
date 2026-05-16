@@ -15,8 +15,6 @@ import json
 import os
 from pathlib import Path
 
-import pytest
-
 from tetris_ballistic.scripts.run_kpz_analysis import (
     _atomic_write_json,
     _cell_path,

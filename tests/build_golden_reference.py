@@ -17,7 +17,6 @@ import numpy as np
 
 from tetris_ballistic.tetris_ballistic import Tetris_Ballistic
 
-
 GRID = [
     (50, 50, 0),
     (50, 100, 0),

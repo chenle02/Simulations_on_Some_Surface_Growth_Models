@@ -13,11 +13,14 @@ Author:
 
 import os
 import sys
-from multiprocessing import Pool
-from joblib import dump
 from itertools import chain
+from multiprocessing import Pool
+
+from joblib import dump
+
+from tetris_ballistic.retrieve_default_configs import configs_dir
+from tetris_ballistic.retrieve_default_configs import retrieve_default_configs as rdc
 from tetris_ballistic.tetris_ballistic import Tetris_Ballistic, load_density_from_config
-from tetris_ballistic.retrieve_default_configs import retrieve_default_configs as rdc, configs_dir
 
 
 class DualLogger:

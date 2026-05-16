@@ -1,6 +1,6 @@
 import os
-from pathlib import Path
 from importlib.resources import files
+from pathlib import Path
 
 package_dir = os.path.dirname(os.path.abspath(__file__))
 configs_dir = os.path.join(package_dir, 'configs')

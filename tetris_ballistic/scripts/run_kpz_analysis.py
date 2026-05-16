@@ -20,21 +20,23 @@ import glob
 import json
 import os
 import sys
-import numpy as np
+
 import matplotlib
+import numpy as np
+
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(_HERE, "..", ".."))
 from tetris_ballistic.kpz_analysis import (
-    load_ensemble,
-    truncate_to_common_length,
-    growth_window_slope,
-    local_slope_bootstrap,
     detect_plateau,
-    meakin_range_of_fit,
     extrapolate_to_infinity,
+    growth_window_slope,
+    load_ensemble,
+    local_slope_bootstrap,
+    meakin_range_of_fit,
+    truncate_to_common_length,
 )
 
 KPZ_BETA = 1.0 / 3.0

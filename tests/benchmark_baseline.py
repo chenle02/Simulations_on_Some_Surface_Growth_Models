@@ -26,7 +26,6 @@ from pathlib import Path
 from tests.build_golden_reference import build_density_for_piece_19_combined
 from tetris_ballistic.tetris_ballistic import Tetris_Ballistic
 
-
 CONFIGS = [
     ("small",  50,  100,  5_000),
     ("medium", 100, 200, 20_000),

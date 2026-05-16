@@ -31,7 +31,6 @@ import pytest
 from tests.build_golden_reference import build_density_for_piece_19_combined
 from tetris_ballistic.tetris_ballistic import Tetris_Ballistic
 
-
 RATIO = 2
 
 

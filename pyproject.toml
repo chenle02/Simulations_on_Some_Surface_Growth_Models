@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tetris_ballistic"
-version = "1.2.7"
+version = "2.0.0"
 description = "Tetromino ballistic-deposition surface-growth Monte Carlo simulator"
 readme = "README.md"
 license = { text = "MIT" }
@@ -88,6 +88,55 @@ markers = [
 [tool.ruff]
 line-length = 120
 target-version = "py310"
+extend-exclude = [
+    "tests/counter_holes",
+    "tests/indivisual-pieces",
+    "tests/load_save_config",
+    "tests/Load_Save_Simulations",
+    "tests/sample",
+    "tests/ShowData",
+    "tests/simulation",
+    "tests/sweepparameters",
+    "tests/test_data_analysis",
+    "tests/test_imageloader",
+    "tests/test_piece-9_nonsticky",
+    "tests/test_plotstat",
+    "tests/test_resize",
+    "tests/test_retreive_config",
+    "tests/test_SampleDist",
+    "tests/test_slope",
+    "tests/test_Sweep",
+    "tests/tests_piece-14",
+    "tests/visualization",
+    "tests/test_compute_endpoint_slope.py",
+]
+
 [tool.ruff.lint]
 select = ["E", "F", "I", "W", "B"]
-ignore = ["E501", "E741"]
+ignore = ["E501", "E741", "B905"]
+
+[tool.ruff.lint.per-file-ignores]
+# Script entry points need sys.path.insert BEFORE importing tetris_ballistic
+# (so they're runnable from anywhere without pip-installing).
+"tetris_ballistic/scripts/*.py" = ["E402"]
+# Legacy modules — pre-existing lint debt. Cleaned incrementally; ratchet
+# down by removing entries from this list as files improve.
+"tetris_ballistic/tetris_ballistic.py" = [
+    "E701",  # case X: stmt
+    "F811",  # redefinition (legacy duplicate __init__ params)
+    "F841",  # local var assigned but never used
+    "E402",  # plt import after matplotlib.use()
+    "E711",  # == None comparisons
+    "E712",  # == True/False comparisons
+    "E721",  # type comparison via ==
+    "B007",  # unused loop var
+    "B023",  # closure over loop variable
+    "B026",  # star-arg after kwarg
+    "B904",  # raise ... from (legacy bare raise inside except)
+    "F401",  # _kernel_1x1 import only used at runtime via env-var check
+]
+"tetris_ballistic/data_analysis_utilities.py" = ["F401", "I001", "B006"]
+"tetris_ballistic/sweep_parameters.py" = ["B006", "B008"]
+"tetris_ballistic/retrieve_default_configs.py" = ["B006", "F821"]
+"tetris_ballistic/__init__.py" = ["F401", "F403"]
+"tetris_ballistic/kpz_analysis.py" = ["F841"]

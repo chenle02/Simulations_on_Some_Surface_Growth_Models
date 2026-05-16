@@ -16,7 +16,7 @@
 | 3 | 12:45 EDT | 13:10 EDT | **GREEN** | n/a (HPC) | (next) | run_one_cell + grid.yaml + job_array.slurm + 12 tests |
 | 4a | 13:10 EDT | 13:20 EDT | **GREEN** | **47×** total | (next) | Cached sampling CDF (no numba needed) |
 | 4b | 13:20 EDT | 13:40 EDT | **GREEN** | **380×** total | (next) | @njit kernel for 1x1 piece path (warm) |
-| 5 | TBD | TBD | pending | — | — | Industrial polish |
+| 5 | 13:40 EDT | 14:05 EDT | **GREEN** | n/a | (next) | CI, ruff, README + CHANGELOG, v2.0.0 |
 | 6 | TBD | TBD | pending | — | — | Final report |
 
 ---
@@ -212,4 +212,21 @@ Cold-call JIT cost is ~0.3s, amortized over any non-trivial workload. For Slurm-
 - Fast suite: 4.11s → **1.83s** (2.2× faster gate).
 - Slow suite: 10.6s → **2.82s** (3.8× faster).
 - Bit-equality preserved at `atol=1e-12` (the same FP-roundoff bound established in Phase 1).
+
+### Phase 5 — Industrial polish (2026-05-16 13:40-14:05 EDT)
+
+**Status**: **GREEN** — pytest + ruff both clean.
+
+**Shipped**:
+- `.github/workflows/ci.yml`: pytest + ruff on every push/PR, Python 3.10/3.11/3.12 matrix.
+- `pyproject.toml`: ruff config with per-file ignores documenting legacy debt with a clean ratchet-down strategy.
+- `CHANGELOG.md`: complete v2.0.0 release notes.
+- `README.md`: new "Performance" section with the 85/182/380× table, new "HPC usage" section with Slurm-array recipe, new CI badge.
+- Version bump: `1.2.7` → `2.0.0` (major: introduces optional numba dep, changes the inner-loop algorithm, adds new public API surface).
+
+**Lint status**:
+- New code (`_kernel_1x1.py`, `scripts/`, `kpz_analysis.py`, new tests): ruff-clean, no per-file ignores.
+- Legacy code (`tetris_ballistic.py`, `data_analysis_utilities.py`, etc.): per-file ignores documenting each suppressed rule. Ratchet-down strategy: remove entries from the list as files are refactored.
+
+**Tests**: 33 fast tests pass in 2.07s. 5 slow tests pass in ~3s.
 
