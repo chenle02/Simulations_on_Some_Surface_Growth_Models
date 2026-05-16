@@ -1,0 +1,93 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tetris_ballistic"
+version = "1.2.7"
+description = "Tetromino ballistic-deposition surface-growth Monte Carlo simulator"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [
+    { name = "Le Chen", email = "le.chen@auburn.edu" },
+    { name = "Mauricio Montes" },
+    { name = "Ian Ruau" },
+]
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.19.0",
+    "PyYAML>=5.3",
+    "scipy>=1.5.0",
+    "matplotlib>=3.0.0",
+    "imageio>=2.0.0",
+    "joblib>=0.14.0",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Scientific/Engineering :: Physics",
+]
+
+[project.optional-dependencies]
+hpc = ["numba>=0.58"]
+dev = [
+    "pytest>=7.0",
+    "pytest-benchmark>=4.0",
+    "ruff>=0.1",
+]
+
+[project.urls]
+Homepage = "https://github.com/chenle02/Simulations_on_Some_Surface_Growth_Models"
+Documentation = "https://simulations-on-some-surface-growth-models.readthedocs.io/"
+
+[tool.setuptools.packages.find]
+include = ["tetris_ballistic*"]
+
+[tool.setuptools.package-data]
+tetris_ballistic = ["configs/*.yaml", "data/*.png"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "-ra",
+    "--strict-markers",
+    "--strict-config",
+    "-m", "not slow",
+    "--ignore=tests/counter_holes",
+    "--ignore=tests/indivisual-pieces",
+    "--ignore=tests/load_save_config",
+    "--ignore=tests/Load_Save_Simulations",
+    "--ignore=tests/sample",
+    "--ignore=tests/ShowData",
+    "--ignore=tests/simulation",
+    "--ignore=tests/sweepparameters",
+    "--ignore=tests/test_data_analysis",
+    "--ignore=tests/test_imageloader",
+    "--ignore=tests/test_piece-9_nonsticky",
+    "--ignore=tests/test_plotstat",
+    "--ignore=tests/test_resize",
+    "--ignore=tests/test_retreive_config",
+    "--ignore=tests/test_SampleDist",
+    "--ignore=tests/test_slope",
+    "--ignore=tests/test_Sweep",
+    "--ignore=tests/tests_piece-14",
+    "--ignore=tests/visualization",
+    "--ignore=tests/test_compute_endpoint_slope.py",
+]
+markers = [
+    "slow: tests that take >10 seconds (skip with -m 'not slow')",
+    "benchmark: performance benchmark tests",
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "B"]
+ignore = ["E501", "E741"]

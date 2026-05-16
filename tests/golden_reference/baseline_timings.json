@@ -1,0 +1,29 @@
+{
+  "label": "phase0_baseline",
+  "configs": {
+    "small": {
+      "width": 50,
+      "height": 100,
+      "steps_requested": 5000,
+      "steps_executed": 2498,
+      "elapsed_seconds": 2.0153975321445614,
+      "steps_per_second": 1239.4577050721634
+    },
+    "medium": {
+      "width": 100,
+      "height": 200,
+      "steps_requested": 20000,
+      "steps_executed": 10878,
+      "elapsed_seconds": 16.6759225721471,
+      "steps_per_second": 652.3177325234731
+    },
+    "large": {
+      "width": 200,
+      "height": 400,
+      "steps_requested": 80000,
+      "steps_executed": 43064,
+      "elapsed_seconds": 140.1764675169252,
+      "steps_per_second": 307.2127637600824
+    }
+  }
+}
