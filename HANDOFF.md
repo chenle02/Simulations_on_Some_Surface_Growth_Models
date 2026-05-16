@@ -15,12 +15,12 @@ cd ~/Dropbox/Public/Simulations_on_Some_Surface_Growth_Models
 Then, in OpenCode, type:
 
 ```
-/resume
+/load-handoff
 ```
 
-The `/resume` command will read this file, run the pre-flight checks below, confirm the next step back to you, and proceed. (See the `handoff-md-protocol` and `/resume` command docs in `~/Dropbox/workspace/Le-AI-Lab/`.)
+The `/load-handoff` command will read this file, run the pre-flight checks below, confirm the next step back to you, and proceed. (See the `handoff-md-protocol` skill and `/load-handoff` command docs in `~/Dropbox/workspace/Le-AI-Lab/`. The name `load-handoff` was chosen over `/resume` and `/handoff` to avoid conflicts with Hermes's built-in `/resume` and OpenCode's built-in `/handoff` — see `slash-command-namespace-precheck` skill.)
 
-**The immediate next step** (which `/resume` will quote back to you):
+**The immediate next step** (which `/load-handoff` will quote back to you):
 
 **Implement `tetris_ballistic/kpz_analysis.py`** per Steps 1–8 of the *Proposed protocol* section of the wiki project page. Run it on `experiments/exp13/` (300 joblib files already there, no new simulation needed). Report $\hat\beta_\infty \pm \mathrm{CI}$ per percentage.
 
