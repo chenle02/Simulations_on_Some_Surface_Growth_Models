@@ -1,6 +1,6 @@
 # HANDOFF
 
-**Last updated**: 2026-05-15 22:30 (closing previous session)
+**Last updated**: 2026-05-16 09:45 (closing session: methodology module implemented + first analysis pass complete)
 **Project**: Robust KPZ slope extraction for Tetromino ballistic deposition
 **Wiki page (authoritative strategy)**: `~/Dropbox/workspace/svn/SPDEs-wiki/content/projects/tetris-kpz-slope-extraction.md`
 
@@ -18,11 +18,11 @@ Then, in OpenCode, type:
 /load-handoff
 ```
 
-The `/load-handoff` command will read this file, run the pre-flight checks below, confirm the next step back to you, and proceed. (See the `handoff-md-protocol` skill and `/load-handoff` command docs in `~/Dropbox/workspace/Le-AI-Lab/`. The name `load-handoff` was chosen over `/resume` and `/handoff` to avoid conflicts with Hermes's built-in `/resume` and OpenCode's built-in `/handoff` — see `slash-command-namespace-precheck` skill.)
+**The immediate next step**: The methodology module and first analysis pass are done. Two options:
 
-**The immediate next step** (which `/load-handoff` will quote back to you):
+1. **(Higher priority)** **Run longer simulations** for L=150, 200 (current runs saturate before reaching the KPZ asymptotic regime — need `height=3000` or higher so h̄_max >> L^{3/2}). Then re-run `run_kpz_analysis.py` on the new data.
 
-**Implement `tetris_ballistic/kpz_analysis.py`** per Steps 1–8 of the *Proposed protocol* section of the wiki project page. Run it on `experiments/exp13/` (300 joblib files already there, no new simulation needed). Report $\hat\beta_\infty \pm \mathrm{CI}$ per percentage.
+2. **(Alternative)** **Tune the correction-to-scaling model**: fit ω as a free parameter instead of fixing at 0.5. May require adding a 2nd-order correction term (Pagnani-Parisi 2013). Or exclude L=200 from the extrapolation and report per-cell β̂ values directly.
 
 ---
 
@@ -49,6 +49,9 @@ It contains:
 - **Three forged + wiki-ed papers** with full theorem-statement digests for Family-Vicsek 85, Meakin et al. 86, Baiod et al. 88 (the foundational range-of-fit + cross-validation methodology trio)
 - **Two new skills** in Le-AI-Lab: `paper-digester-wikilink-vocabulary-precheck`, `zsh-glob-no-matches-vs-missing-directory`, `withdrawn-arxiv-paper-wiki-treatment`
 - **Verified data shape**: see *Data layout (exp13/)* in the wiki project page; reproduced here in §Pre-flight below
+- **(2026-05-16)** **`tetris_ballistic/kpz_analysis.py`** — 7-function methodology module (~400 lines): `load_ensemble`, `truncate_to_common_length`, `growth_window_slope`, `local_slope_bootstrap`, `detect_plateau`, `meakin_range_of_fit`, `extrapolate_to_infinity`
+- **(2026-05-16)** **`experiments/exp13/run_kpz_analysis.py`** — runner script. Produces 6 local-slope plots, 6 multi-L extrapolation plots, and `results.json`
+- **(2026-05-16)** **First analysis pass results**: Per-cell growth-window β̂ for pct=90% is consistent with KPZ β=1/3 at L=50–150 (β̂ ∈ [0.30, 0.34]). L=200 underestimates (h̄_max < L^{3/2} → hasn't reached asymptotic regime). Multi-L extrapolation gives β∞=0.22±0.08 for pct=90% and β∞=0.29±0.05 for pct=99%, both below 1/3 but approaching it. **Diagnosis**: simulations need longer runs (higher domain ceiling) for L≥150.
 
 ---
 
@@ -153,7 +156,7 @@ Each of these is a separate session; update HANDOFF.md at session end to point a
 ## Repo & git state at handoff
 
 ```
-sim-repo               HEAD: 5b7856a8 fix(gitignore)
+sim-repo               HEAD: (uncommitted — kpz_analysis.py + run_kpz_analysis.py + outputs)
 SPDEs-wiki             HEAD: b6a77de3 project(tetris-kpz-slope): document exp13 joblib data layout
 refdb                  HEAD: 302fa0a5 Add 11 references for Tetris-KPZ-slope-extraction project
 All_PDFs               HEAD: dae9e3f Add Family-Vicsek 1991 Dynamics of Fractal Surfaces

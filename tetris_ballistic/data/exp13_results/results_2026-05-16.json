@@ -1,0 +1,781 @@
+{
+  "5": {
+    "50": {
+      "percentage": 5,
+      "L": 50,
+      "n_seeds": 10,
+      "min_trace_len": 11611,
+      "growth_window_beta": 0.14500359315912154,
+      "growth_window_ci": [
+        0.07650849795155895,
+        0.2096844973113982
+      ],
+      "meakin_window1": {
+        "slope": 0.28510464581089806,
+        "se": 0.0019341790078136226
+      },
+      "meakin_window2": {
+        "slope": 0.03627553883518991,
+        "se": 0.0011145590063682614
+      },
+      "plateau_detected": false,
+      "beta_for_extrap": 0.14500359315912154,
+      "beta_err_for_extrap": 0.06658799967991963
+    },
+    "80": {
+      "percentage": 5,
+      "L": 80,
+      "n_seeds": 10,
+      "min_trace_len": 29624,
+      "growth_window_beta": 0.20149009397896148,
+      "growth_window_ci": [
+        0.07170910152542986,
+        0.3060731628064816
+      ],
+      "meakin_window1": {
+        "slope": 0.27489456692360204,
+        "se": 0.0012546188253969948
+      },
+      "meakin_window2": {
+        "slope": 0.05472841434207161,
+        "se": 0.000535099722602597
+      },
+      "plateau_detected": false,
+      "beta_for_extrap": 0.20149009397896148,
+      "beta_err_for_extrap": 0.11718203064052587
+    },
+    "100": {
+      "percentage": 5,
+      "L": 100,
+      "n_seeds": 10,
+      "min_trace_len": 46136,
+      "growth_window_beta": 0.20131222729443032,
+      "growth_window_ci": [
+        0.13786230173498124,
+        0.2553443099971382
+      ],
+      "meakin_window1": {
+        "slope": 0.2772785867083834,
+        "se": 0.0006865782020981905
+      },
+      "meakin_window2": {
+        "slope": 0.02745684391050219,
+        "se": 0.0005726075391737334
+      },
+      "plateau_detected": false,
+      "beta_for_extrap": 0.20131222729443032,
+      "beta_err_for_extrap": 0.05874100413107848
+    },
+    "150": {
+      "percentage": 5,
+      "L": 150,
+      "n_seeds": 10,
+      "min_trace_len": 104691,
+      "growth_window_beta": 0.17418065341260935,
+      "growth_window_ci": [
+        0.11699266974353706,
+        0.23999207427213876
+      ],
+      "meakin_window1": {
+        "slope": 0.2617838743626238,
+        "se": 0.00030095073738519427
+      },
+      "meakin_window2": {
+        "slope": 0.08209538729081323,
+        "se": 0.0002629403481565887
+      },
+      "plateau_detected": false,
+      "beta_for_extrap": 0.17418065341260935,
+      "beta_err_for_extrap": 0.06149970226430085
+    },
+    "200": {
+      "percentage": 5,
+      "L": 200,
+      "n_seeds": 10,
+      "min_trace_len": 187559,
+      "growth_window_beta": 0.20025907667683476,
+      "growth_window_ci": [
+        0.14864385181171605,
+        0.2610115780691161
+      ],
+      "meakin_window1": {
+        "slope": 0.219436907298975,
+        "se": 0.0002174134943682025
+      },
+      "meakin_window2": {
+        "slope": 0.051218050229106894,
+        "se": 0.0003879635888325431
+      },
+      "plateau_detected": false,
+      "beta_for_extrap": 0.20025907667683476,
+      "beta_err_for_extrap": 0.05618386312870004
+    },
+    "extrapolation": {
+      "beta_inf": 0.24274100945532856,
+      "beta_inf_err": 0.11574236127368741,
+      "fit_converged": true,
+      "c": -0.6073848044952382,
+      "omega": 0.5
+    }
+  },
+  "50": {
+    "50": {
+      "percentage": 50,
+      "L": 50,
+      "n_seeds": 10,
+      "min_trace_len": 13193,
+      "growth_window_beta": 0.2531576922447855,
+      "growth_window_ci": [
+        0.18915285404868928,
+        0.3219920123048223
+      ],
+      "meakin_window1": {
+        "slope": 0.2957854121347633,
+        "se": 0.0017037242402104195
+      },
+      "meakin_window2": {
+        "slope": 0.041331662747534186,
+        "se": 0.0007870785760550758
+      },
+      "plateau_detected": false,
+      "beta_for_extrap": 0.2531576922447855,
+      "beta_err_for_extrap": 0.0664195791280665
+    },
+    "80": {
+      "percentage": 50,
+      "L": 80,
+      "n_seeds": 10,
+      "min_trace_len": 34380,
+      "growth_window_beta": 0.237163493024412,
+      "growth_window_ci": [
+        0.1372075414383011,
+        0.3202347545951846
+      ],
+      "meakin_window1": {
+        "slope": 0.307482231842111,
+        "se": 0.0009084013591772746
+      },
+      "meakin_window2": {
+        "slope": 0.033524956124181535,
+        "se": 0.0005535963085164552
+      },
+      "plateau_detected": false,
+      "beta_for_extrap": 0.237163493024412,
+      "beta_err_for_extrap": 0.09151360657844174
+    },
+    "100": {
+      "percentage": 50,
+      "L": 100,
+      "n_seeds": 10,
+      "min_trace_len": 53990,
+      "growth_window_beta": 0.2406537984633913,
+      "growth_window_ci": [
+        0.1818032927175419,
+        0.28244770909746547
+      ],
+      "meakin_window1": {
+        "slope": 0.25457688633234093,
+        "se": 0.0013823987968832635
+      },
+      "meakin_window2": {
+        "slope": 0.15538000266391583,
+        "se": 0.00045040113597879454
+      },
+      "plateau_detected": false,
+      "beta_for_extrap": 0.2406537984633913,
+      "beta_err_for_extrap": 0.05032220818996179
+    },
+    "150": {
+      "percentage": 50,
+      "L": 150,
+      "n_seeds": 10,
+      "min_trace_len": 121441,
+      "growth_window_beta": 0.275779622077857,
+      "growth_window_ci": [
+        0.17292672721793642,
+        0.33793200734517986
+      ],
+      "meakin_window1": {
+        "slope": 0.25901633792854883,
+        "se": 0.00044048778690476426
+      },
+      "meakin_window2": {
+        "slope": 0.08634294046361343,
+        "se": 0.0005450129537587077
+      },
+      "plateau_detected": false,
+      "beta_for_extrap": 0.275779622077857,
+      "beta_err_for_extrap": 0.08250264006362172
+    },
+    "200": {
+      "percentage": 50,
+      "L": 200,
+      "n_seeds": 10,
+      "min_trace_len": 216505,
+      "growth_window_beta": 0.24231465713085573,
+      "growth_window_ci": [
+        0.190531284404408,
+        0.29290031780332365
+      ],
+      "meakin_window1": {
+        "slope": 0.2173034502421116,
+        "se": 0.0002696835004423699
+      },
+      "meakin_window2": {
+        "slope": 0.16577921872541396,
+        "se": 0.0002532384744113998
+      },
+      "plateau_detected": false,
+      "beta_for_extrap": 0.24231465713085573,
+      "beta_err_for_extrap": 0.051184516699457824
+    },
+    "extrapolation": {
+      "beta_inf": 0.2458101985766149,
+      "beta_inf_err": 0.033369569232097974,
+      "fit_converged": true,
+      "c": 7.579858657126752e+32,
+      "omega": 20.608708244203054
+    }
+  },
+  "90": {
+    "50": {
+      "percentage": 90,
+      "L": 50,
+      "n_seeds": 10,
+      "min_trace_len": 17169,
+      "growth_window_beta": 0.3418463171484962,
+      "growth_window_ci": [
+        0.29360301711285586,
+        0.3876751224286357
+      ],
+      "meakin_window1": {
+        "slope": 0.4894748115386821,
+        "se": 0.0009217931259735301
+      },
+      "meakin_window2": {
+        "slope": 0.2876571838140943,
+        "se": 0.00045389955013901953
+      },
+      "plateau_beta": 0.5495772978228384,
+      "plateau_ci": [
+        0.5047786337435607,
+        0.5940064546333446
+      ],
+      "plateau_detected": true,
+      "beta_for_extrap": 0.3418463171484962,
+      "beta_err_for_extrap": 0.04703605265788993
+    },
+    "80": {
+      "percentage": 90,
+      "L": 80,
+      "n_seeds": 10,
+      "min_trace_len": 45322,
+      "growth_window_beta": 0.3127796606914627,
+      "growth_window_ci": [
+        0.24533585830413684,
+        0.3643583239240516
+      ],
+      "meakin_window1": {
+        "slope": 0.4223106024868632,
+        "se": 0.0008293162550621042
+      },
+      "meakin_window2": {
+        "slope": 0.23507959886579874,
+        "se": 0.0003818423851456072
+      },
+      "plateau_beta": 0.5524064616059551,
+      "plateau_ci": [
+        0.5080665990221154,
+        0.5902120522669154
+      ],
+      "plateau_detected": true,
+      "beta_for_extrap": 0.3127796606914627,
+      "beta_err_for_extrap": 0.059511232809957376
+    },
+    "100": {
+      "percentage": 90,
+      "L": 100,
+      "n_seeds": 10,
+      "min_trace_len": 69679,
+      "growth_window_beta": 0.3034962500427555,
+      "growth_window_ci": [
+        0.2467351279868574,
+        0.3455770879548466
+      ],
+      "meakin_window1": {
+        "slope": 0.36472335006486933,
+        "se": 0.0008157547912676024
+      },
+      "meakin_window2": {
+        "slope": 0.24607538993955427,
+        "se": 0.0002329279978961732
+      },
+      "plateau_detected": false,
+      "beta_for_extrap": 0.3034962500427555,
+      "beta_err_for_extrap": 0.0494209799839946
+    },
+    "150": {
+      "percentage": 90,
+      "L": 150,
+      "n_seeds": 10,
+      "min_trace_len": 158235,
+      "growth_window_beta": 0.31658633785483,
+      "growth_window_ci": [
+        0.283179014254775,
+        0.35190820146074664
+      ],
+      "meakin_window1": {
+        "slope": 0.36243569982173246,
+        "se": 0.00035716000304142874
+      },
+      "meakin_window2": {
+        "slope": 0.28863080211773695,
+        "se": 0.00012893766170179555
+      },
+      "plateau_beta": 0.5048037293100959,
+      "plateau_ci": [
+        0.47118404840047956,
+        0.53598951305098
+      ],
+      "plateau_detected": true,
+      "beta_for_extrap": 0.31658633785483,
+      "beta_err_for_extrap": 0.03436459360298583
+    },
+    "200": {
+      "percentage": 90,
+      "L": 200,
+      "n_seeds": 10,
+      "min_trace_len": 285309,
+      "growth_window_beta": 0.2571069935142772,
+      "growth_window_ci": [
+        0.21458755148697195,
+        0.29840806032232875
+      ],
+      "meakin_window1": {
+        "slope": 0.32339253787670624,
+        "se": 0.00022120031360658873
+      },
+      "meakin_window2": {
+        "slope": 0.24256877777681765,
+        "se": 0.00010448810935468162
+      },
+      "plateau_detected": false,
+      "beta_for_extrap": 0.2571069935142772,
+      "beta_err_for_extrap": 0.0419102544176784
+    },
+    "extrapolation": {
+      "beta_inf": 0.22233861644557223,
+      "beta_inf_err": 0.07967266119296738,
+      "fit_converged": true,
+      "c": 0.863946441192251,
+      "omega": 0.5
+    }
+  },
+  "95": {
+    "50": {
+      "percentage": 95,
+      "L": 50,
+      "n_seeds": 10,
+      "min_trace_len": 18632,
+      "growth_window_beta": 0.41145517876979176,
+      "growth_window_ci": [
+        0.371764490456434,
+        0.45036076947770787
+      ],
+      "meakin_window1": {
+        "slope": 0.5209166663151783,
+        "se": 0.0007754706803589183
+      },
+      "meakin_window2": {
+        "slope": 0.30840103180291734,
+        "se": 0.0003712952849952847
+      },
+      "plateau_detected": false,
+      "beta_for_extrap": 0.41145517876979176,
+      "beta_err_for_extrap": 0.03929813951063693
+    },
+    "80": {
+      "percentage": 95,
+      "L": 80,
+      "n_seeds": 10,
+      "min_trace_len": 48221,
+      "growth_window_beta": 0.35655790333844756,
+      "growth_window_ci": [
+        0.3190871568294251,
+        0.39386201093024886
+      ],
+      "meakin_window1": {
+        "slope": 0.4503366715368331,
+        "se": 0.0006349180593532189
+      },
+      "meakin_window2": {
+        "slope": 0.24690932873773405,
+        "se": 0.00035201407055847556
+      },
+      "plateau_detected": false,
+      "beta_for_extrap": 0.35655790333844756,
+      "beta_err_for_extrap": 0.03738742705041187
+    },
+    "100": {
+      "percentage": 95,
+      "L": 100,
+      "n_seeds": 10,
+      "min_trace_len": 75387,
+      "growth_window_beta": 0.34439482082621226,
+      "growth_window_ci": [
+        0.2888926005186187,
+        0.39073032687228665
+      ],
+      "meakin_window1": {
+        "slope": 0.43870932675709096,
+        "se": 0.0004406062214398475
+      },
+      "meakin_window2": {
+        "slope": 0.2651853217270644,
+        "se": 0.00016063499812593005
+      },
+      "plateau_detected": false,
+      "beta_for_extrap": 0.34439482082621226,
+      "beta_err_for_extrap": 0.05091886317683397
+    },
+    "150": {
+      "percentage": 95,
+      "L": 150,
+      "n_seeds": 10,
+      "min_trace_len": 172602,
+      "growth_window_beta": 0.330891804235373,
+      "growth_window_ci": [
+        0.31098813712970125,
+        0.352109976699043
+      ],
+      "meakin_window1": {
+        "slope": 0.43329989452834233,
+        "se": 0.0003562851081248225
+      },
+      "meakin_window2": {
+        "slope": 0.22754752805491885,
+        "se": 0.0001275479980072682
+      },
+      "plateau_beta": 0.5245035033974104,
+      "plateau_ci": [
+        0.49642264289046,
+        0.5503766173644155
+      ],
+      "plateau_detected": true,
+      "beta_for_extrap": 0.330891804235373,
+      "beta_err_for_extrap": 0.020560919784670867
+    },
+    "200": {
+      "percentage": 95,
+      "L": 200,
+      "n_seeds": 10,
+      "min_trace_len": 306164,
+      "growth_window_beta": 0.28493284238088684,
+      "growth_window_ci": [
+        0.24384344592041723,
+        0.32223022884209956
+      ],
+      "meakin_window1": {
+        "slope": 0.3925590329409939,
+        "se": 0.0002095848341276637
+      },
+      "meakin_window2": {
+        "slope": 0.23744177669813793,
+        "se": 0.00010836570050130435
+      },
+      "plateau_beta": 0.24476722353048985,
+      "plateau_ci": [
+        0.1631192314832508,
+        0.3188968376901503
+      ],
+      "plateau_detected": true,
+      "beta_for_extrap": 0.28493284238088684,
+      "beta_err_for_extrap": 0.039193391460841165
+    },
+    "extrapolation": {
+      "beta_inf": 0.20298222041481775,
+      "beta_inf_err": 0.06243782821283934,
+      "fit_converged": true,
+      "c": 1.4585307975370205,
+      "omega": 0.5
+    }
+  },
+  "98": {
+    "50": {
+      "percentage": 98,
+      "L": 50,
+      "n_seeds": 10,
+      "min_trace_len": 19636,
+      "growth_window_beta": 0.47191351330086345,
+      "growth_window_ci": [
+        0.4316652115668311,
+        0.5102409545916751
+      ],
+      "meakin_window1": {
+        "slope": 0.535855101135666,
+        "se": 0.0007061585294078872
+      },
+      "meakin_window2": {
+        "slope": 0.3825846426688735,
+        "se": 0.00029708784980205704
+      },
+      "plateau_detected": false,
+      "beta_for_extrap": 0.47191351330086345,
+      "beta_err_for_extrap": 0.039287871512421996
+    },
+    "80": {
+      "percentage": 98,
+      "L": 80,
+      "n_seeds": 10,
+      "min_trace_len": 52415,
+      "growth_window_beta": 0.4404183226066845,
+      "growth_window_ci": [
+        0.4031716578037095,
+        0.47628393054088203
+      ],
+      "meakin_window1": {
+        "slope": 0.48527816143912683,
+        "se": 0.00047316841699049524
+      },
+      "meakin_window2": {
+        "slope": 0.30093737169149465,
+        "se": 0.00024470452660411214
+      },
+      "plateau_detected": false,
+      "beta_for_extrap": 0.4404183226066845,
+      "beta_err_for_extrap": 0.03655613636858626
+    },
+    "100": {
+      "percentage": 98,
+      "L": 100,
+      "n_seeds": 10,
+      "min_trace_len": 80144,
+      "growth_window_beta": 0.4304788911489221,
+      "growth_window_ci": [
+        0.36326681313011233,
+        0.48057170989101167
+      ],
+      "meakin_window1": {
+        "slope": 0.5080769008864423,
+        "se": 0.00018122700922540167
+      },
+      "meakin_window2": {
+        "slope": 0.3021045292224602,
+        "se": 0.0001723664367594393
+      },
+      "plateau_beta": 0.5232071566937742,
+      "plateau_ci": [
+        0.49508431099558514,
+        0.5604929344430841
+      ],
+      "plateau_detected": true,
+      "beta_for_extrap": 0.4304788911489221,
+      "beta_err_for_extrap": 0.05865244838044967
+    },
+    "150": {
+      "percentage": 98,
+      "L": 150,
+      "n_seeds": 10,
+      "min_trace_len": 185058,
+      "growth_window_beta": 0.3796552710628776,
+      "growth_window_ci": [
+        0.3544372547871662,
+        0.3993456577327742
+      ],
+      "meakin_window1": {
+        "slope": 0.48350210506135666,
+        "se": 0.00023195558175261542
+      },
+      "meakin_window2": {
+        "slope": 0.2651320872046839,
+        "se": 0.00010143201271015252
+      },
+      "plateau_beta": 0.5091409121786434,
+      "plateau_ci": [
+        0.48410062980937046,
+        0.5330469050149231
+      ],
+      "plateau_detected": true,
+      "beta_for_extrap": 0.3796552710628776,
+      "beta_err_for_extrap": 0.022454201472803997
+    },
+    "200": {
+      "percentage": 98,
+      "L": 200,
+      "n_seeds": 10,
+      "min_trace_len": 327621,
+      "growth_window_beta": 0.3384977802527441,
+      "growth_window_ci": [
+        0.30696015632108953,
+        0.3678346472041517
+      ],
+      "meakin_window1": {
+        "slope": 0.46252217714526017,
+        "se": 0.0001300843905700221
+      },
+      "meakin_window2": {
+        "slope": 0.27775566583383937,
+        "se": 8.760222809791963e-05
+      },
+      "plateau_beta": 0.5149349587872591,
+      "plateau_ci": [
+        0.4832452898263054,
+        0.5431224349206386
+      ],
+      "plateau_detected": true,
+      "beta_for_extrap": 0.3384977802527441,
+      "beta_err_for_extrap": 0.03043724544153109
+    },
+    "extrapolation": {
+      "beta_inf": 0.22180143901855703,
+      "beta_inf_err": 0.05970215302539912,
+      "fit_converged": true,
+      "c": 1.8646574916563177,
+      "omega": 0.5
+    }
+  },
+  "99": {
+    "50": {
+      "percentage": 99,
+      "L": 50,
+      "n_seeds": 10,
+      "min_trace_len": 20703,
+      "growth_window_beta": 0.5034709717030201,
+      "growth_window_ci": [
+        0.4622293335665169,
+        0.5424622869104886
+      ],
+      "meakin_window1": {
+        "slope": 0.5338439342137988,
+        "se": 0.000575541573395463
+      },
+      "meakin_window2": {
+        "slope": 0.46048862606096264,
+        "se": 0.00028501002993530503
+      },
+      "plateau_beta": 0.4718657599895449,
+      "plateau_ci": [
+        0.40779734810829116,
+        0.5433909983357793
+      ],
+      "plateau_detected": true,
+      "beta_for_extrap": 0.5034709717030201,
+      "beta_err_for_extrap": 0.04011647667198584
+    },
+    "80": {
+      "percentage": 99,
+      "L": 80,
+      "n_seeds": 10,
+      "min_trace_len": 53309,
+      "growth_window_beta": 0.4934377858590874,
+      "growth_window_ci": [
+        0.4620012804956062,
+        0.5262363836621432
+      ],
+      "meakin_window1": {
+        "slope": 0.4887328943708842,
+        "se": 0.00036520397459684597
+      },
+      "meakin_window2": {
+        "slope": 0.4050484429568289,
+        "se": 0.00021482753052175628
+      },
+      "plateau_beta": 0.521144225401897,
+      "plateau_ci": [
+        0.49004167580408564,
+        0.5570732734594757
+      ],
+      "plateau_detected": true,
+      "beta_for_extrap": 0.4934377858590874,
+      "beta_err_for_extrap": 0.03211755158326851
+    },
+    "100": {
+      "percentage": 99,
+      "L": 100,
+      "n_seeds": 10,
+      "min_trace_len": 82930,
+      "growth_window_beta": 0.4855720942516244,
+      "growth_window_ci": [
+        0.44581229009846546,
+        0.5212801258656627
+      ],
+      "meakin_window1": {
+        "slope": 0.5125453480633068,
+        "se": 0.0001787255148158324
+      },
+      "meakin_window2": {
+        "slope": 0.3716706794122188,
+        "se": 0.00021777624251405285
+      },
+      "plateau_beta": 0.5196661446396091,
+      "plateau_ci": [
+        0.4967737872936695,
+        0.5441600316856033
+      ],
+      "plateau_detected": true,
+      "beta_for_extrap": 0.4855720942516244,
+      "beta_err_for_extrap": 0.037733917883598644
+    },
+    "150": {
+      "percentage": 99,
+      "L": 150,
+      "n_seeds": 10,
+      "min_trace_len": 191627,
+      "growth_window_beta": 0.4342406101885117,
+      "growth_window_ci": [
+        0.41891807555600113,
+        0.45032674588145544
+      ],
+      "meakin_window1": {
+        "slope": 0.5074956125893945,
+        "se": 0.00012897729702424134
+      },
+      "meakin_window2": {
+        "slope": 0.2970008095861148,
+        "se": 0.00015351352420952554
+      },
+      "plateau_beta": 0.5033809462728646,
+      "plateau_ci": [
+        0.4811024532204495,
+        0.5258435654454883
+      ],
+      "plateau_detected": true,
+      "beta_for_extrap": 0.4342406101885117,
+      "beta_err_for_extrap": 0.01570433516272715
+    },
+    "200": {
+      "percentage": 99,
+      "L": 200,
+      "n_seeds": 10,
+      "min_trace_len": 345105,
+      "growth_window_beta": 0.39483407242109314,
+      "growth_window_ci": [
+        0.37376674794448295,
+        0.4193988586270532
+      ],
+      "meakin_window1": {
+        "slope": 0.498514339744916,
+        "se": 7.230737547324845e-05
+      },
+      "meakin_window2": {
+        "slope": 0.3212246932898771,
+        "se": 7.45680444956354e-05
+      },
+      "plateau_beta": 0.5055302981824448,
+      "plateau_ci": [
+        0.47346149811632726,
+        0.529717409716084
+      ],
+      "plateau_detected": true,
+      "beta_for_extrap": 0.39483407242109314,
+      "beta_err_for_extrap": 0.022816055341285113
+    },
+    "extrapolation": {
+      "beta_inf": 0.29093165531359205,
+      "beta_inf_err": 0.051111257755972014,
+      "fit_converged": true,
+      "c": 1.6986165260927886,
+      "omega": 0.5
+    }
+  }
+}
