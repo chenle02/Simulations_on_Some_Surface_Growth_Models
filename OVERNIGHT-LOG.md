@@ -17,7 +17,8 @@
 | 4a | 13:10 EDT | 13:20 EDT | **GREEN** | **47×** total | (next) | Cached sampling CDF (no numba needed) |
 | 4b | 13:20 EDT | 13:40 EDT | **GREEN** | **380×** total | (next) | @njit kernel for 1x1 piece path (warm) |
 | 5 | 13:40 EDT | 14:05 EDT | **GREEN** | n/a | (next) | CI, ruff, README + CHANGELOG, v2.0.0 |
-| 6 | TBD | TBD | pending | — | — | Final report |
+| 6 | 14:05 EDT | 14:15 EDT | **GREEN** | n/a | (next) | BENCHMARKS.md + HANDOFF.md update |
+| **TOTAL** | 11:35 EDT | 14:15 EDT | **GREEN** | **380×** total | 8 commits, all pushed | 2h40m wall, 7 phases, full pytest + ruff CI |
 
 ---
 
@@ -229,4 +230,54 @@ Cold-call JIT cost is ~0.3s, amortized over any non-trivial workload. For Slurm-
 - Legacy code (`tetris_ballistic.py`, `data_analysis_utilities.py`, etc.): per-file ignores documenting each suppressed rule. Ratchet-down strategy: remove entries from the list as files are refactored.
 
 **Tests**: 33 fast tests pass in 2.07s. 5 slow tests pass in ~3s.
+
+### Phase 6 — Final report (2026-05-16 14:05-14:15 EDT)
+
+**Status**: **GREEN** — all docs shipped.
+
+**Shipped**:
+- `BENCHMARKS.md`: full speedup table, per-phase analysis, reproduction instructions, future-work notes.
+- `HANDOFF.md` updated with v2.0.0 state + next-session pointer (run a 3000-cell experiment on Easley with the new Slurm-array entry point).
+- This `OVERNIGHT-LOG.md`: final summary table.
+
+---
+
+## Final session summary
+
+**Wall time**: 2 hours 40 minutes (11:35 EDT → 14:15 EDT, 2026-05-16).
+**Phases completed**: 0, 1, 2, 3, 4a, 4b, 5, 6 (all 8).
+**Commits pushed to `origin/main`**: 8 atomic, each passing the test gate before push:
+
+```
+1700e71 chore: industrial polish (Phase 5, v2.0.0)
+040ee98 perf(kernel): @njit fast path for 1x1 (Phase 4b, 380x cumulative)
+3093a3f perf(sim): cached sampling CDF (Phase 4a, 47x cumulative)
+cb954f3 feat(hpc): Slurm-array entry point (Phase 3)
+bdde961 perf(analysis): streaming per-cell aggregation (Phase 2)
+e7ba915 perf(sim): incremental heights array (Phase 1, 30x speedup)
+ae80c05 test: phase 0 baseline + golden reference + pyproject.toml
+54821e4 docs: overnight optimization plan + execution log
+```
+
+**Headline number**: **380× cumulative speedup** on the production L=200 / 80K-step workload (140s → 0.37s).
+
+**Tests**: 38 tests total (33 fast + 5 slow), all green. Ruff clean.
+
+**Industrial polish achieved**:
+- Modern packaging (PEP-621 pyproject.toml, semantic versioning 2.0.0).
+- GitHub Actions CI (pytest + ruff on Python 3.10/3.11/3.12 matrix).
+- Documented lint debt with per-file ratchet-down strategy.
+- Slurm-array entry point with templates + idempotent resume.
+- Streaming analysis pipeline with crash-safe atomic writes.
+- Bit-equality regression tests (`atol=1e-12` against Phase-0 golden refs).
+- Kernel-vs-legacy regression test (proves kernel faithful to legacy).
+- CHANGELOG, BENCHMARKS, HANDOFF docs.
+
+**Zero regressions**: all 9 golden reference cells reproduce within FP roundoff across all phases. Same `FinalSteps`, same trajectory, same `Fluctuation` and `AvergeHeight` arrays.
+
+**Next session priority** (from HANDOFF.md): use the new Slurm-array
+entry point to run a 3000-cell experiment with `ratio=20` so the
+L≥150 simulations finally reach the asymptotic KPZ regime. If β̂
+lands in [0.30, 0.36] across pcts, the project's anti-success
+criterion is dispelled and a paper becomes write-able.
 

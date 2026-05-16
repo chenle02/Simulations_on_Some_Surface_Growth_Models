@@ -1,6 +1,6 @@
 # HANDOFF
 
-**Last updated**: 2026-05-16 09:45 (closing session: methodology module implemented + first analysis pass complete)
+**Last updated**: 2026-05-16 14:10 EDT (closing overnight session: industrial-grade v2.0.0 with ~380× speedup)
 **Project**: Robust KPZ slope extraction for Tetromino ballistic deposition
 **Wiki page (authoritative strategy)**: `~/Dropbox/workspace/svn/SPDEs-wiki/content/projects/tetris-kpz-slope-extraction.md`
 
@@ -18,11 +18,53 @@ Then, in OpenCode, type:
 /load-handoff
 ```
 
-**The immediate next step**: The methodology module and first analysis pass are done. Two options:
+**Current state**: tetris_ballistic v2.0.0 with 380× speedup on the
+production workload. All four optimization paths (incremental heights,
+cached CDF, numba kernel, Slurm-array) shipped, tested, pushed to
+`origin/main`. CI configured. See `BENCHMARKS.md` for the full table.
 
-1. **(Higher priority)** **Run longer simulations** for L=150, 200 (current runs saturate before reaching the KPZ asymptotic regime — need `height=3000` or higher so h̄_max >> L^{3/2}). Then re-run `run_kpz_analysis.py` on the new data.
+**The immediate next step** (high-impact, now feasible):
 
-2. **(Alternative)** **Tune the correction-to-scaling model**: fit ω as a free parameter instead of fixing at 0.5. May require adding a 2nd-order correction term (Pagnani-Parisi 2013). Or exclude L=200 from the extrapolation and report per-cell β̂ values directly.
+**Run a real 10K-cell experiment on Easley using the Slurm-array
+entry point.** The unblocking question for the KPZ slope-extraction
+project (per the wiki page) is whether the L=200 simulations reach
+the asymptotic KPZ regime if we run them long enough. Now we can:
+
+1. Copy templates to a new exp dir:
+   ```bash
+   mkdir -p experiments/exp14
+   cp experiments/templates/grid.yaml experiments/exp14/
+   cp experiments/templates/job_array.slurm experiments/exp14/
+   ```
+
+2. Edit `experiments/exp14/grid.yaml` to bump the simulation depth:
+   ```yaml
+   piece_config: piece_19_combined_percentage
+   pcts:    [5, 50, 90, 95, 98, 99]
+   widths:  [50, 80, 100, 150, 200]
+   seeds:   [0, 10, 20, ..., 990]    # 100 seeds (was 10)
+   ratio:   20                        # was 10 — DOUBLES sim depth
+   ```
+   Total: 6 × 5 × 100 = 3000 cells. With v2.0.0 numba kernel,
+   ~150 seconds per cell at L=200 → 30 wall-hours at 50-way parallel,
+   so easily fits in a 4-hour-per-task Slurm budget.
+
+3. Edit `experiments/exp14/job_array.slurm`:
+   ```
+   #SBATCH --array=0-2999%50
+   #SBATCH --time=04:00:00
+   ```
+
+4. SSH to Easley (use `ssh-controlmaster-duo` skill), git pull, sbatch.
+
+5. After the array finishes:
+   ```bash
+   python -m tetris_ballistic.scripts.run_kpz_analysis \
+       --exp-dir experiments/exp14/results
+   ```
+
+If the L=200 β̂ now falls in [0.30, 0.36] (matching KPZ), the project's
+Phase-1 anti-success-criterion is dispelled and we can write the paper.
 
 ---
 
@@ -52,6 +94,7 @@ It contains:
 - **(2026-05-16)** **`tetris_ballistic/kpz_analysis.py`** — 7-function methodology module (~400 lines): `load_ensemble`, `truncate_to_common_length`, `growth_window_slope`, `local_slope_bootstrap`, `detect_plateau`, `meakin_range_of_fit`, `extrapolate_to_infinity`
 - **(2026-05-16)** **`experiments/exp13/run_kpz_analysis.py`** — runner script. Produces 6 local-slope plots, 6 multi-L extrapolation plots, and `results.json`
 - **(2026-05-16)** **First analysis pass results**: Per-cell growth-window β̂ for pct=90% is consistent with KPZ β=1/3 at L=50–150 (β̂ ∈ [0.30, 0.34]). L=200 underestimates (h̄_max < L^{3/2} → hasn't reached asymptotic regime). Multi-L extrapolation gives β∞=0.22±0.08 for pct=90% and β∞=0.29±0.05 for pct=99%, both below 1/3 but approaching it. **Diagnosis**: simulations need longer runs (higher domain ceiling) for L≥150.
+- **(2026-05-16 overnight, v2.0.0)** **~380× simulation speedup** + Slurm-array HPC entry point + streaming KPZ analysis + pytest CI + ruff lint + CHANGELOG/BENCHMARKS docs. Commits: `ae80c05` (Phase 0 baseline+tests), `e7ba915` (Phase 1: 30×), `bdde961` (Phase 2: streaming), `cb954f3` (Phase 3: Slurm-array), `3093a3f` (Phase 4a: 47×), `040ee98` (Phase 4b: 380×), `1700e71` (Phase 5: industrial polish). See `BENCHMARKS.md` for the full table. **Most importantly**: L=200 simulations that took 140 seconds each now take 0.4 seconds — what was a 63-hour exp13 sweep can now run in **10 minutes**, and exp14 (3000 cells with deeper sims) is feasible overnight on a single Slurm node.
 
 ---
 
@@ -156,11 +199,11 @@ Each of these is a separate session; update HANDOFF.md at session end to point a
 ## Repo & git state at handoff
 
 ```
-sim-repo               HEAD: (uncommitted — kpz_analysis.py + run_kpz_analysis.py + outputs)
-SPDEs-wiki             HEAD: b6a77de3 project(tetris-kpz-slope): document exp13 joblib data layout
+sim-repo               HEAD: 1700e71 chore: industrial polish (Phase 5, v2.0.0)   [PUSHED]
+SPDEs-wiki             HEAD: 1662e832 project(tetris-kpz-slope): methodology module shipped
 refdb                  HEAD: 302fa0a5 Add 11 references for Tetris-KPZ-slope-extraction project
 All_PDFs               HEAD: dae9e3f Add Family-Vicsek 1991 Dynamics of Fractal Surfaces
-Le-AI-Lab              HEAD: 02950a3 docs(skills): add IMAP filing checkpoints
+Le-AI-Lab              HEAD: 3339b2b feat(skills): add 2 skills from Tetris-KPZ session retro
 ```
 
 All five repos clean (0 dirty files) at handoff.
