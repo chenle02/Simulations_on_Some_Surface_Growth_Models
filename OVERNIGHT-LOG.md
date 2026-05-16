@@ -15,7 +15,7 @@
 | 2 | 12:30 EDT | 12:45 EDT | **GREEN** | n/a (memory) | (next) | Streaming per-cell JSON + resume + atomic writes |
 | 3 | 12:45 EDT | 13:10 EDT | **GREEN** | n/a (HPC) | (next) | run_one_cell + grid.yaml + job_array.slurm + 12 tests |
 | 4a | 13:10 EDT | 13:20 EDT | **GREEN** | **47×** total | (next) | Cached sampling CDF (no numba needed) |
-| 4b | TBD | TBD | pending | — | — | @njit kernel for 1x1 piece path |
+| 4b | 13:20 EDT | 13:40 EDT | **GREEN** | **380×** total | (next) | @njit kernel for 1x1 piece path (warm) |
 | 5 | TBD | TBD | pending | — | — | Industrial polish |
 | 6 | TBD | TBD | pending | — | — | Final report |
 
@@ -169,4 +169,47 @@ The steps/sec dropping with L is the smoking-gun confirmation that `_UpdateStatu
 Wall-clock for the large config: 140s → 2.98s.
 
 All 30 fast tests + 3 slow tests pass.
+
+### Phase 4b — @njit kernel for 1x1 fast path (2026-05-16 13:20-13:40 EDT)
+
+**Status**: **GREEN** — 380× warm speedup, bit-equality preserved within FP roundoff.
+
+**Scope decision**: kernel handles ONLY the piece_19-only configuration (the exp13 setup). For mixed-piece configurations the orchestrator transparently falls back to the legacy Python dispatch. Extending to all 8 piece types is a multi-day project; scoping to 1x1 captures the entire exp13 workload at a fraction of the engineering risk.
+
+**Architecture**:
+- `tetris_ballistic/_kernel_1x1.py`: `@njit(cache=True)` kernel that takes pre-generated `positions` + `sticky_flags` arrays and runs the full 1x1 simulation loop in C-level numba. Includes inline `_surface_row` semantics + heights update + std/mean computation (all kept in C-loop form so the kernel never re-enters Python).
+- `is_1x1_only(config_data)`: detection helper.
+- `Tetris_Ballistic.Simulate`: dispatches to `_simulate_1x1_kernel` orchestrator when `is_1x1_only` is True, else legacy path.
+- `_simulate_1x1_kernel`: orchestrator that pre-generates the (positions, sticky_flags) arrays using the SAME RNG sequence the legacy code would consume, then calls the JIT kernel. This preserves bit-equality.
+- Environment variable kill switch: `TETRIS_USE_KERNEL=0` forces the legacy path (for audit / debug).
+
+**RNG contract** (the trickiest design decision):
+- Legacy: `Sample_Tetris` calls `np.random.random()` (via `np.searchsorted` after Phase 4a) → derives sticky_flag from `sample_index % 2`. Then `Update_1x1` calls `random.randint(0, width-1)` (stdlib) for position. The kernel must consume the same RNG draws in the same order.
+- Implementation: the orchestrator loop generates `np.random.random()` AND `random.randint(0, width-1)` for each step UPFRONT (interleaved exactly as legacy would), packs them into two arrays, then calls the kernel. No RNG draws happen inside the kernel — `@njit` doesn't even see `random` or `np.random`.
+
+**Benchmark — warm (JIT amortized via small pre-run)**:
+
+| Config        | Phase 0 | Phase 4b warm | Cumulative |
+|---------------|---------|---------------|------------|
+| small  (L=50) |   1,239 |  **105,148**  |    **85×** |
+| medium (L=100)|     652 |  **118,940**  |   **182×** |
+| large  (L=200)|     307 |  **116,576**  |   **380×** |
+
+Wall-clock for large: 140s → 0.37s. Steps/sec is flat across L at ~115K — same as Phase 1 (flat) but at a 12× higher absolute throughput.
+
+**Benchmark — cold (subprocess, includes JIT compile)**:
+
+| Config        | Cold steps/s | Speedup |
+|---------------|--------------|---------|
+| small  (L=50) |  6,150       |  5×     |
+| medium (L=100)| 110,403      | 169×    |
+| large  (L=200)| 113,573      | 370×    |
+
+Cold-call JIT cost is ~0.3s, amortized over any non-trivial workload. For Slurm-array tasks running one big simulation, cold = warm essentially.
+
+**Test outcomes**:
+- All 30 fast tests + 3 slow tests pass.
+- Fast suite: 4.11s → **1.83s** (2.2× faster gate).
+- Slow suite: 10.6s → **2.82s** (3.8× faster).
+- Bit-equality preserved at `atol=1e-12` (the same FP-roundoff bound established in Phase 1).
 

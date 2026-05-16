@@ -574,6 +574,27 @@ class Tetris_Ballistic:
             None
         """
         self.reset()
+
+        # Phase 4b fast path: numba-JIT kernel for piece_19-only configurations
+        # (the exp13 setup). The kernel matches the legacy semantics
+        # bit-for-bit at atol=1e-12 (FP roundoff from np.std vs hand-rolled sum).
+        # Enable via TETRIS_USE_KERNEL=1 (default on); disable with
+        # TETRIS_USE_KERNEL=0 for the legacy dispatch path (audit / debug).
+        if os.environ.get("TETRIS_USE_KERNEL", "1") != "0":
+            try:
+                from tetris_ballistic._kernel_1x1 import (
+                    is_1x1_only, simulate_1x1_kernel,
+                )
+            except ImportError:
+                is_1x1_only = None
+            if is_1x1_only is not None and is_1x1_only(self.config_data):
+                self._simulate_1x1_kernel()
+                if compute_slope:
+                    self.ComputeSlope()
+                self.PrintStatus(brief=True)
+                return
+
+        # Legacy dispatch path (general multi-piece configurations).
         i = 0
         while i < self.steps:
             Update, *_ = self.Sample_Tetris()
@@ -588,6 +609,49 @@ class Tetris_Ballistic:
             self.ComputeSlope()
 
         self.PrintStatus(brief=True)
+
+    def _simulate_1x1_kernel(self):
+        """Numba-kernel orchestrator for 1x1-only configurations (Phase 4b).
+
+        Pre-generates the (positions, sticky_flags) arrays from the same
+        RNG sequence the legacy ``Sample_Tetris`` + ``Update_1x1`` would
+        consume, then calls the JIT kernel. The kernel mutates
+        ``self.substrate`` and ``self.heights`` in place; we copy out
+        ``Fluctuation`` and ``AvergeHeight`` afterwards.
+        """
+        from tetris_ballistic._kernel_1x1 import simulate_1x1_kernel
+        steps = self.steps
+        cdf = self._sample_cdf
+
+        positions = np.empty(steps, dtype=np.int64)
+        sticky_flags = np.empty(steps, dtype=np.bool_)
+        for i in range(steps):
+            u = np.random.random()
+            idx = int(np.searchsorted(cdf, u, side="right"))
+            if idx >= 40:
+                idx = 39
+            sticky_flags[i] = (idx % 2) == 1
+            positions[i] = random.randint(0, self.width - 1)
+            piece_id = idx // 2
+            column = idx % 2
+            self.SampleDist[piece_id, column] += 1
+
+        substrate_64 = self.substrate.astype(np.int64, copy=False)
+        if substrate_64 is not self.substrate:
+            self.substrate = substrate_64
+        heights = self.heights
+
+        fluct, avg, final_steps = simulate_1x1_kernel(
+            self.width, self.height, steps,
+            positions, sticky_flags, substrate_64, heights,
+        )
+        self.Fluctuation = fluct
+        self.AvergeHeight = avg
+        self.FinalSteps = final_steps
+        if final_steps < steps:
+            print("Game Over, reach the top")
+            self.Fluctuation = self.Fluctuation[:final_steps]
+            self.AvergeHeight = self.AvergeHeight[:final_steps]
 
     def _surface_row(self, column):
         """O(1) replacement for ``_ffnz``: row of the topmost occupied cell.

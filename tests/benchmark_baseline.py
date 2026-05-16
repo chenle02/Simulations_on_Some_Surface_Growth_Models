@@ -36,8 +36,13 @@ PCT = 50
 SEED = 42
 
 
-def time_one(width: int, height: int, steps: int) -> dict:
+def time_one(width: int, height: int, steps: int, warmup: bool = True) -> dict:
+    """Time one simulation. If warmup=True, run a tiny simulation first
+    so any JIT compilation cost (Phase 4b kernel) is amortized."""
     density = build_density_for_piece_19_combined(PCT)
+    if warmup:
+        warm = Tetris_Ballistic(width=10, height=20, steps=50, seed=0, density=density)
+        warm.Simulate()
     t0 = time.perf_counter()
     tb = Tetris_Ballistic(
         width=width, height=height, steps=steps, seed=SEED, density=density

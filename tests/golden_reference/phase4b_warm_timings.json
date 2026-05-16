@@ -1,0 +1,29 @@
+{
+  "label": "phase4b_warm",
+  "configs": {
+    "small": {
+      "width": 50,
+      "height": 100,
+      "steps_requested": 5000,
+      "steps_executed": 2498,
+      "elapsed_seconds": 0.0237569329328835,
+      "steps_per_second": 105148.25323021211
+    },
+    "medium": {
+      "width": 100,
+      "height": 200,
+      "steps_requested": 20000,
+      "steps_executed": 10878,
+      "elapsed_seconds": 0.09145822515711188,
+      "steps_per_second": 118939.54842566847
+    },
+    "large": {
+      "width": 200,
+      "height": 400,
+      "steps_requested": 80000,
+      "steps_executed": 43064,
+      "elapsed_seconds": 0.36940767988562584,
+      "steps_per_second": 116575.81134570148
+    }
+  }
+}
