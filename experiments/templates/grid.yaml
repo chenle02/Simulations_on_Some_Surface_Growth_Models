@@ -1,0 +1,20 @@
+# Template grid spec for tetris-ballistic Slurm-array experiments.
+#
+# Copy this file into your experiment dir (e.g. experiments/exp14/grid.yaml)
+# and edit the parameter lists. The total task count is
+#   len(pcts) * len(widths) * len(seeds)
+# Use that as the upper bound of --array=0-(N-1) in job_array.slurm.
+#
+# Iteration order (decode_task_id): pct outermost, then L, then seed innermost.
+# Consecutive task IDs share the same (pct, L) ensemble.
+
+piece_config: piece_19_combined_percentage  # supported templates (see run_one_cell.build_density)
+pcts:    [5, 50, 90, 95, 98, 99]            # 6 sticky-fraction values
+widths:  [50, 80, 100, 150, 200]            # 5 strip widths
+seeds:   [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]  # 10 RNG seeds
+ratio:   10                                  # height = L * ratio, steps = ratio * L * L
+
+# Total: 6 * 5 * 10 = 300 cells → use --array=0-299
+#
+# To scale up: just expand seeds to {0, 10, ..., 990} for 100 seeds (3000 cells)
+# or expand widths/pcts. The Slurm-array fans out automatically.

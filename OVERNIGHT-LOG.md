@@ -13,7 +13,7 @@
 | 0 | 11:35 EDT | 11:55 EDT | **GREEN** | n/a | 54821e4 + (next) | 9 golden refs, 12 fast tests pass, baseline locked |
 | 1 | 11:55 EDT | 12:30 EDT | **GREEN** | **30.2×** on large | (next) | Incremental heights; bit-equality at atol=1e-12 (FP roundoff only) |
 | 2 | 12:30 EDT | 12:45 EDT | **GREEN** | n/a (memory) | (next) | Streaming per-cell JSON + resume + atomic writes |
-| 3 | TBD | TBD | pending | — | — | Slurm array |
+| 3 | 12:45 EDT | 13:10 EDT | **GREEN** | n/a (HPC) | (next) | run_one_cell + grid.yaml + job_array.slurm + 12 tests |
 | 4 | TBD | TBD | pending | — | — | Numba kernel |
 | 5 | TBD | TBD | pending | — | — | Industrial polish |
 | 6 | TBD | TBD | pending | — | — | Final report |
@@ -107,4 +107,31 @@ The steps/sec dropping with L is the smoking-gun confirmation that `_UpdateStatu
 - aggregate handles multi-pct
 - aggregate ignores per-cell files (only per_pct)
 - atomic write overwrites existing
+
+### Phase 3 — Slurm-array entry point (2026-05-16 12:45-13:10 EDT)
+
+**Status**: **GREEN** — 12 tests (10 fast + 2 slow e2e), Slurm template parses.
+
+**What shipped**:
+- `tetris_ballistic/scripts/run_one_cell.py`: argparse-driven single-cell runner with `--task-id` for Slurm-array, `--list-grid` for inspection, `--flat-output` for legacy compatibility.
+- `experiments/templates/grid.yaml`: documented template with iteration-order spec.
+- `experiments/templates/job_array.slurm`: complete Auburn-Easley-targeted Slurm submission script.
+
+**Key design choices**:
+- Iteration order = **pct outermost, seed innermost**. Consecutive task IDs share the same (pct, L) ensemble, so a small `--array=0-9` gives one complete 10-seed ensemble (useful for quick smoke tests on the cluster).
+- Output layout: hierarchical `pct_NN/L_LLLL/seed_SSS.joblib` (avoids the 10K-files-in-one-dir filesystem-metadata pressure that bit exp13).
+- `--flat-output` preserves the legacy `config_*_w=*_seed=*.joblib` flat layout for back-compat.
+- Idempotent: re-running an existing cell is a no-op. Safe for Slurm preemption / re-queue.
+- Atomic writes via `.tmp + rename` pattern (same as Phase 2).
+
+**Verification**:
+- Local 3-task dry-run produced 3 joblib + 3 yaml files in the expected layout.
+- `bash -n job_array.slurm` clean.
+- `test_run_cell_consistent_with_direct_construction` proves the runner wraps `Tetris_Ballistic.Simulate()` without drift (bit-identical Fluctuation + AvergeHeight to direct construction).
+
+**Tests added** (`tests/test_run_one_cell.py`, 12 tests):
+- Fast (10 tests, 1.22 s): grid spec parsing, decode_task_id (worked-example regression test), build_density for known + unknown configs, path layout (hierarchical + flat).
+- Slow (2 tests, 1.45 s): e2e cell run + idempotent re-run; bit-equality vs direct construction.
+
+**Bug found + fixed during testing**: my initial test assumed `Fluctuation.shape == (steps,)` always; in reality `Simulate()` trims the array to `FinalSteps` on early game-over. Test updated to accept either shape.
 
