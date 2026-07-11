@@ -1,6 +1,6 @@
 # HANDOFF
 
-**Last updated**: 2026-05-16 14:10 EDT (closing overnight session: industrial-grade v2.0.0 with ~380× speedup)
+**Last updated**: 2026-07-11 (status refresh + robust-plan revision: crossover finding + estimator time-axis bug diagnosed)
 **Project**: Robust KPZ slope extraction for Tetromino ballistic deposition
 **Wiki page (authoritative strategy)**: `~/Dropbox/workspace/svn/SPDEs-wiki/content/projects/tetris-kpz-slope-extraction.md`
 
@@ -18,17 +18,37 @@ Then, in OpenCode, type:
 /load-handoff
 ```
 
-**Current state**: tetris_ballistic v2.0.0 with 380× speedup on the
-production workload. All four optimization paths (incremental heights,
-cached CDF, numba kernel, Slurm-array) shipped, tested, pushed to
-`origin/main`. CI configured. See `BENCHMARKS.md` for the full table.
+**Current state**: tetris_ballistic v2.0.0, `main` @ `d4e094d`, clean, pushed.
+380× numba speedup + Slurm-array infra all present. The 2026-07-11 recon
+found the project's real story and a concrete estimator bug — read the
+wiki §"Findings 2026-07-11" and §"Robust slope-extraction plan" first.
 
-**The immediate next step** (high-impact, now feasible):
+**THREE findings that change the plan** (details on the wiki page):
+1. **The `pct` (nonstick %) is a KPZ↔EW crossover knob.** Measured vs $\bar h$
+   (deposited height), $\hat\beta$ runs 0.19→0.23(EW=¼)→0.33(KPZ=⅓)→0.48 across
+   pct 5→99. The paper is a *universality-crossover* result, not "measure ⅓".
+2. **Estimator time-axis bug.** `growth_window_slope()` windows in $\bar h$ but
+   regresses against **step-count**; the step-axis plateau detector locks onto
+   the transient $\hat\beta\approx0.54$. Family–Vicsek $W\sim t^\beta$ uses
+   $t=\bar h$ (deposited layers), NOT deposition-step count. On the $\bar h$ axis
+   the data already give clean ~⅓.
+3. **No $L\ge100$ cell saturates** at `ratio=10` ($\bar h_{\max}\approx10L<L^{3/2}$),
+   so the $L=200$ undershoot is a saturation artifact and the $\alpha$/$W_{\rm sat}$
+   route is unavailable. On-disk `results.json` is a pct=90-only, $L\in\{100,200\}$
+   PARTIAL — not the full 300-file sweep.
 
-**Run a real 10K-cell experiment on Easley using the Slurm-array
-entry point.** The unblocking question for the KPZ slope-extraction
-project (per the wiki page) is whether the L=200 simulations reach
-the asymptotic KPZ regime if we run them long enough. Now we can:
+**Immediate next step — Step A (do FIRST, on existing exp13, NO new sims):**
+Fix `tetris_ballistic/kpz_analysis.py` so **every** estimator uses $\log\bar h$
+as the independent variable (not step index): `growth_window_slope`,
+`local_slope_bootstrap`, `detect_plateau`. Keep `meakin_range_of_fit` (already
+$\bar h$-based) as the cross-check. Then re-run the full sweep locally
+(all 300 files, all 6 pcts × 5 L) and produce the crossover curve
+$\beta_\infty(\text{pct})$. This alone likely yields a clean EW→KPZ crossover
+figure from data we already have.
+
+**Then — Step D — deeper Easley run (Exp14)** to settle the high-pct
+$\beta>⅓$ steepening, enable the free-$\omega$ corrections fit, and unlock
+$\alpha$-scaling + Tracy–Widom class checks:
 
 1. Copy templates to a new exp dir:
    ```bash
@@ -37,34 +57,38 @@ the asymptotic KPZ regime if we run them long enough. Now we can:
    cp experiments/templates/job_array.slurm experiments/exp14/
    ```
 
-2. Edit `experiments/exp14/grid.yaml` to bump the simulation depth:
+2. Edit `experiments/exp14/grid.yaml` for guaranteed saturation + tight CIs:
    ```yaml
    piece_config: piece_19_combined_percentage
    pcts:    [5, 50, 90, 95, 98, 99]
-   widths:  [50, 80, 100, 150, 200]
-   seeds:   [0, 10, 20, ..., 990]    # 100 seeds (was 10)
-   ratio:   20                        # was 10 — DOUBLES sim depth
+   widths:  [50, 80, 100, 150, 200, 300]  # +300 for a 4th large-L corrections point
+   seeds:   [0, 10, 20, ..., 990]          # 100 seeds (was 10)
+   ratio:   30                              # h̄_max ≈ 3·L^{3/2} → clean saturation for all L
    ```
-   Total: 6 × 5 × 100 = 3000 cells. With v2.0.0 numba kernel,
-   ~150 seconds per cell at L=200 → 30 wall-hours at 50-way parallel,
-   so easily fits in a 4-hour-per-task Slurm budget.
+   Total: 6 × 6 × 100 = 3600 cells. At ~0.4 s/cell warm, trivial at 100-way parallel.
 
 3. Edit `experiments/exp14/job_array.slurm`:
    ```
-   #SBATCH --array=0-2999%50
-   #SBATCH --time=04:00:00
+   #SBATCH --array=0-3599%100
+   #SBATCH --time=08:00:00
    ```
+   Prefer TWO arrays (Dept `abebeas_std,mathdep_bg2` + Nova `nova_long`)
+   splitting the index range — hybrid Dept+Nova pattern (`slurm-array-fan-out`).
 
-4. SSH to Easley (use `ssh-controlmaster-duo` skill), git pull, sbatch.
+4. `ssh Easley` (VPN+Duo; ControlMaster = one Duo/8h). Code in `/home/lzc0090`,
+   `results/` in `/scratch/lzc0090` (30-day purge → rsync back promptly).
+   `module load python/anaconda/3.12.7`; `pip install -e '.[hpc]'`. git pull, sbatch.
 
-5. After the array finishes:
+5. After the array finishes (chain with `--dependency=afterany:$JID`, NOT afterok):
    ```bash
    python -m tetris_ballistic.scripts.run_kpz_analysis \
        --exp-dir experiments/exp14/results
    ```
+   Then rsync results back. Note: `experiments/exp**/*.joblib` is **gitignored**
+   (raw data local-only; only results.json + plots are tracked).
 
-If the L=200 β̂ now falls in [0.30, 0.36] (matching KPZ), the project's
-Phase-1 anti-success-criterion is dispelled and we can write the paper.
+**Easley acknowledgment** for any resulting paper:
+*"This work was completed in part with resources provided by the Auburn University Easley Cluster."*
 
 ---
 
@@ -196,14 +220,19 @@ Each of these is a separate session; update HANDOFF.md at session end to point a
 
 ---
 
-## Repo & git state at handoff
+## Repo & git state at handoff (2026-07-11)
 
 ```
-sim-repo               HEAD: 1700e71 chore: industrial polish (Phase 5, v2.0.0)   [PUSHED]
-SPDEs-wiki             HEAD: 1662e832 project(tetris-kpz-slope): methodology module shipped
-refdb                  HEAD: 302fa0a5 Add 11 references for Tetris-KPZ-slope-extraction project
-All_PDFs               HEAD: dae9e3f Add Family-Vicsek 1991 Dynamics of Fractal Surfaces
-Le-AI-Lab              HEAD: 3339b2b feat(skills): add 2 skills from Tetris-KPZ session retro
+sim-repo    HEAD: d4e094d chore: add GitHub Sponsors FUNDING.yml   [PUSHED, clean, v2.0.0, main]
+SPDEs-wiki  branch v4 — project page updated 2026-07-11 (Findings + revised plan + missing-refs);
+            lint-changed clean (0 broken links / 0 citekey hallucinations). Auto-sync watcher active.
 ```
 
-All five repos clean (0 dirty files) at handoff.
+**Refdb correction (2026-07-11):** the old handoff/status claim that
+`pagnani.parisi:12/:15`, `halpin-healy:12/:13`, `lopez.castro.ea:97` were added
+to refdb is WRONG — those exact keys are ABSENT. Present keys are
+`lopez.rodriguez.ea:97:super-roughening`, `lopez:99:scaling`,
+`ramasco.lopez.ea:00:generic`, `lopez.castro.ea:05:scaling`. New crossover-canon
+refs (Muraca–Braunstein–Buceta 2004, Horowitz–Monetti–Albano 2001,
+Bentrem–Pandey–Family 2006, Farnudi–Vvedensky 2011) are DOI-verified and NOT yet
+in refdb — see wiki §"Missing references to digest".
