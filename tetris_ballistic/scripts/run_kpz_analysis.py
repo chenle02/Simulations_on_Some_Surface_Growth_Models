@@ -42,6 +42,21 @@ from tetris_ballistic.kpz_analysis import (
 KPZ_BETA = 1.0 / 3.0
 
 
+def _is_saturated(cell, L):
+    """True if the mean height reached the saturation scale L^{3/2}.
+
+    Unsaturated cells (h̄_max < L^{3/2}) have not entered the plateau regime,
+    so their growth-window β droops below the asymptotic value and must be
+    excluded from the multi-L extrapolation.
+    """
+    if "saturated" in cell:
+        return bool(cell["saturated"])
+    hbar_max = cell.get("hbar_max")
+    if hbar_max is None:
+        return True
+    return hbar_max >= L ** 1.5
+
+
 def run_single_cell(exp_dir, pct, L, n_eval=150, n_boot=200):
     """Run Steps 1-5 for one (percentage, L) cell."""
     W_list, hbar_list = load_ensemble(exp_dir, pct, L)
@@ -52,21 +67,27 @@ def run_single_cell(exp_dir, pct, L, n_eval=150, n_boot=200):
     gw_beta, gw_lo, gw_hi = growth_window_slope(W_ens, hbar_ens, L, n_boot=n_boot)
 
     eval_log_t, slope_med, slope_lo, slope_hi = local_slope_bootstrap(
-        W_ens, n_eval=n_eval, n_boot=n_boot
+        W_ens, hbar_ens, n_eval=n_eval, n_boot=n_boot
     )
 
     plateau_result = detect_plateau(
         eval_log_t, slope_med, slope_lo, slope_hi,
         deriv_thresh=0.08, ci_width_thresh=0.25, min_log_extent=0.3,
+        log_hbar_lo=np.log10(10.0), log_hbar_hi=np.log10(0.5 * L ** 1.5),
     )
 
     (m_slope1, m_se1), (m_slope2, m_se2) = meakin_range_of_fit(W_ens, hbar_ens)
+
+    hbar_max = float(np.mean(hbar_ens, axis=0)[-1])
+    saturated = hbar_max >= L ** 1.5
 
     cell = {
         "percentage": pct,
         "L": L,
         "n_seeds": len(W_list),
         "min_trace_len": min_len,
+        "hbar_max": hbar_max,
+        "saturated": saturated,
         "growth_window_beta": gw_beta,
         "growth_window_ci": [gw_lo, gw_hi],
         "meakin_window1": {"slope": m_slope1, "se": m_se1},
@@ -104,9 +125,10 @@ def plot_local_slopes(pct, per_L_data, widths, out_dir):
             ax.plot(elt[pmask], sm[pmask], color=color, linewidth=3, alpha=0.7)
 
     ax.axhline(KPZ_BETA, color="red", linestyle="--", linewidth=1, label="β = 1/3")
-    ax.set_xlabel("log₁₀(t)")
-    ax.set_ylabel("Local slope β̂(t)")
-    ax.set_title(f"Local slope — piece_19, {pct}% sticky")
+    ax.axhline(0.25, color="gray", linestyle=":", linewidth=1, label="β = 1/4 (EW)")
+    ax.set_xlabel("log₁₀(h̄)  (deposited height)")
+    ax.set_ylabel("Effective exponent β_eff(h̄)")
+    ax.set_title(f"Effective exponent — piece_19, {pct}% sticky")
     ax.set_ylim(0, 0.7)
     ax.legend(fontsize=9)
     ax.grid(True, alpha=0.3)
@@ -281,37 +303,71 @@ def main():
                 per_L_data[L] = (elt, sm, slo, shi, plateau)
                 cells_for_pct[str(L)] = cell
 
-                L_vals.append(L)
-                beta_vals.append(cell["beta_for_extrap"])
-                err_vals.append(cell["beta_err_for_extrap"])
+                if _is_saturated(cell, L):
+                    L_vals.append(L)
+                    beta_vals.append(cell["beta_for_extrap"])
+                    err_vals.append(cell["beta_err_for_extrap"])
 
             plot_local_slopes(pct, per_L_data, widths, exp_dir)
 
-            L_arr = np.array(L_vals, dtype=float)
-            beta_arr = np.array(beta_vals)
-            err_arr = np.array(err_vals)
-            extrap = extrapolate_to_infinity(L_arr, beta_arr, err_arr)
-            beta_inf, beta_inf_err, popt, _ = extrap
-
-            print(f"  → β∞ = {beta_inf:.4f} ± {beta_inf_err:.4f}")
-            if popt is not None:
-                print(f"    (c={popt[1]:.4f}, ω={popt[2]:.4f})")
+            sat_betas = [
+                cells_for_pct[str(L)]["growth_window_beta"]
+                for L in widths
+                if str(L) in cells_for_pct
+                and _is_saturated(cells_for_pct[str(L)], L)
+                and not np.isnan(cells_for_pct[str(L)]["growth_window_beta"])
+            ]
+            saturated_mean_beta = float(np.mean(sat_betas)) if sat_betas else np.nan
+            saturated_std_beta = (
+                float(np.std(sat_betas, ddof=1)) if len(sat_betas) > 1 else np.nan
+            )
 
             per_pct = {
                 "pct": pct,
                 "cells": cells_for_pct,
-                "extrapolation": {
+                "n_saturated_L": len(L_vals),
+                "saturated_mean_beta": saturated_mean_beta,
+                "saturated_std_beta": saturated_std_beta,
+            }
+
+            if len(L_vals) >= 2:
+                L_arr = np.array(L_vals, dtype=float)
+                extrap = extrapolate_to_infinity(
+                    L_arr, np.array(beta_vals), np.array(err_vals)
+                )
+                beta_inf, beta_inf_err, popt, _ = extrap
+                per_pct["extrapolation"] = {
                     "beta_inf": beta_inf,
                     "beta_inf_err": beta_inf_err,
                     "fit_converged": popt is not None,
-                },
-            }
-            if popt is not None:
-                per_pct["extrapolation"]["c"] = float(popt[1])
-                per_pct["extrapolation"]["omega"] = float(popt[2])
+                    "n_L_used": len(L_vals),
+                }
+                if popt is not None:
+                    per_pct["extrapolation"]["c"] = float(popt[1])
+                    per_pct["extrapolation"]["omega"] = float(popt[2])
+                print(f"  → saturated-mean β = {saturated_mean_beta:.4f} "
+                      f"(over {len(L_vals)} saturated L); "
+                      f"β∞ = {beta_inf:.4f} ± {beta_inf_err:.4f}")
+            else:
+                extrap = (saturated_mean_beta, saturated_std_beta, None, None)
+                per_pct["extrapolation"] = {
+                    "beta_inf": np.nan,
+                    "beta_inf_err": np.nan,
+                    "fit_converged": False,
+                    "n_L_used": len(L_vals),
+                    "note": "insufficient saturated L for extrapolation; "
+                            "report saturated_mean_beta instead",
+                }
+                print(f"  → saturated-mean β = {saturated_mean_beta:.4f} "
+                      f"(only {len(L_vals)} saturated L — β∞ extrapolation skipped)")
+
             _atomic_write_json(_per_pct_path(exp_dir, pct), per_pct)
 
-            plot_extrapolation(pct, L_arr, beta_arr, err_arr, extrap, exp_dir)
+            if len(L_vals) >= 2:
+                plot_extrapolation(
+                    pct, np.array(L_vals, dtype=float), np.array(beta_vals),
+                    np.array(err_vals), extrap, exp_dir,
+                )
 
     all_results = aggregate_results(exp_dir)
     results_path = os.path.join(exp_dir, "results.json")
@@ -319,15 +375,21 @@ def main():
     print(f"\nResults written to {results_path}")
 
     print("\n" + "=" * 60)
-    print("SUMMARY")
+    print("SUMMARY — β vs sticky-fraction (KPZ↔EW crossover)")
+    print("  KPZ β=1/3≈0.333   EW β=1/4=0.250   (measured on log h̄ axis)")
     print("=" * 60)
     for pct in percentages:
         if str(pct) not in all_results:
             continue
-        ext = all_results[str(pct)]["extrapolation"]
-        flag = "✓" if 0.25 <= ext["beta_inf"] <= 0.40 else "✗"
-        print(f"  pct={pct:2d}%: β∞ = {ext['beta_inf']:.4f} "
-              f"± {ext['beta_inf_err']:.4f}  {flag}")
+        pdata = all_results[str(pct)]
+        smb = pdata.get("saturated_mean_beta", float("nan"))
+        nsat = pdata.get("n_saturated_L", 0)
+        ext = pdata.get("extrapolation", {})
+        binf = ext.get("beta_inf", float("nan"))
+        cls = "KPZ" if 0.30 <= smb <= 0.36 else ("EW" if 0.22 <= smb < 0.30 else "—")
+        binf_str = f"β∞={binf:.3f}" if not np.isnan(binf) else "β∞=n/a"
+        print(f"  pct={pct:2d}%: saturated-mean β = {smb:.3f} "
+              f"({nsat} sat. L)  [{cls}]   {binf_str}")
 
 
 if __name__ == "__main__":

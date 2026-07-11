@@ -89,15 +89,21 @@ def truncate_to_common_length(arrays):
 def growth_window_slope(W_ensemble, hbar_ensemble, L,
                         hbar_lo=10.0, n_boot=200, ci_level=0.95,
                         rng_seed=42):
-    """OLS slope in the growth window h̄ ∈ [hbar_lo, L^{3/2}/2].
+    """OLS slope of log W vs log h̄ in the growth window h̄ ∈ [hbar_lo, L^{3/2}/2].
 
-    Avoids both the early transient (h̄ < 10 lattice units) and the
-    saturation tail (h̄ > L^{3/2}/2).  Case-resampling bootstrap CI
-    over independent runs.
+    The Family–Vicsek growth law is ``W ~ t^β`` with ``t`` = the *deposited
+    height* h̄ (number of deposited layers), **not** the raw deposition-step
+    index.  For multi-cell (tetromino) pieces the two are not proportional in
+    the transient, so the growth exponent MUST be measured against log h̄.
+    See the SPDEs-wiki project page, "Findings 2026-07-11", Finding 2.
+
+    Avoids both the early transient (h̄ < ``hbar_lo`` lattice units) and the
+    saturation tail (h̄ > L^{3/2}/2).  Case-resampling bootstrap CI over
+    independent runs.
 
     Returns
     -------
-    beta : float — central slope estimate
+    beta : float — central slope estimate (dlogW / dlog h̄)
     ci_lo, ci_hi : float — bootstrap CI bounds
     """
     hbar_hi = 0.5 * L ** 1.5
@@ -109,20 +115,26 @@ def growth_window_slope(W_ensemble, hbar_ensemble, L,
     if mask.sum() < 5:
         return np.nan, np.nan, np.nan
 
-    log_t_all = np.log10(np.arange(1, len(mean_W) + 1, dtype=float))
-
-    def _fit(w_arr):
+    def _fit(w_arr, h_arr):
+        # Regress log W against log h̄ (the physically correct time axis),
+        # NOT against the deposition-step index.
         w_pos = np.maximum(w_arr, 1e-30)
-        return linregress(log_t_all[mask], np.log10(w_pos[mask])).slope
+        h_pos = np.maximum(h_arr, 1e-30)
+        return linregress(
+            np.log10(h_pos[mask]), np.log10(w_pos[mask])
+        ).slope
 
-    beta_center = _fit(mean_W)
+    beta_center = _fit(mean_W, mean_hbar)
 
     n_runs = W_ensemble.shape[0]
     rng = np.random.default_rng(rng_seed)
     boot_betas = np.empty(n_boot)
     for b in range(n_boot):
         idx = rng.choice(n_runs, size=n_runs, replace=True)
-        boot_betas[b] = _fit(np.mean(W_ensemble[idx], axis=0))
+        boot_betas[b] = _fit(
+            np.mean(W_ensemble[idx], axis=0),
+            np.mean(hbar_ensemble[idx], axis=0),
+        )
 
     alpha = 1.0 - ci_level
     ci_lo = float(np.percentile(boot_betas, 100 * alpha / 2))
@@ -134,24 +146,28 @@ def growth_window_slope(W_ensemble, hbar_ensemble, L,
 #  Step 3 — Local-slope curve with bootstrap CI
 # ---------------------------------------------------------------------------
 
-def local_slope_bootstrap(W_ensemble, n_eval=200, log_half_width=0.5,
-                          n_boot=500, ci_level=0.95, rng_seed=42):
-    """Running local slope with case-resampling bootstrap CI bands.
+def local_slope_bootstrap(W_ensemble, hbar_ensemble, n_eval=200,
+                          log_half_width=0.5, n_boot=500, ci_level=0.95,
+                          rng_seed=42):
+    """Effective growth exponent β_eff(h̄) = dlogW / dlog h̄ with bootstrap CI.
 
-    Per-time local slope on a sliding log-window following the
-    Wolf–Kertész (1987) effective-exponent concept.  Bootstrap CI is
-    obtained by case-resampling independent runs (the analogue of the
-    Wendt–Abry–Jaffard 2007 block-bootstrap philosophy; since runs are
-    independent, case-resampling suffices).
+    The independent variable is the deposited height h̄ (Family–Vicsek time
+    variable), evaluated on the ensemble-mean h̄ trajectory.  Regressing
+    against the deposition-step index instead would contaminate the exponent
+    with the transient (see project page, Finding 2).  The effective-exponent
+    idea is Wolf–Kertész (1987); the case-resampling bootstrap over independent
+    runs follows the Wendt–Abry–Jaffard (2007) philosophy.
 
     Parameters
     ----------
     W_ensemble : ndarray, shape (n_runs, T)
-        Interface width W(t) per run.
+        Interface width W per run (per deposition step).
+    hbar_ensemble : ndarray, shape (n_runs, T)
+        Mean height h̄ per run (per deposition step).
     n_eval : int
-        Number of log-spaced evaluation points (default 200).
+        Number of log-spaced evaluation points in h̄ (default 200).
     log_half_width : float
-        Half-width of the sliding log10 window in decades (default 0.5).
+        Half-width of the sliding log10(h̄) window in decades (default 0.5).
     n_boot : int
         Bootstrap replicates (default 500).
     ci_level : float
@@ -161,38 +177,39 @@ def local_slope_bootstrap(W_ensemble, n_eval=200, log_half_width=0.5,
 
     Returns
     -------
-    eval_log_t : ndarray, shape (n_eval_actual,)
-    slope_med  : ndarray — median bootstrap slope
-    slope_lo   : ndarray — lower CI bound
-    slope_hi   : ndarray — upper CI bound
+    eval_log_hbar : ndarray — log10 h̄ evaluation points
+    slope_med     : ndarray — median bootstrap β_eff
+    slope_lo      : ndarray — lower CI bound
+    slope_hi      : ndarray — upper CI bound
     """
-    n_runs, T = W_ensemble.shape
-    log_t = np.log10(np.arange(1, T + 1, dtype=float))
+    n_runs = W_ensemble.shape[0]
+    mean_hbar_full = np.maximum(np.mean(hbar_ensemble, axis=0), 1e-30)
+    log_hbar = np.log10(mean_hbar_full)
 
-    # Skip trivial early regime (h̄ < ~10 lattice units → first ~1 % of data)
-    start_idx = max(2, int(T * 0.002))
-    eval_indices = np.unique(
-        np.geomspace(start_idx, T - 1, n_eval).astype(int)
+    lo = np.searchsorted(log_hbar, log_hbar[0] + 0.05, side="left")
+    lo = max(lo, 2)
+    hi = len(log_hbar) - 1
+    eval_log_hbar = np.linspace(log_hbar[lo], log_hbar[hi], n_eval)
+    n_pts = len(eval_log_hbar)
+
+    win_lo_idx = np.searchsorted(
+        log_hbar, eval_log_hbar - log_half_width, side="left"
     )
-    eval_log_t = log_t[eval_indices]
-    n_pts = len(eval_indices)
-
-    # Precompute window boundaries via searchsorted (O(n_pts log T) total)
-    win_lo_idx = np.searchsorted(log_t, eval_log_t - log_half_width, side="left")
-    win_hi_idx = np.searchsorted(log_t, eval_log_t + log_half_width, side="right")
+    win_hi_idx = np.searchsorted(
+        log_hbar, eval_log_hbar + log_half_width, side="right"
+    )
 
     rng = np.random.default_rng(rng_seed)
 
-    def _slopes_from_log_W(log_W_mean):
-        """OLS slope inside each precomputed log-window."""
+    def _slopes(log_W, log_h):
         slopes = np.full(n_pts, np.nan)
         for k in range(n_pts):
             a, b = win_lo_idx[k], win_hi_idx[k]
             if b - a < 5:
                 continue
-            x = log_t[a:b]
-            y = log_W_mean[a:b]
-            if np.ptp(y) < 1e-12:
+            x = log_h[a:b]
+            y = log_W[a:b]
+            if np.ptp(y) < 1e-12 or np.ptp(x) < 1e-12:
                 continue
             n = b - a
             sx = x.sum()
@@ -205,67 +222,80 @@ def local_slope_bootstrap(W_ensemble, n_eval=200, log_half_width=0.5,
             slopes[k] = (n * sxy - sx * sy) / denom
         return slopes
 
-    # Central estimate (on the ensemble average)
-    mean_W = np.mean(W_ensemble, axis=0)
-    mean_W = np.maximum(mean_W, 1e-30)
-    slope_center = _slopes_from_log_W(np.log10(mean_W))
+    mean_W = np.maximum(np.mean(W_ensemble, axis=0), 1e-30)
+    _ = _slopes(np.log10(mean_W), log_hbar)
 
-    # Bootstrap replicates
     boot_slopes = np.empty((n_boot, n_pts))
     for b in range(n_boot):
         idx = rng.choice(n_runs, size=n_runs, replace=True)
-        bW = np.mean(W_ensemble[idx], axis=0)
-        bW = np.maximum(bW, 1e-30)
-        boot_slopes[b] = _slopes_from_log_W(np.log10(bW))
+        bW = np.maximum(np.mean(W_ensemble[idx], axis=0), 1e-30)
+        bH = np.maximum(np.mean(hbar_ensemble[idx], axis=0), 1e-30)
+        boot_slopes[b] = _slopes(np.log10(bW), np.log10(bH))
 
     alpha = 1.0 - ci_level
     slope_lo = np.nanpercentile(boot_slopes, 100 * alpha / 2, axis=0)
     slope_hi = np.nanpercentile(boot_slopes, 100 * (1 - alpha / 2), axis=0)
     slope_med = np.nanmedian(boot_slopes, axis=0)
 
-    return eval_log_t, slope_med, slope_lo, slope_hi
+    return eval_log_hbar, slope_med, slope_lo, slope_hi
 
 
 # ---------------------------------------------------------------------------
 #  Step 4 — Automatic plateau detection (the one genuinely new piece)
 # ---------------------------------------------------------------------------
 
-def detect_plateau(eval_log_t, slope_med, slope_lo, slope_hi,
+def detect_plateau(eval_log_hbar, slope_med, slope_lo, slope_hi,
                    deriv_thresh=0.05, ci_width_thresh=0.15,
-                   min_log_extent=0.4):
-    """Algorithmic plateau detector for the local-slope curve.
+                   min_log_extent=0.4, log_hbar_lo=None, log_hbar_hi=None):
+    """Algorithmic plateau detector for the β_eff(h̄) curve.
 
-    Finds the longest contiguous time range where:
-      (a) |dβ̂ / d(log t)| < *deriv_thresh*,
+    The abscissa is log₁₀ h̄ (deposited height), matching
+    :func:`local_slope_bootstrap`.  Finds the longest contiguous h̄ range where:
+      (a) |dβ_eff / dlog h̄| < *deriv_thresh*,
       (b) CI width (hi − lo) < *ci_width_thresh*,
-      (c) log-extent ≥ *min_log_extent* decades.
+      (c) log-extent ≥ *min_log_extent* decades,
+      (d) h̄ lies inside the growth window [log_hbar_lo, log_hbar_hi].
+
+    Restricting to the growth window (d) is essential: without an upper bound
+    at ≈½L^{3/2} the detector otherwise locks onto the steep early-transient
+    flat (β≈0.5) that precedes the true KPZ regime — the classic false-plateau
+    failure mode (project page, Finding 2).
 
     Parameters
     ----------
-    eval_log_t, slope_med, slope_lo, slope_hi : ndarray
+    eval_log_hbar, slope_med, slope_lo, slope_hi : ndarray
         Output of :func:`local_slope_bootstrap`.
     deriv_thresh : float
         Maximum absolute slope-derivative to qualify as "flat".
     ci_width_thresh : float
         Maximum CI width (slope_hi − slope_lo).
     min_log_extent : float
-        Minimum plateau extent in decades of log₁₀(t).
+        Minimum plateau extent in decades of log₁₀ h̄.
+    log_hbar_lo, log_hbar_hi : float or None
+        Growth-window bounds in log₁₀ h̄.  ``None`` disables that bound.
 
     Returns
     -------
     tuple (plateau_mask, plateau_beta, (ci_lo, ci_hi))
         or *None* if no plateau is found.
     """
+    eval_log_t = eval_log_hbar
     valid = ~np.isnan(slope_med)
     if valid.sum() < 5:
         return None
 
-    # Numerical derivative of slope w.r.t. log_t
     d_slope = np.gradient(slope_med, eval_log_t)
     ci_width = slope_hi - slope_lo
 
+    in_window = np.ones_like(eval_log_t, dtype=bool)
+    if log_hbar_lo is not None:
+        in_window &= eval_log_t >= log_hbar_lo
+    if log_hbar_hi is not None:
+        in_window &= eval_log_t <= log_hbar_hi
+
     candidate = (
         valid
+        & in_window
         & (np.abs(d_slope) < deriv_thresh)
         & (ci_width < ci_width_thresh)
     )
