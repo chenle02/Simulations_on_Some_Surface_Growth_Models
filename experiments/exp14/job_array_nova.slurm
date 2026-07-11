@@ -11,34 +11,32 @@
 #SBATCH --mem=4gb
 #SBATCH --partition=nova_long
 #SBATCH --requeue
-#SBATCH --output=logs/nova_%A_%a.out
-#SBATCH --error=logs/nova_%A_%a.err
+#SBATCH --output=/scratch/lzc0090/tetris14/logs/nova_%A_%a.out
+#SBATCH --error=/scratch/lzc0090/tetris14/logs/nova_%A_%a.err
 #SBATCH --mail-type=FAIL
 #SBATCH --mail-user=le.chen@auburn.edu
 
-set -euo pipefail
+set -uo pipefail
 
 REPO_ROOT="$(git -C "$(dirname "$0")" rev-parse --show-toplevel 2>/dev/null || pwd)"
 cd "$REPO_ROOT"
 
 module load python/anaconda/3.12.7 2>/dev/null || module load python 2>/dev/null || true
-if [[ -f .venv/bin/activate ]]; then
-    source .venv/bin/activate
-fi
+export PYTHONPATH="$REPO_ROOT:${PYTHONPATH:-}"
 
-EXP_DIR="$(dirname "$0")"
-GRID_SPEC="$EXP_DIR/grid.yaml"
-OUT_DIR="$EXP_DIR/results"
-mkdir -p logs "$OUT_DIR"
+GRID_SPEC="$REPO_ROOT/experiments/exp14/grid.yaml"
+OUT_DIR="/scratch/lzc0090/tetris14/results"
+mkdir -p /scratch/lzc0090/tetris14/logs "$OUT_DIR"
 
 TASK_ID=$(( 2 * SLURM_ARRAY_TASK_ID + 1 ))
 
 echo "================================================================"
 echo "Nova: job=$SLURM_JOB_ID array_idx=$SLURM_ARRAY_TASK_ID -> cell=$TASK_ID host=$(hostname)"
 echo "Repo: $REPO_ROOT @ $(git rev-parse --short HEAD)"
+echo "Out:  $OUT_DIR"
 echo "================================================================"
 
-python -m tetris_ballistic.scripts.run_one_cell \
+python3 -m tetris_ballistic.scripts.run_one_cell \
     --task-id "$TASK_ID" \
     --grid-spec "$GRID_SPEC" \
     --out-dir "$OUT_DIR"
