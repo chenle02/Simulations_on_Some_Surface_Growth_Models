@@ -10,11 +10,11 @@
 #   sbatch scripts/easley/reduce_and_status.sbatch tetris14
 #
 #SBATCH --job-name=tetris_reduce
-#SBATCH --partition=nova_20,nova_28,nova_long
+#SBATCH --partition=bigmem4,bigmem2,amd
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
-#SBATCH --mem=8G
+#SBATCH --mem=64G
 #SBATCH --time=08:00:00
 #SBATCH --output=/scratch/lzc0090/%x-%j.out
 #SBATCH --error=/scratch/lzc0090/%x-%j.err
@@ -39,20 +39,30 @@ STATUS="$SCRATCH/EASLEY_COMPUTE_STATUS.md"
 echo "=== reduce $EXP: $(find "$RESULTS" -name '*.joblib' 2>/dev/null | wc -l) joblib cells -> $TRACES ==="
 
 python3 -u -m tetris_ballistic.scripts.reduce_traces --in "$RESULTS" --out "$TRACES"
+REDUCE_RC=$?
+echo "reduce exit code: $REDUCE_RC"
 
-python3 - "$EXP" "$RESULTS" "$TRACES" "$HEARTBEAT" "$STATUS" <<'PY'
-import json, sys, time, glob, os
+REDUCE_RC=$REDUCE_RC python3 - "$EXP" "$RESULTS" "$TRACES" "$HEARTBEAT" "$STATUS" <<'PY'
+import json, sys, time, glob, os, re
 exp, results, traces, hb_path, status_path = sys.argv[1:6]
+reduce_rc = int(os.environ.get("REDUCE_RC", "1"))
+# expected distinct (pct,L) cells = number of L_* dirs under pct_* in results/
+expected = len({(m.group(1), m.group(2)) for p in glob.glob(os.path.join(results, "**", "*.joblib"), recursive=True)
+                if (m := re.search(r"pct_(\d+)/L_(\d+)/", p))})
 n_joblib = len(glob.glob(os.path.join(results, "**", "*.joblib"), recursive=True))
 n_npz = len(glob.glob(os.path.join(traces, "**", "*.npz"), recursive=True))
 npz_bytes = sum(os.path.getsize(p) for p in glob.glob(os.path.join(traces, "**", "*.npz"), recursive=True))
+# HONEST completeness: reduce process succeeded AND every cell produced an npz.
+complete = (reduce_rc == 0) and (expected > 0) and (n_npz >= expected)
 hb = {
     "experiment": exp,
     "timestamp_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
     "joblib_cells": n_joblib,
+    "expected_cells": expected,
     "npz_cells": n_npz,
     "npz_bytes": npz_bytes,
-    "reduce_complete": n_npz > 0,
+    "reduce_rc": reduce_rc,
+    "reduce_complete": complete,
 }
 open(hb_path, "w").write(json.dumps(hb, indent=2))
 md = [
@@ -60,9 +70,9 @@ md = [
     "",
     f"Timestamp: `{hb['timestamp_utc']}`",
     "",
-    "| joblib cells | npz cells | npz size (MB) | reduced |",
-    "|---:|---:|---:|:--:|",
-    f"| {n_joblib} | {n_npz} | {npz_bytes/1e6:.1f} | {'yes' if hb['reduce_complete'] else 'no'} |",
+    "| joblib cells | npz cells | expected cells | npz size (MB) | complete |",
+    "|---:|---:|---:|---:|:--:|",
+    f"| {n_joblib} | {n_npz} | {expected} | {npz_bytes/1e6:.1f} | {'yes' if complete else 'NO'} |",
     "",
     "Pull the reduced traces with `scripts/easley/pull_traces.sh` on Greenwood/Dell.",
 ]
