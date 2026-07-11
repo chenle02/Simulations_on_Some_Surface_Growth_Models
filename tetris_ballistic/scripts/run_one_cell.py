@@ -33,6 +33,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import math
 import os
 import sys
 from pathlib import Path
@@ -98,6 +99,28 @@ def build_density(spec: dict, pct: int) -> dict:
     )
 
 
+def ratio_for_L(spec: dict, L: int) -> float:
+    """Depth ratio (height = ratio*L, steps = ratio*L^2) for width ``L``.
+
+    Saturation requires height ≳ L^{3/2}, i.e. ratio ≳ k·sqrt(L).  A single
+    scalar ``ratio`` therefore leaves wide L under-saturated, so the grid may
+    instead give per-L control:
+
+    - ``ratios: {50: 21, 100: 30, ...}``  — explicit per-width mapping;
+    - ``ratio: auto`` with ``sat_margin: k`` — ratio = ceil(k·sqrt(L)) so every
+      width saturates with margin ``k`` (default k=3);
+    - ``ratio: <number>``  — legacy single scalar (back-compatible).
+    """
+    ratios = spec.get("ratios")
+    if ratios is not None and L in ratios:
+        return float(ratios[L])
+    r = spec.get("ratio", 10)
+    if isinstance(r, str) and r.lower() == "auto":
+        k = float(spec.get("sat_margin", 3.0))
+        return float(math.ceil(k * math.sqrt(L)))
+    return float(r)
+
+
 def cell_output_paths(out_dir: str, pct: int, L: int, seed: int,
                       flat: bool = False, basename: str | None = None) -> tuple[Path, Path]:
     """Resolve the (joblib, yaml-config-snapshot) output paths."""
@@ -127,9 +150,9 @@ def run_cell(spec: dict, pct: int, L: int, seed: int, out_dir: str,
         print(f"[skip] {joblib_path} already exists", flush=True)
         return joblib_path
 
-    ratio = spec["ratio"]
-    height = L * ratio
-    steps = ratio * L * L
+    ratio = ratio_for_L(spec, L)
+    height = int(round(L * ratio))
+    steps = int(round(ratio * L * L))
     density = build_density(spec, pct)
 
     print(
