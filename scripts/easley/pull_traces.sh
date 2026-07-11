@@ -18,10 +18,12 @@ set -uo pipefail
 REMOTE="${REMOTE:-Easley}"
 REMOTE_USER="${REMOTE_USER:-lzc0090}"
 EXP="${EXP:-tetris14}"
+EXPNUM="${EXP/tetris/exp}"                      # tetris14 -> exp14
 DATA_REPO="${DATA_REPO:-$HOME/Dropbox/workspace/svn/tetris-kpz-data}"
-DEST="$DATA_REPO/traces/${EXP/tetris/exp}"     # tetris14 -> traces/exp14
-AUTO_COMMIT="${AUTO_COMMIT:-1}"
-
+# Backup tier (private, NON-git) for large reduced-trace sets that must not
+# bloat the git data repo. Small runs (<= GIT_TIER_MB) go in the git repo.
+BACKUP_ROOT="${BACKUP_ROOT:-$HOME/Dropbox/workspace/tetris-kpz-raw-joblib}"
+GIT_TIER_MB="${GIT_TIER_MB:-2000}"             # <=2 GB npz -> git repo; else backup
 SRC="$REMOTE:/scratch/$REMOTE_USER/${EXP}/traces/"
 
 echo "=== $(date) === pull $EXP reduced traces from $REMOTE ==="
@@ -49,20 +51,31 @@ if [[ "$SRC_MB" -gt "$MAX_MB" ]]; then
   exit 5
 fi
 
+# Tier routing: small trace sets go in the git data repo (auto-commit);
+# large ones go to the private non-git backup (to avoid git bloat / 100MB caps).
+if [[ "$SRC_MB" -le "$GIT_TIER_MB" ]]; then
+  TIER="git"; DEST="$DATA_REPO/traces/$EXPNUM"
+else
+  TIER="backup"; DEST="$BACKUP_ROOT/traces/$EXPNUM"
+fi
+echo "  tier=$TIER (${SRC_MB} MB vs GIT_TIER_MB=${GIT_TIER_MB}) -> $DEST"
+
 mkdir -p "$DEST"
 # NEVER --delete against scratch or the repo; only additive pull.
 rsync -avz --partial --info=stats1 "$SRC" "$DEST/" || { echo "rsync failed"; exit 3; }
-
 echo "  pulled $(find "$DEST" -name '*.npz' | wc -l) npz files into $DEST"
 
-if [[ "$AUTO_COMMIT" == "1" && -d "$DATA_REPO/.git" ]]; then
+if [[ "$TIER" == "git" && "${AUTO_COMMIT:-1}" == "1" && -d "$DATA_REPO/.git" ]]; then
   cd "$DATA_REPO"
   if [[ -n "$(git status --porcelain traces/)" ]]; then
     python3 verify.py --update >/dev/null 2>&1 || true
-    git add "traces/${EXP/tetris/exp}" MANIFEST.sha256
+    git add "traces/$EXPNUM" MANIFEST.sha256
     git commit -q -m "data(${EXP}): pull reduced (W,h-bar) traces from Easley" \
       && echo "  committed $(git rev-parse --short HEAD)"
   else
     echo "  no new traces to commit"
   fi
+elif [[ "$TIER" == "backup" ]]; then
+  echo "  backup tier: NOT committed to git (too large). Only results.json +"
+  echo "  manifest belong in $DATA_REPO for $EXPNUM; full npz stay in $BACKUP_ROOT."
 fi
