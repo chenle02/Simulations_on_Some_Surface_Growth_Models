@@ -10,12 +10,12 @@
 #   sbatch scripts/easley/reduce_and_status.sbatch tetris14
 #
 #SBATCH --job-name=tetris_reduce
-#SBATCH --partition=nova_long
+#SBATCH --partition=nova_20,nova_28,nova_long
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=8G
-#SBATCH --time=04:00:00
+#SBATCH --time=08:00:00
 #SBATCH --output=/scratch/lzc0090/%x-%j.out
 #SBATCH --error=/scratch/lzc0090/%x-%j.err
 #SBATCH --mail-type=END,FAIL
