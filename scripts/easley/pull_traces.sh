@@ -31,9 +31,23 @@ if ! timeout 15 ssh -o BatchMode=yes -o ConnectTimeout=8 "$REMOTE" 'true' 2>/dev
   exit 2
 fi
 
-# heartbeat one-liner
-ssh "$REMOTE" "cat /scratch/$REMOTE_USER/${EXP}/heartbeat.json 2>/dev/null || echo '{}'" \
-  | python3 -c "import json,sys;h=json.load(sys.stdin);print('  heartbeat:',{k:h.get(k) for k in ('npz_cells','joblib_cells','reduce_complete','timestamp_utc')} if h else 'empty')"
+# Guard 1: reduction MUST be complete (never pull before reduce-on-Easley ran).
+HB=$(ssh "$REMOTE" "cat /scratch/$REMOTE_USER/${EXP}/heartbeat.json 2>/dev/null || echo '{}'")
+echo "  heartbeat: $(echo "$HB" | python3 -c "import json,sys;h=json.load(sys.stdin);print({k:h.get(k) for k in ('npz_cells','joblib_cells','reduce_complete','npz_bytes','timestamp_utc')} if h else 'empty')")"
+if ! echo "$HB" | python3 -c "import json,sys;sys.exit(0 if json.load(sys.stdin).get('reduce_complete') else 1)" 2>/dev/null; then
+  echo "REFUSING: reduction not complete on Easley. Run scripts/easley/reduce_and_status.sbatch ${EXP} first." >&2
+  exit 4
+fi
+
+# Guard 2: size sanity — refuse if the SOURCE is implausibly large for reduced
+# npz (protects against ever pointing SRC at the raw joblib results/ by mistake).
+SRC_MB=$(ssh "$REMOTE" "du -sm /scratch/$REMOTE_USER/${EXP}/traces 2>/dev/null | cut -f1" 2>/dev/null || echo 0)
+MAX_MB="${MAX_PULL_MB:-60000}"
+echo "  source traces size: ${SRC_MB} MB (guard limit ${MAX_MB} MB)"
+if [[ "$SRC_MB" -gt "$MAX_MB" ]]; then
+  echo "REFUSING: source ${SRC_MB} MB exceeds ${MAX_MB} MB guard. Are you pulling reduced npz, not raw joblib? Override with MAX_PULL_MB=." >&2
+  exit 5
+fi
 
 mkdir -p "$DEST"
 # NEVER --delete against scratch or the repo; only additive pull.
