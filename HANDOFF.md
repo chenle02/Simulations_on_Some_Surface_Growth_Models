@@ -37,14 +37,39 @@ wiki §"Findings 2026-07-11" and §"Robust slope-extraction plan" first.
    route is unavailable. On-disk `results.json` is a pct=90-only, $L\in\{100,200\}$
    PARTIAL — not the full 300-file sweep.
 
-**Immediate next step — Step A (do FIRST, on existing exp13, NO new sims):**
-Fix `tetris_ballistic/kpz_analysis.py` so **every** estimator uses $\log\bar h$
-as the independent variable (not step index): `growth_window_slope`,
-`local_slope_bootstrap`, `detect_plateau`. Keep `meakin_range_of_fit` (already
-$\bar h$-based) as the cross-check. Then re-run the full sweep locally
-(all 300 files, all 6 pcts × 5 L) and produce the crossover curve
-$\beta_\infty(\text{pct})$. This alone likely yields a clean EW→KPZ crossover
-figure from data we already have.
+**Step A — DONE (2026-07-11, shipped).** The estimator now regresses on the
+$\log\bar h$ axis (`growth_window_slope`, `local_slope_bootstrap`,
+`detect_plateau`); the plateau detector is growth-window-bounded; the
+extrapolation drops unsaturated $L$ and reports `saturated_mean_beta`.
+Regenerated exp13 crossover: pct 5→0.16, 50→0.23 (EW), 90→0.31, 95→0.37,
+98→0.44, 99→0.49. Commits `d4682cc` (fix), `c7f3182` (batch runner + per-L
+ratio), `b6cad58` (reduce_traces). ruff+pytest clean.
+
+**Infrastructure shipped (2026-07-11):**
+- `tetris_ballistic/scripts/run_batch.py` — runs a contiguous cell-block in ONE
+  process, warming numba once (cold-start is ~40 s/cell, ALL numba JIT). Use
+  this, not `run_one_cell` per Slurm task. `--array-index i --n-arrays A`.
+- `ratio_for_L` (`run_one_cell`) — grid may set `ratio: auto` (=⌈3√L⌉) or a
+  `ratios:` dict so wide L saturates (height ≥ L^{3/2}). Legacy scalar still works.
+- `tetris_ballistic/scripts/reduce_traces.py` — joblib → compact float32
+  `(W,h̄)` npz (5.8× smaller, reanalysis-complete to <1e-6).
+- **Data repo** `~/Dropbox/workspace/svn/tetris-kpz-data` (Greenwood bare
+  remote): reduced traces + results + code + SHA-256 manifest. 3-tier model:
+  raw joblib private (`~/Dropbox/workspace/tetris-kpz-raw-joblib/`, non-git) /
+  reduced npz in git / derived results. Zenodo at submission.
+- **Article repo** `~/Dropbox/workspace/svn/Article-TetrisKPZ-Crossover`
+  (Greenwood bare remote): manuscript compiles 0-error, documents the method.
+- **Easley**: repo synced via git pull (NOT Dropbox — the `~/Dropbox/...` path
+  on Easley is a name-mirror only). Run with `module load python/anaconda/3.12.7`
+  + `PYTHONPATH=$REPO` (no venv; system gcc can't build numpy).
+
+**Immediate next step — Step D, BLOCKED on PI decision:** the deep Nova run
+(Exp14) needs the wide-$L$ grid choice: width set (add 250/300; and 400/500 for
+KPZ-end pcts 90/95/98/99?) + per-$L$ ratio (`ratio: auto`). Once chosen, write
+`experiments/exp14/grid.yaml`, switch the Slurm scripts to call `run_batch`
+(chunked, e.g. `--n-arrays 120`, no `%` cap so all of Nova is used), and submit
+the Nova array (`sbatch experiments/exp14/job_array_nova.slurm`). See the wiki
+project page "Easley HPC plan".
 
 **Then — Step D — deeper Easley run (Exp14)** to settle the high-pct
 $\beta>⅓$ steepening, enable the free-$\omega$ corrections fit, and unlock
