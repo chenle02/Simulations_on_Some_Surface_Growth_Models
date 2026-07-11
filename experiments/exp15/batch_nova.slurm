@@ -13,7 +13,7 @@
 #SBATCH --job-name=t15_nova
 #SBATCH --array=0-3199%2400
 #SBATCH --cpus-per-task=1
-#SBATCH --time=23:00:00
+#SBATCH --time=01:45:00
 #SBATCH --mem=8gb
 #SBATCH --partition=nova_short
 #SBATCH --requeue
