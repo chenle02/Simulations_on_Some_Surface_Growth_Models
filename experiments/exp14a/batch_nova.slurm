@@ -26,16 +26,19 @@ cd "$REPO_ROOT"
 
 module load python/anaconda/3.12.7 2>/dev/null || module load python 2>/dev/null || true
 export PYTHONPATH="$REPO_ROOT:${PYTHONPATH:-}"
-export NUMBA_CACHE_DIR="/scratch/lzc0090/tetris14/numba_cache"
+# Node-LOCAL numba cache: a shared GPFS cache dir makes concurrent tasks on the
+# same node block in D-state on cache-file locks. Per-task local /tmp avoids it.
+export NUMBA_CACHE_DIR="${SLURM_TMPDIR:-/tmp}/numba_${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID}"
 
 GRID_SPEC="$REPO_ROOT/experiments/exp14a/grid.yaml"
 OUT_DIR="/scratch/lzc0090/tetris14/results"
 N_ARRAYS=100
 mkdir -p /scratch/lzc0090/tetris14/logs "$OUT_DIR" "$NUMBA_CACHE_DIR"
+trap 'rm -rf "$NUMBA_CACHE_DIR"' EXIT
 
 echo "=== t14a task $SLURM_ARRAY_TASK_ID / $N_ARRAYS on $(hostname) @ $(git rev-parse --short HEAD) ==="
 
-python3 -m tetris_ballistic.scripts.run_batch \
+python3 -u -m tetris_ballistic.scripts.run_batch \
     --grid-spec "$GRID_SPEC" \
     --out-dir "$OUT_DIR" \
     --array-index "$SLURM_ARRAY_TASK_ID" \
