@@ -1,9 +1,9 @@
 """Focused tests for common-time Tracy--Widom interface diagnostics."""
 
-from pathlib import Path
-from types import SimpleNamespace
 import os
 import subprocess
+from pathlib import Path
+from types import SimpleNamespace
 
 import joblib
 import numpy as np
