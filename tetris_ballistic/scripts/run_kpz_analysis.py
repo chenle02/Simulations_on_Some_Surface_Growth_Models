@@ -287,9 +287,13 @@ def main():
                     shi = np.array(cell.get("slope_hi", []))
                 else:
                     print(f"  L={L}: loading + bootstrap...", end=" ", flush=True)
-                    cell, elt, sm, slo, shi, plateau = run_single_cell(
-                        exp_dir, pct, L, n_eval=args.n_eval, n_boot=args.n_boot
-                    )
+                    try:
+                        cell, elt, sm, slo, shi, plateau = run_single_cell(
+                            exp_dir, pct, L, n_eval=args.n_eval, n_boot=args.n_boot
+                        )
+                    except ValueError as e:
+                        print(f"absent — skipping ({e})")
+                        continue
                     cell["eval_log_t"] = elt.tolist()
                     cell["slope_med"] = sm.tolist()
                     cell["slope_lo"] = slo.tolist()

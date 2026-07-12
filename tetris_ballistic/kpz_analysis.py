@@ -20,6 +20,7 @@ Author: Le Chen (le.chen@auburn.edu)
 """
 
 import glob
+import os
 
 import joblib
 import numpy as np
@@ -52,13 +53,34 @@ def load_ensemble(exp_dir, percentage, L):
     hbar_list : list[ndarray]
         ``AvergeHeight`` array per seed, trimmed to ``FinalSteps``.
     """
+    # Prefer the REDUCED npz layout (pct_NN/L_LLLL.npz) if present — one file
+    # per (pct,L) cell holding all seeds as (n_seeds, max_len) float32 matrices
+    # plus per-seed final_steps. This lets a revised estimator re-run on the
+    # committed reduced traces WITHOUT the raw joblib (reanalysis-complete).
+    # Falls back to the raw per-seed joblib layout when no npz is found.
+    npz_path = os.path.join(exp_dir, f"pct_{percentage:02d}", f"L_{L:04d}.npz")
+    if os.path.exists(npz_path):
+        d = np.load(npz_path)
+        W_mat, hbar_mat = d["W"], d["hbar"]
+        # W/hbar are padded to max_len; final_steps un-pads each seed to its
+        # true length (else padding zeros corrupt the analysis).
+        fs = d["final_steps"] if "final_steps" in d.files else None
+        W_list, hbar_list = [], []
+        for i in range(W_mat.shape[0]):
+            n = int(fs[i]) if fs is not None else W_mat.shape[1]
+            W_list.append(W_mat[i, :n].astype(float))
+            hbar_list.append(hbar_mat[i, :n].astype(float))
+        return W_list, hbar_list
+
     pattern = (
         f"{exp_dir}/config_piece_19_combined_percentage_"
         f"{percentage:02d}_w={L}_seed=*.joblib"
     )
     files = sorted(glob.glob(pattern))
     if not files:
-        raise ValueError(f"No files for pct={percentage}, L={L}: {pattern}")
+        raise ValueError(
+            f"No npz ({npz_path}) and no joblib for pct={percentage}, L={L}: {pattern}"
+        )
     W_list, hbar_list = [], []
     for f in files:
         obj = joblib.load(f)
