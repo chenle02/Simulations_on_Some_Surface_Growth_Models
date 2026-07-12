@@ -2,7 +2,9 @@
 
 The legacy simulator samples a flattened 20 x 2 table: Piece-0..Piece-19,
 with nonsticky then sticky state for each piece.  This module gives every
-state a stable typed identity without changing the legacy engine or RNG.
+state a stable typed identity without changing the legacy engine or RNG.  Its
+sticky column is the pinned ``legacy-sticky-v1`` mechanic, not an assertion of
+equivalence to a generic first-contact neighborhood.
 """
 
 from __future__ import annotations
@@ -23,8 +25,15 @@ from .models import (
     SimulationConfig,
 )
 
-LEGACY_ADAPTER_VERSION = "1.0.0"
+LEGACY_ADAPTER_VERSION = "2.0.0"
 MAX_FACTORIZATION_TOLERANCE = 1e-12
+_LEGACY_CONTACT_COLUMNS: Mapping[ContactKind, int] = MappingProxyType(
+    {
+        ContactKind.SUPPORTED: 0,
+        ContactKind.LEGACY_STICKY_V1: 1,
+    }
+)
+_LEGACY_CONTACT_KINDS = tuple(_LEGACY_CONTACT_COLUMNS)
 
 # Verified by depositing each legacy Piece-N once on an empty hard-wall
 # substrate, normalizing its occupied coordinates, and matching those
@@ -80,7 +89,7 @@ class LegacyState:
             raise ValueError("flat index, piece ID, and sticky flag disagree")
         if self.geometry_id != LEGACY_PIECE_GEOMETRY_IDS[self.piece_id]:
             raise ValueError("piece ID and geometry ID disagree")
-        expected_contact = ContactKind.FIRST_CONTACT if self.sticky else ContactKind.SUPPORTED
+        expected_contact = ContactKind.LEGACY_STICKY_V1 if self.sticky else ContactKind.SUPPORTED
         if self.contact_kind is not expected_contact:
             raise ValueError("sticky flag and contact kind disagree")
 
@@ -111,7 +120,7 @@ LEGACY_STATES: tuple[LegacyState, ...] = tuple(
         piece_id=flat_index // 2,
         sticky=bool(flat_index % 2),
         geometry_id=LEGACY_PIECE_GEOMETRY_IDS[flat_index // 2],
-        contact_kind=ContactKind.FIRST_CONTACT if flat_index % 2 else ContactKind.SUPPORTED,
+        contact_kind=ContactKind.LEGACY_STICKY_V1 if flat_index % 2 else ContactKind.SUPPORTED,
     )
     for flat_index in range(40)
 )
@@ -159,9 +168,15 @@ def state_for(geometry_id: str, contact_kind: ContactKind | str) -> LegacyState:
         piece_id = GEOMETRY_ID_TO_LEGACY_PIECE[geometry_id]
     except KeyError as error:
         raise ValueError(f"unknown canonical geometry ID: {geometry_id}") from error
-    contact = ContactKind(contact_kind)
-    sticky = contact is ContactKind.FIRST_CONTACT
-    return legacy_state(2 * piece_id + int(sticky))
+    try:
+        contact = ContactKind(contact_kind)
+    except (TypeError, ValueError) as error:
+        raise ValueError(f"unknown contact kind: {contact_kind!r}") from error
+    try:
+        legacy_column = _LEGACY_CONTACT_COLUMNS[contact]
+    except KeyError as error:
+        raise ValueError(f"contact kind {contact.value!r} has no certified legacy mapping") from error
+    return legacy_state(2 * piece_id + legacy_column)
 
 
 def distribution_from_density(density: Mapping[str, object]) -> LegacyDistribution:
@@ -266,12 +281,12 @@ def simulation_config_from_density(
         for weighted in distribution.states
     }
     geometry_probabilities = {
-        geometry_id: sum(joint.get((geometry_id, contact_kind), 0.0) for contact_kind in ContactKind)
+        geometry_id: sum(joint.get((geometry_id, contact_kind), 0.0) for contact_kind in _LEGACY_CONTACT_KINDS)
         for geometry_id in GEOMETRY_BY_ID
     }
     contact_probabilities = {
         contact_kind: sum(joint.get((geometry_id, contact_kind), 0.0) for geometry_id in GEOMETRY_BY_ID)
-        for contact_kind in ContactKind
+        for contact_kind in _LEGACY_CONTACT_KINDS
     }
     for geometry_id, geometry_probability in geometry_probabilities.items():
         for contact_kind, contact_probability in contact_probabilities.items():

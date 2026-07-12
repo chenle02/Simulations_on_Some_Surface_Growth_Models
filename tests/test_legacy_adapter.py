@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import operator
 from contextlib import redirect_stdout
+from hashlib import sha256
 from io import StringIO
 from pathlib import Path
 
@@ -12,6 +13,7 @@ import pytest
 from tests.build_legacy_golden import _run
 from tetris_ballistic.legacy_adapter import (
     GEOMETRY_ID_TO_LEGACY_PIECE,
+    LEGACY_ADAPTER_VERSION,
     LEGACY_PIECE_GEOMETRY_IDS,
     LEGACY_STATES,
     LegacyState,
@@ -19,6 +21,7 @@ from tetris_ballistic.legacy_adapter import (
     density_from_simulation_config,
     distribution_from_density,
     distribution_from_simulation_config,
+    legacy_state,
     simulation_config_from_density,
     state_for,
 )
@@ -74,9 +77,17 @@ def test_all_40_states_have_exact_flattened_identity() -> None:
         assert state.piece_id == flat_index // 2
         assert state.legacy_column == flat_index % 2
         assert state.sticky is bool(flat_index % 2)
-        expected_contact = ContactKind.FIRST_CONTACT if state.sticky else ContactKind.SUPPORTED
+        expected_contact = ContactKind.LEGACY_STICKY_V1 if state.sticky else ContactKind.SUPPORTED
         assert state.contact_kind is expected_contact
         assert state_for(state.geometry_id, state.contact_kind) == state
+
+
+def test_adapter_v2_records_the_versioned_legacy_sticky_mechanic() -> None:
+    sticky_state = legacy_state(1)
+    assert LEGACY_ADAPTER_VERSION == "2.0.0"
+    assert sticky_state.contact_kind is ContactKind.LEGACY_STICKY_V1
+    assert sticky_state.canonical_record()["adapter_version"] == LEGACY_ADAPTER_VERSION
+    assert sticky_state.canonical_record()["contact_kind"] == "legacy-sticky-v1"
 
 
 def test_geometry_reverse_map_is_read_only_and_bijective() -> None:
@@ -135,8 +146,11 @@ def test_direct_inconsistent_state_construction_fails() -> None:
 
 
 def test_json_golden_trajectories_reproduce_current_legacy_engine(monkeypatch) -> None:
-    fixture = json.loads(FIXTURE.read_text(encoding="utf-8"))
+    fixture_bytes = FIXTURE.read_bytes()
+    assert sha256(fixture_bytes).hexdigest() == "36e0357e7e1d122df337e6aa431bda3d8639ce77c1210a47e8698dd81a4364f3"
+    fixture = json.loads(fixture_bytes)
     assert fixture["generated_from_git_sha"] == "09b0a53"
+    assert fixture["legacy_adapter_version"] == "1.0.0"
     assert fixture["legacy_dispatch_forced"] is True
     monkeypatch.setenv("TETRIS_USE_KERNEL", "0")
     for expected in fixture["cases"]:
@@ -157,7 +171,9 @@ def test_typed_independent_laws_round_trip_through_legacy_density() -> None:
                 "o": {"tetromino.o.00": 1.0},
             }
         ),
-        contact_rule=ContactRule.from_weights({ContactKind.SUPPORTED: 0.5, ContactKind.FIRST_CONTACT: 0.5}),
+        contact_rule=ContactRule.from_weights(
+            {ContactKind.SUPPORTED: 0.5, ContactKind.LEGACY_STICKY_V1: 0.5}
+        ),
     )
     density = density_from_simulation_config(config)
     restored = simulation_config_from_density(
@@ -176,8 +192,8 @@ def test_typed_independent_laws_round_trip_through_legacy_density() -> None:
     "contact_rule",
     [
         ContactRule.supported(),
-        ContactRule.first_contact(),
-        ContactRule.from_weights({ContactKind.SUPPORTED: 0.25, ContactKind.FIRST_CONTACT: 0.75}),
+        ContactRule.legacy_sticky_v1(),
+        ContactRule.from_weights({ContactKind.SUPPORTED: 0.25, ContactKind.LEGACY_STICKY_V1: 0.75}),
     ],
 )
 def test_every_geometry_and_contact_law_round_trips(geometry_id: str, contact_rule: ContactRule) -> None:
@@ -217,6 +233,24 @@ def test_correlated_legacy_geometry_contact_law_fails_closed() -> None:
             steps=100,
             root_seed=3,
         )
+
+
+@pytest.mark.parametrize("contact_kind", [ContactKind.FIRST_CONTACT, "first-contact"])
+def test_generic_first_contact_has_no_certified_legacy_mapping(contact_kind: ContactKind | str) -> None:
+    with pytest.raises(ValueError, match="no certified legacy mapping"):
+        state_for("baseline.one-cell", contact_kind)
+
+    config = SimulationConfig(
+        width=32,
+        height=128,
+        steps=100,
+        root_seed=3,
+        ensemble=PieceEnsemble.pure("one-cell"),
+        orientations=None,
+        contact_rule=ContactRule.first_contact(),
+    )
+    with pytest.raises(ValueError, match="no certified legacy mapping"):
+        distribution_from_simulation_config(config)
 
 
 def test_periodic_typed_config_is_not_misrepresented_as_legacy() -> None:

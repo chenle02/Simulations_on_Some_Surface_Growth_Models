@@ -17,12 +17,14 @@ from typing import Any
 
 import numpy as np
 
-from tetris_ballistic.legacy_adapter import LEGACY_ADAPTER_VERSION
 from tetris_ballistic.tetris_ballistic import Tetris_Ballistic
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "tests" / "fixtures" / "legacy-trajectories-v1.json"
+CAPTURED_LEGACY_ADAPTER_VERSION = "1.0.0"
 
+# Names and metadata below are part of the historical v1 fixture.  In
+# particular, "first-contact" predates the explicit legacy-sticky-v1 label.
 CASES = (
     {
         "name": "one-cell-combined",
@@ -78,7 +80,7 @@ def main() -> None:
             "fixture_version": "1.0.0",
             "generated_by": "tests/build_legacy_golden.py",
             "generated_from_git_sha": "09b0a53",
-            "legacy_adapter_version": LEGACY_ADAPTER_VERSION,
+            "legacy_adapter_version": CAPTURED_LEGACY_ADAPTER_VERSION,
             "legacy_dispatch_forced": True,
             "cases": [_run(case) for case in CASES],
         }

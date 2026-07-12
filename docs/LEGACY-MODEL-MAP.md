@@ -22,7 +22,8 @@ Thus IDs 0--18 are the 19 fixed tetromino orientations. The new registry groups 
 Each `Piece-N: [a, b]` legacy entry contributes two sampling weights:
 
 - index 0 (`a`): update path with `sticky=False`;
-- index 1 (`b`): update path with `sticky=True`.
+- index 1 (`b`): update path with `sticky=True`, identified by the typed adapter
+  as `legacy-sticky-v1`.
 
 The 40 entries are flattened and normalized together. Therefore equal weights by fixed orientation are not equal weights by free family. A future adapter must preserve this distinction explicitly.
 
@@ -34,7 +35,12 @@ The 40 entries are flattened and normalized together. Therefore equal weights by
 - Horizontal boundaries are hard walls. Current update methods guard left/right indices rather than wrapping periodically.
 - Pieces do not rotate or relax after launch.
 
-The typed `ContactKind.FIRST_CONTACT` name is provisional until golden tests demonstrate equivalence to every legacy sticky path. The typed model contracts do not route legacy simulations yet.
+`ContactKind.LEGACY_STICKY_V1` means exactly the geometry-specific
+`sticky=True` branches of these legacy hard-wall update methods, as pinned by
+the v1 golden trajectories generated from `09b0a53`. The label deliberately
+does not invent a shared contact neighborhood. Generic
+`ContactKind.FIRST_CONTACT` has no certified legacy mapping and the adapter
+rejects it. The typed model contracts do not route legacy simulations yet.
 
 ## RNG semantics
 
@@ -48,13 +54,15 @@ Legacy arrays include step-indexed fluctuation and `AvergeHeight`. Historical su
 
 ## Typed-law adaptation boundary
 
-`legacy_adapter.py` can expand a typed hard-wall configuration into the exact
-legacy 20×2 density table by multiplying the independent free-family,
+`legacy_adapter.py` can expand a typed hard-wall configuration using only
+`supported`, `legacy-sticky-v1`, or their mixture into the exact legacy 20×2
+density table by multiplying the independent free-family,
 conditional-orientation, and contact-rule probabilities. It can reconstruct a
 typed configuration from a legacy table only when geometry and contact are
 independent. A legacy table that correlates particular geometries with sticky
-or nonsticky behavior fails closed rather than being approximated. Periodic
-typed configurations also fail because the legacy update paths use hard walls.
+or nonsticky behavior fails closed rather than being approximated. Generic
+`first-contact` and periodic typed configurations also fail closed because no
+generic contact mapping exists and the legacy update paths use hard walls.
 
 This conversion establishes distribution equivalence only. It does not route a
 typed configuration into the legacy simulator and does not certify a new engine.
@@ -63,9 +71,14 @@ typed configuration into the legacy simulator and does not certify a new engine.
 
 Before a typed configuration can execute through a new engine:
 
-1. map all 40 legacy states to registry orientation plus explicit contact rule;
+1. retain the completed 40-state registry map with the explicit
+   `legacy-sticky-v1` compatibility label;
 2. freeze representative seed/config golden trajectories;
 3. verify hard-wall edge placements for all 19 orientations;
 4. verify sticky/nonsticky placement equivalence event by event;
 5. verify one-cell optimized/reference equivalence;
 6. document RNG and clock migrations.
+
+Certification of a future generic first-contact rule additionally requires a
+PI-approved neighborhood specification and exhaustive equivalence evidence; it
+must never arise from an enum alias or silent adapter coercion.

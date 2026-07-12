@@ -139,10 +139,13 @@ Constructors should include
 `ContactRule` defines placement mechanics independently of geometry:
 
 - mechanically supported/nonadhesive placement;
-- adhesive first-contact placement;
+- the versioned `legacy-sticky-v1` compatibility mechanic, meaning the pinned
+  geometry-specific `sticky=True` hard-wall branches;
+- a future generic adhesive first-contact mechanic only after its neighborhood
+  and equivalence gates are approved;
 - a validated probabilistic mixture of named rules.
 
-The public result records the realized rule for each event or sufficient deterministic RNG provenance to reconstruct it. The term `sticky` may remain as a user-facing alias during 2.1.x but canonical schemas use explicit contact-rule names.
+The public result records the realized rule for each event or sufficient deterministic RNG provenance to reconstruct it. During 2.1.x, legacy input named `sticky` maps only to `legacy-sticky-v1`; it is never an alias for generic `first-contact`. The generic rule has no legacy-adapter mapping until its open scientific definition and exhaustive compatibility gate are resolved.
 
 ### 6.5 Clocks
 

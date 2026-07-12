@@ -332,8 +332,16 @@ class OrientationDistribution:
 
 
 class ContactKind(str, Enum):
+    """Named contact mechanics without asserting unverified equivalence.
+
+    ``LEGACY_STICKY_V1`` denotes the geometry-specific ``sticky=True`` branches
+    of the legacy hard-wall update methods frozen by the v1 trajectory fixtures.
+    It does not define, or alias, a generic first-contact neighborhood.
+    """
+
     SUPPORTED = "supported"
     FIRST_CONTACT = "first-contact"
+    LEGACY_STICKY_V1 = "legacy-sticky-v1"
 
 
 @dataclass(frozen=True, slots=True)
@@ -368,7 +376,15 @@ class ContactRule:
 
     @classmethod
     def first_contact(cls) -> "ContactRule":
+        """Construct the generic rule, which has no certified legacy mapping."""
+
         return cls.from_weights({ContactKind.FIRST_CONTACT: 1.0})
+
+    @classmethod
+    def legacy_sticky_v1(cls) -> "ContactRule":
+        """Construct the pinned legacy ``sticky=True`` hard-wall rule."""
+
+        return cls.from_weights({ContactKind.LEGACY_STICKY_V1: 1.0})
 
     def canonical_record(self) -> dict[str, object]:
         return {"weights": {key.value: value for key, value in self.weights}}

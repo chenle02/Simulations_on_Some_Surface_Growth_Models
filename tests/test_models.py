@@ -144,11 +144,17 @@ def test_orientation_distribution_rejects_cross_family_orientation() -> None:
 
 
 def test_contact_rule_uses_explicit_mechanics_and_normalizes() -> None:
-    rule = ContactRule.from_weights({ContactKind.SUPPORTED: 3.0, ContactKind.FIRST_CONTACT: 1.0})
+    rule = ContactRule.from_weights({ContactKind.SUPPORTED: 3.0, ContactKind.LEGACY_STICKY_V1: 1.0})
     assert dict(rule.weights) == {
-        ContactKind.FIRST_CONTACT: 0.25,
+        ContactKind.LEGACY_STICKY_V1: 0.25,
         ContactKind.SUPPORTED: 0.75,
     }
+
+
+def test_generic_first_contact_is_distinct_from_legacy_sticky_v1() -> None:
+    assert ContactKind.FIRST_CONTACT.value == "first-contact"
+    assert ContactKind.LEGACY_STICKY_V1.value == "legacy-sticky-v1"
+    assert ContactRule.first_contact() != ContactRule.legacy_sticky_v1()
 
 
 def test_simulation_config_requires_exact_orientation_family_coverage() -> None:
@@ -294,7 +300,7 @@ def test_tetromino_configuration_round_trip_payload_is_deterministic() -> None:
         root_seed=7,
         ensemble=PieceEnsemble.from_weights({"i": 2, "o": 1}),
         orientations=OrientationDistribution.isotropic(["i", "o"]),
-        contact_rule=ContactRule.first_contact(),
+        contact_rule=ContactRule.legacy_sticky_v1(),
     )
     config_b = SimulationConfig(
         width=128,
@@ -303,7 +309,7 @@ def test_tetromino_configuration_round_trip_payload_is_deterministic() -> None:
         root_seed=7,
         ensemble=PieceEnsemble.from_weights({"o": 1, "i": 2}),
         orientations=OrientationDistribution.isotropic(["o", "i"]),
-        contact_rule=ContactRule.first_contact(),
+        contact_rule=ContactRule.legacy_sticky_v1(),
     )
     assert config_a.to_json() == config_b.to_json()
     assert config_a.software_config_record_sha256 == config_b.software_config_record_sha256
