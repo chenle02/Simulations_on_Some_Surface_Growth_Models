@@ -260,3 +260,25 @@ def test_large_tolerance_cannot_bypass_correlated_law_gate() -> None:
             root_seed=3,
             factorization_tolerance=1.0,
         )
+
+
+def test_hostile_float_subclass_cannot_control_tolerance_validation() -> None:
+    class HostileFloat(float):
+        def __float__(self) -> float:
+            raise AssertionError("hostile tolerance must be rejected before coercion")
+
+        def __le__(self, other: object) -> bool:
+            return True
+
+        def __ge__(self, other: object) -> bool:
+            return True
+
+    with pytest.raises(ValueError, match="built-in int or float"):
+        simulation_config_from_density(
+            _single_piece_density(19, 0),
+            width=32,
+            height=128,
+            steps=100,
+            root_seed=3,
+            factorization_tolerance=HostileFloat(0.0),
+        )

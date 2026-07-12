@@ -255,11 +255,10 @@ def simulation_config_from_density(
     correlated table is rejected rather than silently approximated.
     """
 
-    if (
-        isinstance(factorization_tolerance, bool)
-        or not math.isfinite(factorization_tolerance)
-        or not 0 <= factorization_tolerance <= MAX_FACTORIZATION_TOLERANCE
-    ):
+    if type(factorization_tolerance) not in (int, float):
+        raise ValueError("factorization_tolerance must be a built-in int or float")
+    normalized_tolerance = float(factorization_tolerance)
+    if not math.isfinite(normalized_tolerance) or not 0 <= normalized_tolerance <= MAX_FACTORIZATION_TOLERANCE:
         raise ValueError(f"factorization_tolerance must be finite and between 0 and {MAX_FACTORIZATION_TOLERANCE}")
     distribution = distribution_from_density(density)
     joint = {
@@ -281,8 +280,8 @@ def simulation_config_from_density(
             if not math.isclose(
                 observed,
                 expected,
-                rel_tol=factorization_tolerance,
-                abs_tol=factorization_tolerance,
+                rel_tol=normalized_tolerance,
+                abs_tol=normalized_tolerance,
             ):
                 raise ValueError(
                     "legacy geometry/contact weights are correlated and cannot be represented by independent typed laws"
