@@ -94,13 +94,29 @@ class PieceGeometry:
     coordinates: tuple[Coordinate, ...]
 
     def __post_init__(self) -> None:
+        if type(self.id) is not str or type(self.family_id) is not str:
+            raise ValueError("geometry and family IDs must be built-in strings")
         if not self.id or not self.family_id:
             raise ValueError("geometry and family IDs must be nonempty")
-        normalized = normalize_coordinates(self.coordinates)
-        if normalized != self.coordinates:
+        if type(self.coordinates) not in (list, tuple):
+            raise TypeError("geometry coordinates must be a plain list or tuple")
+        snapshot: list[Coordinate] = []
+        for point in self.coordinates:
+            if type(point) not in (list, tuple) or len(point) != 2:
+                raise TypeError("geometry coordinates must contain plain integer pairs")
+            row, column = point
+            if type(row) is not int or type(column) is not int:
+                raise TypeError("geometry coordinates must be integer pairs")
+            snapshot.append((row, column))
+        coordinates = tuple(snapshot)
+        normalized = normalize_coordinates(coordinates)
+        if normalized != coordinates:
             raise ValueError("geometry coordinates must already be canonical")
         if not _is_edge_connected(normalized):
             raise ValueError("geometry must be edge-connected")
+        object.__setattr__(self, "id", self.id)
+        object.__setattr__(self, "family_id", self.family_id)
+        object.__setattr__(self, "coordinates", normalized)
 
     @property
     def area(self) -> int:

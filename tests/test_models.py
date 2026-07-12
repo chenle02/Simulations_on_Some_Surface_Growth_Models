@@ -69,6 +69,55 @@ def test_piece_geometry_rejects_boolean_coordinates(coordinates: tuple[tuple[obj
         PieceGeometry("bad", "bad", coordinates)
 
 
+def test_piece_geometry_snapshots_plain_coordinates_into_builtin_tuples() -> None:
+    caller_coordinates = [[0, 0], [0, 1]]
+    geometry = PieceGeometry("test.domino.00", "domino", caller_coordinates)
+    original_digest = geometry.software_geometry_record_sha256
+
+    caller_coordinates[0][0] = 99
+    caller_coordinates.clear()
+
+    assert geometry.id == "test.domino.00"
+    assert type(geometry.id) is str
+    assert geometry.family_id == "domino"
+    assert type(geometry.family_id) is str
+    assert geometry.coordinates == ((0, 0), (0, 1))
+    assert type(geometry.coordinates) is tuple
+    assert all(type(point) is tuple for point in geometry.coordinates)
+    assert geometry.software_geometry_record_sha256 == original_digest
+
+
+def test_piece_geometry_rejects_string_and_tuple_subclasses_before_overrides_run() -> None:
+    class HostileID(str):
+        def __bool__(self) -> bool:
+            raise AssertionError("hostile ID truth testing must not run")
+
+        def __str__(self) -> str:
+            raise AssertionError("hostile ID conversion must not run")
+
+    class HostileTuple(tuple[object, ...]):
+        def __iter__(self) -> object:
+            raise AssertionError("hostile tuple iteration must not run")
+
+    with pytest.raises(ValueError, match="built-in strings"):
+        PieceGeometry(HostileID("test.one"), "one", ((0, 0),))
+    with pytest.raises(ValueError, match="built-in strings"):
+        PieceGeometry("test.one", HostileID("one"), ((0, 0),))
+    with pytest.raises(TypeError, match="plain list or tuple"):
+        PieceGeometry("test.one", "one", HostileTuple(((0, 0),)))
+    with pytest.raises(TypeError, match="plain integer pairs"):
+        PieceGeometry("test.one", "one", (HostileTuple((0, 0)),))
+
+
+def test_piece_geometry_hardening_preserves_one_cell_golden_digest() -> None:
+    geometry = PieceGeometry("baseline.one-cell", "one-cell", [[0, 0]])
+
+    assert geometry.coordinates == ((0, 0),)
+    assert geometry.software_geometry_record_sha256 == (
+        "1b453abde9941c43b885836ea4eac89e92f044664f1af15e003bef9a539294e4"
+    )
+
+
 def test_equal_free_family_ensemble_normalizes() -> None:
     ensemble = PieceEnsemble.equal_free_families()
     assert {key for key, _ in ensemble.weights} == set(FAMILY_ORIENTATION_IDS)
