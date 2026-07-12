@@ -12,7 +12,16 @@ from dataclasses import dataclass
 from types import MappingProxyType
 from typing import Mapping
 
-from .models import GEOMETRY_BY_ID, ContactKind
+from .models import (
+    GEOMETRY_BY_ID,
+    ONE_CELL,
+    BoundaryKind,
+    ContactKind,
+    ContactRule,
+    OrientationDistribution,
+    PieceEnsemble,
+    SimulationConfig,
+)
 
 LEGACY_ADAPTER_VERSION = "1.0.0"
 
@@ -192,3 +201,115 @@ def density_from_distribution(distribution: LegacyDistribution) -> dict[str, lis
     for weighted in distribution.states:
         density[weighted.state.legacy_key][weighted.state.legacy_column] = weighted.probability
     return density
+
+
+def distribution_from_simulation_config(config: SimulationConfig) -> LegacyDistribution:
+    """Expand independent typed laws into the exactly equivalent legacy joint law.
+
+    The legacy engine implements hard-wall boundaries only. This function is
+    deliberately an adapter, not an execution route.
+    """
+
+    if config.boundary is not BoundaryKind.HARD_WALL:
+        raise ValueError("legacy adapter represents hard-wall configurations only")
+    family_weights = dict(config.ensemble.weights)
+    orientation_by_family = (
+        {family_id: dict(weights) for family_id, weights in config.orientations.by_family}
+        if config.orientations is not None
+        else {}
+    )
+    contact_weights = dict(config.contact_rule.weights)
+    joint: list[tuple[LegacyState, float]] = []
+    for family_id, family_probability in family_weights.items():
+        if family_id == ONE_CELL.family_id:
+            geometry_weights = {ONE_CELL.id: 1.0}
+        else:
+            geometry_weights = orientation_by_family[family_id]
+        for geometry_id, orientation_probability in geometry_weights.items():
+            for contact_kind, contact_probability in contact_weights.items():
+                probability = family_probability * orientation_probability * contact_probability
+                if probability > 0:
+                    joint.append((state_for(geometry_id, contact_kind), probability))
+    joint.sort(key=lambda item: item[0].flat_index)
+    return LegacyDistribution(tuple(LegacyWeightedState(state, probability) for state, probability in joint))
+
+
+def density_from_simulation_config(config: SimulationConfig) -> dict[str, list[float]]:
+    return density_from_distribution(distribution_from_simulation_config(config))
+
+
+def simulation_config_from_density(
+    density: Mapping[str, object],
+    *,
+    width: int,
+    height: int,
+    steps: int,
+    root_seed: int,
+    factorization_tolerance: float = 1e-12,
+) -> SimulationConfig:
+    """Factor a legacy joint law into independent typed laws or fail closed.
+
+    A general legacy 20 x 2 table can correlate geometry with contact behavior.
+    ``SimulationConfig`` intentionally models contact as independent. Such a
+    correlated table is rejected rather than silently approximated.
+    """
+
+    if not math.isfinite(factorization_tolerance) or factorization_tolerance < 0:
+        raise ValueError("factorization_tolerance must be finite and nonnegative")
+    distribution = distribution_from_density(density)
+    joint = {
+        (weighted.state.geometry_id, weighted.state.contact_kind): weighted.probability
+        for weighted in distribution.states
+    }
+    geometry_probabilities = {
+        geometry_id: sum(joint.get((geometry_id, contact_kind), 0.0) for contact_kind in ContactKind)
+        for geometry_id in GEOMETRY_BY_ID
+    }
+    contact_probabilities = {
+        contact_kind: sum(joint.get((geometry_id, contact_kind), 0.0) for geometry_id in GEOMETRY_BY_ID)
+        for contact_kind in ContactKind
+    }
+    for geometry_id, geometry_probability in geometry_probabilities.items():
+        for contact_kind, contact_probability in contact_probabilities.items():
+            observed = joint.get((geometry_id, contact_kind), 0.0)
+            expected = geometry_probability * contact_probability
+            if not math.isclose(
+                observed,
+                expected,
+                rel_tol=factorization_tolerance,
+                abs_tol=factorization_tolerance,
+            ):
+                raise ValueError(
+                    "legacy geometry/contact weights are correlated and cannot be represented by independent typed laws"
+                )
+
+    family_probabilities: dict[str, float] = {}
+    orientation_weights: dict[str, dict[str, float]] = {}
+    for geometry_id, probability in geometry_probabilities.items():
+        if probability <= 0:
+            continue
+        family_id = GEOMETRY_BY_ID[geometry_id].family_id
+        family_probabilities[family_id] = family_probabilities.get(family_id, 0.0) + probability
+        if family_id != ONE_CELL.family_id:
+            orientation_weights.setdefault(family_id, {})[geometry_id] = probability
+    for family_id, weights in orientation_weights.items():
+        family_probability = family_probabilities[family_id]
+        orientation_weights[family_id] = {
+            geometry_id: probability / family_probability for geometry_id, probability in weights.items()
+        }
+
+    ensemble = PieceEnsemble.from_weights(family_probabilities)
+    orientations = OrientationDistribution.from_weights(orientation_weights) if orientation_weights else None
+    contact_rule = ContactRule.from_weights(
+        {contact_kind: probability for contact_kind, probability in contact_probabilities.items() if probability > 0}
+    )
+    return SimulationConfig(
+        width=width,
+        height=height,
+        steps=steps,
+        root_seed=root_seed,
+        ensemble=ensemble,
+        orientations=orientations,
+        contact_rule=contact_rule,
+        boundary=BoundaryKind.HARD_WALL,
+    )

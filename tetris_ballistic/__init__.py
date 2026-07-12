@@ -8,8 +8,11 @@ from .legacy_adapter import (
     LegacyState,
     LegacyWeightedState,
     density_from_distribution,
+    density_from_simulation_config,
     distribution_from_density,
+    distribution_from_simulation_config,
     legacy_state,
+    simulation_config_from_density,
     state_for,
 )
 from .models import (

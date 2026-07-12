@@ -16,10 +16,22 @@ from tetris_ballistic.legacy_adapter import (
     LEGACY_STATES,
     LegacyState,
     density_from_distribution,
+    density_from_simulation_config,
     distribution_from_density,
+    distribution_from_simulation_config,
+    simulation_config_from_density,
     state_for,
 )
-from tetris_ballistic.models import GEOMETRY_BY_ID, ContactKind, normalize_coordinates
+from tetris_ballistic.models import (
+    GEOMETRY_BY_ID,
+    BoundaryKind,
+    ContactKind,
+    ContactRule,
+    OrientationDistribution,
+    PieceEnsemble,
+    SimulationConfig,
+    normalize_coordinates,
+)
 from tetris_ballistic.tetris_ballistic import Tetris_Ballistic
 
 FIXTURE = Path(__file__).parent / "fixtures" / "legacy-trajectories-v1.json"
@@ -130,3 +142,106 @@ def test_json_golden_trajectories_reproduce_current_legacy_engine(monkeypatch) -
     for expected in fixture["cases"]:
         case = {key: expected[key] for key in ("name", "piece_id", "weights", "width", "height", "steps", "seed")}
         assert _run(case) == expected
+
+
+def test_typed_independent_laws_round_trip_through_legacy_density() -> None:
+    config = SimulationConfig(
+        width=64,
+        height=512,
+        steps=10_000,
+        root_seed=23,
+        ensemble=PieceEnsemble.from_weights({"i": 0.25, "o": 0.25, "one-cell": 0.5}),
+        orientations=OrientationDistribution.from_weights(
+            {
+                "i": {"tetromino.i.00": 0.5, "tetromino.i.01": 0.5},
+                "o": {"tetromino.o.00": 1.0},
+            }
+        ),
+        contact_rule=ContactRule.from_weights({ContactKind.SUPPORTED: 0.5, ContactKind.FIRST_CONTACT: 0.5}),
+    )
+    density = density_from_simulation_config(config)
+    restored = simulation_config_from_density(
+        density,
+        width=config.width,
+        height=config.height,
+        steps=config.steps,
+        root_seed=config.root_seed,
+    )
+    assert restored == config
+    assert distribution_from_density(density) == distribution_from_simulation_config(config)
+
+
+@pytest.mark.parametrize("geometry_id", EXPECTED_GEOMETRY_IDS)
+@pytest.mark.parametrize(
+    "contact_rule",
+    [
+        ContactRule.supported(),
+        ContactRule.first_contact(),
+        ContactRule.from_weights({ContactKind.SUPPORTED: 0.25, ContactKind.FIRST_CONTACT: 0.75}),
+    ],
+)
+def test_every_geometry_and_contact_law_round_trips(geometry_id: str, contact_rule: ContactRule) -> None:
+    family_id = GEOMETRY_BY_ID[geometry_id].family_id
+    orientations = (
+        None if family_id == "one-cell" else OrientationDistribution.from_weights({family_id: {geometry_id: 1.0}})
+    )
+    config = SimulationConfig(
+        width=40,
+        height=160,
+        steps=200,
+        root_seed=5,
+        ensemble=PieceEnsemble.pure(family_id),
+        orientations=orientations,
+        contact_rule=contact_rule,
+    )
+    density = density_from_simulation_config(config)
+    restored = simulation_config_from_density(
+        density,
+        width=config.width,
+        height=config.height,
+        steps=config.steps,
+        root_seed=config.root_seed,
+    )
+    assert restored == config
+
+
+def test_correlated_legacy_geometry_contact_law_fails_closed() -> None:
+    density = {f"Piece-{index}": [0, 0] for index in range(20)}
+    density["Piece-0"] = [1, 0]
+    density["Piece-1"] = [0, 1]
+    with pytest.raises(ValueError, match="correlated"):
+        simulation_config_from_density(
+            density,
+            width=32,
+            height=128,
+            steps=100,
+            root_seed=3,
+        )
+
+
+def test_periodic_typed_config_is_not_misrepresented_as_legacy() -> None:
+    config = SimulationConfig(
+        width=32,
+        height=128,
+        steps=100,
+        root_seed=3,
+        ensemble=PieceEnsemble.pure("one-cell"),
+        orientations=None,
+        contact_rule=ContactRule.supported(),
+        boundary=BoundaryKind.PERIODIC,
+    )
+    with pytest.raises(ValueError, match="hard-wall"):
+        density_from_simulation_config(config)
+
+
+def test_invalid_factorization_tolerance_is_rejected() -> None:
+    density = _single_piece_density(19, 0)
+    with pytest.raises(ValueError, match="tolerance"):
+        simulation_config_from_density(
+            density,
+            width=32,
+            height=128,
+            steps=100,
+            root_seed=3,
+            factorization_tolerance=float("nan"),
+        )

@@ -46,6 +46,19 @@ The future stream-separated RNG design is scientifically breaking unless an adap
 
 Legacy arrays include step-indexed fluctuation and `AvergeHeight`. Historical substrates store row indices from the top, so some saved mean-height traces descend and require `height_grid - hbar` correction. New typed clocks must never infer that correction silently; provenance records the convention and any migration.
 
+## Typed-law adaptation boundary
+
+`legacy_adapter.py` can expand a typed hard-wall configuration into the exact
+legacy 20×2 density table by multiplying the independent free-family,
+conditional-orientation, and contact-rule probabilities. It can reconstruct a
+typed configuration from a legacy table only when geometry and contact are
+independent. A legacy table that correlates particular geometries with sticky
+or nonsticky behavior fails closed rather than being approximated. Periodic
+typed configurations also fail because the legacy update paths use hard walls.
+
+This conversion establishes distribution equivalence only. It does not route a
+typed configuration into the legacy simulator and does not certify a new engine.
+
 ## Compatibility gate
 
 Before a typed configuration can execute through a new engine:
