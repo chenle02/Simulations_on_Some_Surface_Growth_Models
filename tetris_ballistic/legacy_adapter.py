@@ -82,6 +82,14 @@ class LegacyState:
     contact_kind: ContactKind
 
     def __post_init__(self) -> None:
+        if type(self.flat_index) is not int or type(self.piece_id) is not int:
+            raise ValueError("legacy indices must be built-in integers")
+        if type(self.sticky) is not bool:
+            raise ValueError("legacy sticky flag must be a built-in bool")
+        if type(self.geometry_id) is not str:
+            raise ValueError("legacy geometry ID must be a built-in string")
+        if type(self.contact_kind) is not ContactKind:
+            raise ValueError("legacy contact kind must be a ContactKind value")
         if not 0 <= self.flat_index < 40:
             raise ValueError("flat_index must be in [0, 39]")
         expected_piece, expected_column = divmod(self.flat_index, 2)
@@ -126,19 +134,37 @@ LEGACY_STATES: tuple[LegacyState, ...] = tuple(
 )
 
 
+def _snapshot_legacy_state(state: object) -> LegacyState:
+    if type(state) is not LegacyState:
+        raise ValueError("legacy weighted state must contain a LegacyState")
+    try:
+        return LegacyState(
+            flat_index=state.flat_index,
+            piece_id=state.piece_id,
+            sticky=state.sticky,
+            geometry_id=state.geometry_id,
+            contact_kind=state.contact_kind,
+        )
+    except AttributeError as error:
+        raise ValueError("legacy state must be fully initialized") from error
+
+
 @dataclass(frozen=True, slots=True)
 class LegacyWeightedState:
     state: LegacyState
     probability: float
 
     def __post_init__(self) -> None:
-        if type(self.state) is not LegacyState:
-            raise ValueError("legacy weighted state must contain a LegacyState")
+        state = _snapshot_legacy_state(self.state)
         if type(self.probability) not in (int, float):
             raise ValueError("legacy probability must be a built-in int or float")
-        probability = float(self.probability)
+        try:
+            probability = float(self.probability)
+        except OverflowError as error:
+            raise ValueError("legacy probability must be finite and positive") from error
         if not math.isfinite(probability) or probability <= 0:
             raise ValueError("legacy probability must be finite and positive")
+        object.__setattr__(self, "state", state)
         object.__setattr__(self, "probability", probability)
 
 
@@ -149,14 +175,24 @@ class LegacyDistribution:
     states: tuple[LegacyWeightedState, ...]
 
     def __post_init__(self) -> None:
-        states = tuple(self.states)
+        if type(self.states) not in (list, tuple):
+            raise ValueError("legacy distribution states must be a plain list or tuple")
+        snapshot: list[LegacyWeightedState] = []
+        for item in self.states:
+            if type(item) is not LegacyWeightedState:
+                raise ValueError("legacy distribution entries must be LegacyWeightedState values")
+            try:
+                state = item.state
+                probability = item.probability
+            except AttributeError as error:
+                raise ValueError("legacy weighted states must be fully initialized") from error
+            if type(probability) is not float:
+                raise ValueError("legacy distribution probabilities must be canonical built-in floats")
+            snapshot.append(LegacyWeightedState(state, probability))
+        states = tuple(snapshot)
         object.__setattr__(self, "states", states)
         if not states:
             raise ValueError("legacy distribution must not be empty")
-        if any(type(item) is not LegacyWeightedState for item in states):
-            raise ValueError("legacy distribution entries must be LegacyWeightedState values")
-        if any(type(item.state) is not LegacyState for item in states):
-            raise ValueError("legacy weighted states must contain LegacyState values")
         indices = [item.state.flat_index for item in states]
         if indices != sorted(indices) or len(indices) != len(set(indices)):
             raise ValueError("legacy states must be unique and sorted by flat index")
@@ -174,7 +210,7 @@ class LegacyDistribution:
 
 
 def legacy_state(flat_index: int) -> LegacyState:
-    if not isinstance(flat_index, int) or not 0 <= flat_index < 40:
+    if type(flat_index) is not int or not 0 <= flat_index < 40:
         raise ValueError("flat_index must be an integer in [0, 39]")
     return LEGACY_STATES[flat_index]
 

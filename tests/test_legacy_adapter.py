@@ -144,6 +144,27 @@ def test_legacy_distribution_defensively_snapshots_caller_state_list() -> None:
     assert distribution.canonical_record() == original_record
 
 
+def test_legacy_weighted_state_and_distribution_snapshot_nested_state_records() -> None:
+    caller_state = LegacyState(
+        flat_index=0,
+        piece_id=0,
+        sticky=False,
+        geometry_id="tetromino.o.00",
+        contact_kind=ContactKind.SUPPORTED,
+    )
+    caller_weighted = LegacyWeightedState(caller_state, 1.0)
+    distribution = LegacyDistribution([caller_weighted])
+    original_record = distribution.canonical_record()
+
+    object.__setattr__(caller_state, "piece_id", 19)
+    object.__setattr__(caller_weighted, "state", caller_state)
+    object.__setattr__(caller_weighted, "probability", 0.0)
+
+    assert distribution.states[0] is not caller_weighted
+    assert distribution.states[0].state is not caller_state
+    assert distribution.canonical_record() == original_record
+
+
 def test_legacy_distribution_rejects_invalid_nested_state_types() -> None:
     with pytest.raises(ValueError, match="LegacyWeightedState"):
         LegacyDistribution([object()])
@@ -153,6 +174,34 @@ def test_legacy_distribution_rejects_invalid_nested_state_types() -> None:
     object.__setattr__(forged_weighted_state, "probability", 1.0)
     with pytest.raises(ValueError, match="LegacyState"):
         LegacyDistribution([forged_weighted_state])
+
+
+def test_legacy_distribution_rejects_forged_inconsistent_nested_records() -> None:
+    forged_state = object.__new__(LegacyState)
+    object.__setattr__(forged_state, "flat_index", 0)
+    object.__setattr__(forged_state, "piece_id", 19)
+    object.__setattr__(forged_state, "sticky", False)
+    object.__setattr__(forged_state, "geometry_id", "baseline.one-cell")
+    object.__setattr__(forged_state, "contact_kind", ContactKind.SUPPORTED)
+    forged_weighted = object.__new__(LegacyWeightedState)
+    object.__setattr__(forged_weighted, "state", forged_state)
+    object.__setattr__(forged_weighted, "probability", 1.0)
+
+    with pytest.raises(ValueError, match="disagree"):
+        LegacyDistribution([forged_weighted])
+
+    missing_state = object.__new__(LegacyState)
+    missing_weighted = object.__new__(LegacyWeightedState)
+    object.__setattr__(missing_weighted, "state", missing_state)
+    object.__setattr__(missing_weighted, "probability", 1.0)
+    with pytest.raises(ValueError, match="fully initialized"):
+        LegacyDistribution([missing_weighted])
+
+    forged_probability = object.__new__(LegacyWeightedState)
+    object.__setattr__(forged_probability, "state", legacy_state(0))
+    object.__setattr__(forged_probability, "probability", True)
+    with pytest.raises(ValueError, match="canonical built-in floats"):
+        LegacyDistribution([forged_probability])
 
 
 def test_legacy_weighted_state_rejects_mutable_custom_probability() -> None:
@@ -169,7 +218,10 @@ def test_legacy_weighted_state_rejects_mutable_custom_probability() -> None:
     probability.value = 0.0
 
 
-@pytest.mark.parametrize("probability", [True, 0, -1, float("nan"), float("inf"), float("-inf")])
+@pytest.mark.parametrize(
+    "probability",
+    [True, 0, -1, 10**1000, float("nan"), float("inf"), float("-inf")],
+)
 def test_legacy_weighted_state_requires_positive_finite_probability(probability: object) -> None:
     with pytest.raises(ValueError, match="legacy probability"):
         LegacyWeightedState(legacy_state(0), probability)
@@ -204,6 +256,38 @@ def test_invalid_legacy_density_fails_closed(density: dict[str, object]) -> None
 def test_direct_inconsistent_state_construction_fails() -> None:
     with pytest.raises(ValueError, match="disagree"):
         LegacyState(0, 1, False, "tetromino.i.00", ContactKind.SUPPORTED)
+
+
+def test_legacy_state_requires_exact_builtin_field_types_before_operations() -> None:
+    class HostileInt(int):
+        def __lt__(self, other: object) -> bool:
+            raise AssertionError("hostile integer comparison must not run")
+
+        def __divmod__(self, other: object) -> object:
+            raise AssertionError("hostile integer divmod must not run")
+
+    class HostileString(str):
+        def __eq__(self, other: object) -> bool:
+            raise AssertionError("hostile string comparison must not run")
+
+    valid = (0, 0, False, "tetromino.o.00", ContactKind.SUPPORTED)
+    invalid_cases = (
+        (True, *valid[1:]),
+        (HostileInt(0), *valid[1:]),
+        (valid[0], True, *valid[2:]),
+        (valid[0], valid[1], 0, *valid[3:]),
+        (*valid[:3], HostileString(valid[3]), valid[4]),
+        (*valid[:4], "supported"),
+    )
+
+    for fields in invalid_cases:
+        with pytest.raises(ValueError, match="built-in|ContactKind"):
+            LegacyState(*fields)
+
+    with pytest.raises(ValueError, match="integer"):
+        legacy_state(True)
+    with pytest.raises(ValueError, match="integer"):
+        legacy_state(HostileInt(0))
 
 
 def test_json_golden_trajectories_reproduce_current_legacy_engine(monkeypatch) -> None:
