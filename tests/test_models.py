@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import operator
 from collections import Counter
+from types import MappingProxyType
 
 import pytest
 
@@ -234,6 +235,59 @@ def test_orientation_distribution_rejects_hostile_or_duck_typed_probability_inpu
         OrientationDistribution.from_weights(HostileOuterMapping())
     with pytest.raises(ValueError, match="built-in mappings"):
         OrientationDistribution.from_weights({"i": HostileInnerMapping()})
+
+
+def test_probability_contracts_reject_hostile_tuple_containers_before_iteration() -> None:
+    class HostileTuple(tuple[object, ...]):
+        def __iter__(self) -> object:
+            raise AssertionError("hostile tuple iteration must not run")
+
+        def __len__(self) -> int:
+            raise AssertionError("hostile tuple length must not run")
+
+    with pytest.raises(ValueError, match="plain list or tuple"):
+        PieceEnsemble(HostileTuple((("i", 1.0),)))
+    with pytest.raises(ValueError, match="key/value pairs"):
+        PieceEnsemble((HostileTuple(("i", 1.0)),))
+    with pytest.raises(ValueError, match="plain list or tuple"):
+        OrientationDistribution(HostileTuple((("i", (("tetromino.i.00", 1.0),)),)))
+    with pytest.raises(ValueError, match="family/weights pairs"):
+        OrientationDistribution((HostileTuple(("i", (("tetromino.i.00", 1.0),))),))
+    with pytest.raises(ValueError, match="plain list or tuple"):
+        OrientationDistribution((("i", HostileTuple((("tetromino.i.00", 1.0),))),))
+    with pytest.raises(ValueError, match="plain list or tuple"):
+        ContactRule(HostileTuple(((ContactKind.SUPPORTED, 1.0),)))
+    with pytest.raises(ValueError, match="key/value pairs"):
+        ContactRule((HostileTuple((ContactKind.SUPPORTED, 1.0)),))
+
+
+def test_probability_factories_reject_dict_subclasses_and_accept_safe_mappings() -> None:
+    class HostileFamilyMapping(dict[str, float]):
+        def items(self) -> object:
+            raise AssertionError("hostile family mapping iteration must not run")
+
+    class HostileOrientationMapping(dict[str, dict[str, float]]):
+        def items(self) -> object:
+            raise AssertionError("hostile orientation mapping iteration must not run")
+
+    class HostileContactMapping(dict[ContactKind, float]):
+        def items(self) -> object:
+            raise AssertionError("hostile contact mapping iteration must not run")
+
+    with pytest.raises(ValueError, match="built-in mapping"):
+        PieceEnsemble.from_weights(HostileFamilyMapping(i=1.0))
+    with pytest.raises(ValueError, match="built-in mapping"):
+        OrientationDistribution.from_weights(HostileOrientationMapping())
+    with pytest.raises(ValueError, match="built-in mapping"):
+        ContactRule.from_weights(HostileContactMapping())
+
+    assert PieceEnsemble.from_weights(MappingProxyType({"i": 1.0})).weights == (("i", 1.0),)
+    assert OrientationDistribution.from_weights(
+        MappingProxyType({"i": MappingProxyType({"tetromino.i.00": 1.0})})
+    ).by_family == (("i", (("tetromino.i.00", 1.0),)),)
+    assert ContactRule.from_weights(
+        MappingProxyType({ContactKind.SUPPORTED: 1.0})
+    ).weights == ((ContactKind.SUPPORTED, 1.0),)
 
 
 @pytest.mark.parametrize(

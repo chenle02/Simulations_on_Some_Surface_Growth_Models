@@ -290,6 +290,8 @@ class PieceEnsemble:
     weights: WeightItems
 
     def __post_init__(self) -> None:
+        if type(self.weights) not in (list, tuple):
+            raise ValueError("family weights must be a plain list or tuple")
         weights = _snapshot_weight_items(self.weights, label="family")
         object.__setattr__(self, "weights", weights)
         _validate_normalized_items(
@@ -322,6 +324,8 @@ class OrientationDistribution:
     by_family: tuple[tuple[str, WeightItems], ...]
 
     def __post_init__(self) -> None:
+        if type(self.by_family) not in (list, tuple):
+            raise ValueError("orientation distribution must be a plain list or tuple")
         snapshot: list[tuple[str, WeightItems]] = []
         for item in self.by_family:
             if type(item) not in (list, tuple) or len(item) != 2:
@@ -329,6 +333,8 @@ class OrientationDistribution:
             family_id, weights = item
             if type(family_id) is not str:
                 raise ValueError("orientation family IDs must be built-in strings")
+            if type(weights) not in (list, tuple):
+                raise ValueError("orientation family weights must be a plain list or tuple")
             snapshot.append(
                 (family_id, _snapshot_weight_items(weights, label=f"orientation for {family_id}"))
             )
@@ -417,9 +423,11 @@ class ContactRule:
     weights: tuple[tuple[ContactKind, float], ...]
 
     def __post_init__(self) -> None:
+        if type(self.weights) not in (list, tuple):
+            raise ValueError("contact-rule weights must be a plain list or tuple")
         snapshot: list[tuple[ContactKind, float]] = []
         for item in self.weights:
-            if not isinstance(item, (list, tuple)) or len(item) != 2:
+            if type(item) not in (list, tuple) or len(item) != 2:
                 raise ValueError("contact-rule weights must contain key/value pairs")
             key, raw_value = item
             if type(key) is not ContactKind:
@@ -438,6 +446,8 @@ class ContactRule:
 
     @classmethod
     def from_weights(cls, weights: Mapping[ContactKind | str, float]) -> "ContactRule":
+        if type(weights) not in (dict, _MAPPING_PROXY_TYPE):
+            raise ValueError("contact-rule weights must be a plain or read-only built-in mapping")
         converted = {ContactKind(key).value: value for key, value in weights.items()}
         normalized = _normalize_weights(
             converted,
