@@ -131,6 +131,16 @@ class LegacyWeightedState:
     state: LegacyState
     probability: float
 
+    def __post_init__(self) -> None:
+        if type(self.state) is not LegacyState:
+            raise ValueError("legacy weighted state must contain a LegacyState")
+        if type(self.probability) not in (int, float):
+            raise ValueError("legacy probability must be a built-in int or float")
+        probability = float(self.probability)
+        if not math.isfinite(probability) or probability <= 0:
+            raise ValueError("legacy probability must be finite and positive")
+        object.__setattr__(self, "probability", probability)
+
 
 @dataclass(frozen=True, slots=True)
 class LegacyDistribution:

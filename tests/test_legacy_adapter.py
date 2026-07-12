@@ -147,8 +147,43 @@ def test_legacy_distribution_defensively_snapshots_caller_state_list() -> None:
 def test_legacy_distribution_rejects_invalid_nested_state_types() -> None:
     with pytest.raises(ValueError, match="LegacyWeightedState"):
         LegacyDistribution([object()])
+
+    forged_weighted_state = object.__new__(LegacyWeightedState)
+    object.__setattr__(forged_weighted_state, "state", object())
+    object.__setattr__(forged_weighted_state, "probability", 1.0)
     with pytest.raises(ValueError, match="LegacyState"):
-        LegacyDistribution([LegacyWeightedState(object(), 1.0)])
+        LegacyDistribution([forged_weighted_state])
+
+
+def test_legacy_weighted_state_rejects_mutable_custom_probability() -> None:
+    class MutableProbability:
+        def __init__(self, value: float) -> None:
+            self.value = value
+
+        def __float__(self) -> float:
+            return self.value
+
+    probability = MutableProbability(1.0)
+    with pytest.raises(ValueError, match="built-in int or float"):
+        LegacyWeightedState(legacy_state(0), probability)
+    probability.value = 0.0
+
+
+@pytest.mark.parametrize("probability", [True, 0, -1, float("nan"), float("inf"), float("-inf")])
+def test_legacy_weighted_state_requires_positive_finite_probability(probability: object) -> None:
+    with pytest.raises(ValueError, match="legacy probability"):
+        LegacyWeightedState(legacy_state(0), probability)
+
+
+def test_legacy_weighted_state_normalizes_probability_to_builtin_float_record() -> None:
+    weighted_state = LegacyWeightedState(legacy_state(0), 1)
+    distribution = LegacyDistribution([weighted_state])
+    record = distribution.canonical_record()
+
+    assert type(weighted_state.probability) is float
+    assert weighted_state.probability == 1.0
+    assert type(record["states"][0]["probability"]) is float
+    assert record["states"][0]["probability"] == 1.0
 
 
 @pytest.mark.parametrize(
