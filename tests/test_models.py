@@ -82,6 +82,146 @@ def test_direct_ensemble_construction_cannot_bypass_validation() -> None:
         PieceEnsemble((("o", 0.5), ("i", 0.5)))
 
 
+def test_probability_records_snapshot_exact_builtin_key_and_value_types() -> None:
+    ensemble = PieceEnsemble([["i", 1]])
+    orientations = OrientationDistribution([["i", [["tetromino.i.00", 1]]]])
+
+    assert ensemble.weights == (("i", 1.0),)
+    assert type(ensemble.weights[0][0]) is str
+    assert type(ensemble.weights[0][1]) is float
+    assert orientations.by_family == (("i", (("tetromino.i.00", 1.0),)),)
+    assert type(orientations.by_family[0][0]) is str
+    assert type(orientations.by_family[0][1][0][0]) is str
+    assert type(orientations.by_family[0][1][0][1]) is float
+
+
+def test_from_weights_preserves_nonnegative_input_and_drops_zero_entries() -> None:
+    ensemble = PieceEnsemble.from_weights({"i": 2, "o": 0})
+    orientations = OrientationDistribution.from_weights(
+        {"i": {"tetromino.i.00": 2, "tetromino.i.01": 0}}
+    )
+
+    assert ensemble.weights == (("i", 1.0),)
+    assert orientations.by_family == (("i", (("tetromino.i.00", 1.0),)),)
+
+
+def test_piece_ensemble_rejects_hostile_or_duck_typed_probability_inputs() -> None:
+    class HostileID(str):
+        __hash__ = str.__hash__
+
+        def __eq__(self, other: object) -> bool:
+            raise AssertionError("hostile ID comparison must not run")
+
+    class HostileFloat(float):
+        def __float__(self) -> float:
+            raise AssertionError("hostile float coercion must not run")
+
+    class FloatLike:
+        def __float__(self) -> float:
+            return 1.0
+
+    class HostileMapping(dict[str, float]):
+        def items(self) -> object:
+            raise AssertionError("hostile mapping iteration must not run")
+
+    for weights in (
+        ((HostileID("i"), 1.0),),
+        (("i", True),),
+        (("i", HostileFloat(1.0)),),
+        (("i", FloatLike()),),
+    ):
+        with pytest.raises(ValueError, match="built-in"):
+            PieceEnsemble(weights)
+
+    with pytest.raises(ValueError, match="built-in"):
+        PieceEnsemble.from_weights({HostileID("i"): 1.0})
+    with pytest.raises(ValueError, match="built-in"):
+        PieceEnsemble.from_weights({"i": HostileFloat(1.0)})
+    with pytest.raises(ValueError, match="built-in mapping"):
+        PieceEnsemble.from_weights(HostileMapping(i=1.0))
+
+
+def test_orientation_distribution_rejects_hostile_or_duck_typed_probability_inputs() -> None:
+    class HostileID(str):
+        __hash__ = str.__hash__
+
+        def __eq__(self, other: object) -> bool:
+            raise AssertionError("hostile ID comparison must not run")
+
+    class HostileFloat(float):
+        def __float__(self) -> float:
+            raise AssertionError("hostile float coercion must not run")
+
+    class FloatLike:
+        def __float__(self) -> float:
+            return 1.0
+
+    class HostileOuterMapping(dict[str, dict[str, float]]):
+        def items(self) -> object:
+            raise AssertionError("hostile outer mapping iteration must not run")
+
+    class HostileInnerMapping(dict[str, float]):
+        def items(self) -> object:
+            raise AssertionError("hostile inner mapping iteration must not run")
+
+    for by_family in (
+        ((HostileID("i"), (("tetromino.i.00", 1.0),)),),
+        (("i", ((HostileID("tetromino.i.00"), 1.0),)),),
+        (("i", (("tetromino.i.00", True),)),),
+        (("i", (("tetromino.i.00", HostileFloat(1.0)),)),),
+        (("i", (("tetromino.i.00", FloatLike()),)),),
+    ):
+        with pytest.raises(ValueError, match="built-in"):
+            OrientationDistribution(by_family)
+
+    with pytest.raises(ValueError, match="built-in"):
+        OrientationDistribution.from_weights({HostileID("i"): {"tetromino.i.00": 1.0}})
+    with pytest.raises(ValueError, match="built-in"):
+        OrientationDistribution.from_weights({"i": {HostileID("tetromino.i.00"): 1.0}})
+    with pytest.raises(ValueError, match="built-in"):
+        OrientationDistribution.from_weights({"i": {"tetromino.i.00": HostileFloat(1.0)}})
+    with pytest.raises(ValueError, match="built-in mapping"):
+        OrientationDistribution.from_weights(HostileOuterMapping())
+    with pytest.raises(ValueError, match="built-in mappings"):
+        OrientationDistribution.from_weights({"i": HostileInnerMapping()})
+
+
+@pytest.mark.parametrize(
+    "weights",
+    [
+        (("i", 0.0),),
+        (("i", -1.0),),
+        (("i", float("nan")),),
+        (("i", float("inf")),),
+        (("i", 10**1000),),
+        (("i", 0.4), ("o", 0.4)),
+    ],
+)
+def test_direct_piece_ensemble_requires_positive_finite_normalized_weights(
+    weights: tuple[tuple[str, float], ...],
+) -> None:
+    with pytest.raises(ValueError):
+        PieceEnsemble(weights)
+
+
+@pytest.mark.parametrize(
+    "weights",
+    [
+        (("tetromino.i.00", 0.0),),
+        (("tetromino.i.00", -1.0),),
+        (("tetromino.i.00", float("nan")),),
+        (("tetromino.i.00", float("inf")),),
+        (("tetromino.i.00", 10**1000),),
+        (("tetromino.i.00", 0.4), ("tetromino.i.01", 0.4)),
+    ],
+)
+def test_direct_orientation_distribution_requires_positive_finite_normalized_weights(
+    weights: tuple[tuple[str, float], ...],
+) -> None:
+    with pytest.raises(ValueError):
+        OrientationDistribution((("i", weights),))
+
+
 def test_caller_owned_weight_sequences_are_defensively_frozen() -> None:
     ensemble_weights = [["i", 1.0]]
     orientation_weights = [["i", [["tetromino.i.00", 1.0]]]]

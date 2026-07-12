@@ -22,6 +22,7 @@ WeightItems = tuple[tuple[str, float], ...]
 MODEL_SCHEMA_VERSION = "1.0.0"
 SOFTWARE_GEOMETRY_RECORD_PROFILE = "tetris-ballistic/software-geometry-record@1"
 SOFTWARE_CONFIG_RECORD_PROFILE = "tetris-ballistic/software-config-record@1"
+_MAPPING_PROXY_TYPE = type(MappingProxyType({}))
 
 
 def _canonical_json(value: object) -> bytes:
@@ -205,15 +206,35 @@ FAMILY_ORIENTATION_IDS: Mapping[str, tuple[str, ...]] = MappingProxyType(
 )
 
 
+def _snapshot_weight_items(items: Iterable[object], *, label: str) -> WeightItems:
+    snapshot: list[tuple[str, float]] = []
+    for item in items:
+        if type(item) not in (list, tuple) or len(item) != 2:
+            raise ValueError(f"{label} weights must contain key/value pairs")
+        key, raw_value = item
+        if type(key) is not str:
+            raise ValueError(f"{label} weight IDs must be built-in strings")
+        if type(raw_value) not in (int, float):
+            raise ValueError(f"{label} weights must be built-in int or float values")
+        try:
+            value = float(raw_value)
+        except OverflowError as error:
+            raise ValueError(f"{label} weights must be finite") from error
+        snapshot.append((key, value))
+    return tuple(snapshot)
+
+
 def _normalize_weights(weights: Mapping[str, float], *, allowed: set[str], label: str) -> WeightItems:
-    if not weights:
+    if type(weights) not in (dict, _MAPPING_PROXY_TYPE):
+        raise ValueError(f"{label} weights must be a plain or read-only built-in mapping")
+    supplied = _snapshot_weight_items(weights.items(), label=label)
+    if not supplied:
         raise ValueError(f"{label} weights must not be empty")
-    unknown = set(weights) - allowed
+    unknown = {key for key, _ in supplied} - allowed
     if unknown:
         raise ValueError(f"unknown {label} IDs: {sorted(unknown)}")
     converted: list[tuple[str, float]] = []
-    for key, raw_value in weights.items():
-        value = float(raw_value)
+    for key, value in supplied:
         if not math.isfinite(value) or value < 0:
             raise ValueError(f"{label} weights must be finite and nonnegative")
         converted.append((key, value))
@@ -227,12 +248,16 @@ def _validate_normalized_items(items: WeightItems, *, allowed: set[str], label: 
     if not items:
         raise ValueError(f"{label} weights must not be empty")
     keys = [key for key, _ in items]
+    if any(type(key) is not str for key in keys):
+        raise ValueError(f"{label} weight IDs must be built-in strings")
     if keys != sorted(keys) or len(keys) != len(set(keys)):
         raise ValueError(f"{label} weights must have unique, sorted IDs")
     unknown = set(keys) - allowed
     if unknown:
         raise ValueError(f"unknown {label} IDs: {sorted(unknown)}")
     values = [value for _, value in items]
+    if any(type(value) is not float for value in values):
+        raise ValueError(f"{label} weights must use canonical built-in floats")
     if any(not math.isfinite(value) or value <= 0 for value in values):
         raise ValueError(f"{label} weights must be finite and positive")
     if not math.isclose(sum(values), 1.0, rel_tol=1e-12, abs_tol=1e-12):
@@ -246,7 +271,7 @@ class PieceEnsemble:
     weights: WeightItems
 
     def __post_init__(self) -> None:
-        weights = tuple((key, value) for key, value in self.weights)
+        weights = _snapshot_weight_items(self.weights, label="family")
         object.__setattr__(self, "weights", weights)
         _validate_normalized_items(
             weights,
@@ -278,10 +303,17 @@ class OrientationDistribution:
     by_family: tuple[tuple[str, WeightItems], ...]
 
     def __post_init__(self) -> None:
-        by_family = tuple(
-            (family_id, tuple((geometry_id, value) for geometry_id, value in weights))
-            for family_id, weights in self.by_family
-        )
+        snapshot: list[tuple[str, WeightItems]] = []
+        for item in self.by_family:
+            if type(item) not in (list, tuple) or len(item) != 2:
+                raise ValueError("orientation distribution must contain family/weights pairs")
+            family_id, weights = item
+            if type(family_id) is not str:
+                raise ValueError("orientation family IDs must be built-in strings")
+            snapshot.append(
+                (family_id, _snapshot_weight_items(weights, label=f"orientation for {family_id}"))
+            )
+        by_family = tuple(snapshot)
         object.__setattr__(self, "by_family", by_family)
         family_ids = [family_id for family_id, _ in by_family]
         if not family_ids or family_ids != sorted(family_ids) or len(family_ids) != len(set(family_ids)):
@@ -297,7 +329,10 @@ class OrientationDistribution:
 
     @classmethod
     def isotropic(cls, families: Iterable[str] | None = None) -> "OrientationDistribution":
-        selected = tuple(sorted(families if families is not None else FAMILY_ORIENTATION_IDS))
+        supplied = tuple(families if families is not None else FAMILY_ORIENTATION_IDS)
+        if any(type(family_id) is not str for family_id in supplied):
+            raise ValueError("orientation family IDs must be built-in strings")
+        selected = tuple(sorted(supplied))
         return cls.from_weights(
             {
                 family_id: {geometry_id: 1.0 for geometry_id in FAMILY_ORIENTATION_IDS[family_id]}
@@ -307,13 +342,25 @@ class OrientationDistribution:
 
     @classmethod
     def from_weights(cls, weights: Mapping[str, Mapping[str, float]]) -> "OrientationDistribution":
-        unknown_families = set(weights) - set(FAMILY_ORIENTATION_IDS)
+        if type(weights) not in (dict, _MAPPING_PROXY_TYPE):
+            raise ValueError("orientation weights must be a plain or read-only built-in mapping")
+        supplied: list[tuple[str, Mapping[str, float]]] = []
+        for item in weights.items():
+            if type(item) not in (list, tuple) or len(item) != 2:
+                raise ValueError("orientation distribution must contain family/weights pairs")
+            family_id, family_weights = item
+            if type(family_id) is not str:
+                raise ValueError("orientation family IDs must be built-in strings")
+            if type(family_weights) not in (dict, _MAPPING_PROXY_TYPE):
+                raise ValueError("orientation family weights must be plain or read-only built-in mappings")
+            supplied.append((family_id, family_weights))
+        unknown_families = {family_id for family_id, _ in supplied} - set(FAMILY_ORIENTATION_IDS)
         if unknown_families:
             raise ValueError(f"unknown orientation families: {sorted(unknown_families)}")
-        if not weights:
+        if not supplied:
             raise ValueError("orientation distribution must not be empty")
         normalized = []
-        for family_id, family_weights in weights.items():
+        for family_id, family_weights in supplied:
             items = _normalize_weights(
                 family_weights,
                 allowed=set(FAMILY_ORIENTATION_IDS[family_id]),
