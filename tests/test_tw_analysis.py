@@ -84,6 +84,17 @@ def test_reducer_requires_exact_ordered_exp14_seeds(tmp_path):
         )
 
 
+def test_missing_height_grid_rejects_ambiguous_ascending_hbar(tmp_path):
+    path = tmp_path / "ambiguous.npz"
+    np.savez_compressed(
+        path,
+        hbar=np.tile(np.arange(1, 21, dtype=np.float32), (2, 1)),
+    )
+    with np.load(path) as trace:
+        with pytest.raises(ValueError, match="provenance is ambiguous"):
+            reduce_tw_interfaces._physical_hbar_from_trace(trace, L=25)
+
+
 def _fixture_interface(substrate, deposition_count):
     """Independent, loop-based timestamp reconstruction for reducer tests."""
     height, width = substrate.shape
@@ -98,8 +109,18 @@ def _fixture_interface(substrate, deposition_count):
     return result
 
 
-def test_reduce_cell_end_to_end_pairs_seeds_and_validates_interfaces(tmp_path):
-    pct, L, height, n_steps = 99, 25, 80, 50
+@pytest.mark.parametrize(
+    ("include_height_grid", "expected_correction"),
+    [
+        (True, "already_physical_height_grid_field"),
+        (False, "in_memory_grid_height_minus_raw_hbar"),
+    ],
+)
+def test_reduce_cell_end_to_end_pairs_seeds_and_validates_interfaces(
+    tmp_path, include_height_grid, expected_correction
+):
+    pct, L, n_steps = 99, 25, 50
+    height = reduce_tw_interfaces.grid_height_for_L(L)
     seeds = np.arange(0, 1000, 10, dtype=np.int32)
     raw_root = tmp_path / "raw"
     trace_root = tmp_path / "traces"
@@ -136,18 +157,23 @@ def test_reduce_cell_end_to_end_pairs_seeds_and_validates_interfaces(tmp_path):
             raw_cell / f"seed_{int(seed):03d}.joblib",
         )
 
-    np.savez_compressed(
-        trace_cell / f"L_{L:04d}.npz",
-        seeds=seeds,
-        final_steps=np.full(seeds.size, n_steps, dtype=np.int64),
-        W=W,
-        hbar=hbar,
-        height_grid=np.int32(height),
-    )
+    trace_path = trace_cell / f"L_{L:04d}.npz"
+    trace_payload = {
+        "seeds": seeds,
+        "final_steps": np.full(seeds.size, n_steps, dtype=np.int64),
+        "W": W,
+        "hbar": hbar if include_height_grid else (height - hbar).astype(np.float32),
+    }
+    if include_height_grid:
+        trace_payload["height_grid"] = np.int32(height)
+    np.savez_compressed(trace_path, **trace_payload)
+    trace_bytes_before = trace_path.read_bytes()
 
     arrays, metadata = reduce_tw_interfaces.reduce_cell(
         str(raw_root), str(trace_root), pct, L
     )
+
+    assert trace_path.read_bytes() == trace_bytes_before
 
     ensemble_hbar = hbar.mean(axis=0, dtype=np.float64)
     expected_indices = []
@@ -170,6 +196,8 @@ def test_reduce_cell_end_to_end_pairs_seeds_and_validates_interfaces(tmp_path):
     np.testing.assert_array_equal(arrays["seeds"], seeds)
     assert metadata["seeds"] == seeds.tolist()
     assert metadata["raw_file_count"] == 100
+    assert metadata["height_grid"] == height
+    assert metadata["trace_hbar_correction"] == expected_correction
     assert metadata["validation"]["checks_passed"] == 300
     assert metadata["validation"]["max_mean_abs_error"] < 1e-3
     assert metadata["validation"]["max_std_abs_error"] < 1e-3

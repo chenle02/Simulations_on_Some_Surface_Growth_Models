@@ -11,6 +11,7 @@ import tempfile
 import joblib
 import numpy as np
 
+from tetris_ballistic.scripts.invert_exp14_height import grid_height_for_L
 from tetris_ballistic.tw_analysis import (
     DEFAULT_Q_VALUES,
     DENSITY_CONVENTION,
@@ -72,21 +73,50 @@ def _atomic_json(path, payload):
         raise
 
 
+def _physical_hbar_from_trace(trace, L):
+    """Return physical-height traces and explicit correction provenance."""
+    hbar = np.asarray(trace["hbar"])
+    if "height_grid" in trace.files:
+        height_grid = int(np.asarray(trace["height_grid"]).item())
+        return hbar, height_grid, "already_physical_height_grid_field"
+
+    mean_raw = np.mean(hbar, axis=0, dtype=np.float64)
+    if mean_raw.size < 2 or not mean_raw[-1] < mean_raw[0]:
+        raise ValueError(
+            "trace NPZ lacks height_grid and hbar is not descending; "
+            "physical-height provenance is ambiguous"
+        )
+    height_grid = grid_height_for_L(L)
+    physical = (height_grid - hbar).astype(np.float32)
+    mean_physical = np.mean(physical, axis=0, dtype=np.float64)
+    if not (
+        mean_physical[0] < 5.0
+        and mean_physical[-1] > mean_physical[0]
+        and np.all(np.diff(mean_physical) >= -1e-3)
+    ):
+        raise ValueError(
+            "in-memory exp14 height correction did not produce an ascending "
+            "physical-height trace starting near zero"
+        )
+    return physical, height_grid, "in_memory_grid_height_minus_raw_hbar"
+
+
 def reduce_cell(raw_root, trace_root, pct, L, q_values=DEFAULT_Q_VALUES):
     trace_path = os.path.join(trace_root, f"pct_{pct:02d}", f"L_{L:04d}.npz")
     if not os.path.exists(trace_path):
         raise FileNotFoundError(f"corrected trace NPZ is missing: {trace_path}")
 
     with np.load(trace_path) as trace:
-        required = {"seeds", "final_steps", "W", "hbar", "height_grid"}
+        required = {"seeds", "final_steps", "W", "hbar"}
         missing = required - set(trace.files)
         if missing:
             raise ValueError(f"trace NPZ lacks required fields: {sorted(missing)}")
         seeds = np.asarray(trace["seeds"], dtype=np.int32)
         final_steps = np.asarray(trace["final_steps"], dtype=np.int64)
         W = np.asarray(trace["W"])
-        hbar = np.asarray(trace["hbar"])
-        height_grid = int(np.asarray(trace["height_grid"]).item())
+        hbar, height_grid, trace_hbar_correction = _physical_hbar_from_trace(
+            trace, L
+        )
 
     if hbar.shape != W.shape or hbar.shape[0] != seeds.size:
         raise ValueError("trace arrays and seed metadata have inconsistent shapes")
@@ -174,6 +204,8 @@ def reduce_cell(raw_root, trace_root, pct, L, q_values=DEFAULT_Q_VALUES):
         "target_trace_indices": target_indices.tolist(),
         "deposition_counts": deposition_counts.tolist(),
         "target_mean_hbar": target_mean_hbar.tolist(),
+        "height_grid": height_grid,
+        "trace_hbar_correction": trace_hbar_correction,
         "physical_height_sign": "positive-growth-direction",
         "interface_convention": (
             "H - _TopEnvelop row; occupied top row minus 1; empty column H-1"
