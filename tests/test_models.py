@@ -419,6 +419,11 @@ def test_contact_rule_uses_explicit_mechanics_and_normalizes() -> None:
     }
 
 
+def test_contact_rule_rejects_overflowing_builtin_integer_weight() -> None:
+    with pytest.raises(ValueError, match="finite and positive"):
+        ContactRule(((ContactKind.SUPPORTED, 10**1000),))
+
+
 def test_generic_first_contact_is_distinct_from_legacy_sticky_v1() -> None:
     assert ContactKind.FIRST_CONTACT.value == "first-contact"
     assert ContactKind.LEGACY_STICKY_V1.value == "legacy-sticky-v1"

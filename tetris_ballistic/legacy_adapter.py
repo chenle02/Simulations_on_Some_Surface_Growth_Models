@@ -324,7 +324,12 @@ def simulation_config_from_density(
 
     if type(factorization_tolerance) not in (int, float):
         raise ValueError("factorization_tolerance must be a built-in int or float")
-    normalized_tolerance = float(factorization_tolerance)
+    try:
+        normalized_tolerance = float(factorization_tolerance)
+    except OverflowError as error:
+        raise ValueError(
+            f"factorization_tolerance must be finite and between 0 and {MAX_FACTORIZATION_TOLERANCE}"
+        ) from error
     if not math.isfinite(normalized_tolerance) or not 0 <= normalized_tolerance <= MAX_FACTORIZATION_TOLERANCE:
         raise ValueError(f"factorization_tolerance must be finite and between 0 and {MAX_FACTORIZATION_TOLERANCE}")
     distribution = distribution_from_density(density)

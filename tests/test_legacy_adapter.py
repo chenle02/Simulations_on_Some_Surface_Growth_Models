@@ -450,6 +450,18 @@ def test_invalid_factorization_tolerance_is_rejected() -> None:
         )
 
 
+def test_overflowing_builtin_integer_factorization_tolerance_is_controlled() -> None:
+    with pytest.raises(ValueError, match="factorization_tolerance must be finite"):
+        simulation_config_from_density(
+            _single_piece_density(19, 0),
+            width=32,
+            height=128,
+            steps=100,
+            root_seed=3,
+            factorization_tolerance=10**1000,
+        )
+
+
 def test_large_tolerance_cannot_bypass_correlated_law_gate() -> None:
     density = {f"Piece-{index}": [0, 0] for index in range(20)}
     density["Piece-0"] = [1, 0]

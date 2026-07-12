@@ -434,7 +434,11 @@ class ContactRule:
                 raise ValueError("contact-rule keys must be ContactKind values")
             if type(raw_value) not in (int, float):
                 raise ValueError("contact-rule weights must be built-in int or float values")
-            snapshot.append((ContactKind(key.value), float(raw_value)))
+            try:
+                value = float(raw_value)
+            except OverflowError as error:
+                raise ValueError("contact-rule weights must be finite and positive") from error
+            snapshot.append((ContactKind(key.value), value))
         weights = tuple(snapshot)
         string_items = tuple((key.value, value) for key, value in weights)
         _validate_normalized_items(
