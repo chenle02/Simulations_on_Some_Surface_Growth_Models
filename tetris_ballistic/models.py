@@ -38,7 +38,7 @@ def normalize_coordinates(coordinates: Iterable[Coordinate]) -> tuple[Coordinate
     points = tuple(coordinates)
     if not points:
         raise ValueError("geometry must contain at least one occupied coordinate")
-    if any(not isinstance(row, int) or not isinstance(column, int) for row, column in points):
+    if any(type(row) is not int or type(column) is not int for row, column in points):
         raise TypeError("geometry coordinates must be integer pairs")
     min_row = min(row for row, _ in points)
     min_column = min(column for _, column in points)
@@ -199,8 +199,10 @@ class PieceEnsemble:
     weights: WeightItems
 
     def __post_init__(self) -> None:
+        weights = tuple((key, value) for key, value in self.weights)
+        object.__setattr__(self, "weights", weights)
         _validate_normalized_items(
-            self.weights,
+            weights,
             allowed=set(FAMILY_ORIENTATION_IDS) | {ONE_CELL.family_id},
             label="family",
         )
@@ -229,10 +231,15 @@ class OrientationDistribution:
     by_family: tuple[tuple[str, WeightItems], ...]
 
     def __post_init__(self) -> None:
-        family_ids = [family_id for family_id, _ in self.by_family]
+        by_family = tuple(
+            (family_id, tuple((geometry_id, value) for geometry_id, value in weights))
+            for family_id, weights in self.by_family
+        )
+        object.__setattr__(self, "by_family", by_family)
+        family_ids = [family_id for family_id, _ in by_family]
         if not family_ids or family_ids != sorted(family_ids) or len(family_ids) != len(set(family_ids)):
             raise ValueError("orientation families must be nonempty, unique, and sorted")
-        for family_id, weights in self.by_family:
+        for family_id, weights in by_family:
             if family_id not in FAMILY_ORIENTATION_IDS:
                 raise ValueError(f"unknown orientation family: {family_id}")
             _validate_normalized_items(
@@ -289,7 +296,9 @@ class ContactRule:
     weights: tuple[tuple[ContactKind, float], ...]
 
     def __post_init__(self) -> None:
-        string_items = tuple((key.value, value) for key, value in self.weights)
+        weights = tuple((key, value) for key, value in self.weights)
+        object.__setattr__(self, "weights", weights)
+        string_items = tuple((key.value, value) for key, value in weights)
         _validate_normalized_items(
             string_items,
             allowed={kind.value for kind in ContactKind},
@@ -350,8 +359,16 @@ class SimulationConfig:
     schema_version: str = MODEL_SCHEMA_VERSION
 
     def __post_init__(self) -> None:
-        if self.width <= 0 or self.height <= 0 or self.steps <= 0:
-            raise ValueError("width, height, and steps must be positive")
+        for name in ("width", "height", "steps"):
+            value = getattr(self, name)
+            if type(value) is not int or value <= 0:
+                raise ValueError(f"{name} must be a positive integer")
+        if type(self.root_seed) is not int or self.root_seed < 0:
+            raise ValueError("root_seed must be a nonnegative integer")
+        if not isinstance(self.boundary, BoundaryKind):
+            raise ValueError("boundary must be a BoundaryKind")
+        if self.schema_version != MODEL_SCHEMA_VERSION:
+            raise ValueError(f"unsupported model schema version: {self.schema_version!r}")
         selected_families = {family_id for family_id, _ in self.ensemble.weights}
         tetromino_families = selected_families - {ONE_CELL.family_id}
         orientation_families = (

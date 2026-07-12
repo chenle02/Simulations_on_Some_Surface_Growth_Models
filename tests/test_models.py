@@ -9,6 +9,7 @@ import pytest
 from tetris_ballistic.models import (
     FAMILY_ORIENTATION_IDS,
     GEOMETRY_BY_ID,
+    MODEL_SCHEMA_VERSION,
     ONE_CELL,
     TETROMINO_REGISTRY,
     BoundaryKind,
@@ -60,6 +61,12 @@ def test_piece_geometry_rejects_noncanonical_disconnected_and_duplicates() -> No
         PieceGeometry("bad", "bad", ((0, 0), (0, 0)))
 
 
+@pytest.mark.parametrize("coordinates", [((False, 0),), ((0, True),)])
+def test_piece_geometry_rejects_boolean_coordinates(coordinates: tuple[tuple[object, object], ...]) -> None:
+    with pytest.raises(TypeError, match="integer pairs"):
+        PieceGeometry("bad", "bad", coordinates)
+
+
 def test_equal_free_family_ensemble_normalizes() -> None:
     ensemble = PieceEnsemble.equal_free_families()
     assert {key for key, _ in ensemble.weights} == set(FAMILY_ORIENTATION_IDS)
@@ -71,6 +78,39 @@ def test_direct_ensemble_construction_cannot_bypass_validation() -> None:
         PieceEnsemble((("i", 0.2), ("o", 0.2)))
     with pytest.raises(ValueError, match="unique, sorted"):
         PieceEnsemble((("o", 0.5), ("i", 0.5)))
+
+
+def test_caller_owned_weight_sequences_are_defensively_frozen() -> None:
+    ensemble_weights = [["i", 1.0]]
+    orientation_weights = [["i", [["tetromino.i.00", 1.0]]]]
+    contact_weights = [[ContactKind.SUPPORTED, 1.0]]
+    ensemble = PieceEnsemble(ensemble_weights)
+    orientations = OrientationDistribution(orientation_weights)
+    contact_rule = ContactRule(contact_weights)
+    config = SimulationConfig(
+        width=64,
+        height=256,
+        steps=1000,
+        root_seed=42,
+        ensemble=ensemble,
+        orientations=orientations,
+        contact_rule=contact_rule,
+    )
+    original_json = config.to_json()
+    original_hash = config.sha256
+
+    ensemble_weights[0][0] = "unknown"
+    ensemble_weights[0][1] = -1.0
+    orientation_weights[0][1][0][0] = "tetromino.i.01"
+    orientation_weights[0][1][0][1] = -1.0
+    contact_weights[0][0] = ContactKind.FIRST_CONTACT
+    contact_weights[0][1] = -1.0
+
+    assert ensemble.weights == (("i", 1.0),)
+    assert orientations.by_family == (("i", (("tetromino.i.00", 1.0),)),)
+    assert contact_rule.weights == ((ContactKind.SUPPORTED, 1.0),)
+    assert config.to_json() == original_json
+    assert config.sha256 == original_hash
 
 
 @pytest.mark.parametrize(
@@ -121,6 +161,51 @@ def test_simulation_config_requires_exact_orientation_family_coverage() -> None:
             orientations=None,
             contact_rule=ContactRule.supported(),
         )
+
+
+def _one_cell_config(**overrides: object) -> SimulationConfig:
+    values: dict[str, object] = {
+        "width": 64,
+        "height": 256,
+        "steps": 1000,
+        "root_seed": 42,
+        "ensemble": PieceEnsemble.pure("one-cell"),
+        "orientations": None,
+        "contact_rule": ContactRule.supported(),
+    }
+    values.update(overrides)
+    return SimulationConfig(**values)
+
+
+@pytest.mark.parametrize("field", ["width", "height", "steps"])
+@pytest.mark.parametrize("invalid", [True, 1.5, 0, -1])
+def test_simulation_config_rejects_invalid_positive_integer_fields(field: str, invalid: object) -> None:
+    with pytest.raises(ValueError, match=field):
+        _one_cell_config(**{field: invalid})
+
+
+@pytest.mark.parametrize("invalid", [True, 1.5, -1, None])
+def test_simulation_config_rejects_invalid_root_seed(invalid: object) -> None:
+    with pytest.raises(ValueError, match="root_seed"):
+        _one_cell_config(root_seed=invalid)
+
+
+@pytest.mark.parametrize("invalid", ["hard-wall", True, None])
+def test_simulation_config_rejects_non_enum_boundary(invalid: object) -> None:
+    with pytest.raises(ValueError, match="BoundaryKind"):
+        _one_cell_config(boundary=invalid)
+
+
+@pytest.mark.parametrize("invalid", ["garbage", "", None, 1])
+def test_simulation_config_rejects_unsupported_schema_version(invalid: object) -> None:
+    with pytest.raises(ValueError, match="unsupported model schema"):
+        _one_cell_config(schema_version=invalid)
+
+
+def test_simulation_config_accepts_current_schema_and_zero_seed() -> None:
+    config = _one_cell_config(root_seed=0, schema_version=MODEL_SCHEMA_VERSION)
+    assert config.root_seed == 0
+    assert config.schema_version == MODEL_SCHEMA_VERSION
 
 
 def test_one_cell_configuration_has_stable_canonical_identity() -> None:
