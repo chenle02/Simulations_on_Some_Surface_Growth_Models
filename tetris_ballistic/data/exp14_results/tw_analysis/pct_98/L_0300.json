@@ -1,0 +1,334 @@
+{
+  "L": 300,
+  "density_convention": "Piece-19=[100-pct,pct]=[nonsticky,sticky]",
+  "experiment": "exp14",
+  "interpretation_limit": "two-moment GOE compatibility is a KPZ fingerprint, not proof of full universality",
+  "n_boot": 2000,
+  "n_seeds": 100,
+  "percentage_semantics": "sticky_fraction_pct",
+  "physical_height_sign": "positive-growth-direction",
+  "records": [
+    {
+      "L": 300,
+      "deposition_count": 111451,
+      "fixed_center_column": {
+        "bootstrap_covariance": [
+          [
+            0.08668657240893617,
+            0.17641857076232945
+          ],
+          [
+            0.17641857076232945,
+            0.5776128615463301
+          ]
+        ],
+        "bootstrap_unit": "seed_block",
+        "ci95": {
+          "excess_kurtosis": [
+            -0.5439530766078129,
+            2.263923000532249
+          ],
+          "skewness": [
+            -0.0714386263965869,
+            1.0519031650272899
+          ]
+        },
+        "ci99": {
+          "excess_kurtosis": [
+            -0.7033299676126776,
+            2.8706800093171276
+          ],
+          "skewness": [
+            -0.18152502557537867,
+            1.2589292261443596
+          ]
+        },
+        "column": 150,
+        "excess_kurtosis": 0.8142316257147617,
+        "goe_compatibility": {
+          "excess_kurtosis": "compatible_95",
+          "skewness": "compatible_95"
+        },
+        "goe_delta": {
+          "excess_kurtosis": 0.6490316257147617,
+          "skewness": 0.24628728330158867
+        },
+        "goe_targets": {
+          "excess_kurtosis": 0.1652,
+          "skewness": 0.2935
+        },
+        "n_boot": 2000,
+        "rng_seed": 30090713,
+        "skewness": 0.5397872833015886
+      },
+      "pooled": {
+        "bootstrap_covariance": [
+          [
+            0.013403039525981103,
+            0.016710073158605933
+          ],
+          [
+            0.016710073158605933,
+            0.046075428152613555
+          ]
+        ],
+        "bootstrap_unit": "seed_block",
+        "ci95": {
+          "excess_kurtosis": [
+            0.09550377708125042,
+            0.9441706054872931
+          ],
+          "skewness": [
+            -0.008641771483475122,
+            0.44154707457533166
+          ]
+        },
+        "ci99": {
+          "excess_kurtosis": [
+            -0.01849990015880075,
+            1.0972493209953758
+          ],
+          "skewness": [
+            -0.07479358164809245,
+            0.4894988034451349
+          ]
+        },
+        "excess_kurtosis": 0.5406800669457059,
+        "goe_compatibility": {
+          "excess_kurtosis": "compatible_95",
+          "skewness": "compatible_95"
+        },
+        "goe_delta": {
+          "excess_kurtosis": 0.3754800669457059,
+          "skewness": -0.055104477449859995
+        },
+        "goe_targets": {
+          "excess_kurtosis": 0.1652,
+          "skewness": 0.2935
+        },
+        "n_boot": 2000,
+        "rng_seed": 30090712,
+        "skewness": 0.23839552255014
+      },
+      "q": 0.15,
+      "sticky_fraction_pct": 98,
+      "target_mean_hbar": 779.41607421875,
+      "target_trace_index": 111450
+    },
+    {
+      "L": 300,
+      "deposition_count": 185184,
+      "fixed_center_column": {
+        "bootstrap_covariance": [
+          [
+            0.061829287918261644,
+            0.11724402926031846
+          ],
+          [
+            0.11724402926031846,
+            0.3786123898105048
+          ]
+        ],
+        "bootstrap_unit": "seed_block",
+        "ci95": {
+          "excess_kurtosis": [
+            -0.5900632851206563,
+            1.7726050721855773
+          ],
+          "skewness": [
+            0.0693010664196853,
+            1.049625000143193
+          ]
+        },
+        "ci99": {
+          "excess_kurtosis": [
+            -0.8200024799059912,
+            2.2617043149065545
+          ],
+          "skewness": [
+            -0.06046925071200244,
+            1.1612264562991115
+          ]
+        },
+        "column": 150,
+        "excess_kurtosis": 0.6546708468433247,
+        "goe_compatibility": {
+          "excess_kurtosis": "compatible_95",
+          "skewness": "compatible_95"
+        },
+        "goe_delta": {
+          "excess_kurtosis": 0.48947084684332465,
+          "skewness": 0.3347285908883354
+        },
+        "goe_targets": {
+          "excess_kurtosis": 0.1652,
+          "skewness": 0.2935
+        },
+        "n_boot": 2000,
+        "rng_seed": 30090715,
+        "skewness": 0.6282285908883354
+      },
+      "pooled": {
+        "bootstrap_covariance": [
+          [
+            0.008752471303876371,
+            0.006035294616103269
+          ],
+          [
+            0.006035294616103269,
+            0.028824191877940854
+          ]
+        ],
+        "bootstrap_unit": "seed_block",
+        "ci95": {
+          "excess_kurtosis": [
+            -0.06116115714717744,
+            0.6050662197930232
+          ],
+          "skewness": [
+            -0.023498479051919697,
+            0.35419124310749317
+          ]
+        },
+        "ci99": {
+          "excess_kurtosis": [
+            -0.15515257294587748,
+            0.7122385039525065
+          ],
+          "skewness": [
+            -0.08573369081539878,
+            0.39910336483003234
+          ]
+        },
+        "excess_kurtosis": 0.24737958925243886,
+        "goe_compatibility": {
+          "excess_kurtosis": "compatible_95",
+          "skewness": "compatible_95"
+        },
+        "goe_delta": {
+          "excess_kurtosis": 0.08217958925243884,
+          "skewness": -0.11965669257993636
+        },
+        "goe_targets": {
+          "excess_kurtosis": 0.1652,
+          "skewness": 0.2935
+        },
+        "n_boot": 2000,
+        "rng_seed": 30090714,
+        "skewness": 0.17384330742006363
+      },
+      "q": 0.25,
+      "sticky_fraction_pct": 98,
+      "target_mean_hbar": 1299.034814453125,
+      "target_trace_index": 185183
+    },
+    {
+      "L": 300,
+      "deposition_count": 295564,
+      "fixed_center_column": {
+        "bootstrap_covariance": [
+          [
+            0.06585561551895035,
+            0.024122725793038605
+          ],
+          [
+            0.024122725793038605,
+            0.17726353118859942
+          ]
+        ],
+        "bootstrap_unit": "seed_block",
+        "ci95": {
+          "excess_kurtosis": [
+            -0.3581739052172971,
+            1.2832855528158154
+          ],
+          "skewness": [
+            -0.2062819763433819,
+            0.769100679364841
+          ]
+        },
+        "ci99": {
+          "excess_kurtosis": [
+            -0.5903155060010122,
+            1.7186560433809006
+          ],
+          "skewness": [
+            -0.39190623245189454,
+            0.8924031619960745
+          ]
+        },
+        "column": 150,
+        "excess_kurtosis": 0.4469864972241617,
+        "goe_compatibility": {
+          "excess_kurtosis": "compatible_95",
+          "skewness": "compatible_95"
+        },
+        "goe_delta": {
+          "excess_kurtosis": 0.2817864972241617,
+          "skewness": -0.009592426398682852
+        },
+        "goe_targets": {
+          "excess_kurtosis": 0.1652,
+          "skewness": 0.2935
+        },
+        "n_boot": 2000,
+        "rng_seed": 30090717,
+        "skewness": 0.28390757360131713
+      },
+      "pooled": {
+        "bootstrap_covariance": [
+          [
+            0.012581163722934642,
+            0.014749936982276338
+          ],
+          [
+            0.014749936982276338,
+            0.0441045031313442
+          ]
+        ],
+        "bootstrap_unit": "seed_block",
+        "ci95": {
+          "excess_kurtosis": [
+            -0.3204517976957328,
+            0.4970277690447511
+          ],
+          "skewness": [
+            0.023461228728430834,
+            0.46100727524597285
+          ]
+        },
+        "ci99": {
+          "excess_kurtosis": [
+            -0.39182315913171534,
+            0.6334304573647659
+          ],
+          "skewness": [
+            -0.036184026856119926,
+            0.5164736360252304
+          ]
+        },
+        "excess_kurtosis": 0.04865523795003135,
+        "goe_compatibility": {
+          "excess_kurtosis": "compatible_95",
+          "skewness": "compatible_95"
+        },
+        "goe_delta": {
+          "excess_kurtosis": -0.11654476204996866,
+          "skewness": -0.04858387504363823
+        },
+        "goe_targets": {
+          "excess_kurtosis": 0.1652,
+          "skewness": 0.2935
+        },
+        "n_boot": 2000,
+        "rng_seed": 30090716,
+        "skewness": 0.24491612495636175
+      },
+      "q": 0.4,
+      "sticky_fraction_pct": 98,
+      "target_mean_hbar": 2078.456435546875,
+      "target_trace_index": 295563
+    }
+  ],
+  "sticky_fraction_pct": 98
+}
