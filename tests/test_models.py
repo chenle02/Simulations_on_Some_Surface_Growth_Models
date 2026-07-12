@@ -11,6 +11,8 @@ from tetris_ballistic.models import (
     GEOMETRY_BY_ID,
     MODEL_SCHEMA_VERSION,
     ONE_CELL,
+    SOFTWARE_CONFIG_RECORD_PROFILE,
+    SOFTWARE_GEOMETRY_RECORD_PROFILE,
     TETROMINO_REGISTRY,
     BoundaryKind,
     ContactKind,
@@ -35,7 +37,7 @@ def test_tetrominoes_are_canonical_connected_area_four() -> None:
     for geometry in TETROMINO_REGISTRY:
         assert geometry.area == 4
         assert geometry.coordinates == normalize_coordinates(geometry.coordinates)
-        assert len(geometry.sha256) == 64
+        assert len(geometry.software_geometry_record_sha256) == 64
 
 
 def test_one_cell_is_a_separate_baseline() -> None:
@@ -97,7 +99,7 @@ def test_caller_owned_weight_sequences_are_defensively_frozen() -> None:
         contact_rule=contact_rule,
     )
     original_json = config.to_json()
-    original_hash = config.sha256
+    original_hash = config.software_config_record_sha256
 
     ensemble_weights[0][0] = "unknown"
     ensemble_weights[0][1] = -1.0
@@ -110,7 +112,7 @@ def test_caller_owned_weight_sequences_are_defensively_frozen() -> None:
     assert orientations.by_family == (("i", (("tetromino.i.00", 1.0),)),)
     assert contact_rule.weights == ((ContactKind.SUPPORTED, 1.0),)
     assert config.to_json() == original_json
-    assert config.sha256 == original_hash
+    assert config.software_config_record_sha256 == original_hash
 
 
 @pytest.mark.parametrize(
@@ -208,7 +210,7 @@ def test_simulation_config_accepts_current_schema_and_zero_seed() -> None:
     assert config.schema_version == MODEL_SCHEMA_VERSION
 
 
-def test_one_cell_configuration_has_stable_canonical_identity() -> None:
+def test_one_cell_configuration_has_stable_software_record_digest() -> None:
     config = SimulationConfig(
         width=64,
         height=256,
@@ -222,8 +224,66 @@ def test_one_cell_configuration_has_stable_canonical_identity() -> None:
     assert decoded["width"] == 64
     assert decoded["boundary"] == BoundaryKind.HARD_WALL.value
     assert decoded["contact_rule"]["weights"] == {"supported": 1.0}
-    assert config.sha256 == config.sha256
-    assert len(config.sha256) == 64
+    assert config.software_config_record_sha256 == config.software_config_record_sha256
+    assert len(config.software_config_record_sha256) == 64
+
+
+def test_software_local_record_profiles_have_golden_one_cell_digests() -> None:
+    config = SimulationConfig(
+        width=4,
+        height=16,
+        steps=12,
+        root_seed=7,
+        ensemble=PieceEnsemble.pure("one-cell"),
+        orientations=None,
+        contact_rule=ContactRule.supported(),
+    )
+
+    assert SOFTWARE_GEOMETRY_RECORD_PROFILE == "tetris-ballistic/software-geometry-record@1"
+    assert ONE_CELL.software_geometry_record_sha256 == "1b453abde9941c43b885836ea4eac89e92f044664f1af15e003bef9a539294e4"
+    assert ONE_CELL.software_geometry_record_reference() == {
+        "profile": SOFTWARE_GEOMETRY_RECORD_PROFILE,
+        "sha256": "1b453abde9941c43b885836ea4eac89e92f044664f1af15e003bef9a539294e4",
+    }
+    assert SOFTWARE_CONFIG_RECORD_PROFILE == "tetris-ballistic/software-config-record@1"
+    assert config.software_config_record_sha256 == "853655b21f47f155bc2090a5b0b4a85f2589613e60814020103123a849b552c4"
+    assert config.software_config_record_reference() == {
+        "profile": SOFTWARE_CONFIG_RECORD_PROFILE,
+        "sha256": "853655b21f47f155bc2090a5b0b4a85f2589613e60814020103123a849b552c4",
+    }
+    assert config.to_json() == (
+        '{"boundary":"hard-wall","contact_rule":{"weights":{"supported":1.0}},'
+        '"ensemble":{"weights":{"one-cell":1.0}},"height":16,"orientations":null,'
+        '"root_seed":7,"schema_version":"1.0.0","steps":12,"width":4}'
+    )
+    assert ONE_CELL.sha256 == ONE_CELL.software_geometry_record_sha256
+    assert config.sha256 == config.software_config_record_sha256
+
+
+def test_software_record_digest_comparison_rejects_wrong_profiles() -> None:
+    config = _one_cell_config()
+    with pytest.raises(ValueError, match="profile mismatch"):
+        ONE_CELL.matches_software_geometry_record_digest(
+            profile=SOFTWARE_CONFIG_RECORD_PROFILE,
+            sha256=ONE_CELL.software_geometry_record_sha256,
+        )
+    assert ONE_CELL.matches_software_geometry_record_digest(
+        profile=SOFTWARE_GEOMETRY_RECORD_PROFILE,
+        sha256=ONE_CELL.software_geometry_record_sha256,
+    )
+    assert not ONE_CELL.matches_software_geometry_record_digest(
+        profile=SOFTWARE_GEOMETRY_RECORD_PROFILE,
+        sha256="0" * 64,
+    )
+    with pytest.raises(ValueError, match="profile mismatch"):
+        config.matches_software_config_record_digest(
+            profile=SOFTWARE_GEOMETRY_RECORD_PROFILE,
+            sha256=config.software_config_record_sha256,
+        )
+    assert config.matches_software_config_record_digest(
+        profile=SOFTWARE_CONFIG_RECORD_PROFILE,
+        sha256=config.software_config_record_sha256,
+    )
 
 
 def test_tetromino_configuration_round_trip_payload_is_deterministic() -> None:
@@ -246,4 +306,4 @@ def test_tetromino_configuration_round_trip_payload_is_deterministic() -> None:
         contact_rule=ContactRule.first_contact(),
     )
     assert config_a.to_json() == config_b.to_json()
-    assert config_a.sha256 == config_b.sha256
+    assert config_a.software_config_record_sha256 == config_b.software_config_record_sha256

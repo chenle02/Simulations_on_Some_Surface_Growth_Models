@@ -2,7 +2,7 @@
 
 **Specification version:** 0.1.0
 
-**Status:** M0 design; implementation not yet started
+**Status:** M1.1 contracts prototype; engine routing and shared cross-repository schemas are not implemented
 
 **Compatibility target:** backward-compatible 2.1.x transition, then 3.0.0 only after migration gates
 
@@ -102,7 +102,7 @@ The migration may happen module-by-module while the installed import name remain
 - width and height;
 - symmetry metadata;
 - canonical orientation IDs;
-- canonical JSON representation and SHA-256 identity.
+- deterministic software-local JSON record and a profile-qualified SHA-256 digest.
 
 Coordinates are translated so the minimum row and column are zero, sorted lexicographically, duplicate-free, and nonempty.
 
@@ -170,7 +170,7 @@ The engine records, without substitution,
 - numeric dtype/precision policy;
 - output policy.
 
-Validation occurs before allocation or simulation. The canonical JSON form is the scientific identity used by result bundles.
+Validation occurs before allocation or simulation. During M1.1, the typed objects expose only the repository-local digest profiles `tetris-ballistic/software-geometry-record@1` and `tetris-ballistic/software-config-record@1`. These digests are not shared scientific identities and must not be compared with data-repository record hashes. A shared result-bundle projection remains an M1.3 gate.
 
 ### 6.7 Results
 
@@ -239,7 +239,7 @@ tetris-bd benchmark [--json OUTPUT]
 Rules:
 
 - every command supports `--help` and machine-readable errors;
-- simulation/sweep commands validate and print the canonical config hash before work;
+- after the shared M1.3 schema exists, simulation/sweep commands validate and print its profile-qualified config hash before work;
 - `--dry-run` performs validation, geometry expansion, resource estimates, and output planning without mutation;
 - resume verifies configuration identity before skipping existing cells;
 - exit codes distinguish invalid input, incomplete data, integrity failure, and runtime failure;
@@ -261,11 +261,13 @@ manifest.json
 checksums.sha256
 ```
 
-### Required identities
+### Required identities (M1.3 target)
+
+The current M1.1 software-local record digests do not satisfy this cross-repository contract.
 
 - schema version;
-- canonical configuration hash;
-- canonical geometry hash;
+- shared, profile-qualified configuration hash;
+- shared, profile-qualified geometry hash;
 - manifest generation ID;
 - software version and git SHA when available;
 - platform and dependency versions;

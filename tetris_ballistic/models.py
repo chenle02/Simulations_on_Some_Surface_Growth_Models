@@ -1,8 +1,9 @@
-"""Typed, canonical model contracts for the community API.
+"""Typed model contracts for the community API.
 
 This module is additive during the 2.1 compatibility series.  It does not
 change the behavior of :class:`Tetris_Ballistic`; adapters will be introduced
-only after golden-equivalence tests exist.
+only after golden-equivalence tests exist.  Its current record digests are
+software-local profiles, not cross-repository scientific identities.
 """
 
 from __future__ import annotations
@@ -12,12 +13,15 @@ import math
 from dataclasses import dataclass
 from enum import Enum
 from hashlib import sha256
+from hmac import compare_digest
 from types import MappingProxyType
 from typing import Iterable, Mapping
 
 Coordinate = tuple[int, int]
 WeightItems = tuple[tuple[str, float], ...]
 MODEL_SCHEMA_VERSION = "1.0.0"
+SOFTWARE_GEOMETRY_RECORD_PROFILE = "tetris-ballistic/software-geometry-record@1"
+SOFTWARE_CONFIG_RECORD_PROFILE = "tetris-ballistic/software-config-record@1"
 
 
 def _canonical_json(value: object) -> bytes:
@@ -30,8 +34,26 @@ def _canonical_json(value: object) -> bytes:
     ).encode("utf-8")
 
 
-def _identity(value: object) -> str:
+def _software_record_sha256(value: object) -> str:
     return sha256(_canonical_json(value)).hexdigest()
+
+
+def _record_reference(profile: str, digest: str) -> dict[str, str]:
+    return {"profile": profile, "sha256": digest}
+
+
+def _matches_profiled_digest(
+    *,
+    supplied_profile: str,
+    expected_profile: str,
+    supplied_sha256: str,
+    expected_sha256: str,
+) -> bool:
+    if type(supplied_profile) is not str or supplied_profile != expected_profile:
+        raise ValueError(f"record digest profile mismatch: expected {expected_profile!r}")
+    if type(supplied_sha256) is not str:
+        raise ValueError("record digest must be a string")
+    return compare_digest(supplied_sha256, expected_sha256)
 
 
 def normalize_coordinates(coordinates: Iterable[Coordinate]) -> tuple[Coordinate, ...]:
@@ -92,6 +114,8 @@ class PieceGeometry:
         return max(column for _, column in self.coordinates) + 1
 
     def canonical_record(self) -> dict[str, object]:
+        """Return the payload for the software-local geometry record profile."""
+
         return {
             "area": self.area,
             "coordinates": [list(point) for point in self.coordinates],
@@ -102,8 +126,31 @@ class PieceGeometry:
         }
 
     @property
+    def software_geometry_record_sha256(self) -> str:
+        """Digest under :data:`SOFTWARE_GEOMETRY_RECORD_PROFILE`."""
+
+        return _software_record_sha256(self.canonical_record())
+
+    def software_geometry_record_reference(self) -> dict[str, str]:
+        """Return the profile-qualified digest for serialization boundaries."""
+
+        return _record_reference(SOFTWARE_GEOMETRY_RECORD_PROFILE, self.software_geometry_record_sha256)
+
+    def matches_software_geometry_record_digest(self, *, profile: str, sha256: str) -> bool:
+        """Compare a geometry digest only after enforcing its local profile."""
+
+        return _matches_profiled_digest(
+            supplied_profile=profile,
+            expected_profile=SOFTWARE_GEOMETRY_RECORD_PROFILE,
+            supplied_sha256=sha256,
+            expected_sha256=self.software_geometry_record_sha256,
+        )
+
+    @property
     def sha256(self) -> str:
-        return _identity(self.canonical_record())
+        """Deprecated 2.1.x alias for :attr:`software_geometry_record_sha256`."""
+
+        return self.software_geometry_record_sha256
 
 
 def _dihedral_orientations(coordinates: Iterable[Coordinate]) -> tuple[tuple[Coordinate, ...], ...]:
@@ -341,11 +388,11 @@ class BoundaryKind(str, Enum):
 
 @dataclass(frozen=True, slots=True)
 class SimulationConfig:
-    """Minimal canonical M1 configuration identity.
+    """Minimal M1 software-local configuration record.
 
     Engine/checkpoint/output fields will be extended in later M1 milestones under
     a schema-version bump; this object intentionally does not run the legacy
-    simulator yet.
+    simulator yet.  Its digest is not a shared data-repository identity.
     """
 
     width: int
@@ -378,6 +425,8 @@ class SimulationConfig:
             raise ValueError("orientation families must exactly match selected tetromino families")
 
     def canonical_record(self) -> dict[str, object]:
+        """Return the payload for the software-local config record profile."""
+
         return {
             "contact_rule": self.contact_rule.canonical_record(),
             "ensemble": self.ensemble.canonical_record(),
@@ -391,8 +440,33 @@ class SimulationConfig:
         }
 
     @property
+    def software_config_record_sha256(self) -> str:
+        """Digest under :data:`SOFTWARE_CONFIG_RECORD_PROFILE`."""
+
+        return _software_record_sha256(self.canonical_record())
+
+    def software_config_record_reference(self) -> dict[str, str]:
+        """Return the profile-qualified digest for serialization boundaries."""
+
+        return _record_reference(SOFTWARE_CONFIG_RECORD_PROFILE, self.software_config_record_sha256)
+
+    def matches_software_config_record_digest(self, *, profile: str, sha256: str) -> bool:
+        """Compare a config digest only after enforcing its local profile."""
+
+        return _matches_profiled_digest(
+            supplied_profile=profile,
+            expected_profile=SOFTWARE_CONFIG_RECORD_PROFILE,
+            supplied_sha256=sha256,
+            expected_sha256=self.software_config_record_sha256,
+        )
+
+    @property
     def sha256(self) -> str:
-        return _identity(self.canonical_record())
+        """Deprecated 2.1.x alias for :attr:`software_config_record_sha256`."""
+
+        return self.software_config_record_sha256
 
     def to_json(self) -> str:
+        """Serialize the unprofiled local payload; use the reference alongside it."""
+
         return _canonical_json(self.canonical_record()).decode("utf-8")
