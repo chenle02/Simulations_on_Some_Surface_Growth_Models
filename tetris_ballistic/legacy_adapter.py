@@ -24,6 +24,7 @@ from .models import (
 )
 
 LEGACY_ADAPTER_VERSION = "1.0.0"
+MAX_FACTORIZATION_TOLERANCE = 1e-12
 
 # Verified by depositing each legacy Piece-N once on an empty hard-wall
 # substrate, normalizing its occupied coordinates, and matching those
@@ -245,7 +246,7 @@ def simulation_config_from_density(
     height: int,
     steps: int,
     root_seed: int,
-    factorization_tolerance: float = 1e-12,
+    factorization_tolerance: float = MAX_FACTORIZATION_TOLERANCE,
 ) -> SimulationConfig:
     """Factor a legacy joint law into independent typed laws or fail closed.
 
@@ -254,8 +255,12 @@ def simulation_config_from_density(
     correlated table is rejected rather than silently approximated.
     """
 
-    if not math.isfinite(factorization_tolerance) or factorization_tolerance < 0:
-        raise ValueError("factorization_tolerance must be finite and nonnegative")
+    if (
+        isinstance(factorization_tolerance, bool)
+        or not math.isfinite(factorization_tolerance)
+        or not 0 <= factorization_tolerance <= MAX_FACTORIZATION_TOLERANCE
+    ):
+        raise ValueError(f"factorization_tolerance must be finite and between 0 and {MAX_FACTORIZATION_TOLERANCE}")
     distribution = distribution_from_density(density)
     joint = {
         (weighted.state.geometry_id, weighted.state.contact_kind): weighted.probability

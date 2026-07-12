@@ -245,3 +245,18 @@ def test_invalid_factorization_tolerance_is_rejected() -> None:
             root_seed=3,
             factorization_tolerance=float("nan"),
         )
+
+
+def test_large_tolerance_cannot_bypass_correlated_law_gate() -> None:
+    density = {f"Piece-{index}": [0, 0] for index in range(20)}
+    density["Piece-0"] = [1, 0]
+    density["Piece-1"] = [0, 1]
+    with pytest.raises(ValueError, match="factorization_tolerance"):
+        simulation_config_from_density(
+            density,
+            width=32,
+            height=128,
+            steps=100,
+            root_seed=3,
+            factorization_tolerance=1.0,
+        )
