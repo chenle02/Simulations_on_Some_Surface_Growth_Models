@@ -115,6 +115,30 @@ def test_caller_owned_weight_sequences_are_defensively_frozen() -> None:
     assert config.software_config_record_sha256 == original_hash
 
 
+def test_mutable_pseudo_contact_kind_is_rejected_and_cannot_change_config_identity() -> None:
+    class MutablePseudoContactKind:
+        def __init__(self, value: str) -> None:
+            self.value = value
+
+    pseudo_kind = MutablePseudoContactKind("supported")
+    with pytest.raises(ValueError, match="ContactKind"):
+        ContactRule(((pseudo_kind, 1.0),))
+
+    caller_weights = [[ContactKind.SUPPORTED, 1.0]]
+    contact_rule = ContactRule(caller_weights)
+    config = _one_cell_config(contact_rule=contact_rule)
+    original_json = config.to_json()
+    original_digest = config.software_config_record_sha256
+
+    caller_weights[0][0] = pseudo_kind
+    pseudo_kind.value = "first-contact"
+    caller_weights.clear()
+
+    assert contact_rule.weights == ((ContactKind.SUPPORTED, 1.0),)
+    assert config.to_json() == original_json
+    assert config.software_config_record_sha256 == original_digest
+
+
 @pytest.mark.parametrize(
     "weights",
     [
@@ -208,6 +232,42 @@ def test_simulation_config_rejects_non_enum_boundary(invalid: object) -> None:
 def test_simulation_config_rejects_unsupported_schema_version(invalid: object) -> None:
     with pytest.raises(ValueError, match="unsupported model schema"):
         _one_cell_config(schema_version=invalid)
+
+
+def test_simulation_config_rejects_hostile_schema_version_subclass() -> None:
+    class HostileSchemaVersion(str):
+        def __eq__(self, other: object) -> bool:
+            return True
+
+        def __repr__(self) -> str:
+            raise AssertionError("hostile schema version must not control diagnostics")
+
+    with pytest.raises(ValueError, match="unsupported model schema"):
+        _one_cell_config(schema_version=HostileSchemaVersion("not-the-schema"))
+
+
+def test_simulation_config_rejects_none_contact_rule() -> None:
+    with pytest.raises(ValueError, match="contact_rule must be a ContactRule"):
+        _one_cell_config(contact_rule=None)
+
+
+def test_simulation_config_rejects_duck_typed_nested_objects() -> None:
+    class FakeEnsemble:
+        weights = (("one-cell", 1.0),)
+
+    class FakeOrientations:
+        by_family: tuple[object, ...] = ()
+
+    class FakeContactRule:
+        def canonical_record(self) -> dict[str, object]:
+            return {"weights": {"supported": 1.0}}
+
+    with pytest.raises(ValueError, match="ensemble must be a PieceEnsemble"):
+        _one_cell_config(ensemble=FakeEnsemble())
+    with pytest.raises(ValueError, match="orientations must be an OrientationDistribution"):
+        _one_cell_config(orientations=FakeOrientations())
+    with pytest.raises(ValueError, match="contact_rule must be a ContactRule"):
+        _one_cell_config(contact_rule=FakeContactRule())
 
 
 def test_simulation_config_accepts_current_schema_and_zero_seed() -> None:

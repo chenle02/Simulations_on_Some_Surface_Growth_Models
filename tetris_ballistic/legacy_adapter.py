@@ -139,12 +139,18 @@ class LegacyDistribution:
     states: tuple[LegacyWeightedState, ...]
 
     def __post_init__(self) -> None:
-        if not self.states:
+        states = tuple(self.states)
+        object.__setattr__(self, "states", states)
+        if not states:
             raise ValueError("legacy distribution must not be empty")
-        indices = [item.state.flat_index for item in self.states]
+        if any(type(item) is not LegacyWeightedState for item in states):
+            raise ValueError("legacy distribution entries must be LegacyWeightedState values")
+        if any(type(item.state) is not LegacyState for item in states):
+            raise ValueError("legacy weighted states must contain LegacyState values")
+        indices = [item.state.flat_index for item in states]
         if indices != sorted(indices) or len(indices) != len(set(indices)):
             raise ValueError("legacy states must be unique and sorted by flat index")
-        probabilities = [item.probability for item in self.states]
+        probabilities = [item.probability for item in states]
         if any(not math.isfinite(value) or value <= 0 for value in probabilities):
             raise ValueError("legacy probabilities must be finite and positive")
         if not math.isclose(sum(probabilities), 1.0, rel_tol=1e-12, abs_tol=1e-12):

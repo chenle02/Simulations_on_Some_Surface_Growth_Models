@@ -16,7 +16,9 @@ from tetris_ballistic.legacy_adapter import (
     LEGACY_ADAPTER_VERSION,
     LEGACY_PIECE_GEOMETRY_IDS,
     LEGACY_STATES,
+    LegacyDistribution,
     LegacyState,
+    LegacyWeightedState,
     density_from_distribution,
     density_from_simulation_config,
     distribution_from_density,
@@ -123,6 +125,30 @@ def test_density_round_trip_preserves_normalized_joint_weights() -> None:
     assert round_trip["Piece-0"] == pytest.approx([0.2, 0.1])
     assert round_trip["Piece-19"] == pytest.approx([0.3, 0.4])
     assert sum(sum(pair) for pair in round_trip.values()) == pytest.approx(1.0)
+
+
+def test_legacy_distribution_defensively_snapshots_caller_state_list() -> None:
+    caller_states = [
+        LegacyWeightedState(legacy_state(0), 0.4),
+        LegacyWeightedState(legacy_state(1), 0.6),
+    ]
+    distribution = LegacyDistribution(caller_states)
+    original_states = distribution.states
+    original_record = distribution.canonical_record()
+
+    caller_states[0] = LegacyWeightedState(legacy_state(2), 1.0)
+    caller_states.clear()
+
+    assert distribution.states == original_states
+    assert isinstance(distribution.states, tuple)
+    assert distribution.canonical_record() == original_record
+
+
+def test_legacy_distribution_rejects_invalid_nested_state_types() -> None:
+    with pytest.raises(ValueError, match="LegacyWeightedState"):
+        LegacyDistribution([object()])
+    with pytest.raises(ValueError, match="LegacyState"):
+        LegacyDistribution([LegacyWeightedState(object(), 1.0)])
 
 
 @pytest.mark.parametrize(

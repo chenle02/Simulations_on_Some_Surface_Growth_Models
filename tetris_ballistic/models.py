@@ -351,14 +351,24 @@ class ContactRule:
     weights: tuple[tuple[ContactKind, float], ...]
 
     def __post_init__(self) -> None:
-        weights = tuple((key, value) for key, value in self.weights)
-        object.__setattr__(self, "weights", weights)
+        snapshot: list[tuple[ContactKind, float]] = []
+        for item in self.weights:
+            if not isinstance(item, (list, tuple)) or len(item) != 2:
+                raise ValueError("contact-rule weights must contain key/value pairs")
+            key, raw_value = item
+            if type(key) is not ContactKind:
+                raise ValueError("contact-rule keys must be ContactKind values")
+            if type(raw_value) not in (int, float):
+                raise ValueError("contact-rule weights must be built-in int or float values")
+            snapshot.append((ContactKind(key.value), float(raw_value)))
+        weights = tuple(snapshot)
         string_items = tuple((key.value, value) for key, value in weights)
         _validate_normalized_items(
             string_items,
             allowed={kind.value for kind in ContactKind},
             label="contact-rule",
         )
+        object.__setattr__(self, "weights", weights)
 
     @classmethod
     def from_weights(cls, weights: Mapping[ContactKind | str, float]) -> "ContactRule":
@@ -430,8 +440,14 @@ class SimulationConfig:
             raise ValueError("root_seed must be a nonnegative integer")
         if not isinstance(self.boundary, BoundaryKind):
             raise ValueError("boundary must be a BoundaryKind")
-        if self.schema_version != MODEL_SCHEMA_VERSION:
-            raise ValueError(f"unsupported model schema version: {self.schema_version!r}")
+        if type(self.schema_version) is not str or self.schema_version != MODEL_SCHEMA_VERSION:
+            raise ValueError(f"unsupported model schema version; expected built-in string {MODEL_SCHEMA_VERSION!r}")
+        if type(self.ensemble) is not PieceEnsemble:
+            raise ValueError("ensemble must be a PieceEnsemble")
+        if self.orientations is not None and type(self.orientations) is not OrientationDistribution:
+            raise ValueError("orientations must be an OrientationDistribution or None")
+        if type(self.contact_rule) is not ContactRule:
+            raise ValueError("contact_rule must be a ContactRule")
         selected_families = {family_id for family_id, _ in self.ensemble.weights}
         tetromino_families = selected_families - {ONE_CELL.family_id}
         orientation_families = (
