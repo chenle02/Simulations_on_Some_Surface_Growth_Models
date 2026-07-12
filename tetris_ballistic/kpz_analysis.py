@@ -65,11 +65,14 @@ def load_ensemble(exp_dir, percentage, L):
         # W/hbar are padded to max_len; final_steps un-pads each seed to its
         # true length (else padding zeros corrupt the analysis).
         fs = d["final_steps"] if "final_steps" in d.files else None
+        # Keep float32 (npz dtype): deep cells reach 100 x ~8M steps, so a
+        # float64 upcast would need ~25 GB peak per L=500 cell and OOM on a
+        # 16 GB box. float32 mean/std are ample for the log-log slope.
         W_list, hbar_list = [], []
         for i in range(W_mat.shape[0]):
             n = int(fs[i]) if fs is not None else W_mat.shape[1]
-            W_list.append(W_mat[i, :n].astype(float))
-            hbar_list.append(hbar_mat[i, :n].astype(float))
+            W_list.append(np.ascontiguousarray(W_mat[i, :n]))
+            hbar_list.append(np.ascontiguousarray(hbar_mat[i, :n]))
         return W_list, hbar_list
 
     pattern = (
@@ -106,6 +109,56 @@ def truncate_to_common_length(arrays):
     for i, a in enumerate(arrays):
         mat[i] = a[:min_len]
     return mat, min_len
+
+
+def log_subsample_paired_traces(W_list, hbar_list, max_points=5000):
+    """Align and log-subsample paired width/height traces.
+
+    A single index array is applied to every seed and to both observables, so
+    the deposited-height clock remains paired with its width measurement.
+    Traces with at most ``max_points`` samples are unchanged.  Longer traces
+    retain unique, ordered, approximately log-spaced samples including both
+    endpoints.  Source dtypes are preserved.
+
+    Returns
+    -------
+    W_ensemble, hbar_ensemble : ndarray
+        Paired matrices with shape ``(n_seeds, n_analysis_points)``.
+    original_common_len : int
+        Minimum length across both observables and every seed.
+    indices : ndarray
+        Original trace indices retained for analysis.
+    """
+    if not W_list or not hbar_list:
+        raise ValueError("W_list and hbar_list must be non-empty")
+    if len(W_list) != len(hbar_list):
+        raise ValueError("W_list and hbar_list must contain the same seeds")
+    if max_points < 2:
+        raise ValueError("max_points must be at least 2")
+
+    original_common_len = min(
+        min(len(trace) for trace in W_list),
+        min(len(trace) for trace in hbar_list),
+    )
+    if original_common_len < 2:
+        raise ValueError("traces must contain at least two paired samples")
+
+    if original_common_len <= max_points:
+        indices = np.arange(original_common_len, dtype=np.int64)
+    else:
+        # Reserve one strictly increasing index per requested point, then
+        # distribute the remaining index range logarithmically.  This avoids
+        # the duplicate-heavy rounding of geomspace on integer indices while
+        # retaining dense early-time coverage and both endpoints.
+        extra_range = original_common_len - max_points + 1
+        log_offsets = np.rint(
+            np.geomspace(1, extra_range, num=max_points) - 1
+        ).astype(np.int64)
+        indices = np.arange(max_points, dtype=np.int64) + log_offsets
+
+    W_ensemble = np.stack([trace[indices] for trace in W_list])
+    hbar_ensemble = np.stack([trace[indices] for trace in hbar_list])
+    return W_ensemble, hbar_ensemble, original_common_len, indices
 
 
 def growth_window_slope(W_ensemble, hbar_ensemble, L,

@@ -35,11 +35,29 @@ from tetris_ballistic.kpz_analysis import (
     growth_window_slope,
     load_ensemble,
     local_slope_bootstrap,
+    log_subsample_paired_traces,
     meakin_range_of_fit,
-    truncate_to_common_length,
 )
 
 KPZ_BETA = 1.0 / 3.0
+SAMPLING_POLICY = {
+    "method": "paired_log_spaced_indices",
+    "max_points": 5000,
+    "includes_endpoints": True,
+}
+
+
+def _sampling_policy_is_current(cell):
+    """Return whether a saved cell has current estimator provenance."""
+    saturated = cell.get("saturated")
+    hbar_max = cell.get("hbar_max")
+    return (
+        cell.get("sampling_policy") == SAMPLING_POLICY
+        and type(saturated) is bool
+        and isinstance(hbar_max, (int, float))
+        and not isinstance(hbar_max, bool)
+        and np.isfinite(hbar_max)
+    )
 
 
 def _is_saturated(cell, L):
@@ -60,8 +78,9 @@ def _is_saturated(cell, L):
 def run_single_cell(exp_dir, pct, L, n_eval=150, n_boot=200):
     """Run Steps 1-5 for one (percentage, L) cell."""
     W_list, hbar_list = load_ensemble(exp_dir, pct, L)
-    W_ens, min_len = truncate_to_common_length(W_list)
-    hbar_ens, _ = truncate_to_common_length(hbar_list)
+    W_ens, hbar_ens, original_common_len, sample_indices = (
+        log_subsample_paired_traces(W_list, hbar_list)
+    )
 
     # Primary estimate: growth-window OLS (avoids transient + saturation)
     gw_beta, gw_lo, gw_hi = growth_window_slope(W_ens, hbar_ens, L, n_boot=n_boot)
@@ -85,7 +104,9 @@ def run_single_cell(exp_dir, pct, L, n_eval=150, n_boot=200):
         "percentage": pct,
         "L": L,
         "n_seeds": len(W_list),
-        "min_trace_len": min_len,
+        "min_trace_len": original_common_len,
+        "analysis_point_count": int(sample_indices.size),
+        "sampling_policy": dict(SAMPLING_POLICY),
         "hbar_max": hbar_max,
         "saturated": saturated,
         "growth_window_beta": gw_beta,
@@ -262,7 +283,7 @@ def main():
     print("=" * 60)
     print(f"KPZ Slope Extraction — {exp_dir}")
     if args.resume:
-        print("(--resume: skipping cells with existing per-cell JSON)")
+        print("(--resume: reusing cells with the current sampling policy)")
     if args.aggregate_only:
         print("(--aggregate-only: skipping all computation)")
     print("=" * 60)
@@ -276,16 +297,24 @@ def main():
 
             for L in widths:
                 cell_path = _cell_path(exp_dir, pct, L)
+                reuse_cell = False
                 if args.resume and os.path.exists(cell_path):
-                    print(f"  L={L}: resume — loaded {os.path.basename(cell_path)}")
                     with open(cell_path) as f:
                         cell = json.load(f)
-                    plateau = None
-                    elt = np.array(cell.get("eval_log_t", []))
-                    sm = np.array(cell.get("slope_med", []))
-                    slo = np.array(cell.get("slope_lo", []))
-                    shi = np.array(cell.get("slope_hi", []))
-                else:
+                    reuse_cell = _sampling_policy_is_current(cell)
+                    if reuse_cell:
+                        print(f"  L={L}: resume — loaded {os.path.basename(cell_path)}")
+                        plateau = None
+                        elt = np.array(cell.get("eval_log_t", []))
+                        sm = np.array(cell.get("slope_med", []))
+                        slo = np.array(cell.get("slope_lo", []))
+                        shi = np.array(cell.get("slope_hi", []))
+                    else:
+                        print(
+                            f"  L={L}: resume — stale sampling policy; recomputing"
+                        )
+
+                if not reuse_cell:
                     print(f"  L={L}: loading + bootstrap...", end=" ", flush=True)
                     try:
                         cell, elt, sm, slo, shi, plateau = run_single_cell(
