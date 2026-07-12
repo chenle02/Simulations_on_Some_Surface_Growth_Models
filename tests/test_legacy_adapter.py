@@ -332,6 +332,30 @@ def test_typed_independent_laws_round_trip_through_legacy_density() -> None:
     assert distribution_from_density(density) == distribution_from_simulation_config(config)
 
 
+def test_adapter_uses_only_simulation_config_nested_snapshots() -> None:
+    ensemble = PieceEnsemble.pure("i")
+    orientations = OrientationDistribution.from_weights({"i": {"tetromino.i.00": 1.0}})
+    contact_rule = ContactRule.supported()
+    config = SimulationConfig(
+        width=64,
+        height=512,
+        steps=10_000,
+        root_seed=23,
+        ensemble=ensemble,
+        orientations=orientations,
+        contact_rule=contact_rule,
+    )
+    expected_density = density_from_simulation_config(config)
+    expected_distribution = distribution_from_simulation_config(config)
+
+    object.__setattr__(ensemble, "weights", (("o", 1.0),))
+    object.__setattr__(orientations, "by_family", (("o", (("tetromino.o.00", 1.0),)),))
+    object.__setattr__(contact_rule, "weights", ((ContactKind.LEGACY_STICKY_V1, 1.0),))
+
+    assert density_from_simulation_config(config) == expected_density
+    assert distribution_from_simulation_config(config) == expected_distribution
+
+
 @pytest.mark.parametrize("geometry_id", EXPECTED_GEOMETRY_IDS)
 @pytest.mark.parametrize(
     "contact_rule",

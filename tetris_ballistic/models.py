@@ -514,13 +514,26 @@ class SimulationConfig:
             raise ValueError("orientations must be an OrientationDistribution or None")
         if type(self.contact_rule) is not ContactRule:
             raise ValueError("contact_rule must be a ContactRule")
-        selected_families = {family_id for family_id, _ in self.ensemble.weights}
+        try:
+            ensemble = PieceEnsemble(self.ensemble.weights)
+            orientations = (
+                OrientationDistribution(self.orientations.by_family)
+                if self.orientations is not None
+                else None
+            )
+            contact_rule = ContactRule(self.contact_rule.weights)
+        except AttributeError as error:
+            raise ValueError("nested model contracts must be fully initialized") from error
+        selected_families = {family_id for family_id, _ in ensemble.weights}
         tetromino_families = selected_families - {ONE_CELL.family_id}
         orientation_families = (
-            {family_id for family_id, _ in self.orientations.by_family} if self.orientations is not None else set()
+            {family_id for family_id, _ in orientations.by_family} if orientations is not None else set()
         )
         if tetromino_families != orientation_families:
             raise ValueError("orientation families must exactly match selected tetromino families")
+        object.__setattr__(self, "ensemble", ensemble)
+        object.__setattr__(self, "orientations", orientations)
+        object.__setattr__(self, "contact_rule", contact_rule)
 
     def canonical_record(self) -> dict[str, object]:
         """Return the payload for the software-local config record profile."""

@@ -460,6 +460,71 @@ def test_simulation_config_rejects_duck_typed_nested_objects() -> None:
         _one_cell_config(contact_rule=FakeContactRule())
 
 
+def test_simulation_config_snapshots_nested_contracts_against_caller_mutation() -> None:
+    ensemble = PieceEnsemble.pure("i")
+    orientations = OrientationDistribution.from_weights({"i": {"tetromino.i.00": 1.0}})
+    contact_rule = ContactRule.supported()
+    config = SimulationConfig(
+        width=64,
+        height=256,
+        steps=1000,
+        root_seed=42,
+        ensemble=ensemble,
+        orientations=orientations,
+        contact_rule=contact_rule,
+    )
+    original_json = config.to_json()
+    original_digest = config.software_config_record_sha256
+
+    object.__setattr__(ensemble, "weights", (("o", 1.0),))
+    object.__setattr__(orientations, "by_family", (("o", (("tetromino.o.00", 1.0),)),))
+    object.__setattr__(contact_rule, "weights", ((ContactKind.FIRST_CONTACT, 1.0),))
+
+    assert config.ensemble is not ensemble
+    assert config.orientations is not orientations
+    assert config.contact_rule is not contact_rule
+    assert config.ensemble.weights == (("i", 1.0),)
+    assert config.orientations is not None
+    assert config.orientations.by_family == (("i", (("tetromino.i.00", 1.0),)),)
+    assert config.contact_rule.weights == ((ContactKind.SUPPORTED, 1.0),)
+    assert config.to_json() == original_json
+    assert config.software_config_record_sha256 == original_digest
+
+
+def test_simulation_config_revalidates_forged_exact_nested_instances() -> None:
+    forged_ensemble = object.__new__(PieceEnsemble)
+    object.__setattr__(forged_ensemble, "weights", (("i", 0.25), ("o", 0.25)))
+    with pytest.raises(ValueError, match="sum to one"):
+        _one_cell_config(ensemble=forged_ensemble)
+
+    forged_orientations = object.__new__(OrientationDistribution)
+    object.__setattr__(
+        forged_orientations,
+        "by_family",
+        (("i", (("tetromino.o.00", 1.0),)),),
+    )
+    with pytest.raises(ValueError, match="unknown orientation"):
+        SimulationConfig(
+            width=64,
+            height=256,
+            steps=1000,
+            root_seed=42,
+            ensemble=PieceEnsemble.pure("i"),
+            orientations=forged_orientations,
+            contact_rule=ContactRule.supported(),
+        )
+
+    forged_contact_rule = object.__new__(ContactRule)
+    object.__setattr__(forged_contact_rule, "weights", ((ContactKind.SUPPORTED, 0.5),))
+    with pytest.raises(ValueError, match="sum to one"):
+        _one_cell_config(contact_rule=forged_contact_rule)
+
+
+def test_simulation_config_rejects_incomplete_forged_nested_instances() -> None:
+    with pytest.raises(ValueError, match="fully initialized"):
+        _one_cell_config(ensemble=object.__new__(PieceEnsemble))
+
+
 def test_simulation_config_accepts_current_schema_and_zero_seed() -> None:
     config = _one_cell_config(root_seed=0, schema_version=MODEL_SCHEMA_VERSION)
     assert config.root_seed == 0
