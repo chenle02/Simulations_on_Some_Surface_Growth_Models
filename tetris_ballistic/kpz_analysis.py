@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Robust KPZ growth-exponent extraction for tetromino ballistic deposition.
+Robust KPZ growth-exponent extraction for sticky/nonsticky ballistic deposition.
 
 Implements the 8-step protocol documented in the SPDEs-wiki project page
 ``tetris-kpz-slope-extraction.md``.  Each function cites its methodological
@@ -40,9 +40,11 @@ def load_ensemble(exp_dir, percentage, L):
     Parameters
     ----------
     exp_dir : str
-        Path to ``experiments/exp13/``.
+        Path to the experiment data.
     percentage : int
-        Sticky-fraction percentage (5, 50, 90, 95, 98, 99).
+        Experiment percentage label (5, 50, 90, 95, 98, 99). In exp13 this
+        denotes the nonsticky fraction; in exp14 it denotes the sticky
+        fraction. Callers must preserve the experiment provenance.
     L : int
         Strip width (50, 80, 100, 150, 200).
 
@@ -168,8 +170,9 @@ def growth_window_slope(W_ensemble, hbar_ensemble, L,
 
     The Family–Vicsek growth law is ``W ~ t^β`` with ``t`` = the *deposited
     height* h̄ (number of deposited layers), **not** the raw deposition-step
-    index.  For multi-cell (tetromino) pieces the two are not proportional in
-    the transient, so the growth exponent MUST be measured against log h̄.
+    index.  Lateral sticking and void creation make mean height nonlinear in
+    deposited-particle count during the transient, so the growth exponent MUST
+    be measured against log h̄.
     See the SPDEs-wiki project page, "Findings 2026-07-11", Finding 2.
 
     Avoids both the early transient (h̄ < ``hbar_lo`` lattice units) and the

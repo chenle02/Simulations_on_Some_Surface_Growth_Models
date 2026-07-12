@@ -1,6 +1,6 @@
 # exp14 analysis result bundle
 
-This directory contains compact, tracked products from the corrected exp14 tetromino-ballistic-deposition analysis. It does **not** contain the 255 GB raw joblib ensemble.
+This directory contains compact, tracked products from the corrected exp14 one-by-one `piece_19` sticky/nonsticky ballistic-deposition analysis. It does **not** contain the 255 GB raw joblib ensemble.
 
 ## Percentage convention
 

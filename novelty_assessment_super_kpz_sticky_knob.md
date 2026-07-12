@@ -1,4 +1,4 @@
-# Evidence memo: sticky-fraction crossover in tetromino ballistic deposition
+# Evidence memo: sticky-fraction crossover in one-by-one piece_19 ballistic deposition
 
 ## Current verdict
 
@@ -93,9 +93,10 @@ These names are reconnaissance pointers, not verified citekeys for manuscript
 use. Bibliographic records must be checked independently before citation.
 
 The potentially defensible novelty is therefore narrower: a controlled
-finite-scale crossover study for extended/tetromino deposition with explicit
-estimator-sensitivity and common-time distribution diagnostics. A new
-universality class is not established.
+finite-scale crossover study for one-by-one `piece_19` sticky/nonsticky
+deposition with explicit estimator-sensitivity and common-time distribution
+diagnostics. The broader extended-shape literature is context, not a description
+of the experiment. A new universality class is not established.
 
 ## Evidence ledger
 
@@ -128,7 +129,8 @@ universality class is not established.
 
 ## Recommendation
 
-Frame the paper around an **observed tetromino-deposition crossover with strong
-finite-size and estimator sensitivity**. Keep the asymptotic class explicitly
-unresolved. Do not use “super-KPZ” in the headline or abstract unless future
-larger-scale beta, alpha/z, and distributional evidence jointly supports it.
+Frame the paper around an **observed one-by-one `piece_19` sticky/nonsticky
+crossover with strong finite-size and estimator sensitivity**. Keep the
+asymptotic class explicitly unresolved. Do not use “super-KPZ” in the headline
+or abstract unless future larger-scale beta, alpha/z, and distributional
+evidence jointly supports it.
