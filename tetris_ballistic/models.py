@@ -22,7 +22,6 @@ WeightItems = tuple[tuple[str, float], ...]
 MODEL_SCHEMA_VERSION = "1.0.0"
 SOFTWARE_GEOMETRY_RECORD_PROFILE = "tetris-ballistic/software-geometry-record@1"
 SOFTWARE_CONFIG_RECORD_PROFILE = "tetris-ballistic/software-config-record@1"
-_MAPPING_PROXY_TYPE = type(MappingProxyType({}))
 _LOWERCASE_HEX_DIGITS = frozenset("0123456789abcdef")
 
 
@@ -244,8 +243,8 @@ def _snapshot_weight_items(items: Iterable[object], *, label: str) -> WeightItem
 
 
 def _normalize_weights(weights: Mapping[str, float], *, allowed: set[str], label: str) -> WeightItems:
-    if type(weights) not in (dict, _MAPPING_PROXY_TYPE):
-        raise ValueError(f"{label} weights must be a plain or read-only built-in mapping")
+    if type(weights) is not dict:
+        raise ValueError(f"{label} weights must use an exact built-in mapping (dict)")
     supplied = _snapshot_weight_items(weights.items(), label=label)
     if not supplied:
         raise ValueError(f"{label} weights must not be empty")
@@ -367,8 +366,8 @@ class OrientationDistribution:
 
     @classmethod
     def from_weights(cls, weights: Mapping[str, Mapping[str, float]]) -> "OrientationDistribution":
-        if type(weights) not in (dict, _MAPPING_PROXY_TYPE):
-            raise ValueError("orientation weights must be a plain or read-only built-in mapping")
+        if type(weights) is not dict:
+            raise ValueError("orientation weights must use an exact built-in mapping (dict)")
         supplied: list[tuple[str, Mapping[str, float]]] = []
         for item in weights.items():
             if type(item) not in (list, tuple) or len(item) != 2:
@@ -376,8 +375,8 @@ class OrientationDistribution:
             family_id, family_weights = item
             if type(family_id) is not str:
                 raise ValueError("orientation family IDs must be built-in strings")
-            if type(family_weights) not in (dict, _MAPPING_PROXY_TYPE):
-                raise ValueError("orientation family weights must be plain or read-only built-in mappings")
+            if type(family_weights) is not dict:
+                raise ValueError("orientation family weights must use exact built-in mappings (dict)")
             supplied.append((family_id, family_weights))
         unknown_families = {family_id for family_id, _ in supplied} - set(FAMILY_ORIENTATION_IDS)
         if unknown_families:
@@ -450,9 +449,17 @@ class ContactRule:
 
     @classmethod
     def from_weights(cls, weights: Mapping[ContactKind | str, float]) -> "ContactRule":
-        if type(weights) not in (dict, _MAPPING_PROXY_TYPE):
-            raise ValueError("contact-rule weights must be a plain or read-only built-in mapping")
-        converted = {ContactKind(key).value: value for key, value in weights.items()}
+        if type(weights) is not dict:
+            raise ValueError("contact-rule weights must use an exact built-in mapping (dict)")
+        converted: dict[str, float] = {}
+        for key, value in weights.items():
+            if type(key) is ContactKind:
+                contact_kind = key
+            elif type(key) is str:
+                contact_kind = ContactKind(key)
+            else:
+                raise ValueError("contact-rule keys must be built-in strings or ContactKind values")
+            converted[contact_kind.value] = value
         normalized = _normalize_weights(
             converted,
             allowed={kind.value for kind in ContactKind},

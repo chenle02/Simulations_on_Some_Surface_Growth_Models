@@ -261,7 +261,7 @@ def test_probability_contracts_reject_hostile_tuple_containers_before_iteration(
         ContactRule((HostileTuple((ContactKind.SUPPORTED, 1.0)),))
 
 
-def test_probability_factories_reject_dict_subclasses_and_accept_safe_mappings() -> None:
+def test_probability_factories_reject_nonexact_mappings_before_iteration() -> None:
     class HostileFamilyMapping(dict[str, float]):
         def items(self) -> object:
             raise AssertionError("hostile family mapping iteration must not run")
@@ -269,6 +269,10 @@ def test_probability_factories_reject_dict_subclasses_and_accept_safe_mappings()
     class HostileOrientationMapping(dict[str, dict[str, float]]):
         def items(self) -> object:
             raise AssertionError("hostile orientation mapping iteration must not run")
+
+    class HostileInnerOrientationMapping(dict[str, float]):
+        def items(self) -> object:
+            raise AssertionError("hostile inner orientation mapping iteration must not run")
 
     class HostileContactMapping(dict[ContactKind, float]):
         def items(self) -> object:
@@ -281,13 +285,44 @@ def test_probability_factories_reject_dict_subclasses_and_accept_safe_mappings()
     with pytest.raises(ValueError, match="built-in mapping"):
         ContactRule.from_weights(HostileContactMapping())
 
-    assert PieceEnsemble.from_weights(MappingProxyType({"i": 1.0})).weights == (("i", 1.0),)
+    with pytest.raises(ValueError, match="built-in mapping"):
+        PieceEnsemble.from_weights(MappingProxyType(HostileFamilyMapping(i=1.0)))
+    with pytest.raises(ValueError, match="built-in mapping"):
+        OrientationDistribution.from_weights(MappingProxyType(HostileOrientationMapping()))
+    with pytest.raises(ValueError, match="built-in mappings"):
+        OrientationDistribution.from_weights(
+            {"i": MappingProxyType(HostileInnerOrientationMapping({"tetromino.i.00": 1.0}))}
+        )
+    with pytest.raises(ValueError, match="built-in mapping"):
+        ContactRule.from_weights(
+            MappingProxyType(HostileContactMapping({ContactKind.SUPPORTED: 1.0}))
+        )
+
+    assert PieceEnsemble.from_weights({"i": 1.0}).weights == (("i", 1.0),)
     assert OrientationDistribution.from_weights(
-        MappingProxyType({"i": MappingProxyType({"tetromino.i.00": 1.0})})
+        {"i": {"tetromino.i.00": 1.0}}
     ).by_family == (("i", (("tetromino.i.00", 1.0),)),)
-    assert ContactRule.from_weights(
-        MappingProxyType({ContactKind.SUPPORTED: 1.0})
-    ).weights == ((ContactKind.SUPPORTED, 1.0),)
+    assert ContactRule.from_weights({ContactKind.SUPPORTED: 1.0}).weights == (
+        (ContactKind.SUPPORTED, 1.0),
+    )
+
+
+def test_contact_rule_factory_rejects_hostile_string_keys_before_conversion() -> None:
+    class HostileContactKey(str):
+        __hash__ = str.__hash__
+
+        def __eq__(self, other: object) -> bool:
+            raise AssertionError("hostile contact key comparison must not run")
+
+        def __str__(self) -> str:
+            raise AssertionError("hostile contact key conversion must not run")
+
+    with pytest.raises(ValueError, match="built-in strings or ContactKind"):
+        ContactRule.from_weights({HostileContactKey("supported"): 1.0})
+
+    assert ContactRule.from_weights({"supported": 1.0}).weights == (
+        (ContactKind.SUPPORTED, 1.0),
+    )
 
 
 @pytest.mark.parametrize(
