@@ -212,6 +212,7 @@ Experiments/exp11/job_Makeup_1022990.err
 Experiments/exp11_backup
 experiments/exp-1
 experiments/exp13
+experiments/exp14
 
 # Legacy test scripts (kept locally for reference; pytest layout is tracked)
 tests/command.vim

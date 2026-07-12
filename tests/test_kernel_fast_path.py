@@ -72,6 +72,38 @@ def test_kernel_matches_legacy_path(monkeypatch):
     )
 
 
+def test_averageheight_is_physical_not_row_index(monkeypatch):
+    """AvergeHeight must be PHYSICAL mean height (rises from ~0), not the
+    mean row-index (which falls). Pins the convention that the "two paths
+    agree" test cannot see — both paths were simultaneously inverted by
+    commit e7ba915 and stayed mutually consistent. See
+    FINDING-kernel-height-inversion.md.
+    """
+    from tetris_ballistic.tetris_ballistic import Tetris_Ballistic
+
+    density = build_density_for_piece_19_combined(50)
+    width, height, steps = 30, 400, 3000
+
+    for use_kernel in ("1", "0"):
+        monkeypatch.setenv("TETRIS_USE_KERNEL", use_kernel)
+        tb = Tetris_Ballistic(width=width, height=height, steps=steps,
+                              seed=3, density=density)
+        tb.Simulate()
+        n = tb.FinalSteps
+        A = np.asarray(tb.AvergeHeight[:n])
+        assert A[0] < 5.0, (
+            f"path={use_kernel}: mean height should start near 0 on an empty "
+            f"substrate, got {A[0]:.2f} (inverted row-index?)"
+        )
+        assert A[-1] > A[0], (
+            f"path={use_kernel}: mean height must GROW with time "
+            f"(A[0]={A[0]:.2f} -> A[-1]={A[-1]:.2f})"
+        )
+        assert np.all(np.diff(A) >= -1e-6), (
+            f"path={use_kernel}: mean height must be monotone non-decreasing"
+        )
+
+
 @pytest.mark.slow
 def test_kernel_path_updates_sample_dist():
     """The kernel orchestrator must populate SampleDist (used by

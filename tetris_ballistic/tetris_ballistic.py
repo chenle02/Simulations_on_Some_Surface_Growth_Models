@@ -1804,7 +1804,11 @@ class Tetris_Ballistic:
         top-envelope array that ``_TopEnvelop(step+1)`` would compute, so
         outputs are bit-identical.
         """
-        self.AvergeHeight[step] = float(self.heights.mean())
+        # heights is row-index from the TOP (0 = top row), so physical mean
+        # height is height - mean(heights). Storing mean(heights) directly
+        # inverts the height axis (regression from commit e7ba915); see
+        # FINDING-kernel-height-inversion.md. std is flip-invariant.
+        self.AvergeHeight[step] = float(self.height - self.heights.mean())
         self.Fluctuation[step] = float(self.heights.std())
 
     def _UpdateStatus_legacy(self, step):

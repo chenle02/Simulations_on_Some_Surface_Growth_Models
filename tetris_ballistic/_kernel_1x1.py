@@ -109,8 +109,10 @@ def simulate_1x1_kernel(width: int, height: int, steps: int,
         if new_h < heights[position]:
             heights[position] = new_h
 
-        # Compute mean + std of heights for AvergeHeight + Fluctuation.
-        # Population std (divisor W), matching legacy formula.
+        # Compute mean + std of heights. heights is row-index from the TOP,
+        # so AvergeHeight is the PHYSICAL mean height = height - mean(heights)
+        # (must match tetris_ballistic.py:1807; see FINDING-kernel-height-
+        # inversion.md). Population std (divisor W); std is flip-invariant.
         s = 0.0
         for k in range(width):
             s += heights[k]
@@ -119,7 +121,7 @@ def simulate_1x1_kernel(width: int, height: int, steps: int,
         for k in range(width):
             d = heights[k] - mean
             s2 += d * d
-        avg_height[i] = mean
+        avg_height[i] = height - mean
         fluctuation[i] = (s2 / width) ** 0.5
 
     return fluctuation, avg_height, final_steps
