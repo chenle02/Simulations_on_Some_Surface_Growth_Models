@@ -23,6 +23,7 @@ MODEL_SCHEMA_VERSION = "1.0.0"
 SOFTWARE_GEOMETRY_RECORD_PROFILE = "tetris-ballistic/software-geometry-record@1"
 SOFTWARE_CONFIG_RECORD_PROFILE = "tetris-ballistic/software-config-record@1"
 _MAPPING_PROXY_TYPE = type(MappingProxyType({}))
+_LOWERCASE_HEX_DIGITS = frozenset("0123456789abcdef")
 
 
 def _canonical_json(value: object) -> bytes:
@@ -54,6 +55,8 @@ def _matches_profiled_digest(
         raise ValueError(f"record digest profile mismatch: expected {expected_profile!r}")
     if type(supplied_sha256) is not str:
         raise ValueError("record digest must be a string")
+    if len(supplied_sha256) != 64 or any(character not in _LOWERCASE_HEX_DIGITS for character in supplied_sha256):
+        return False
     return compare_digest(supplied_sha256, expected_sha256)
 
 

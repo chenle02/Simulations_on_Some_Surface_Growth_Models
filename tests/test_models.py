@@ -6,6 +6,7 @@ from collections import Counter
 
 import pytest
 
+import tetris_ballistic.models as model_module
 from tetris_ballistic.models import (
     FAMILY_ORIENTATION_IDS,
     GEOMETRY_BY_ID,
@@ -539,6 +540,54 @@ def test_software_record_digest_comparison_rejects_wrong_profiles() -> None:
         profile=SOFTWARE_CONFIG_RECORD_PROFILE,
         sha256=config.software_config_record_sha256,
     )
+
+
+@pytest.mark.parametrize(
+    "malformed",
+    [
+        "",
+        "0" * 63,
+        "0" * 65,
+        "A" * 64,
+        "g" * 64,
+        "0" * 63 + "-",
+        "é" * 64,
+        "💥" * 64,
+    ],
+)
+def test_malformed_record_digests_are_controlled_mismatches_before_compare_digest(
+    malformed: str,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    def unexpected_compare(left: str, right: str) -> bool:
+        raise AssertionError(f"malformed digest reached compare_digest: {left!r}, {right!r}")
+
+    monkeypatch.setattr(model_module, "compare_digest", unexpected_compare)
+
+    assert not ONE_CELL.matches_software_geometry_record_digest(
+        profile=SOFTWARE_GEOMETRY_RECORD_PROFILE,
+        sha256=malformed,
+    )
+
+
+def test_digest_matching_rejects_non_builtin_string_inputs_before_operations() -> None:
+    class HostileDigest(str):
+        def __len__(self) -> int:
+            raise AssertionError("hostile digest length must not run")
+
+        def __iter__(self) -> object:
+            raise AssertionError("hostile digest iteration must not run")
+
+    with pytest.raises(ValueError, match="must be a string"):
+        ONE_CELL.matches_software_geometry_record_digest(
+            profile=SOFTWARE_GEOMETRY_RECORD_PROFILE,
+            sha256=HostileDigest(ONE_CELL.software_geometry_record_sha256),
+        )
+    with pytest.raises(ValueError, match="must be a string"):
+        ONE_CELL.matches_software_geometry_record_digest(
+            profile=SOFTWARE_GEOMETRY_RECORD_PROFILE,
+            sha256=b"0" * 64,
+        )
 
 
 def test_tetromino_configuration_round_trip_payload_is_deterministic() -> None:
