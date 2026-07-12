@@ -1,263 +1,81 @@
-# HANDOFF
+# HANDOFF — tetris-KPZ exp14 crossover (blocked on one PI decision)
 
-**Last updated**: 2026-07-11 (status refresh + robust-plan revision: crossover finding + estimator time-axis bug diagnosed)
-**Project**: Robust KPZ slope extraction for Tetromino ballistic deposition
-**Wiki page (authoritative strategy)**: `~/Dropbox/workspace/svn/SPDEs-wiki/content/projects/tetris-kpz-slope-extraction.md`
+Last updated: 2026-07-12 (session paused at a science-decision fork)
+HEAD: `a57de24`
 
----
+## Next session — the ONE blocked decision
 
-## ⏭ Next session: where to stand and what to do
+The exp14 KPZ crossover re-run is blocked on a single PI choice about the
+growth-exponent estimator, because the corrected deep traces are huge
+(100 seeds × ~8M steps → hours-to-a-day of local bootstrap compute, and the
+local box OOM/thrashes on the L≥400 cells).
 
-```bash
-cd ~/Dropbox/Public/Simulations_on_Some_Surface_Growth_Models
-```
+Pick ONE, then finish Todos below:
 
-Then, in OpenCode, type:
+1. **Log-subsample the estimator (recommended).** In
+   `tetris_ballistic/kpz_analysis.py`, before the bootstrap in
+   `growth_window_slope` / `local_slope_bootstrap`, log-subsample each trace to
+   ~5000 log-spaced indices. Negligible effect on a log-log slope, run finishes
+   in minutes. This is a numerics change to a load-bearing estimator, so it
+   needs Le's explicit OK.
+2. **Easley bigmem.** Push the corrected npz to Easley and run
+   `run_kpz_analysis` on a bigmem partition (64 GB, like the reduce). No numerics
+   change; slow; needs the corrected npz copied over.
+3. **Fewer bootstraps** (`--n-boot 40`) on the deep cells only — faster, wider CIs.
 
-```
-/load-handoff
-```
-
-**Current state**: tetris_ballistic v2.0.0, `main` @ `d4e094d`, clean, pushed.
-380× numba speedup + Slurm-array infra all present. The 2026-07-11 recon
-found the project's real story and a concrete estimator bug — read the
-wiki §"Findings 2026-07-11" and §"Robust slope-extraction plan" first.
-
-**THREE findings that change the plan** (details on the wiki page):
-1. **The `pct` (nonstick %) is a KPZ↔EW crossover knob.** Measured vs $\bar h$
-   (deposited height), $\hat\beta$ runs 0.19→0.23(EW=¼)→0.33(KPZ=⅓)→0.48 across
-   pct 5→99. The paper is a *universality-crossover* result, not "measure ⅓".
-2. **Estimator time-axis bug.** `growth_window_slope()` windows in $\bar h$ but
-   regresses against **step-count**; the step-axis plateau detector locks onto
-   the transient $\hat\beta\approx0.54$. Family–Vicsek $W\sim t^\beta$ uses
-   $t=\bar h$ (deposited layers), NOT deposition-step count. On the $\bar h$ axis
-   the data already give clean ~⅓.
-3. **No $L\ge100$ cell saturates** at `ratio=10` ($\bar h_{\max}\approx10L<L^{3/2}$),
-   so the $L=200$ undershoot is a saturation artifact and the $\alpha$/$W_{\rm sat}$
-   route is unavailable. On-disk `results.json` is a pct=90-only, $L\in\{100,200\}$
-   PARTIAL — not the full 300-file sweep.
-
-**Step A — DONE (2026-07-11, shipped).** The estimator now regresses on the
-$\log\bar h$ axis (`growth_window_slope`, `local_slope_bootstrap`,
-`detect_plateau`); the plateau detector is growth-window-bounded; the
-extrapolation drops unsaturated $L$ and reports `saturated_mean_beta`.
-Regenerated exp13 crossover: pct 5→0.16, 50→0.23 (EW), 90→0.31, 95→0.37,
-98→0.44, 99→0.49. Commits `d4682cc` (fix), `c7f3182` (batch runner + per-L
-ratio), `b6cad58` (reduce_traces). ruff+pytest clean.
-
-**Infrastructure shipped (2026-07-11):**
-- `tetris_ballistic/scripts/run_batch.py` — runs a contiguous cell-block in ONE
-  process, warming numba once (cold-start is ~40 s/cell, ALL numba JIT). Use
-  this, not `run_one_cell` per Slurm task. `--array-index i --n-arrays A`.
-- `ratio_for_L` (`run_one_cell`) — grid may set `ratio: auto` (=⌈3√L⌉) or a
-  `ratios:` dict so wide L saturates (height ≥ L^{3/2}). Legacy scalar still works.
-- `tetris_ballistic/scripts/reduce_traces.py` — joblib → compact float32
-  `(W,h̄)` npz (5.8× smaller, reanalysis-complete to <1e-6).
-- **Data repo** `~/Dropbox/workspace/svn/tetris-kpz-data` (Greenwood bare
-  remote): reduced traces + results + code + SHA-256 manifest. 3-tier model:
-  raw joblib private (`~/Dropbox/workspace/tetris-kpz-raw-joblib/`, non-git) /
-  reduced npz in git / derived results. Zenodo at submission.
-- **Article repo** `~/Dropbox/workspace/svn/Article-TetrisKPZ-Crossover`
-  (Greenwood bare remote): manuscript compiles 0-error, documents the method.
-- **Easley**: repo synced via git pull (NOT Dropbox — the `~/Dropbox/...` path
-  on Easley is a name-mirror only). Run with `module load python/anaconda/3.12.7`
-  + `PYTHONPATH=$REPO` (no venv; system gcc can't build numpy).
-
-**Immediate next step — Step D, BLOCKED on PI decision:** the deep Nova run
-(Exp14) needs the wide-$L$ grid choice: width set (add 250/300; and 400/500 for
-KPZ-end pcts 90/95/98/99?) + per-$L$ ratio (`ratio: auto`). Once chosen, write
-`experiments/exp14/grid.yaml`, switch the Slurm scripts to call `run_batch`
-(chunked, e.g. `--n-arrays 120`, no `%` cap so all of Nova is used), and submit
-the Nova array (`sbatch experiments/exp14/job_array_nova.slurm`). See the wiki
-project page "Easley HPC plan".
-
-**Then — Step D — deeper Easley run (Exp14)** to settle the high-pct
-$\beta>⅓$ steepening, enable the free-$\omega$ corrections fit, and unlock
-$\alpha$-scaling + Tracy–Widom class checks:
-
-1. Copy templates to a new exp dir:
-   ```bash
-   mkdir -p experiments/exp14
-   cp experiments/templates/grid.yaml experiments/exp14/
-   cp experiments/templates/job_array.slurm experiments/exp14/
-   ```
-
-2. Edit `experiments/exp14/grid.yaml` for guaranteed saturation + tight CIs:
-   ```yaml
-   piece_config: piece_19_combined_percentage
-   pcts:    [5, 50, 90, 95, 98, 99]
-   widths:  [50, 80, 100, 150, 200, 300]  # +300 for a 4th large-L corrections point
-   seeds:   [0, 10, 20, ..., 990]          # 100 seeds (was 10)
-   ratio:   30                              # h̄_max ≈ 3·L^{3/2} → clean saturation for all L
-   ```
-   Total: 6 × 6 × 100 = 3600 cells. At ~0.4 s/cell warm, trivial at 100-way parallel.
-
-3. Edit `experiments/exp14/job_array.slurm`:
-   ```
-   #SBATCH --array=0-3599%100
-   #SBATCH --time=08:00:00
-   ```
-   Prefer TWO arrays (Dept `abebeas_std,mathdep_bg2` + Nova `nova_long`)
-   splitting the index range — hybrid Dept+Nova pattern (`slurm-array-fan-out`).
-
-4. `ssh Easley` (VPN+Duo; ControlMaster = one Duo/8h). Code in `/home/lzc0090`,
-   `results/` in `/scratch/lzc0090` (30-day purge → rsync back promptly).
-   `module load python/anaconda/3.12.7`; `pip install -e '.[hpc]'`. git pull, sbatch.
-
-5. After the array finishes (chain with `--dependency=afterany:$JID`, NOT afterok):
-   ```bash
-   python -m tetris_ballistic.scripts.run_kpz_analysis \
-       --exp-dir experiments/exp14/results
-   ```
-   Then rsync results back. Note: `experiments/exp**/*.joblib` is **gitignored**
-   (raw data local-only; only results.json + plots are tracked).
-
-**Easley acknowledgment** for any resulting paper:
-*"This work was completed in part with resources provided by the Auburn University Easley Cluster."*
-
----
-
-## Why (deeper context)
-
-Read the full project page first:
-```bash
-cat ~/Dropbox/workspace/svn/SPDEs-wiki/content/projects/tetris-kpz-slope-extraction.md
-```
-
-It contains:
-- 35-year literature survey (Family-Vicsek 85 → Halpin-Healy-Takeuchi 15) with explicit attribution of each algorithmic component to its earliest published origin
-- 8-step protocol (preprocessing, ensemble, local-slope bootstrap, plateau detection, Meakin range-of-fit cross-validation, multi-$L$ extrapolation, simultaneous moment cross-check, Tetris-specific tests)
-- Exp13 data layout (300 files: `piece_19` × 6 percentages × 5 widths × 10 seeds)
-- Diagnostic baseline: existing `loglogplot_stat.py` reports $\hat\beta = 0.239$ vs KPZ target $1/3 = 0.333$ — this is the failure mode we're fixing
-
----
-
-## What the previous session(s) produced
-
-- **Wiki project page** at HEAD `b6a77de3` on `SPDEs-wiki/v4` — fully documents the strategy
-- **11 refs added to refdb** (HEAD `302fa0a5`): clauset.shalizi.ea:07, pagnani.parisi:12 and :15, halpin-healy:12 and :13, halpin-healy.takeuchi:15:kpz, lopez.castro.ea:97 and :05, lopez:99, ramasco.lopez.ea:00, family.vicsek:91:dynamics
-- **Family-Vicsek 1991 book** acquired (All_PDFs HEAD `dae9e3f`): `f/family_vicsek-91-dynamics.pdf` (24.8 MB, 493 pp from DjVu→PDF); original DjVu at `_djvu_originals/`
-- **Three forged + wiki-ed papers** with full theorem-statement digests for Family-Vicsek 85, Meakin et al. 86, Baiod et al. 88 (the foundational range-of-fit + cross-validation methodology trio)
-- **Two new skills** in Le-AI-Lab: `paper-digester-wikilink-vocabulary-precheck`, `zsh-glob-no-matches-vs-missing-directory`, `withdrawn-arxiv-paper-wiki-treatment`
-- **Verified data shape**: see *Data layout (exp13/)* in the wiki project page; reproduced here in §Pre-flight below
-- **(2026-05-16)** **`tetris_ballistic/kpz_analysis.py`** — 7-function methodology module (~400 lines): `load_ensemble`, `truncate_to_common_length`, `growth_window_slope`, `local_slope_bootstrap`, `detect_plateau`, `meakin_range_of_fit`, `extrapolate_to_infinity`
-- **(2026-05-16)** **`experiments/exp13/run_kpz_analysis.py`** — runner script. Produces 6 local-slope plots, 6 multi-L extrapolation plots, and `results.json`
-- **(2026-05-16)** **First analysis pass results**: Per-cell growth-window β̂ for pct=90% is consistent with KPZ β=1/3 at L=50–150 (β̂ ∈ [0.30, 0.34]). L=200 underestimates (h̄_max < L^{3/2} → hasn't reached asymptotic regime). Multi-L extrapolation gives β∞=0.22±0.08 for pct=90% and β∞=0.29±0.05 for pct=99%, both below 1/3 but approaching it. **Diagnosis**: simulations need longer runs (higher domain ceiling) for L≥150.
-- **(2026-05-16 overnight, v2.0.0)** **~380× simulation speedup** + Slurm-array HPC entry point + streaming KPZ analysis + pytest CI + ruff lint + CHANGELOG/BENCHMARKS docs. Commits: `ae80c05` (Phase 0 baseline+tests), `e7ba915` (Phase 1: 30×), `bdde961` (Phase 2: streaming), `cb954f3` (Phase 3: Slurm-array), `3093a3f` (Phase 4a: 47×), `040ee98` (Phase 4b: 380×), `1700e71` (Phase 5: industrial polish). See `BENCHMARKS.md` for the full table. **Most importantly**: L=200 simulations that took 140 seconds each now take 0.4 seconds — what was a 63-hour exp13 sweep can now run in **10 minutes**, and exp14 (3000 cells with deeper sims) is feasible overnight on a single Slurm node.
-
----
-
-## Pre-flight checks for the next session
-
-### 1. Verify you're in the right tmux pane and venv
-
-```bash
-pwd                                        # should be .../Simulations_on_Some_Surface_Growth_Models
-ls .venv/bin/python                        # should exist
-.venv/bin/python -c "import joblib, numpy, scipy, matplotlib, yaml, imageio; print('ok')"
-```
-
-If any module is missing: `.venv/bin/python -m pip install <pkg>`.
-
-### 2. Verify the data is present
-
-```bash
-ls experiments/exp13/*.joblib | wc -l      # expect: 300
-ls experiments/exp13/config_piece_19_combined_percentage_05_w=100_seed=0.joblib
-```
-
-### 3. Verify the wiki project page is reachable
-
-```bash
-ls ~/Dropbox/workspace/svn/SPDEs-wiki/content/projects/tetris-kpz-slope-extraction.md
-```
-
-### 4. Quick joblib sanity-check (reproducing the previous-session inspection)
-
-```bash
-.venv/bin/python - <<'PY'
-import joblib, glob
-f = sorted(glob.glob("experiments/exp13/config_piece_19_*.joblib"))[0]
-obj = joblib.load(f)
-print(f"width={obj.width}, FinalSteps={obj.FinalSteps}, "
-      f"Fluctuation.shape={obj.Fluctuation.shape}, "
-      f"estimated_slope={obj.estimated_slope:.4f}")
-PY
-```
-
-Expected output (on a 5%-sticky $L=100$ run):
-```
-width=100, FinalSteps=47816, Fluctuation.shape=(47816,), estimated_slope=0.2391
-```
-
----
-
-## Concrete deliverables
-
-| # | Deliverable | File | Definition of done |
-|---|---|---|---|
-| 1 | The methodology module | `tetris_ballistic/kpz_analysis.py` | ~250 lines, 6 functions per the protocol, docstrings cite Meakin 86 + Amar-Family 90 + Krug-Meakin 90 + Baiod 88 |
-| 2 | A runner script | `experiments/exp13/run_kpz_analysis.py` | Loads all 300 joblib files, dispatches the module, produces per-(pct, $L$) outputs |
-| 3 | Local-slope plot per $L$ | `experiments/exp13/local_slope_L{50,80,100,150,200}.png` | Shows $\hat\beta(t)$ with bootstrap CI band; horizontal line at $1/3$; plateau region highlighted |
-| 4 | Multi-$L$ extrapolation plot | `experiments/exp13/multi_L_extrapolation.png` | $\hat\beta(L)$ vs $1/L^\omega$ with fitted $\beta_\infty + c\, L^{-\omega}$ curve, separate per percentage |
-| 5 | Numeric report | terminal output + `experiments/exp13/results.json` | $\beta_\infty \pm \mathrm{CI}$ per percentage |
-
----
-
-## Success criteria
-
-1. **Lint & test**: module imports without error in `.venv`; runs on the existing 300 files without crashes.
-2. **Plateau detected**: `detect_plateau` returns non-`None` for at least 4 of the 5 $L$ values (the smallest $L$ may be too short).
-3. **Beats baseline**: $\beta_\infty$ extrapolated value lands in $[0.30, 0.36]$ for at least one percentage (preferably 95% or 98% which should be closest to pure ballistic deposition).
-4. **Cross-validates**: Meakin two-window cross-validation agrees within CI for the larger $L$ values.
-5. **Documents reality honestly**: if $\beta_\infty$ is systematically below $0.30$, the module reports "simulation needs longer runs" rather than silently underestimating.
-
----
-
-## Anti-success criteria (things that mean the protocol is wrong)
-
-- $\beta_\infty$ converges to a value far from $1/3$ across **all** percentages and **all** plateau-detected $L$ values
-- Plateau detector returns `None` for all 5 $L$ values
-- Bootstrap CI bands are wider than $\pm 0.05$ — indicates ensemble too small (need >10 seeds, or longer per-run traces)
-
-If any of these triggers, the next-session output is *not* a wrong $\beta$ — it's an honest diagnostic + a recommendation for what additional simulation is needed.
-
----
-
-## After the methodology module works
-
-The downstream tasks (in order, only after $\beta_\infty \approx 1/3$ is confirmed):
-
-1. **Sticky-fraction sweep diagnostic**: confirm $\beta_\infty$ independent of percentage (Baiod-88 $p$-independence test)
-2. **Tetromino-shape extension**: extend to all 19 `piece_*` shapes (currently only `piece_19` data exists)
-3. **$\omega_{\rm tetris}$ measurement**: extract the correction-to-scaling exponent $\omega$ and compare to single-particle ballistic deposition's $\omega \approx 0.5$
-4. **Methods paper**: if (3) reveals an unusual $\omega_{\rm tetris}$, that's a publishable observation
-
-Each of these is a separate session; update HANDOFF.md at session end to point at the next.
-
----
-
-## Operating notes
-
-- **Commit + push at session end** to: this repo (sim-repo), and optionally `SPDEs-wiki` if the project page Status section gains new entries.
-- **Update this HANDOFF.md** at session end with the new "Next session" instructions.
-- **Honest reporting > pretty numbers**: if the protocol fails to find a clean $\beta = 1/3$, the report should diagnose *why* (simulations too short, sticky fraction in a non-universal regime, missing correction term) rather than tune hyperparameters until $0.333$ appears.
-
----
-
-## Repo & git state at handoff (2026-07-11)
+## Verbatim resume (after the decision)
 
 ```
-sim-repo    HEAD: d4e094d chore: add GitHub Sponsors FUNDING.yml   [PUSHED, clean, v2.0.0, main]
-SPDEs-wiki  branch v4 — project page updated 2026-07-11 (Findings + revised plan + missing-refs);
-            lint-changed clean (0 broken links / 0 citekey hallucinations). Auto-sync watcher active.
+cd /home/lechen/Dropbox/Public/Simulations_on_Some_Surface_Growth_Models
+# corrected npz are symlinked into experiments/exp14/ already; 4/50 cells done
+.venv/bin/python -m tetris_ballistic.scripts.run_kpz_analysis \
+  --exp-dir experiments/exp14 \
+  --pcts 5,50,90,95,98,99 \
+  --widths 50,80,100,150,200,250,300,400,500 \
+  --n-boot 200 --n-eval 150 --resume        # --resume reuses the 4 done cells
+# -> writes experiments/exp14/results.json + per-pct + extrapolation plots
 ```
 
-**Refdb correction (2026-07-11):** the old handoff/status claim that
-`pagnani.parisi:12/:15`, `halpin-healy:12/:13`, `lopez.castro.ea:97` were added
-to refdb is WRONG — those exact keys are ABSENT. Present keys are
-`lopez.rodriguez.ea:97:super-roughening`, `lopez:99:scaling`,
-`ramasco.lopez.ea:00:generic`, `lopez.castro.ea:05:scaling`. New crossover-canon
-refs (Muraca–Braunstein–Buceta 2004, Horowitz–Monetti–Albano 2001,
-Bentrem–Pandey–Family 2006, Farnudi–Vvedensky 2011) are DOI-verified and NOT yet
-in refdb — see wiki §"Missing references to digest".
+Then remaining Todos:
+- Update SPDEs-wiki project page β-table + Article-TetrisKPZ β-table with the
+  corrected exp14 curve (`content/projects/tetris-kpz-slope-extraction.md`;
+  `Article-TetrisKPZ-Crossover/notes/notes_tetris_kpz.tex`).
+- Commit/push wiki + Article. (sim-repo already committed: `ba2580b`, `a57de24`.)
+
+## Pre-flight checks (before resuming)
+
+- Corrected npz present: `ls /home/lechen/Dropbox/workspace/tetris-kpz-raw-joblib/traces/exp14/pct_*/*.npz | wc -l` → 50
+- Each cell ascending/saturated (already verified 50/50; `height_grid` recorded).
+- `.venv/bin/python -m pytest tests/test_kernel_fast_path.py -q` → 4 passed.
+- Machine RAM free before a local run: `free -g` (need >25 GB for L=500 at full res, or use option 1/2/3).
+
+## What previous sessions produced (this session)
+
+- Root-caused + fixed the `AvergeHeight` inversion (commit `e7ba915` regression):
+  `ba2580b` (kernel+legacy fix, convention regression test, golden regenerated),
+  `a57de24` (npz-aware `load_ensemble`, graceful missing-cell skip,
+  `invert_exp14_height.py`).
+- exp14 reduce (Easley bigmem) + guarded pull to private backup (36.5 GB, 50 npz).
+- exp14 npz one-time inversion: 50/50 corrected + verified (all now saturated).
+- exp13 confirmed UNAFFECTED (pre-e7ba915, ascending physical height).
+- 4/50 crossover cells verified on corrected data (pct5 β 0.43→0.31 with L,
+  trending toward the correct exp13 baseline β≈0.16).
+- Le-AI-Lab skills: `reduce-heavy-sim-output-before-sync` (F1/F2 footguns) and
+  `equivalence-test-blind-to-shared-bug-pin-the-convention`.
+- Full diagnosis in `FINDING-kernel-height-inversion.md`.
+
+## Repo / git state
+
+- sim repo `Simulations_on_Some_Surface_Growth_Models` @ `a57de24` (pushed).
+- data repo `tetris-kpz-data`: exp13 traces committed earlier; exp14 npz are in
+  the PRIVATE backup `~/Dropbox/workspace/tetris-kpz-raw-joblib/traces/exp14`
+  (too big for git, per approved option A) — NOT in git.
+- Article-TetrisKPZ-Crossover: manuscript at `2712c11`, β-table update pending.
+- SPDEs-wiki project page: β-table update pending.
+
+## Operating notes / risks
+
+- Do NOT re-run the reduce/inversion — both are done and verified (idempotent).
+- The corrected npz live under Dropbox; a full-res local analysis OOMs on L≥400
+  (needs ~25 GB float64 per cell) — that is exactly the blocked decision above.
+- `experiments/exp14/` is gitignored (symlinks to the backup npz); do not commit.
