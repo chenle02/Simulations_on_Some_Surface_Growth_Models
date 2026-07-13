@@ -31,6 +31,17 @@ change.
 
 ### Added
 
+- A provisional S2.2 stateless `semantic-philox4x64-10-v1` oracle under the
+  explicit `tetris_ballistic.engine.rng` submodule. It implements exact
+  128-bit-root/SHA-256 stream-key derivation, the ten-round Random123
+  Philox4x64 bijection, lane-zero event/rejection addressing, unbiased integer
+  rejection mapping through `2**64`, and canonical integer-count categorical
+  selection with accepted-rejection ordinals. Upstream known-answer and
+  independently derived end-to-end vectors, recorded in
+  `docs/SEMANTIC-RNG-VECTORS.md`, pin byte/word/lane order. The
+  module has no package-root export, model/config integration, stateful stream,
+  event selector, trajectory, legacy migration, optimized path, Slurm/HPC, or
+  production route.
 - Immutable typed geometry, ensemble, orientation, contact-rule, and simulation
   configuration records, together with fail-closed adapters for the legacy
   20-by-2 density table. These contracts are additive and do not route legacy

@@ -1,10 +1,10 @@
 # `tetris-ballistic` Community API and Architecture Specification
 
-**Specification version:** 0.2.0
+**Specification version:** 0.3.0
 
-**Status:** M1.1 contracts plus a provisional S2.1 single-event reference
-oracle; trajectory routing and shared cross-repository schemas are not
-implemented
+**Status:** M1.1 contracts plus provisional S2.1 exact placement and S2.2
+counter-addressed semantic-RNG oracles; law selection, trajectory routing, and
+shared cross-repository schemas are not implemented
 
 **Compatibility target:** backward-compatible 2.1.x transition, then 3.0.0 only after migration gates
 
@@ -325,7 +325,8 @@ The S2.1 slice deliberately provides none of the following:
 
 - package-root exports for engine symbols;
 - routing from `SimulationConfig`, `simulate`, or `Tetris_Ballistic`;
-- RNG selection, sampling, named streams, or draw accounting;
+- event selection, law-specific stream scheduling, or trajectory draw
+  accounting (the separate S2.2 module supplies only stateless RNG primitives);
 - multi-event trajectories, event journals, checkpoints, observables, or
   stopping plans;
 - optimized kernels, benchmark claims, Slurm/HPC dispatch, or batch tooling;
@@ -337,7 +338,54 @@ The S2.1 slice deliberately provides none of the following:
   including envelope deltas, support-cluster summaries, and contact-site
   graphs.
 
-### 6.6 Clocks
+### 6.6 Provisional S2.2 semantic RNG oracle
+
+`tetris_ballistic.engine.rng` is an explicit-submodule, stateless reference
+implementation of `semantic-philox4x64-10-v1`. It is not re-exported from
+`tetris_ballistic` or `tetris_ballistic.engine` and is not connected to
+`SimulationConfig`, the legacy simulator, or a trajectory loop.
+
+The provisional surface contains
+
+- `derive_stream_key(root_seed, coupling_group_id, stream_name)`, using an
+  exact unsigned 128-bit root serialized as 16 big-endian bytes and the first
+  128 SHA-256 bits of the frozen domain/root/four-byte-length-prefixed UTF-8
+  nonempty group and stream preimage, encoded exactly without Unicode
+  normalization;
+- `philox4x64_10(counter, key)`, the pure Random123 ten-round four-by-64-bit
+  bijection;
+- `raw_u64(...)`, returning lane zero for the exact counter
+  `(event_ordinal, rejection_ordinal, 0, 0)`;
+- `uniform_below(...)`, using the frozen unbiased rejection map for every
+  integer bound from 1 through `2**64`; and
+- `categorical_index(...)`, which accepts only an ordered, nonempty canonical
+  vector of exact nonnegative integer counts, with positive total at most
+  `2**64` and greatest common divisor one across positive entries.
+
+S1a fixed UTF-8 length framing but did not spell out empty-name or Unicode
+normalization behavior. S2.2 ratifies two fail-closed encoding refinements:
+coupling-group and stream identifiers are nonempty, and their exact code-point
+sequences are UTF-8 encoded without normalization. Visually equivalent but
+byte-distinct names therefore denote different streams.
+
+`uniform_below` and `categorical_index` return an immutable `SemanticDraw`
+containing the selected value and the zero-based rejection ordinal whose word
+was accepted. Inputs fail closed on bools, integer/string subclasses, negative
+or overflowing words, malformed tuple/container shapes, non-UTF-8 surrogate
+text, noncanonical count vectors, and counter wrap. No floating-point or
+high-level NumPy distribution participates in these semantics.
+
+The conformance boundary includes upstream Random123 known-answer vectors plus
+independently derived project key, raw, bounded-integer, and categorical
+vectors, recorded in `docs/SEMANTIC-RNG-VECTORS.md`. The S2.2 oracle does
+**not** yet define exact weighted model-law records, declared stream sets, the
+requirement to consume every declared stream at every event,
+family/orientation/contact/launch selection, placement composition,
+checkpoints, serialization, a stateful generator, or scheduling.
+Those are later S2 units. It also supplies no root export, legacy migration,
+optimized kernel, CLI, batch, Slurm/HPC, or production route.
+
+### 6.7 Clocks
 
 The engine records, without substitution,
 
@@ -348,7 +396,7 @@ The engine records, without substitution,
 
 `ClockKind` is an enum in analysis APIs. Every fitted quantity records its clock. A function must not silently change from one clock to another.
 
-### 6.7 Configuration
+### 6.8 Configuration
 
 `SimulationConfig` contains
 
@@ -365,7 +413,7 @@ The engine records, without substitution,
 
 Validation occurs before allocation or simulation. During M1.1, the typed objects expose only the repository-local digest profiles `tetris-ballistic/software-geometry-record@1` and `tetris-ballistic/software-config-record@1`. These digests are not shared scientific identities and must not be compared with data-repository record hashes. A shared result-bundle projection remains an M1.3 gate.
 
-### 6.8 Results
+### 6.9 Results
 
 `SimulationResult` exposes read-only-by-contract arrays or defensive copies for
 
@@ -382,12 +430,26 @@ The persistence layer snapshots caller arrays before writing. A reversible NumPy
 
 ## 7. RNG and reproducibility
 
-- Default to a named NumPy bit generator with its exact versioned identity.
-- Record root seed and deterministic child-seed derivation.
-- Parallel scheduling must not change per-cell trajectories.
-- Common-random-number comparisons use a documented shared event stream for shape/orientation and an independent contact-rule stream.
-- Optimized and reference kernels must consume equivalent pregenerated random arrays when bit-level comparison is required.
-- Golden fixtures include configuration hash, software version, and expected arrays.
+- New generic transition laws use the exact
+  `semantic-philox4x64-10-v1` counter-addressed contract, not a library-default
+  NumPy bit generator or high-level distribution call.
+- Root seeds are unsigned 128-bit values. Stream keys bind the frozen domain,
+  exact root bytes, coupling group, and stable semantic stream name.
+- Event and rejection ordinals are direct counter words, so parallel
+  scheduling, a rejection in one event, or a draw in another named stream may
+  not shift a trajectory.
+- Common-random-number factor arms and widths share the explicitly declared
+  `family`, `orientation`, `launch`, and `contact` streams within a coupling
+  group; an arm or width is not an implicit key salt.
+- Every later law record must declare its stream set and consume one logical
+  variate from every declared stream at each event, including degenerate or
+  conditionally unused choices.
+- The existing one-cell compatibility path remains separately pinned to
+  `legacy-dual-stream-v1`; it is not silently migrated to the semantic
+  contract.
+- Golden fixtures bind raw Philox output, stream-key bytes, bounded and
+  categorical mappings, configuration identity, software version, and expected
+  transition arrays.
 
 ## 8. Public Python API
 
@@ -592,6 +654,17 @@ Add and maintain
 - keep the oracle behind an explicit provisional submodule import; and
 - require exhaustive and independent reference evidence before any production
   trajectory route or optimization.
+
+### S2.2 — provisional counter-addressed RNG oracle
+
+- implement the frozen raw Philox4x64-10, stream-key, exact bounded-integer,
+  and canonical categorical primitives with no NumPy distribution semantics;
+- certify the byte, word, lane, counter, and mapping order against upstream
+  known-answer vectors and a separately implemented end-to-end oracle;
+- keep the stateless primitives behind an explicit submodule import; and
+- defer exact weighted-law records, law-specific stream schedules, event
+  selection, trajectories, configuration execution, and all production routes
+  to separately verified units.
 
 ### M1.2 — reference engine extraction
 
