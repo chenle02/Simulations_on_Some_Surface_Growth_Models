@@ -10,6 +10,7 @@ By Le Chen, Mauricio Montes and Ian Ruau
 
 """
 
+import math
 import random
 import re
 
@@ -34,6 +35,129 @@ from tetris_ballistic.retrieve_default_configs import configs_dir
 from tetris_ballistic.retrieve_default_configs import retrieve_default_configs as rdc
 
 np.set_printoptions(threshold=np.inf)  # Make sure that print() displays the entire array
+
+
+_LEGACY_PIECE_KEYS = tuple(f"Piece-{index}" for index in range(20))
+_LEGACY_CONFIG_KEYS = frozenset((*_LEGACY_PIECE_KEYS, "width", "height", "steps", "seed"))
+
+
+class _UniqueKeySafeLoader(yaml.SafeLoader):
+    """Safe YAML loader that rejects duplicate keys at every mapping level."""
+
+
+def _construct_unique_mapping(loader, node, deep=False):
+    loader.flatten_mapping(node)
+    mapping = {}
+    for key_node, value_node in node.value:
+        key = loader.construct_object(key_node, deep=deep)
+        try:
+            duplicate = key in mapping
+        except TypeError as error:
+            raise yaml.constructor.ConstructorError(
+                "while constructing a mapping",
+                node.start_mark,
+                "found an unhashable key",
+                key_node.start_mark,
+            ) from error
+        if duplicate:
+            raise yaml.constructor.ConstructorError(
+                "while constructing a mapping",
+                node.start_mark,
+                f"found duplicate key {key!r}",
+                key_node.start_mark,
+            )
+        mapping[key] = loader.construct_object(value_node, deep=deep)
+    return mapping
+
+
+_UniqueKeySafeLoader.add_constructor(
+    yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG,
+    _construct_unique_mapping,
+)
+
+
+def _validate_legacy_density(density):
+    """Return a defensive, finite snapshot of the legacy 40-state weights."""
+
+    if type(density) is not dict:
+        raise ValueError("density must be an exact built-in mapping (dict)")
+
+    if any(type(key) is not str for key in density):
+        raise ValueError("density keys must be built-in strings")
+    supplied_keys = set(density)
+    expected_keys = set(_LEGACY_PIECE_KEYS)
+    if supplied_keys != expected_keys:
+        missing = sorted(expected_keys - supplied_keys)
+        unexpected = sorted(supplied_keys - expected_keys)
+        raise ValueError(
+            f"density must contain exactly Piece-0 through Piece-19; "
+            f"missing={missing}, unexpected={unexpected}"
+        )
+
+    snapshot = {}
+    flat_weights = []
+    for key in _LEGACY_PIECE_KEYS:
+        pair = density[key]
+        if type(pair) not in (list, tuple) or len(pair) != 2:
+            raise ValueError(f"{key} must contain exactly two weights")
+        values = []
+        for raw_value in pair:
+            if isinstance(raw_value, (bool, np.bool_)) or not isinstance(
+                raw_value, (int, float, np.integer, np.floating)
+            ):
+                raise ValueError(f"{key} weights must be numeric and not boolean")
+            try:
+                value = float(raw_value)
+            except (OverflowError, ValueError) as error:
+                raise ValueError(f"{key} weights must be finite and nonnegative") from error
+            if not math.isfinite(value) or value < 0:
+                raise ValueError(f"{key} weights must be finite and nonnegative")
+            values.append(value)
+            flat_weights.append(value)
+        snapshot[key] = values
+
+    try:
+        total = math.fsum(flat_weights)
+    except OverflowError as error:
+        raise ValueError("density total must be finite and positive") from error
+    if not math.isfinite(total) or total <= 0:
+        raise ValueError("density total must be finite and positive")
+    return snapshot
+
+
+def _positive_config_integer(value, *, name):
+    if isinstance(value, (bool, np.bool_)) or not isinstance(
+        value, (int, float, np.integer, np.floating)
+    ):
+        raise ValueError(f"{name} must be a positive integer")
+    try:
+        numeric = float(value)
+    except (OverflowError, ValueError) as error:
+        raise ValueError(f"{name} must be a positive integer") from error
+    if not math.isfinite(numeric) or numeric <= 0 or not numeric.is_integer():
+        raise ValueError(f"{name} must be a positive integer")
+    return int(numeric)
+
+
+def _config_seed(value):
+    if value is None or value == "None":
+        return None
+    if isinstance(value, (bool, np.bool_)) or not isinstance(
+        value, (int, float, np.integer, np.floating)
+    ):
+        raise ValueError("seed must be None or an integer in [0, 2**32 - 1]")
+    try:
+        numeric = float(value)
+    except (OverflowError, ValueError) as error:
+        raise ValueError("seed must be None or an integer in [0, 2**32 - 1]") from error
+    if (
+        not math.isfinite(numeric)
+        or not numeric.is_integer()
+        or numeric < 0
+        or numeric > 2**32 - 1
+    ):
+        raise ValueError("seed must be None or an integer in [0, 2**32 - 1]")
+    return int(numeric)
 
 
 class Tetris_Ballistic:
@@ -128,21 +252,18 @@ class Tetris_Ballistic:
                  seed=None,
                  density=None,
                  config_file=None):
-        self.set_seed(seed)  # Set initial seed
-
         self.image_loader = TetrominoImageLoader()
 
-        if config_file is not None and self.load_config(config_file):
-            # Configuration successfully loaded by load_config
+        if config_file is not None:
+            self.load_config(config_file)
             print(f"Configure file {config_file} loaded successfully.")
-            self.steps = int(self.config_data['steps'])
-            self.width = int(self.config_data['width'])
-            self.height = int(self.config_data['height'])
+            self.steps = self.config_data['steps']
+            self.width = self.config_data['width']
+            self.height = self.config_data['height']
             self.seed = self.config_data['seed']
-            self.set_seed(self.config_data.get('seed', None))
         else:
             if density is not None:
-                self.config_data = density.copy()
+                self.config_data = _validate_legacy_density(density)
             else:
                 print("No configure file, uniform distribution is set.")
                 self.config_data = {f"Piece-{i}": [0, 1] for i in range(19)}
@@ -155,6 +276,8 @@ class Tetris_Ballistic:
             self.height = height
             self.config_data["seed"] = seed
             self.seed = seed
+
+        self.set_seed(self.seed)
 
         self.FinalSteps = self.steps  # This is the final step number
         self.substrate = np.zeros((self.height, self.width), dtype=np.uint32)
@@ -201,11 +324,9 @@ class Tetris_Ballistic:
         probs = np.array([self.config_data[f"Piece-{i}"] for i in range(20)],
                          dtype=np.float64).flatten()
         total = probs.sum()
-        if total > 0:
-            self._sample_probs = probs / total
-        else:
-            self._sample_probs = probs
+        self._sample_probs = probs / total
         self._sample_cdf = np.cumsum(self._sample_probs)
+        self._sample_cdf[-1] = max(1.0, self._sample_cdf[-1])
         self.UpdateCall = [
             _create_partial(self.Update_O, rot=0, sticky=False), _create_partial(self.Update_O, rot=0, sticky=True),    # 0
             _create_partial(self.Update_I, rot=0, sticky=False), _create_partial(self.Update_I, rot=0, sticky=True),    # 1
@@ -294,10 +415,11 @@ class Tetris_Ballistic:
            Piece-19: [0,  0]
 
         The method stores these entries in the `config_data` attribute of the
-        class instance. Single-value entries are converted to floats, while
-        'Piece-x' entries are stored as lists of two floats, among which the
-        first entry refers to the frequency of the non-sticky piece and the
-        second entry refers to the frequency of the sticky piece.
+        class instance. Width, height, and steps are canonicalized as positive
+        integers; seed is canonicalized as an integer or ``None``. ``Piece-x``
+        entries are stored as lists of two finite nonnegative floats, where the
+        first entry is the non-sticky frequency and the second is the sticky
+        frequency.
 
         If the file does not contain exactly 24 entries, a ValueError is
         raised.
@@ -306,45 +428,45 @@ class Tetris_Ballistic:
             filename (str): The path to the YAML configuration file to be loaded.
 
         Returns:
-            bool: True if the file is successfully loaded and contains the correct number of entries, False otherwise.
+            bool: True after a valid configuration is loaded transactionally.
 
         Raises:
             FileNotFoundError: If the specified file does not exist.
-            ValueError: If the file does not contain exactly 23 entries.
-            yaml.YAMLError: If there is an error parsing the YAML file.
+            ValueError: If the YAML or configuration contract is invalid.
         """
         try:
-            with open(filename, 'r') as file:
-                raw_data = yaml.safe_load(file)
+            with open(filename, 'r', encoding='utf-8') as file:
+                raw_data = yaml.load(file, Loader=_UniqueKeySafeLoader)
+        except yaml.YAMLError as error:
+            raise ValueError(f"invalid YAML configuration: {filename}") from error
 
-                if isinstance(raw_data, dict):
-                    # Processing the data
-                    self.config_data = {}
-                    for k, v in raw_data.items():
-                        if k.startswith("Piece-"):
-                            self.config_data[k] = v  # Store list as-is for pieces
-                        else:
-                            self.config_data[k] = float(v)  # Convert other values to float
+        if type(raw_data) is not dict:
+            raise ValueError("configuration must be an exact built-in mapping (dict)")
+        if any(type(key) is not str for key in raw_data):
+            raise ValueError("configuration keys must be built-in strings")
+        supplied_keys = set(raw_data)
+        if supplied_keys != _LEGACY_CONFIG_KEYS:
+            missing = sorted(_LEGACY_CONFIG_KEYS - supplied_keys)
+            unexpected = sorted(supplied_keys - _LEGACY_CONFIG_KEYS)
+            raise ValueError(
+                f"configuration must contain exactly width, height, steps, seed, "
+                f"and Piece-0 through Piece-19; missing={missing}, "
+                f"unexpected={unexpected}"
+            )
 
-                    # Check for the total number of entries
-                    if len(self.config_data) != 24:
-                        raise ValueError("Incorrect number of entries in the configuration file.")
-
-                    print(f"Loaded: {self.config_data}")
-                    return True
-                else:
-                    print(f"Failed to load from {filename}")
-                    return False
-
-        except FileNotFoundError:
-            print(f"File not found: {filename}")
-            return False
-        except ValueError as ve:
-            print(f"Value error in configuration file: {ve}")
-            return False
-        except yaml.YAMLError as exc:
-            print(f"Error in configuration file: {exc}")
-            return False
+        density = _validate_legacy_density(
+            {key: raw_data[key] for key in _LEGACY_PIECE_KEYS}
+        )
+        parsed = {
+            **density,
+            "steps": _positive_config_integer(raw_data["steps"], name="steps"),
+            "width": _positive_config_integer(raw_data["width"], name="width"),
+            "height": _positive_config_integer(raw_data["height"], name="height"),
+            "seed": _config_seed(raw_data["seed"]),
+        }
+        self.config_data = parsed
+        print(f"Loaded: {self.config_data}")
+        return True
 
     def save_config(self, filename):
         """
@@ -546,7 +668,7 @@ class Tetris_Ballistic:
         u = np.random.random()
         sample_index = int(np.searchsorted(self._sample_cdf, u, side="right"))
         if sample_index >= 40:
-            sample_index = 39
+            raise RuntimeError("invalid cached sampling CDF")
 
         # Convert flat index back to 2D index
         Piece_id = sample_index // 2  # integer division to get row index
@@ -635,7 +757,7 @@ class Tetris_Ballistic:
             u = np.random.random()
             idx = int(np.searchsorted(cdf, u, side="right"))
             if idx >= 40:
-                idx = 39
+                raise RuntimeError("invalid cached sampling CDF")
             sticky_flags[i] = (idx % 2) == 1
             positions[i] = random.randint(0, self.width - 1)
             piece_id = idx // 2
@@ -2506,4 +2628,3 @@ def make_darker(color: str, factor=0.5):
 # # print(f"Fluctuation {TB.Fluctuation}")
 # s = TB.ComputeSlope_fine(low_threshold=0.1, high_threshold=0.99)
 # print(f"Piece 14, sticky: slope = {s}")
-
