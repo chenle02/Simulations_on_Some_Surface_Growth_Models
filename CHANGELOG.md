@@ -31,6 +31,18 @@ change.
 
 ### Added
 
+- A provisional S2.3 stateless exact-law layer under the explicit
+  `tetris_ballistic.engine.selection` submodule. Immutable weighted records
+  preserve explicit outcome order, canonical integer counts, and zero slots;
+  immutable declared-stream records preserve exact membership and order; and
+  keyword-only one-stream weighted/uniform selectors reject undeclared names
+  before calling the S2.2 oracle while retaining the complete selected value
+  and accepted-rejection metadata. The layer has no root export, named family/contact law,
+  conditional or complete-event selector, configuration/legacy adapter,
+  placement composition, trajectory, serialization identity, optimized path,
+  Slurm/HPC, or production route. Its persistent vectors distinguish the
+  guaranteed shared raw candidate tape from accepted-variate coupling when
+  different bounds reject at different ordinals.
 - A provisional S2.2 stateless `semantic-philox4x64-10-v1` oracle under the
   explicit `tetris_ballistic.engine.rng` submodule. It implements exact
   128-bit-root/SHA-256 stream-key derivation, the ten-round Random123

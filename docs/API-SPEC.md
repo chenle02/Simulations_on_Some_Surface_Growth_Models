@@ -1,10 +1,11 @@
 # `tetris-ballistic` Community API and Architecture Specification
 
-**Specification version:** 0.3.0
+**Specification version:** 0.4.0
 
-**Status:** M1.1 contracts plus provisional S2.1 exact placement and S2.2
-counter-addressed semantic-RNG oracles; law selection, trajectory routing, and
-shared cross-repository schemas are not implemented
+**Status:** M1.1 contracts plus provisional S2.1 exact placement, S2.2
+counter-addressed semantic-RNG oracles, and S2.3 explicit-order exact-law/
+one-stream selection records; conditional event selection, trajectory routing,
+and shared cross-repository schemas are not implemented
 
 **Compatibility target:** backward-compatible 2.1.x transition, then 3.0.0 only after migration gates
 
@@ -140,7 +141,10 @@ The one-cell baseline is a separate geometry, not a tetromino.
 
 ### 6.3 Ensembles and orientation laws
 
-`PieceEnsemble` maps geometry IDs to normalized nonnegative probabilities. `OrientationDistribution` maps each free family to probabilities on its canonical orientation IDs. Zero-total, negative, nonfinite, unknown, or duplicate entries are rejected.
+`PieceEnsemble` maps free-family IDs (or the separate one-cell baseline family)
+to normalized nonnegative probabilities. `OrientationDistribution` maps each
+selected free family to probabilities on its canonical orientation IDs.
+Zero-total, negative, nonfinite, unknown, or duplicate entries are rejected.
 
 Constructors should include
 
@@ -377,15 +381,66 @@ high-level NumPy distribution participates in these semantics.
 
 The conformance boundary includes upstream Random123 known-answer vectors plus
 independently derived project key, raw, bounded-integer, and categorical
-vectors, recorded in `docs/SEMANTIC-RNG-VECTORS.md`. The S2.2 oracle does
-**not** yet define exact weighted model-law records, declared stream sets, the
-requirement to consume every declared stream at every event,
-family/orientation/contact/launch selection, placement composition,
-checkpoints, serialization, a stateful generator, or scheduling.
-Those are later S2 units. It also supplies no root export, legacy migration,
-optimized kernel, CLI, batch, Slurm/HPC, or production route.
+vectors, recorded in `docs/SEMANTIC-RNG-VECTORS.md`. The S2.2 oracle itself
+does not define model-law records, stream declarations, conditional selection,
+placement composition, checkpoints, serialization, a stateful generator, or
+scheduling. It also supplies no root export, legacy migration, optimized
+kernel, CLI, batch, Slurm/HPC, or production route.
 
-### 6.7 Clocks
+### 6.7 Provisional S2.3 exact law-selection records
+
+`tetris_ballistic.engine.selection` is an explicit-submodule, stateless layer
+over the S2.2 primitives. It is not re-exported from `tetris_ballistic` or
+`tetris_ballistic.engine`, and it does not modify the existing float-normalized
+`PieceEnsemble`, `OrientationDistribution`, `ContactRule`, or
+`SimulationConfig` records.
+
+The provisional surface contains
+
+- `ExactWeightedLaw(outcome_ids, counts)`, an immutable record whose ordered,
+  unique, nonempty exact UTF-8 outcome IDs and equally long canonical integer
+  counts retain both caller order and zero-count positions;
+- `UniformIntegerLaw(upper_bound)`, an immutable exact bound in
+  `[1, 2**64]`;
+- `DeclaredStreamSet(stream_names)`, an immutable, ordered, nonempty, unique
+  exact UTF-8 declaration record;
+- `select_weighted(...)`, which requires an explicitly named stream to be in
+  the declared record before delegating the exact count vector to
+  `categorical_index`; and
+- `select_uniform(...)`, which applies the same declared-membership check
+  before delegating the exact bound to `uniform_below`.
+
+Both selectors are keyword-only, validate and defensively reconstruct every
+address and record before the RNG call, and return an immutable selection that
+retains the complete `SemanticDraw`. A one-outcome law or a bound of one still
+reads one logical RNG variate. There is no fallback, coercion, implicit stream,
+floating normalization, mapping-order inference, zero-slot removal, or modulo
+repair. A delegated draw that selects an out-of-range or zero-count position
+fails closed.
+
+`WeightedSelection` and `UniformSelection` are immutable value records, not
+standalone authenticated artifacts: they do not bind the request address or
+law, and direct construction does not verify those absent fields. The semantic
+guarantee applies to values returned by the selectors with the certified
+in-package S2.2 oracle. Address/law-bound verification belongs to the deferred
+serialization/identity and complete-event gate.
+
+The ordered outcome tuple is the complete executable order for that one
+record. S2.3 does **not** declare a global canonical family or contact order,
+provide named tetromino/control factories, resolve conditional orientation
+laws, or evaluate a full event. `DeclaredStreamSet` establishes exact
+membership and record order; the one-stream selectors do not claim that every
+declared stream has been consumed. Conditional dependency order, branch
+coverage, complete-event trace records, and exact named law materialization
+remain a later gate.
+
+The conformance vectors in `docs/EXACT-SELECTION-VECTORS.md` use explicit
+outcome tuples; they are test records, not aliases for a future named model
+law. No canonical JSON, digest/profile, shared `model_law_id`, configuration
+adapter, placement call, trajectory, legacy route, optimized kernel, CLI,
+batch, Slurm/HPC, or production path is supplied.
+
+### 6.8 Clocks
 
 The engine records, without substitution,
 
@@ -396,7 +451,7 @@ The engine records, without substitution,
 
 `ClockKind` is an enum in analysis APIs. Every fitted quantity records its clock. A function must not silently change from one clock to another.
 
-### 6.8 Configuration
+### 6.9 Configuration
 
 `SimulationConfig` contains
 
@@ -413,7 +468,7 @@ The engine records, without substitution,
 
 Validation occurs before allocation or simulation. During M1.1, the typed objects expose only the repository-local digest profiles `tetris-ballistic/software-geometry-record@1` and `tetris-ballistic/software-config-record@1`. These digests are not shared scientific identities and must not be compared with data-repository record hashes. A shared result-bundle projection remains an M1.3 gate.
 
-### 6.9 Results
+### 6.10 Results
 
 `SimulationResult` exposes read-only-by-contract arrays or defensive copies for
 
@@ -438,9 +493,13 @@ The persistence layer snapshots caller arrays before writing. A reversible NumPy
 - Event and rejection ordinals are direct counter words, so parallel
   scheduling, a rejection in one event, or a draw in another named stream may
   not shift a trajectory.
-- Common-random-number factor arms and widths share the explicitly declared
-  `family`, `orientation`, `launch`, and `contact` streams within a coupling
-  group; an arm or width is not an implicit key salt.
+- Common-random-number factor arms and widths share the counter-addressed raw
+  candidate tape for each explicitly declared `family`, `orientation`,
+  `launch`, and `contact` stream within a coupling group; an arm or width is
+  not an implicit key salt. Equal bounds accept the same bounded variate and
+  rejection ordinal. Different bounds can reject at different ordinals, so the
+  frozen S2.2 mapper does not guarantee one literal accepted uniform across
+  such laws; that coupling terminology must close before composite selection.
 - Every later law record must declare its stream set and consume one logical
   variate from every declared stream at each event, including degenerate or
   conditionally unused choices.
@@ -665,6 +724,17 @@ Add and maintain
 - defer exact weighted-law records, law-specific stream schedules, event
   selection, trajectories, configuration execution, and all production routes
   to separately verified units.
+
+### S2.3 — provisional exact-law and one-stream selection records
+
+- preserve explicit ordered outcome IDs, canonical integer counts, and zero
+  positions without using the established float-normalized model records;
+- validate ordered declared-stream membership before every one-stream draw;
+- retain complete accepted-rejection metadata and pin shared-candidate/
+  different-bound rejection behavior; and
+- defer named family/contact order, conditional orientation resolution,
+  complete-event consumption, configuration execution, placement composition,
+  trajectories, serialization identity, and every production route.
 
 ### M1.2 — reference engine extraction
 

@@ -84,3 +84,9 @@ intervals:
 Only nonempty ordered vectors of exact nonnegative integer counts are valid.
 Their sum must lie in `[1, 2**64]`, and the greatest common divisor of positive
 counts must be one.
+
+The additive S2.3 semantic-ID records and one-stream selection results are
+pinned separately in `docs/EXACT-SELECTION-VECTORS.md`. In particular, that
+document records that equal addresses share a raw candidate tape, while
+different bounds can accept different rejection ordinals; the S2.2 mapper does
+not promise one literal accepted uniform across unequal bounds.
