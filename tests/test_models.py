@@ -49,6 +49,39 @@ def test_one_cell_is_a_separate_baseline() -> None:
     assert ONE_CELL not in TETROMINO_REGISTRY
 
 
+def test_public_world_coordinates_match_the_ratified_upward_orientation_table() -> None:
+    expected = {
+        "baseline.one-cell": ((0, 0),),
+        "tetromino.i.00": ((0, 0), (0, 1), (0, 2), (0, 3)),
+        "tetromino.i.01": ((0, 0), (1, 0), (2, 0), (3, 0)),
+        "tetromino.lj.00": ((0, 0), (1, 0), (1, 1), (1, 2)),
+        "tetromino.lj.01": ((0, 2), (1, 0), (1, 1), (1, 2)),
+        "tetromino.lj.02": ((0, 0), (1, 0), (2, 0), (2, 1)),
+        "tetromino.lj.03": ((0, 1), (1, 1), (2, 0), (2, 1)),
+        "tetromino.lj.04": ((0, 0), (0, 1), (0, 2), (1, 0)),
+        "tetromino.lj.05": ((0, 0), (0, 1), (1, 0), (2, 0)),
+        "tetromino.lj.06": ((0, 0), (0, 1), (1, 1), (2, 1)),
+        "tetromino.lj.07": ((0, 0), (0, 1), (0, 2), (1, 2)),
+        "tetromino.o.00": ((0, 0), (0, 1), (1, 0), (1, 1)),
+        "tetromino.sz.00": ((0, 1), (0, 2), (1, 0), (1, 1)),
+        "tetromino.sz.01": ((0, 1), (1, 0), (1, 1), (2, 0)),
+        "tetromino.sz.02": ((0, 0), (0, 1), (1, 1), (1, 2)),
+        "tetromino.sz.03": ((0, 0), (1, 0), (1, 1), (2, 1)),
+        "tetromino.t.00": ((0, 1), (1, 0), (1, 1), (1, 2)),
+        "tetromino.t.01": ((0, 0), (1, 0), (1, 1), (2, 0)),
+        "tetromino.t.02": ((0, 0), (0, 1), (0, 2), (1, 1)),
+        "tetromino.t.03": ((0, 1), (1, 0), (1, 1), (2, 1)),
+    }
+
+    assert set(expected) == set(GEOMETRY_BY_ID)
+    for geometry_id, world_coordinates in expected.items():
+        geometry = GEOMETRY_BY_ID[geometry_id]
+        original_digest = geometry.software_geometry_record_sha256
+        assert geometry.world_coordinates == world_coordinates
+        assert geometry.software_geometry_record_sha256 == original_digest
+        assert "world_coordinates" not in geometry.canonical_record()
+
+
 def test_registry_mappings_are_read_only() -> None:
     with pytest.raises(TypeError):
         operator.setitem(GEOMETRY_BY_ID, "bad", ONE_CELL)
@@ -463,6 +496,22 @@ def test_generic_first_contact_is_distinct_from_legacy_sticky_v1() -> None:
     assert ContactKind.FIRST_CONTACT.value == "first-contact"
     assert ContactKind.LEGACY_STICKY_V1.value == "legacy-sticky-v1"
     assert ContactRule.first_contact() != ContactRule.legacy_sticky_v1()
+
+
+def test_versioned_scientific_contact_rules_are_distinct_from_prototypes_and_legacy() -> None:
+    assert ContactKind.SUPPORTED_V1.value == "supported-v1"
+    assert ContactKind.EDGE_FIRST_CONTACT_V1.value == "edge-first-contact-v1"
+    assert ContactRule.supported_v1().weights == ((ContactKind.SUPPORTED_V1, 1.0),)
+    assert ContactRule.edge_first_contact_v1().weights == ((ContactKind.EDGE_FIRST_CONTACT_V1, 1.0),)
+    assert len(
+        {
+            ContactRule.supported(),
+            ContactRule.first_contact(),
+            ContactRule.legacy_sticky_v1(),
+            ContactRule.supported_v1(),
+            ContactRule.edge_first_contact_v1(),
+        }
+    ) == 5
 
 
 def test_simulation_config_requires_exact_orientation_family_coverage() -> None:

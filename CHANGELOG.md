@@ -35,6 +35,25 @@ change.
   configuration records, together with fail-closed adapters for the legacy
   20-by-2 density table. These contracts are additive and do not route legacy
   simulations through a new placement engine.
+- A provisional S2.1 deterministic single-event oracle under the explicit
+  `tetris_ballistic.engine` submodule. It provides immutable sparse periodic
+  states and exact spawn-independent placement for `supported-v1` and N4
+  `edge-first-contact-v1`, including the supported counterfactual height,
+  early-arrest gap, all directed final N4 aggregate faces (including
+  `aggregate-above`) plus floor support, explicit periodic-seam flags, the
+  predicate-enabled stopping faces, the counterfactually causal support or
+  lateral subset, and defensively validated pre/post states. The explicit
+  `validate_periodic_law` preflight checks width and wrapping against the
+  complete positive-weight geometry support before a mixed law executes.
+  Direct face/result construction fails closed on forged nested state or
+  geometry values, noncanonical cells, incomplete or misordered contacts,
+  invalid stopping/causal subsets, inconsistent heights/gaps, nonmaximal
+  landings, and pre/post-state disagreement.
+- The reflected `PieceGeometry.world_coordinates` view and versioned
+  `ContactKind.SUPPORTED_V1` / `ContactKind.EDGE_FIRST_CONTACT_V1` identities
+  with matching `ContactRule` factories. The reflected view is excluded from
+  the existing software-local geometry record, preserving its canonical JSON
+  and digest.
 - Paired log-subsampling, estimator-sensitivity checks, and common-time
   Tracy-Widom diagnostics for the exp14 analysis workflow.
 - Identity-bound managed run artifacts with canonical configuration snapshots,
@@ -64,6 +83,14 @@ change.
 - Existing `Tetris_Ballistic` imports remain available throughout the 2.1
   compatibility series; breaking engine or schema changes remain deferred to a
   separately versioned migration.
+- The S2.1 oracle is provisional and is not exported from the package root or
+  routed through `SimulationConfig`, `Tetris_Ballistic`, RNG, trajectory,
+  Slurm/HPC, optimized-kernel, or legacy-adapter paths. It defines no shared
+  serialization schema or cross-repository identity; the older `supported`,
+  `first-contact`, and `legacy-sticky-v1` identities retain their established
+  values and compatibility behavior. The unversioned `first-contact`
+  prototype and both `supported-v1` and `edge-first-contact-v1` have no
+  legacy-adapter mapping.
 - The slope-analysis CLI now separates `--trace-root` from `--out-dir` and
   requires an input layout. Managed hierarchical simulation outputs must be
   validated and reduced before analysis; historical flat joblibs remain

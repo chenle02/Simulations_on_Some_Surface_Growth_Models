@@ -132,6 +132,19 @@ class PieceGeometry:
     def width(self) -> int:
         return max(column for _, column in self.coordinates) + 1
 
+    @property
+    def world_coordinates(self) -> tuple[Coordinate, ...]:
+        """Return public-world ``(delta_y, delta_x)`` coordinates.
+
+        Stored geometry rows increase downward.  The public placement law uses
+        an upward vertical coordinate, so rows are reflected through the
+        geometry's bounding-box height.  This view is deliberately excluded
+        from the software-local geometry record to preserve its established
+        serialization and digest.
+        """
+
+        return tuple(sorted((self.height - 1 - row, column) for row, column in self.coordinates))
+
     def canonical_record(self) -> dict[str, object]:
         """Return the payload for the software-local geometry record profile."""
 
@@ -413,6 +426,8 @@ class ContactKind(str, Enum):
     SUPPORTED = "supported"
     FIRST_CONTACT = "first-contact"
     LEGACY_STICKY_V1 = "legacy-sticky-v1"
+    SUPPORTED_V1 = "supported-v1"
+    EDGE_FIRST_CONTACT_V1 = "edge-first-contact-v1"
 
 
 @dataclass(frozen=True, slots=True)
@@ -469,13 +484,27 @@ class ContactRule:
 
     @classmethod
     def supported(cls) -> "ContactRule":
+        """Construct the unversioned 2.1 compatibility rule."""
+
         return cls.from_weights({ContactKind.SUPPORTED: 1.0})
 
     @classmethod
     def first_contact(cls) -> "ContactRule":
-        """Construct the generic rule, which has no certified legacy mapping."""
+        """Construct the unversioned prototype with no execution route."""
 
         return cls.from_weights({ContactKind.FIRST_CONTACT: 1.0})
+
+    @classmethod
+    def supported_v1(cls) -> "ContactRule":
+        """Construct the periodic, mechanically supported scientific rule."""
+
+        return cls.from_weights({ContactKind.SUPPORTED_V1: 1.0})
+
+    @classmethod
+    def edge_first_contact_v1(cls) -> "ContactRule":
+        """Construct the periodic N4 edge-first-contact scientific rule."""
+
+        return cls.from_weights({ContactKind.EDGE_FIRST_CONTACT_V1: 1.0})
 
     @classmethod
     def legacy_sticky_v1(cls) -> "ContactRule":

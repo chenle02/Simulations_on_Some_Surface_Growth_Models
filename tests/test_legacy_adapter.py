@@ -422,6 +422,33 @@ def test_generic_first_contact_has_no_certified_legacy_mapping(contact_kind: Con
         distribution_from_simulation_config(config)
 
 
+@pytest.mark.parametrize(
+    ("contact_kind", "contact_rule"),
+    [
+        (ContactKind.SUPPORTED_V1, ContactRule.supported_v1()),
+        (ContactKind.EDGE_FIRST_CONTACT_V1, ContactRule.edge_first_contact_v1()),
+    ],
+)
+def test_versioned_periodic_rules_are_never_coerced_into_legacy_columns(
+    contact_kind: ContactKind,
+    contact_rule: ContactRule,
+) -> None:
+    with pytest.raises(ValueError, match="no certified legacy mapping"):
+        state_for("baseline.one-cell", contact_kind)
+
+    config = SimulationConfig(
+        width=32,
+        height=128,
+        steps=100,
+        root_seed=3,
+        ensemble=PieceEnsemble.pure("one-cell"),
+        orientations=None,
+        contact_rule=contact_rule,
+    )
+    with pytest.raises(ValueError, match="no certified legacy mapping"):
+        distribution_from_simulation_config(config)
+
+
 def test_periodic_typed_config_is_not_misrepresented_as_legacy() -> None:
     config = SimulationConfig(
         width=32,
