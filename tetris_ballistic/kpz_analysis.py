@@ -19,19 +19,641 @@ References
 Author: Le Chen (le.chen@auburn.edu)
 """
 
-import glob
+import ast
+import math
 import os
+import re
+import stat
+import struct
+import zipfile
+from contextlib import contextmanager
+from dataclasses import dataclass
+from pathlib import Path
+from typing import BinaryIO, Iterator
 
 import joblib
 import numpy as np
 from scipy.optimize import curve_fit
 from scipy.stats import linregress
 
+REDUCED_INPUT_LAYOUT = "reduced"
+LEGACY_FLAT_INPUT_LAYOUT = "legacy-flat"
+SUPPORTED_INPUT_LAYOUTS = frozenset(
+    {REDUCED_INPUT_LAYOUT, LEGACY_FLAT_INPUT_LAYOUT}
+)
+_LEGACY_FLAT_NAME = re.compile(
+    r"^config_piece_19_combined_percentage_(\d+)_w=(\d+)_seed=(\d+)\.joblib$"
+)
+_REDUCED_KEYS = frozenset({
+    "L",
+    "W",
+    "final_steps",
+    "hbar",
+    "hbar_max",
+    "pct",
+    "saturated",
+    "seeds",
+})
+_REDUCED_HEIGHT_CORRECTED_KEYS = _REDUCED_KEYS | {"height_grid"}
+_REDUCED_KEY_VARIANTS = (_REDUCED_KEYS, _REDUCED_HEIGHT_CORRECTED_KEYS)
+_MAX_REDUCED_MEMBERS = max(len(keys) for keys in _REDUCED_KEY_VARIANTS)
+_MAX_REDUCED_UNCOMPRESSED_BYTES = 8 * 1024**3
+_MAX_ENSEMBLE_SEEDS = 1_000_000
+_MAX_TRACE_POINTS = 100_000_000
+_MAX_NPY_HEADER_BYTES = 64 * 1024
+_REDUCED_VALIDATION_CHUNK_POINTS = 1_000_000
+
+
+@dataclass(frozen=True)
+class EnsembleInput:
+    """Exact files selected for one slope-analysis ensemble."""
+
+    layout: str
+    root: Path
+    percentage: int
+    L: int
+    paths: tuple[Path, ...]
+    seeds: tuple[int, ...]
+
+
+def _require_cell_identity(percentage: object, L: object) -> tuple[int, int]:
+    if type(percentage) is not int or not 0 <= percentage <= 100:
+        raise ValueError("percentage must be a built-in integer in [0, 100]")
+    if type(L) is not int or L <= 0:
+        raise ValueError("L must be a positive built-in integer")
+    return percentage, L
+
+
+def _require_input_layout(input_layout: object) -> str:
+    if type(input_layout) is not str or input_layout not in SUPPORTED_INPUT_LAYOUTS:
+        choices = ", ".join(sorted(SUPPORTED_INPUT_LAYOUTS))
+        raise ValueError(f"input_layout must be one of: {choices}")
+    return input_layout
+
+
+def exp14_grid_height_for_width(L: int) -> int:
+    """Return the historical exp14 ``ratio:auto, sat_margin:3`` grid height."""
+
+    if type(L) is not int or L <= 0:
+        raise ValueError("L must be a positive built-in integer")
+    return int(round(L * math.ceil(3.0 * math.sqrt(L))))
+
+
+def _require_regular_path(path: Path, *, label: str) -> None:
+    try:
+        file_stat = path.lstat()
+    except OSError as error:
+        raise ValueError(f"{label} is missing: {path}") from error
+    if not stat.S_ISREG(file_stat.st_mode):
+        raise ValueError(f"{label} is not a regular file: {path}")
+
+
+def _stat_signature(file_stat: os.stat_result) -> tuple[int, int, int, int, int, int]:
+    return (
+        file_stat.st_dev,
+        file_stat.st_ino,
+        file_stat.st_mode,
+        file_stat.st_size,
+        file_stat.st_mtime_ns,
+        file_stat.st_ctime_ns,
+    )
+
+
+@contextmanager
+def _open_regular_binary(path: Path, *, label: str) -> Iterator[BinaryIO]:
+    flags = os.O_RDONLY
+    if hasattr(os, "O_NOFOLLOW"):
+        flags |= os.O_NOFOLLOW
+    try:
+        descriptor = os.open(path, flags)
+    except OSError as error:
+        raise ValueError(f"{label} is missing or nonregular: {path}") from error
+    try:
+        with os.fdopen(descriptor, "rb") as handle:
+            descriptor = -1
+            file_stat = os.fstat(handle.fileno())
+            if not stat.S_ISREG(file_stat.st_mode):
+                raise ValueError(f"{label} is not a regular file: {path}")
+            yield handle
+    finally:
+        if descriptor >= 0:
+            os.close(descriptor)
+
+
+def resolve_ensemble_input(
+    trace_root: str | os.PathLike[str],
+    percentage: int,
+    L: int,
+    *,
+    input_layout: str,
+) -> EnsembleInput:
+    """Resolve exactly one declared analysis input without layout fallback."""
+
+    percentage, L = _require_cell_identity(percentage, L)
+    layout = _require_input_layout(input_layout)
+    root = Path(trace_root).resolve()
+    if not root.is_dir():
+        raise ValueError(f"trace root is not a directory: {root}")
+
+    if layout == REDUCED_INPUT_LAYOUT:
+        path = root / f"pct_{percentage:02d}" / f"L_{L:04d}.npz"
+        managed = root / f"pct_{percentage:02d}" / f"L_{L:04d}"
+        if not path.exists() and managed.is_dir():
+            raise ValueError(
+                "managed hierarchical raw runs are not direct analysis inputs; "
+                "validate and reduce them with tetris_ballistic.scripts.reduce_traces"
+            )
+        _require_regular_path(path, label="reduced trace")
+        seeds = _reduced_seed_inventory(path, percentage, L)
+        return EnsembleInput(layout, root, percentage, L, (path,), seeds)
+
+    pattern = (
+        f"config_piece_19_combined_percentage_{percentage:02d}_"
+        f"w={L}_seed=*.joblib"
+    )
+    entries: list[tuple[int, Path]] = []
+    for path in root.glob(pattern):
+        _require_regular_path(path, label="legacy trace")
+        match = _LEGACY_FLAT_NAME.fullmatch(path.name)
+        if match is None:
+            raise ValueError(f"legacy trace name does not match the declared layout: {path}")
+        observed_pct, observed_width, seed = map(int, match.groups())
+        if (observed_pct, observed_width) != (percentage, L):
+            raise ValueError(f"legacy trace identity does not match request: {path}")
+        entries.append((seed, path))
+    if not entries:
+        managed = root / f"pct_{percentage:02d}" / f"L_{L:04d}"
+        if managed.is_dir():
+            raise ValueError(
+                "managed hierarchical raw runs are not direct analysis inputs; "
+                "validate and reduce them with tetris_ballistic.scripts.reduce_traces"
+            )
+        raise ValueError(
+            f"no legacy-flat joblib inputs for pct={percentage}, L={L}: {root / pattern}"
+        )
+    entries.sort(key=lambda item: item[0])
+    seeds = tuple(seed for seed, _path in entries)
+    if len(set(seeds)) != len(seeds):
+        raise ValueError(f"duplicate legacy seed for pct={percentage}, L={L}")
+    if any(seed < 0 or seed > 2**32 - 1 for seed in seeds):
+        raise ValueError(f"legacy seed is outside [0, 2**32 - 1] for pct={percentage}, L={L}")
+    return EnsembleInput(
+        layout, root, percentage, L, tuple(path for _seed, path in entries), seeds
+    )
+
+
+def _read_npy_header(
+    archive: zipfile.ZipFile, member: zipfile.ZipInfo, *, path: Path
+) -> tuple[tuple[int, ...], np.dtype, bool, int]:
+    """Parse one bounded NPY header without allocating its array payload."""
+
+    try:
+        with archive.open(member, "r") as source:
+            if source.read(6) != b"\x93NUMPY":
+                raise ValueError(f"reduced trace member is not NPY: {path}:{member.filename}")
+            version = source.read(2)
+            if len(version) != 2:
+                raise ValueError(f"reduced trace NPY version is truncated: {path}")
+            major = version[0]
+            if major == 1:
+                length_bytes = source.read(2)
+                header_length = struct.unpack("<H", length_bytes)[0]
+                encoding = "latin1"
+                prefix_length = 10
+            elif major in {2, 3}:
+                length_bytes = source.read(4)
+                header_length = struct.unpack("<I", length_bytes)[0]
+                encoding = "utf-8" if major == 3 else "latin1"
+                prefix_length = 12
+            else:
+                raise ValueError(f"unsupported reduced trace NPY version: {path}")
+            if header_length <= 0 or header_length > _MAX_NPY_HEADER_BYTES:
+                raise ValueError(f"reduced trace NPY header is outside the size limit: {path}")
+            header_bytes = source.read(header_length)
+            if len(header_bytes) != header_length:
+                raise ValueError(f"reduced trace NPY header is truncated: {path}")
+        header = ast.literal_eval(header_bytes.decode(encoding).strip())
+    except ValueError:
+        raise
+    except (OSError, UnicodeError, struct.error, SyntaxError) as error:
+        raise ValueError(f"reduced trace NPY header is invalid: {path}") from error
+    if type(header) is not dict or set(header) != {"descr", "fortran_order", "shape"}:
+        raise ValueError(f"reduced trace NPY header keys differ: {path}")
+    shape = header["shape"]
+    if (
+        type(shape) is not tuple
+        or any(type(dimension) is not int or dimension < 0 for dimension in shape)
+    ):
+        raise ValueError(f"reduced trace NPY shape is invalid: {path}")
+    if type(header["fortran_order"]) is not bool:
+        raise ValueError(f"reduced trace NPY order flag is invalid: {path}")
+    try:
+        dtype = np.dtype(header["descr"])
+    except (TypeError, ValueError) as error:
+        raise ValueError(f"reduced trace NPY dtype is invalid: {path}") from error
+    if dtype.hasobject or dtype.fields is not None or dtype.subdtype is not None:
+        raise ValueError(f"reduced trace NPY dtype is unsafe: {path}")
+    data_bytes = math.prod(shape) * dtype.itemsize
+    if member.file_size != prefix_length + header_length + data_bytes:
+        raise ValueError(f"reduced trace NPY member size is inconsistent: {path}")
+    return shape, dtype, header["fortran_order"], data_bytes
+
+
+def _validate_reduced_archive_inventory(handle: BinaryIO, *, path: Path) -> None:
+    try:
+        with zipfile.ZipFile(handle) as archive:
+            members = archive.infolist()
+            names = [member.filename for member in members]
+            observed_names = set(names)
+            expected_name_variants = tuple(
+                {f"{name}.npy" for name in keys}
+                for keys in _REDUCED_KEY_VARIANTS
+            )
+            if not any(
+                len(members) == len(expected_names)
+                and observed_names == expected_names
+                for expected_names in expected_name_variants
+            ):
+                raise ValueError(f"reduced trace archive inventory differs: {path}")
+            if len(names) != len(set(names)):
+                raise ValueError(f"reduced trace archive has duplicate members: {path}")
+            if any(
+                member.is_dir()
+                or member.flag_bits & 0x1
+                or Path(member.filename).name != member.filename
+                for member in members
+            ):
+                raise ValueError(f"reduced trace archive has unsafe members: {path}")
+            total_size = sum(member.file_size for member in members)
+            if total_size > _MAX_REDUCED_UNCOMPRESSED_BYTES:
+                raise ValueError(
+                    "reduced trace archive exceeds the uncompressed-size limit "
+                    f"({_MAX_REDUCED_UNCOMPRESSED_BYTES} bytes): {path}"
+                )
+            headers = {
+                member.filename.removesuffix(".npy"): _read_npy_header(
+                    archive, member, path=path
+                )
+                for member in members
+            }
+            expected_dtypes = {
+                "L": "<i4",
+                "W": "<f4",
+                "hbar": "<f4",
+                "hbar_max": "<f4",
+                "pct": "<i4",
+                "saturated": "|b1",
+            }
+            if "height_grid" in headers:
+                expected_dtypes["height_grid"] = "<i4"
+            if any(
+                headers[name][1].str != dtype
+                or headers[name][2]
+                for name, dtype in expected_dtypes.items()
+            ) or any(
+                headers[name][1].str not in {"<i4", "<i8"}
+                or headers[name][2]
+                for name in ("seeds", "final_steps")
+            ):
+                raise ValueError(f"reduced trace dtypes or array order differ: {path}")
+            seed_shape = headers["seeds"][0]
+            if (
+                len(seed_shape) != 1
+                or not 1 <= seed_shape[0] <= _MAX_ENSEMBLE_SEEDS
+                or headers["final_steps"][0] != seed_shape
+            ):
+                raise ValueError(f"reduced trace seed metadata shapes are invalid: {path}")
+            matrix_shape = headers["W"][0]
+            if (
+                len(matrix_shape) != 2
+                or matrix_shape[0] != seed_shape[0]
+                or not 2 <= matrix_shape[1] <= _MAX_TRACE_POINTS
+                or headers["hbar"][0] != matrix_shape
+            ):
+                raise ValueError(f"reduced trace matrix headers are invalid: {path}")
+            scalar_names = ["L", "hbar_max", "pct", "saturated"]
+            if "height_grid" in headers:
+                scalar_names.append("height_grid")
+            if any(headers[name][0] != () for name in scalar_names):
+                raise ValueError(f"reduced trace scalar headers are invalid: {path}")
+            total_data_bytes = sum(header[3] for header in headers.values())
+            if total_data_bytes > _MAX_REDUCED_UNCOMPRESSED_BYTES:
+                raise ValueError(f"reduced trace arrays exceed the memory budget: {path}")
+    except ValueError:
+        raise
+    except (OSError, zipfile.BadZipFile) as error:
+        raise ValueError(f"reduced trace archive is unreadable: {path}") from error
+    finally:
+        handle.seek(0)
+
+
+def _validated_seed_values(seeds: np.ndarray, *, path: Path) -> tuple[int, ...]:
+    if seeds.dtype.str not in {"<i4", "<i8"} or seeds.ndim != 1 or not seeds.size:
+        raise ValueError(
+            f"reduced trace seeds must be a nonempty int32 or int64 vector: {path}"
+        )
+    if seeds.size > _MAX_ENSEMBLE_SEEDS:
+        raise ValueError(f"reduced trace has too many seeds: {path}")
+    seed_values = tuple(int(seed) for seed in seeds.tolist())
+    if (
+        list(seed_values) != sorted(seed_values)
+        or len(seed_values) != len(set(seed_values))
+        or any(seed < 0 or seed > 2**32 - 1 for seed in seed_values)
+    ):
+        raise ValueError(f"reduced trace seeds are not a unique ordered inventory: {path}")
+    return seed_values
+
+
+def _validate_reduced_observable_rows(
+    W_mat: np.ndarray,
+    hbar_mat: np.ndarray,
+    *,
+    path: Path,
+    height_grid: int | None,
+) -> None:
+    """Validate large trace matrices with fixed-size one-dimensional temporaries."""
+
+    for row_index in range(W_mat.shape[0]):
+        width_row = W_mat[row_index]
+        height_row = hbar_mat[row_index]
+        for start in range(0, width_row.size, _REDUCED_VALIDATION_CHUNK_POINTS):
+            stop = min(start + _REDUCED_VALIDATION_CHUNK_POINTS, width_row.size)
+            width_chunk = width_row[start:stop]
+            height_chunk = height_row[start:stop]
+            if not np.all(np.isfinite(width_chunk)) or not np.all(
+                np.isfinite(height_chunk)
+            ):
+                raise ValueError(
+                    f"reduced trace matrices contain nonfinite values: {path}"
+                )
+            if np.any(width_chunk < 0) or np.any(height_chunk < 0):
+                raise ValueError(
+                    f"reduced trace matrices contain negative observables: {path}"
+                )
+            if height_grid is not None and np.any(height_chunk > height_grid):
+                raise ValueError(
+                    f"corrected exp14 reduced trace height_grid is invalid: {path}"
+                )
+            if (
+                start > 0 and height_row[start] < height_row[start - 1]
+            ) or np.any(np.diff(height_chunk) < 0):
+                raise ValueError(
+                    "reduced trace mean-height observables must be "
+                    f"nondecreasing: {path}"
+                )
+
+
+def _reduced_seed_inventory(path: Path, percentage: int, L: int) -> tuple[int, ...]:
+    """Read the small identity fields without inflating trace matrices."""
+
+    with _open_regular_binary(path, label="reduced trace") as handle:
+        before = os.fstat(handle.fileno())
+        _validate_reduced_archive_inventory(handle, path=path)
+        try:
+            with np.load(handle, allow_pickle=False) as trace:
+                seeds = np.asarray(trace["seeds"])
+                observed_pct = np.asarray(trace["pct"])
+                observed_width = np.asarray(trace["L"])
+        except Exception as error:
+            raise ValueError(f"reduced trace identity cannot be decoded: {path}") from error
+        after = os.fstat(handle.fileno())
+    if _stat_signature(before) != _stat_signature(after):
+        raise ValueError(f"reduced trace changed while its identity was decoded: {path}")
+    if (
+        observed_pct.shape != ()
+        or not np.issubdtype(observed_pct.dtype, np.integer)
+        or int(observed_pct.item()) != percentage
+        or observed_width.shape != ()
+        or not np.issubdtype(observed_width.dtype, np.integer)
+        or int(observed_width.item()) != L
+    ):
+        raise ValueError(f"reduced trace identity does not match its requested cell: {path}")
+    return _validated_seed_values(seeds, path=path)
+
+
+def _load_reduced_ensemble(
+    selected: EnsembleInput, percentage: int, L: int
+) -> tuple[list[np.ndarray], list[np.ndarray]]:
+    path = selected.paths[0]
+    with _open_regular_binary(path, label="reduced trace") as handle:
+        before = os.fstat(handle.fileno())
+        _validate_reduced_archive_inventory(handle, path=path)
+        try:
+            with np.load(handle, allow_pickle=False) as trace:
+                trace_keys = set(trace.files)
+                if not any(trace_keys == keys for keys in _REDUCED_KEY_VARIANTS):
+                    raise ValueError(f"reduced trace keys differ: {path}")
+                seeds = np.asarray(trace["seeds"])
+                final_steps = np.asarray(trace["final_steps"])
+                W_mat = np.asarray(trace["W"])
+                hbar_mat = np.asarray(trace["hbar"])
+                observed_pct = np.asarray(trace["pct"])
+                observed_width = np.asarray(trace["L"])
+                hbar_max = np.asarray(trace["hbar_max"])
+                saturated = np.asarray(trace["saturated"])
+                height_grid = (
+                    np.asarray(trace["height_grid"])
+                    if "height_grid" in trace_keys
+                    else None
+                )
+        except ValueError:
+            raise
+        except Exception as error:
+            raise ValueError(f"reduced trace cannot be decoded: {path}") from error
+        after = os.fstat(handle.fileno())
+        if _stat_signature(before) != _stat_signature(after):
+            raise ValueError(f"reduced trace changed while it was decoded: {path}")
+
+    decoded_seeds = _validated_seed_values(seeds, path=path)
+    if decoded_seeds != selected.seeds:
+        raise ValueError(f"reduced trace seed inventory changed after resolution: {path}")
+    if final_steps.dtype.str not in {"<i4", "<i8"} or final_steps.shape != seeds.shape:
+        raise ValueError(
+            "reduced trace final_steps must be an int32 or int64 vector matching "
+            f"the seed inventory: {path}"
+        )
+    if W_mat.dtype != np.dtype("float32") or hbar_mat.dtype != np.dtype("float32"):
+        raise ValueError(f"reduced trace W and hbar must use float32 dtype: {path}")
+    if (
+        W_mat.ndim != 2
+        or W_mat.shape != hbar_mat.shape
+        or W_mat.shape[0] != seeds.size
+        or W_mat.shape[1] < 2
+    ):
+        raise ValueError(f"reduced trace matrices have invalid shapes: {path}")
+    if np.any(final_steps <= 0) or int(np.min(final_steps)) != W_mat.shape[1]:
+        raise ValueError(
+            f"reduced trace length must equal min(final_steps): {path}"
+        )
+    observed_grid_height = None
+    if height_grid is not None:
+        expected_grid_height = exp14_grid_height_for_width(L)
+        if (
+            height_grid.shape != ()
+            or height_grid.dtype != np.dtype("int32")
+            or int(height_grid.item()) != expected_grid_height
+        ):
+            raise ValueError(
+                f"corrected exp14 reduced trace height_grid is invalid: {path}"
+            )
+        observed_grid_height = expected_grid_height
+    _validate_reduced_observable_rows(
+        W_mat,
+        hbar_mat,
+        path=path,
+        height_grid=observed_grid_height,
+    )
+    if observed_grid_height is not None:
+        mean_hbar_start = float(np.mean(hbar_mat[:, 0]))
+        mean_hbar_end = float(np.mean(hbar_mat[:, -1]))
+        if not mean_hbar_start < 5.0 or not mean_hbar_end > mean_hbar_start:
+            raise ValueError(
+                f"corrected exp14 reduced trace height convention is invalid: {path}"
+            )
+    if (
+        observed_pct.shape != ()
+        or not np.issubdtype(observed_pct.dtype, np.integer)
+        or int(observed_pct.item()) != percentage
+        or observed_width.shape != ()
+        or not np.issubdtype(observed_width.dtype, np.integer)
+        or int(observed_width.item()) != L
+    ):
+        raise ValueError(f"reduced trace identity does not match its requested cell: {path}")
+    if hbar_max.shape != () or not np.issubdtype(hbar_max.dtype, np.floating):
+        raise ValueError(f"reduced trace hbar_max must be a floating scalar: {path}")
+    observed_hbar_max = float(hbar_max.item())
+    computed_hbar_max = float(np.mean(hbar_mat[:, -1]))
+    if not np.isfinite(observed_hbar_max) or not np.isclose(
+        observed_hbar_max, computed_hbar_max, rtol=1e-5, atol=1e-6
+    ):
+        raise ValueError(f"reduced trace hbar_max is invalid: {path}")
+    if saturated.shape != () or saturated.dtype != np.dtype("bool"):
+        raise ValueError(f"reduced trace saturated must be a boolean scalar: {path}")
+    if bool(saturated.item()) != (observed_hbar_max >= L**1.5):
+        raise ValueError(f"reduced trace saturation metadata is inconsistent: {path}")
+
+    W_list = [np.ascontiguousarray(W_mat[index]) for index in range(seeds.size)]
+    hbar_list = [np.ascontiguousarray(hbar_mat[index]) for index in range(seeds.size)]
+    return W_list, hbar_list
+
+
+def _load_legacy_flat_ensemble(
+    selected: EnsembleInput,
+    percentage: int,
+    L: int,
+    percentage_convention: str,
+) -> tuple[list[np.ndarray], list[np.ndarray]]:
+    W_list: list[np.ndarray] = []
+    hbar_list: list[np.ndarray] = []
+    for seed, path in zip(selected.seeds, selected.paths):
+        try:
+            with _open_regular_binary(path, label="legacy trace") as handle:
+                before = os.fstat(handle.fileno())
+                simulation = joblib.load(handle)
+                after = os.fstat(handle.fileno())
+                if _stat_signature(before) != _stat_signature(after):
+                    raise ValueError(f"legacy trace changed while it was decoded: {path}")
+        except ValueError:
+            raise
+        except Exception as error:
+            raise ValueError(f"legacy joblib cannot be decoded: {path}") from error
+        observed_width = getattr(simulation, "width", None)
+        observed_seed = getattr(simulation, "seed", None)
+        if type(observed_width) is not int or observed_width != L:
+            raise ValueError(f"legacy trace embedded width does not match request: {path}")
+        if type(observed_seed) is not int or observed_seed != seed:
+            raise ValueError(f"legacy trace embedded seed does not match filename: {path}")
+        config = getattr(simulation, "config_data", None)
+        if type(config) is not dict:
+            raise ValueError(f"legacy trace lacks a configuration mapping: {path}")
+        if config.get("width") != L or config.get("seed") != seed:
+            raise ValueError(f"legacy trace configuration identity is inconsistent: {path}")
+        weights = []
+        for piece in range(20):
+            value = config.get(f"Piece-{piece}")
+            if type(value) not in {list, tuple} or len(value) != 2:
+                raise ValueError(f"legacy trace piece configuration is invalid: {path}")
+            try:
+                pair = (float(value[0]), float(value[1]))
+            except (TypeError, ValueError, OverflowError) as error:
+                raise ValueError(f"legacy trace piece weights are invalid: {path}") from error
+            if not all(np.isfinite(item) and item >= 0 for item in pair):
+                raise ValueError(f"legacy trace piece weights are invalid: {path}")
+            if piece != 19 and pair != (0.0, 0.0):
+                raise ValueError(f"legacy trace is not the piece-19 one-cell model: {path}")
+            if piece == 19:
+                weights = list(pair)
+        total_weight = sum(weights)
+        if total_weight <= 0:
+            raise ValueError(f"legacy trace piece-19 weights are empty: {path}")
+        if percentage_convention == "nonsticky-fraction":
+            observed_fraction = weights[0] / total_weight
+        elif percentage_convention == "sticky-fraction":
+            observed_fraction = weights[1] / total_weight
+        else:
+            raise ValueError(
+                "legacy-flat input requires percentage_convention to be "
+                "'nonsticky-fraction' or 'sticky-fraction'"
+            )
+        if not np.isclose(observed_fraction, percentage / 100.0, rtol=0, atol=1e-12):
+            raise ValueError(
+                f"legacy trace percentage convention does not match configuration: {path}"
+            )
+        final_steps = getattr(simulation, "FinalSteps", None)
+        if (
+            not isinstance(final_steps, (int, np.integer))
+            or isinstance(final_steps, (bool, np.bool_))
+            or int(final_steps) < 2
+        ):
+            raise ValueError(f"legacy trace FinalSteps is invalid: {path}")
+        n = int(final_steps)
+        width_trace = np.asarray(getattr(simulation, "Fluctuation", None))
+        height_trace = np.asarray(getattr(simulation, "AvergeHeight", None))
+        if (
+            width_trace.ndim != 1
+            or height_trace.ndim != 1
+            or width_trace.size < n
+            or height_trace.size < n
+            or not (
+                np.issubdtype(width_trace.dtype, np.integer)
+                or np.issubdtype(width_trace.dtype, np.floating)
+            )
+            or not (
+                np.issubdtype(height_trace.dtype, np.integer)
+                or np.issubdtype(height_trace.dtype, np.floating)
+            )
+        ):
+            raise ValueError(f"legacy trace observables are invalid: {path}")
+        width_trace = np.ascontiguousarray(width_trace[:n], dtype=float)
+        height_trace = np.ascontiguousarray(height_trace[:n], dtype=float)
+        if (
+            not np.all(np.isfinite(width_trace))
+            or not np.all(np.isfinite(height_trace))
+            or np.any(width_trace < 0)
+            or np.any(height_trace < 0)
+        ):
+            raise ValueError(f"legacy trace observables are nonfinite or negative: {path}")
+        if np.any(np.diff(height_trace) < 0):
+            raise ValueError(
+                f"legacy trace mean-height observables must be nondecreasing: {path}"
+            )
+        W_list.append(width_trace)
+        hbar_list.append(height_trace)
+    return W_list, hbar_list
+
 # ---------------------------------------------------------------------------
 #  Step 1-2 — Data loading & ensemble construction
 # ---------------------------------------------------------------------------
 
-def load_ensemble(exp_dir, percentage, L):
+def load_ensemble(
+    trace_root,
+    percentage,
+    L,
+    *,
+    input_layout=REDUCED_INPUT_LAYOUT,
+    percentage_convention=None,
+    resolved_input=None,
+):
     """Load all seeds for one (percentage, L) cell.
 
     Implements **Step 2** (ensemble construction, Baiod et al. 1988: ≥10
@@ -39,8 +661,9 @@ def load_ensemble(exp_dir, percentage, L):
 
     Parameters
     ----------
-    exp_dir : str
-        Path to the experiment data.
+    trace_root : str
+        Root of one explicit trace layout. Managed hierarchical simulation
+        outputs must first be validated and reduced with ``reduce_traces``.
     percentage : int
         Experiment percentage label (5, 50, 90, 95, 98, 99). In exp13 this
         denotes the nonsticky fraction; in exp14 it denotes the sticky
@@ -55,44 +678,39 @@ def load_ensemble(exp_dir, percentage, L):
     hbar_list : list[ndarray]
         ``AvergeHeight`` array per seed, trimmed to ``FinalSteps``.
     """
-    # Prefer the REDUCED npz layout (pct_NN/L_LLLL.npz) if present — one file
-    # per (pct,L) cell holding all seeds as (n_seeds, max_len) float32 matrices
-    # plus per-seed final_steps. This lets a revised estimator re-run on the
-    # committed reduced traces WITHOUT the raw joblib (reanalysis-complete).
-    # Falls back to the raw per-seed joblib layout when no npz is found.
-    npz_path = os.path.join(exp_dir, f"pct_{percentage:02d}", f"L_{L:04d}.npz")
-    if os.path.exists(npz_path):
-        d = np.load(npz_path)
-        W_mat, hbar_mat = d["W"], d["hbar"]
-        # W/hbar are padded to max_len; final_steps un-pads each seed to its
-        # true length (else padding zeros corrupt the analysis).
-        fs = d["final_steps"] if "final_steps" in d.files else None
-        # Keep float32 (npz dtype): deep cells reach 100 x ~8M steps, so a
-        # float64 upcast would need ~25 GB peak per L=500 cell and OOM on a
-        # 16 GB box. float32 mean/std are ample for the log-log slope.
-        W_list, hbar_list = [], []
-        for i in range(W_mat.shape[0]):
-            n = int(fs[i]) if fs is not None else W_mat.shape[1]
-            W_list.append(np.ascontiguousarray(W_mat[i, :n]))
-            hbar_list.append(np.ascontiguousarray(hbar_mat[i, :n]))
-        return W_list, hbar_list
-
-    pattern = (
-        f"{exp_dir}/config_piece_19_combined_percentage_"
-        f"{percentage:02d}_w={L}_seed=*.joblib"
-    )
-    files = sorted(glob.glob(pattern))
-    if not files:
-        raise ValueError(
-            f"No npz ({npz_path}) and no joblib for pct={percentage}, L={L}: {pattern}"
+    percentage, L = _require_cell_identity(percentage, L)
+    layout = _require_input_layout(input_layout)
+    selected = resolved_input
+    if selected is None:
+        selected = resolve_ensemble_input(
+            trace_root, percentage, L, input_layout=layout
         )
-    W_list, hbar_list = [], []
-    for f in files:
-        obj = joblib.load(f)
-        n = obj.FinalSteps
-        W_list.append(obj.Fluctuation[:n].astype(float))
-        hbar_list.append(obj.AvergeHeight[:n].astype(float))
-    return W_list, hbar_list
+    if type(selected) is not EnsembleInput:
+        raise ValueError("resolved_input must be an EnsembleInput")
+    if (
+        selected.layout != layout
+        or selected.root != Path(trace_root).resolve()
+        or selected.percentage != percentage
+        or selected.L != L
+    ):
+        raise ValueError("resolved input does not match the requested root/layout")
+    current = resolve_ensemble_input(
+        trace_root, percentage, L, input_layout=layout
+    )
+    if current != selected:
+        raise ValueError("analysis input inventory changed after it was resolved")
+    if layout == REDUCED_INPUT_LAYOUT:
+        result = _load_reduced_ensemble(selected, percentage, L)
+    else:
+        result = _load_legacy_flat_ensemble(
+            selected, percentage, L, percentage_convention
+        )
+    if (
+        resolve_ensemble_input(trace_root, percentage, L, input_layout=layout)
+        != selected
+    ):
+        raise ValueError("analysis input inventory changed while it was loaded")
+    return result
 
 
 def truncate_to_common_length(arrays):

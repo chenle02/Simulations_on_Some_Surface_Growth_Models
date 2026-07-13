@@ -1,6 +1,6 @@
 
 [![CI](https://github.com/chenle02/Simulations_on_Some_Surface_Growth_Models/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/chenle02/Simulations_on_Some_Surface_Growth_Models/actions/workflows/ci.yml)
-[![Publish Python Package to PyPI](https://github.com/chenle02/Simulations_on_Some_Surface_Growth_Models/actions/workflows/workflow.yml/badge.svg?branch=main)](https://github.com/chenle02/Simulations_on_Some_Surface_Growth_Models/actions/workflows/workflow.yml)
+[![Build tagged package](https://github.com/chenle02/Simulations_on_Some_Surface_Growth_Models/actions/workflows/workflow.yml/badge.svg?branch=main)](https://github.com/chenle02/Simulations_on_Some_Surface_Growth_Models/actions/workflows/workflow.yml)
 
 # Simulations on Some Surface Growth Models
 
@@ -26,7 +26,7 @@ applications.
 ## Install
 
 ```bash
-# Standard install (pure Python + numpy fast path)
+# Published release (pure Python + numpy fast path)
 pip install tetris-ballistic
 
 # Recommended: HPC-optimized install with numba (~380x faster on the
@@ -36,6 +36,11 @@ pip install 'tetris-ballistic[hpc]'
 # Development install (pytest, ruff, benchmarks)
 pip install -e '.[dev,hpc]'
 ```
+
+The 2.1 analysis-currentness interface documented below is present on `main`
+but remains **Unreleased**. To evaluate it before a tagged release, clone this
+repository and use the development-install command above; the published
+package may not yet expose these options.
 
 Pypi link: [here](https://pypi.org/project/tetris-ballistic/).
 
@@ -92,13 +97,53 @@ persistent advisory lock. Re-submission reuses a cell only after its exact
 configuration and software identities, both payload checksums, and terminal
 completion invariants validate. Bare legacy joblibs, stale configurations,
 partial writes, and corrupt outputs fail closed instead of being skipped.
-After the array finishes, run the streaming KPZ analysis:
+After the array finishes, first validate the declared managed grid and reduce
+it to the explicit, reanalysis-complete trace layout:
 
 ```bash
+python -m tetris_ballistic.scripts.reduce_traces \
+    --in experiments/exp14/results \
+    --out experiments/exp14/traces \
+    --grid-spec experiments/exp14/grid.yaml
+
 python -m tetris_ballistic.scripts.run_kpz_analysis \
-    --exp-dir experiments/exp14/results \
-    --resume   # picks up where it left off if needed
+    --trace-root experiments/exp14/traces \
+    --input-layout reduced \
+    --percentage-convention sticky-fraction \
+    --model-profile piece-19-one-cell-v1 \
+    --out-dir experiments/exp14/analysis \
+    --pcts 5,50,90,95,98,99 \
+    --widths 50,80,100,150,200 \
+    --resume
 ```
+
+`--resume` reuses a cell only when its payload and commit-marker manifest match
+the exact trace bytes and ordered seed inventory, requested percentage and
+width, percentage convention, executable model profile, estimator settings,
+package source/dependency identity, and bootstrap RNG policy. A stale,
+corrupt, partial, or identity-mismatched cache fails
+closed; after reviewing the discrepancy, use `--replace` to regenerate it
+explicitly. `--aggregate-only` requires the same complete requested grid and
+rebuilds summaries from those validated cells rather than globbing old
+`per_pct` files.
+
+The required percentage convention is part of every cache and summary
+identity; exp14 uses `sticky-fraction`, while exp13 uses
+`nonsticky-fraction`. Managed hierarchical
+`results/pct_NN/L_LLLL/seed_SSS.joblib` files are not
+accepted directly by the analysis runner. Historical flat exp13 joblibs can be
+read only by selecting `--input-layout legacy-flat --percentage-convention
+nonsticky-fraction --model-profile piece-19-one-cell-v1`; this is an explicit
+compatibility path for trusted local artifacts, since joblib loading executes
+Python pickle data.
+
+Managed CLI output enforces the publication-grade protocol floor of 10
+independent runs per ensemble and 200 case-bootstrap replicates. Lower-count
+calls are estimator-level exploratory work and cannot be published by this
+runner as authoritative 95% intervals.
+
+See the [KPZ analysis currentness contract](https://github.com/chenle02/Simulations_on_Some_Surface_Growth_Models/blob/main/docs/KPZ-ANALYSIS-CURRENTNESS.md)
+for the complete identity, locking, publication, and recovery rules.
 
 ## Documentation
 

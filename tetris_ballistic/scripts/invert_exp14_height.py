@@ -28,15 +28,17 @@ Usage:
 
 import argparse
 import glob
-import math
 import os
 
 import numpy as np
 
+from tetris_ballistic.kpz_analysis import exp14_grid_height_for_width
+
 
 def grid_height_for_L(L: int) -> int:
-    ratio = math.ceil(3.0 * math.sqrt(L))
-    return int(round(L * ratio))
+    """Compatibility alias for the shared exp14 grid-height contract."""
+
+    return exp14_grid_height_for_width(L)
 
 
 def invert_cell(path: str, dry_run: bool) -> str:

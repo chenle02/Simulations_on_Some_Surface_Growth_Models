@@ -3,6 +3,81 @@
 All notable changes to `tetris_ballistic` are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [2.1.0] — Unreleased
+
+This compatibility release gives the scientific corrections and additive APIs
+developed after the 2.0.0 source milestone their own provenance boundary. The
+version-boundary change itself does not introduce another simulation-trajectory
+change.
+
+### Corrected scientific semantics
+
+- Restored `AvergeHeight` to the physical mean height,
+  `height - mean(top-origin row index)`. Some source builds identifying as
+  2.0.0 instead stored the descending top-origin row index. This correction
+  changes that observable, but not the deposited substrate, `SampleDist`,
+  `FinalSteps`, or `Fluctuation`. Existing affected exp14 traces are recoverable
+  as `physical_hbar = grid_height - stored_hbar`; that migration must remain
+  explicit in artifact provenance.
+- Measure KPZ growth exponents against deposited height (`log W` versus
+  `log hbar`), restrict plateau detection to the physical growth window, and
+  exclude unsaturated widths from infinite-size extrapolation. Estimates from
+  the earlier step-index/unbounded-window analysis are not interchangeable with
+  the corrected estimates.
+- Record the executable one-cell model identity and mixture convention
+  explicitly: legacy density entries are `[nonsticky, sticky]`; exp13 percentage
+  labels denote the nonsticky fraction, whereas exp14 labels denote the sticky
+  fraction. `Piece-19` is a one-cell baseline, not a tetromino.
+
+### Added
+
+- Immutable typed geometry, ensemble, orientation, contact-rule, and simulation
+  configuration records, together with fail-closed adapters for the legacy
+  20-by-2 density table. These contracts are additive and do not route legacy
+  simulations through a new placement engine.
+- Paired log-subsampling, estimator-sensitivity checks, and common-time
+  Tracy-Widom diagnostics for the exp14 analysis workflow.
+- Identity-bound managed run artifacts with canonical configuration snapshots,
+  checksums, manifests, persistent locks, strict grid declarations, and
+  resumable batch/status tooling.
+- Fail-closed KPZ analysis artifacts whose manifests bind the exact reduced or
+  explicitly selected legacy input inventory, requested cell, estimator
+  settings, package source and numerical dependencies, and bootstrap RNG
+  policy. Resume and aggregate-only operations now validate a closed requested
+  grid; stale, corrupt, mixed-generation, and nonfinite JSON products are not
+  reused.
+- Strict reduced-input schemas cover both historical exp13 `int32` and current
+  reducer `int64` seed/step metadata, plus the official corrected-exp14
+  `height_grid` variant. Unsafe archive members, complex legacy observables,
+  and decreasing deposited-height clocks are rejected before estimation.
+
+### Reproducibility and compatibility
+
+- Simulation objects now own instance-local `random.Random` and
+  `numpy.random.RandomState` streams under the `legacy-dual-stream-v1` contract.
+  Valid seeded legacy runs retain their established draw order and deposition
+  trajectories, while construction and execution no longer mutate process-global
+  RNG state.
+- Legacy configuration loading now rejects duplicate YAML keys, malformed or
+  nonfinite weights, invalid seeds, and incomplete mappings before simulation.
+  Valid legacy configurations retain their established trajectories.
+- Existing `Tetris_Ballistic` imports remain available throughout the 2.1
+  compatibility series; breaking engine or schema changes remain deferred to a
+  separately versioned migration.
+- The slope-analysis CLI now separates `--trace-root` from `--out-dir` and
+  requires an input layout. Managed hierarchical simulation outputs must be
+  validated and reduced before analysis; historical flat joblibs remain
+  available only through the explicit `legacy-flat` compatibility layout.
+- Scientific context is mandatory for direct cell analysis and diagnostic
+  plots. The managed CLI enforces at least 10 independent runs and 200
+  case-bootstrap replicates before publishing identity-bound 95% intervals.
+- Large reduced matrices are validated in bounded one-dimensional chunks and
+  released immediately after paired log-subsampling, avoiding multi-gigabyte
+  validation temporaries on production exp14 cells.
+- Tagged builds now require an exact `v<project-version>` match and produce
+  validated PEP 517 artifacts without publishing. The former any-tag,
+  long-lived-token PyPI path is disabled until the S5 trusted-publishing gate.
+
 ## [2.0.0] — 2026-05-16
 
 **Industrial-grade overnight optimization session.**

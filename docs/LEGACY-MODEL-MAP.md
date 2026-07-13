@@ -44,9 +44,18 @@ rejects it. The typed model contracts do not route legacy simulations yet.
 
 ## RNG semantics
 
-`Tetris_Ballistic.set_seed` seeds Python `random` and NumPy's process-global legacy RNG. Piece/state sampling uses the flattened 40-state CDF. The optimized one-cell kernel pregenerates positions and sticky flags to preserve the legacy stream.
+Each `Tetris_Ballistic` object owns two instance-local legacy-compatible streams:
+`random.Random` for placement draws and `numpy.random.RandomState` for flattened
+40-state CDF sampling. `set_seed` restarts both streams from the recorded root
+seed and does not seed either process-global RNG. The optimized one-cell kernel
+consumes the same position and sticky-state draws as the general dispatch path.
+This pinned behavior is recorded as the `legacy-dual-stream-v1` RNG contract.
 
-The future stream-separated RNG design is scientifically breaking unless an adapter supplies pregenerated arrays that reproduce the legacy trajectory. It therefore needs a model/schema version and golden fixtures.
+Replacing either legacy algorithm, changing draw order, or splitting the two
+streams further is scientifically breaking unless a versioned adapter reproduces
+the pinned trajectories. Such a change requires a new model/schema version and
+new golden fixtures; it must not be folded silently into the 2.1 compatibility
+series.
 
 ## Clock semantics
 

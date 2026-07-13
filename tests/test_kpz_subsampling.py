@@ -142,7 +142,9 @@ def test_run_single_cell_records_sampling_provenance(monkeypatch):
     hbar_list = [h.copy() for _ in range(3)]
     observed_shapes = []
 
-    monkeypatch.setattr(runner, "load_ensemble", lambda *_: (W_list, hbar_list))
+    monkeypatch.setattr(
+        runner, "load_ensemble", lambda *_args, **_kwargs: (W_list, hbar_list)
+    )
 
     def fake_growth(W, hbar, *_args, **_kwargs):
         observed_shapes.append((W.shape, hbar.shape))
@@ -162,7 +164,15 @@ def test_run_single_cell_records_sampling_provenance(monkeypatch):
     monkeypatch.setattr(runner, "detect_plateau", lambda *_args, **_kwargs: None)
     monkeypatch.setattr(runner, "meakin_range_of_fit", fake_meakin)
 
-    cell, *_ = runner.run_single_cell("unused", pct=99, L=100, n_boot=2)
+    cell, *_ = runner.run_single_cell(
+        "unused",
+        pct=99,
+        L=100,
+        n_boot=2,
+        min_seeds=2,
+        percentage_convention="sticky-fraction",
+        model_profile="piece-19-one-cell-v1",
+    )
 
     analysis_points = cell["analysis_point_count"]
     assert analysis_points == 5000
@@ -175,3 +185,24 @@ def test_run_single_cell_records_sampling_provenance(monkeypatch):
         "max_points": 5000,
         "includes_endpoints": True,
     }
+    assert cell["percentage_convention"] == "sticky-fraction"
+    assert cell["model_profile"] == "piece-19-one-cell-v1"
+
+
+def test_run_single_cell_enforces_declared_minimum_seed_count(monkeypatch):
+    trace = np.arange(20, dtype=np.float32) + 1
+    monkeypatch.setattr(
+        runner,
+        "load_ensemble",
+        lambda *_args, **_kwargs: ([trace, trace], [trace, trace]),
+    )
+
+    with pytest.raises(ValueError, match="at least 3"):
+        runner.run_single_cell(
+            "unused",
+            pct=50,
+            L=10,
+            min_seeds=3,
+            percentage_convention="sticky-fraction",
+            model_profile="piece-19-one-cell-v1",
+        )

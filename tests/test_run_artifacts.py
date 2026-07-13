@@ -79,7 +79,7 @@ def test_managed_bundle_reuses_only_after_full_validation(tmp_path, monkeypatch)
     assert len(config_snapshot) == 24
     assert config_snapshot["Piece-19"] == [50.0, 50.0]
     manifest = _load_manifest(paths.manifest)
-    assert manifest["software"]["record"]["source_declared_version"] == "2.0.0"
+    assert manifest["software"]["record"]["source_declared_version"] == "2.1.0"
     assert "distribution_metadata_version" in manifest["software"]["record"]
     assert "package_version" not in manifest["software"]["record"]
     assert manifest["configuration"]["record"]["semantics"] == {

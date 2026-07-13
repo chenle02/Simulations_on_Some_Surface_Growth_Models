@@ -1,13 +1,14 @@
 [build-system]
-requires = ["setuptools>=64", "wheel"]
+requires = ["setuptools>=77", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "tetris_ballistic"
-version = "2.0.0"
+version = "2.1.0"
 description = "Tetromino ballistic-deposition surface-growth Monte Carlo simulator"
 readme = "README.md"
-license = { text = "MIT" }
+license = "MIT"
+license-files = ["LICENSE"]
 authors = [
     { name = "Le Chen", email = "le.chen@auburn.edu" },
     { name = "Mauricio Montes" },
@@ -25,7 +26,6 @@ dependencies = [
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Science/Research",
-    "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
     "Topic :: Scientific/Engineering :: Physics",
