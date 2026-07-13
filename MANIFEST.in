@@ -1,2 +1,3 @@
 include CHANGELOG.md
 recursive-include docs *.md
+exclude tests/test_compute_endpoint_slope.py

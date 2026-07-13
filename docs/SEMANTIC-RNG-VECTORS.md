@@ -90,3 +90,8 @@ pinned separately in `docs/EXACT-SELECTION-VECTORS.md`. In particular, that
 document records that equal addresses share a raw candidate tape, while
 different bounds can accept different rejection ordinals; the S2.2 mapper does
 not promise one literal accepted uniform across unequal bounds.
+
+The provisional S2.4 fixed-order tetromino composition and its complete event,
+unequal-bound, and future-address-isolation vectors are pinned separately in
+`docs/COMPLETE-EVENT-SELECTION-VECTORS.md`. S2.4 composes but does not change
+the S2.2 mapping contract or any vector on this page.

@@ -31,6 +31,21 @@ change.
 
 ### Added
 
+- A provisional S2.4 fixed-order tetromino event selector under the explicit
+  `tetris_ballistic.engine.event` submodule. Immutable complete laws pin the
+  five-family, two-contact, and exact 2/8/1/4/4 orientation orders and validate
+  every orientation branch before RNG use; the selector pins the four-stream
+  schedule and evaluates family, the selected-family orientation, launch, and
+  contact exactly once. Returned in-memory evidence retains the address,
+  complete law, and all four semantic draws. Persistent vectors record the
+  PI-ratified shared raw candidate tape with law-local rejection/acceptance,
+  including an unequal-bound event whose accepted rejection ordinals diverge.
+  The selector is not root-exported and has no generic conditional DAG,
+  control-law factory, placement, configuration/legacy adapter, trajectory,
+  serialization identity, optimized path, CLI, Slurm/HPC, or production route.
+- Excluded the ignored, worktree-only `tests/test_compute_endpoint_slope.py`
+  from automatic sdist discovery so clean source artifacts cannot capture stale
+  local test material that is absent from the release authority.
 - A provisional S2.3 stateless exact-law layer under the explicit
   `tetris_ballistic.engine.selection` submodule. Immutable weighted records
   preserve explicit outcome order, canonical integer counts, and zero slots;

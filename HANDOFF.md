@@ -1,86 +1,125 @@
 # HANDOFF
 
-**Last updated**: 2026-07-12 11:18 EDT
-**Project**: Simulations_on_Some_Surface_Growth_Models — exp14 sticky-fraction crossover
-**Wiki page**: `content/projects/tetris-kpz-slope-extraction.md`
+**Last updated**: 2026-07-13 EDT
 
-## ⏭ Next session: where to stand and what to do
+**Project**: `Simulations_on_Some_Surface_Growth_Models`
 
-Stand at `/home/lechen/Dropbox/Public/Simulations_on_Some_Surface_Growth_Models`. No mandatory compute or edit is queued. The immediate next step is a PI decision: stop and share the completed 8-page Article note, or authorize genuinely new science. New science should begin only with an explicit scope such as `L>=600`, more independent seeds, joint `alpha`/`z` measurements, or a full standardized CDF comparison after the moment diagnostics begin to stabilize.
+**Current bounded unit**: S2.4 complete tetromino event selection without placement
 
-## Pre-flight checks
+## Current state
 
-1. Run `pwd`; expect `/home/lechen/Dropbox/Public/Simulations_on_Some_Surface_Growth_Models`.
-2. Run `git rev-parse --short HEAD`; expect `0987e09` or a later handoff-only commit.
-3. Run `git status --short`; expect no tracked changes and no untracked files except the foreign `.omx/` and `.pi-subagents/` directories. If any other path appears, stop.
-4. If code changes are proposed, run `.venv/bin/python -m pytest -q`; the current baseline is `96 passed, 6 skipped, 5 deselected`.
-5. Verify the tracked result bundle from its own directory: `cd tetris_ballistic/data/exp14_results && sha256sum -c MANIFEST.sha256`; expect every entry to report `OK`.
-6. In `/home/lechen/Dropbox/workspace/svn/Article-TetrisKPZ-Crossover`, run `git rev-parse --short HEAD`; expect `daa5d1b` or later, and confirm `pdfinfo notes/notes_tetris_kpz.pdf` reports 8 pages.
-7. In `/home/lechen/Dropbox/workspace/svn/SPDEs-wiki`, confirm branch `v4` is at `f81bac80` or later and synchronized with its upstream.
+The S2.4 implementation and its industrial validation gates are complete. The
+pre-S2.4 software baseline was `296ad7d381a72fcfab664a02c2a0f97d46b7d636`.
+The current handoff-bearing commit is the S2.4 software authority; obtain its
+exact hash with `git rev-parse HEAD` rather than embedding a self-hash here.
 
-If any applicable check fails, stop before editing, computing, or sharing.
+The explicit-submodule API is `tetris_ballistic.engine.event`. It is not
+re-exported from `tetris_ballistic` or `tetris_ballistic.engine`, and it is not
+routed through configuration execution, placement, a trajectory, legacy code,
+HPC, or any production path.
 
-## Concrete deliverables for the next session
+## Ratified executable contract
 
-- Record the PI decision to stop/share the verified Article note or authorize a specifically scoped new experiment.
-- If sharing, cold-read the canonical PDF at `/home/lechen/Dropbox/workspace/svn/Article-TetrisKPZ-Crossover/notes/notes_tetris_kpz.pdf` and distribute that artifact.
-- If new science is authorized, write a fresh plan with explicit widths, seed counts, observables, compute budget, and acceptance criteria before launching work.
-- Make no routine simulation, reduction, bootstrap, manuscript, or wiki change merely to continue activity.
+- Family order: `("i", "lj", "o", "sz", "t")`.
+- Contact order: `("supported-v1", "edge-first-contact-v1")`.
+- Stream order: `("family", "orientation", "launch", "contact")`.
+- Orientation branches: all five families in family order, with exact
+  2/8/1/4/4 `FAMILY_ORIENTATION_IDS` outcome tuples.
+- Validation: the complete address, full five-branch law, public/private order
+  integrity, and fixed stream schedule fail closed before the first RNG call.
+- Evaluation: family, the selected family's orientation, launch, and contact
+  are drawn exactly once in that order. Unselected branches are validated but
+  receive no draw. Degenerate selected laws still consume their logical raw
+  candidate.
+- Coupling: equal root seed, coupling group, event ordinal, and literal stream
+  name share the whole raw candidate tape. Each law performs its own rejection
+  and acceptance; unequal bounds need not share an accepted value or rejection
+  ordinal.
+- Evidence: the immutable result carries the address, complete frozen law, and
+  all four selections with their accepted-rejection metadata. Direct record
+  construction is structurally checked but does not replay Philox.
 
-## Success criteria for the immediate next step
+The normative vector at root zero / `paired-main` / event zero selects
+`sz`, `tetromino.sz.03`, launch 4, and `edge-first-contact-v1`. The unequal
+launch-bound vector at event one accepts rejection ordinal 0 for bound 2 and
+ordinal 1 for bound `2**63 + 1`. See
+`docs/COMPLETE-EVENT-SELECTION-VECTORS.md`.
 
-- A clear stop/share-or-new-science decision is made without launching unapproved compute.
-- If shared, the verified 8-page Article PDF is the reviewed and distributed artifact.
-- If new science is authorized, it targets asymptotic discrimination rather than another cosmetic estimator variation.
-- The recorded interpretation remains limited to a stickiness-dependent finite-scale crossover with unresolved asymptotic classification.
+## Validation evidence
 
-## Anti-success criteria
+- Focused S2.4 suite: 48 passed, 1 slow test deselected.
+- Independent 10,000-event composition oracle: 1 passed.
+- Full default suite: 766 passed, 6 skipped, 6 deselected.
+- Full slow suite: 6 passed, 772 deselected.
+- CI-scope `ruff check tetris_ballistic/ tests/`: passed.
+- Ruff formatting for all changed Python files: passed.
+- `compileall` for package and tests, plus `git diff --check`: passed.
+- Clean isolated PEP 517 build from the sdist: wheel and sdist passed.
+- `twine check`, compressed-archive integrity, required-member audit, and
+  foreign-directory exclusion: passed.
+- The source manifest excludes the ignored, untracked
+  `tests/test_compute_endpoint_slope.py`; the final sdist contains no stale
+  worktree-only test material.
+- Isolated built-wheel vector/root-export smoke and dependency checks: passed
+  on Python 3.10.18, 3.11.13, 3.12.11, 3.13.7, and 3.14.6.
+- Three independent read-only reviews passed. The adversarial review first
+  found a rebindable canonical-order authority; private ratified snapshots,
+  pre-draw integrity checks, and hostile-rebinding tests closed that defect.
 
-- Launching new simulations, reductions, bootstraps, or universality analyses without a new PI-approved scope.
-- Describing exp13/exp14 as tetromino, multi-cell, polyomino, or extended-object experiments; both use one-by-one `piece_19` deposition.
-- Comparing equal exp13/exp14 percentage labels as equal physical mixtures.
-- Treating 5,000-point log sampling as estimator-equivalent or numerically negligible.
-- Resampling substrate columns or time points as independent observations instead of resampling whole seeds.
-- Using raw deposition steps instead of mean height as the Family--Vicsek clock.
-- Claiming super-KPZ, stable GOE rejection, or any settled asymptotic universality class.
-- Claiming the raw exp13/exp14 joblib ensembles are tracked in git.
+Repository-wide `ruff format --check .` is not the configured CI gate and
+still reports pre-existing formatting debt in 42 unrelated files. A separate
+mechanical cleanup unit may address that debt; do not mix a bulk reformat into
+this semantic commit.
 
-## What the previous sessions produced
+## Scope boundary
 
-- Implemented paired log-spaced subsampling with float32 preservation, provenance, stale-cell invalidation, and tests (`767577a`).
-- Implemented estimator-sensitivity analysis (`06d3e38`) and recorded the 50-cell comparison bundle (`58b17f8`). Log sampling raises the fitted exponent in all 50 corrected exp14 cells; the relative increase ranges from 5.0% to 32.0%, with median 18.6%.
-- Implemented the common-time Tracy--Widom reduction and whole-seed analysis pipeline (`a47ec6c`), including the in-memory fallback for original inverted Easley traces (`218819f`).
-- Easley canary job `5373333` and full reduction job `5373334` completed all 14 selected cells with 4,200/4,200 reconstruction validations passing.
-- Recorded the compact Tracy--Widom result bundle (`670554d`). The analysis used 100 seeds per cell, common height-clock targets `q=0.15,0.25,0.40`, and 2,000 whole-seed block bootstraps; every cross-width verdict is `inconclusive/crossover-dominated`.
-- Replaced the super-KPZ novelty framing with a cautious evidence memo (`e4eaf5c`) and corrected the remaining `piece_19` model-identity descriptions plus bundle manifest (`0987e09`).
-- Updated the Article repository with the corrected model identity, percentage semantics, finite-scale slope pattern, estimator sensitivity, and Tracy--Widom result (`6ca0dea`), then recorded the final Article handoff (`daa5d1b`). The canonical build is 8 pages with 0 LaTeX errors, undefined references/citations, or overfull boxes.
-- Updated the SPDEs-wiki project page and indices (`dfbe4d4f`), refreshed the project dashboard (`e5e74dbc`), and corrected the sensitivity-distribution wording after independent review (`f81bac80`).
+S2.4 adds no generic conditional selector/DAG, named one-cell or control law,
+placement call, state transition, `SimulationConfig` adapter, legacy migration,
+trajectory, canonical JSON, digest/shared artifact identity, checkpoint,
+optimized kernel, CLI, batch runner, Slurm/HPC integration, release, or
+production route. `engine/rng.py`, `engine/selection.py`,
+`engine/reference.py`, and both package-root `__init__.py` files remain
+unchanged. `MANIFEST.in` changes only to exclude an ignored worktree-only test
+from the sdist.
 
-## Repo & git state at handoff
+The historical exp13/exp14 workflows remain one-cell `piece_19` experiments;
+this provisional tetromino selector does not reinterpret or reroute them.
 
-- CWD: `/home/lechen/Dropbox/Public/Simulations_on_Some_Surface_Growth_Models`
-- Branch: `main`
-- Substantive HEAD: `0987e09`
-- Upstream: `origin/main` at `github.com:chenle02/Simulations_on_Some_Surface_Growth_Models.git`
-- `0987e09` is pushed and synchronized with `origin/main`.
-- The final handoff commit is expected to be one commit later than `0987e09`.
-- `.omx/` and `.pi-subagents/` are foreign untracked directories and remain out of scope.
-- Raw exp13/exp14 joblib ensembles remain outside git; only compact reduced evidence products are tracked.
+## Provenance anchors and parallel-work guard
 
-## Operating notes
+- Article S2.4 decision closure:
+  `930751b24575d660ecdfddbd94ae985e504f124a`.
+- Wiki authored decision page:
+  `43f0fb926076abb2f22b58a2b58d567ac632dcd4`.
+- Wiki generated dashboard:
+  `ab6ba394db4896cffb4150207931eee8c925bf22`.
 
-- Use `.venv/bin/python` for local simulation-repository validation.
-- The tracked evidence bundle is `tetris_ballistic/data/exp14_results/`; run its `MANIFEST.sha256` check from inside that directory because manifest paths are relative.
-- Preserve `AvergeHeight` as the historical field spelling and preserve mean height `hbar` as the Family--Vicsek clock.
-- Exp13 uses `[pct, 100-pct]`, so its label is the nonsticky fraction. Exp14 uses `[100-pct, pct]`, so its label is the sticky fraction.
-- Tracy--Widom uncertainty must bootstrap complete seed rows. Matching GOE skewness and excess kurtosis would be a fingerprint, not proof of universality.
-- Easley raw data under `/scratch/lzc0090/tetris14/results` are scratch inputs, not tracked artifacts; do not mutate them or describe them as durable git data.
+Another LLM owns the six-repository pipeline. Do not edit, regenerate, stage,
+or advance that pipeline's files. Any downstream Article/wiki implementation
+update must preserve its section byte-for-byte, use the shared-repository
+bi-directional sync workflow first, and stage only the explicitly audited
+project-page/report paths.
 
-## Risks to monitor
+## Next bounded step
 
-- **Model-identity drift:** the analyzed exp13/exp14 data use the one-by-one `piece_19` configuration, not tetromino or extended pieces.
-- **Semantic drift:** exp13 percentages are nonsticky fractions, whereas exp14 percentages are sticky fractions.
-- **Clock drift:** use mean height `hbar`, not raw deposition steps, for Family--Vicsek fits and common-time targets.
-- **Estimator drift:** log subsampling changes OLS weighting; its all-positive 5.0%--32.0% relative effect must remain explicit.
-- **Statistical drift:** uncertainty must resample independent whole seeds, never substrate columns or time points.
-- **Claim drift:** effective-`beta` overshoot and finite-scale GOE moments do not establish super-KPZ, KPZ, Edwards--Wilkinson, or another asymptotic class.
+1. Commit and immediately push the S2.4 software unit, then record its exact
+   software hash downstream through the Article -> authored wiki page ->
+   generated dashboard -> final Article closure provenance loop.
+2. Re-run the exact downstream preflights before each repository write and
+   preserve the parallel six-repository work.
+3. Do not compose S2.4 with placement or configuration automatically. Propose
+   the next bounded unit separately, with its API, identity boundary, tests,
+   and rollback conditions fixed before implementation.
+
+## Pre-flight for a future software session
+
+1. Stand at
+   `/home/lechen/Dropbox/Public/Simulations_on_Some_Surface_Growth_Models`.
+2. Confirm `git status --short` has no tracked changes and only the foreign
+   untracked `.omx/` and `.pi-subagents/` directories.
+3. Confirm local `main` and `origin/main` are synchronized at this S2.4 commit
+   or a documented later bounded unit.
+4. Run `.venv/bin/python -m pytest -q` and
+   `.venv/bin/python -m pytest -q -m slow` before another semantic change.
+5. Keep the event selector explicit-submodule-only until a separately approved
+   migration gate authorizes a public or production route.

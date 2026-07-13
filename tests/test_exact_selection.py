@@ -694,11 +694,15 @@ def test_selection_api_stays_behind_its_explicit_submodule() -> None:
             assert not hasattr(root, name)
 
 
-def test_blocked_composite_and_named_law_apis_do_not_exist() -> None:
+def test_composite_and_named_law_apis_stay_out_of_one_stream_module() -> None:
     for name in (
         "ConditionalWeightedLaw",
+        "TetrominoEventLaw",
+        "TetrominoEventSelection",
         "select_declared_streams",
         "select_event",
+        "TETROMINO_CONTACT_ORDER",
+        "TETROMINO_FAMILY_ORDER",
         "TETROMINO_STREAM_SET",
         "ONE_CELL_BD_STREAM_SET",
         "FAMILY_RDSR_STREAM_SET",

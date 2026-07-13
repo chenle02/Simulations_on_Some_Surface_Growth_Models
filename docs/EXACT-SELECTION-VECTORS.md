@@ -9,7 +9,9 @@ iteration order.
 Every outcome tuple below is complete for that test record. The examples do
 not declare a global canonical family/contact order, a named model law, or a
 shared serialization/digest profile. Conditional and complete-event selection
-remain outside this boundary.
+remain outside the S2.3 module boundary; the separately certified S2.4
+tetromino composition is recorded in
+`docs/COMPLETE-EVENT-SELECTION-VECTORS.md`.
 
 ## Exact record rules
 
@@ -82,8 +84,9 @@ uniform. No arm, width, selected outcome, or law label is added to the stream
 key; rejection remains local to that named stream and event.
 
 This package-level statement records the behavior of the frozen S2.2 mapper.
-The scientific coupling terminology and any complete conditional selector must
-be closed before named tetromino laws or paired event composition are added.
+S2.4 implements the PI-ratified shared raw candidate tape—not one accepted
+variate—as the coupling contract used by the fixed tetromino event composition.
+It adds no arm, width, selected outcome, or law label to the base event address.
 
 ## Explicitly absent
 
@@ -91,4 +94,6 @@ S2.3 supplies no conditional law, branch resolver, full-event selector, named
 family/contact/control constructor, model-registry validation, canonical JSON,
 record digest, shared identity, configuration adapter, placement call,
 trajectory, legacy migration, optimized kernel, CLI, batch, Slurm/HPC, or
-production route.
+production route. These absences describe
+`tetris_ballistic.engine.selection`; S2.4 adds only the fixed tetromino
+composition behind the separate `tetris_ballistic.engine.event` submodule.

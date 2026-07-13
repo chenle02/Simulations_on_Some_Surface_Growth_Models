@@ -1,11 +1,12 @@
 # `tetris-ballistic` Community API and Architecture Specification
 
-**Specification version:** 0.4.0
+**Specification version:** 0.5.0
 
 **Status:** M1.1 contracts plus provisional S2.1 exact placement, S2.2
 counter-addressed semantic-RNG oracles, and S2.3 explicit-order exact-law/
-one-stream selection records; conditional event selection, trajectory routing,
-and shared cross-repository schemas are not implemented
+one-stream selection records, plus S2.4 fixed-order tetromino event selection
+without placement; trajectory routing and shared cross-repository schemas are
+not implemented
 
 **Compatibility target:** backward-compatible 2.1.x transition, then 3.0.0 only after migration gates
 
@@ -422,17 +423,19 @@ fails closed.
 standalone authenticated artifacts: they do not bind the request address or
 law, and direct construction does not verify those absent fields. The semantic
 guarantee applies to values returned by the selectors with the certified
-in-package S2.2 oracle. Address/law-bound verification belongs to the deferred
-serialization/identity and complete-event gate.
+in-package S2.2 oracle. S2.4 separately adds a complete tetromino record that
+structurally carries its address and law; replay-authenticated serialization
+and identity remain deferred.
 
 The ordered outcome tuple is the complete executable order for that one
 record. S2.3 does **not** declare a global canonical family or contact order,
 provide named tetromino/control factories, resolve conditional orientation
 laws, or evaluate a full event. `DeclaredStreamSet` establishes exact
 membership and record order; the one-stream selectors do not claim that every
-declared stream has been consumed. Conditional dependency order, branch
-coverage, complete-event trace records, and exact named law materialization
-remain a later gate.
+declared stream has been consumed. S2.4 separately fixes the tetromino
+dependency order, full branch-table validation, and complete in-memory event
+record; generic conditional selection, named law factories, and portable
+artifact materialization remain deferred.
 
 The conformance vectors in `docs/EXACT-SELECTION-VECTORS.md` use explicit
 outcome tuples; they are test records, not aliases for a future named model
@@ -440,7 +443,51 @@ law. No canonical JSON, digest/profile, shared `model_law_id`, configuration
 adapter, placement call, trajectory, legacy route, optimized kernel, CLI,
 batch, Slurm/HPC, or production path is supplied.
 
-### 6.8 Clocks
+### 6.8 Provisional S2.4 complete tetromino event selection
+
+`tetris_ballistic.engine.event` is an explicit-submodule-only composition of
+the S2.2/S2.3 primitives. It fixes the executable family order
+`("i","lj","o","sz","t")`, contact order
+`("supported-v1","edge-first-contact-v1")`, and stream schedule
+`("family","orientation","launch","contact")`. It is not re-exported from
+`tetris_ballistic` or `tetris_ballistic.engine`.
+
+The provisional surface contains
+
+- `ConditionalWeightedLaw(branch_ids, branch_laws)`, an immutable complete
+  ordered branch table;
+- `TetrominoEventLaw(family_law, orientation_laws, launch_law, contact_law)`,
+  which requires the exact family/contact orders and all five orientation
+  branches in family order, including branches unreachable under zero family
+  counts;
+- `TetrominoEventSelection`, a structurally consistent in-memory record that
+  carries the root seed, coupling group, event ordinal, frozen complete law,
+  and all four selections with accepted-rejection metadata; and
+- keyword-only `select_event(...)`, which validates the full address, nested
+  law, and fixed schedule before any RNG call, then draws family, the selected
+  family's orientation, launch, and contact exactly once in that order.
+
+Every orientation outcome tuple must equal the corresponding exact
+2/8/1/4/4 `FAMILY_ORIENTATION_IDS` registry tuple. No mapping-order inference,
+sorting, selected-family salt, geometry salt, arm salt, width salt, or law salt
+is permitted. Degenerate laws still consume one logical raw candidate from
+their stream. Only the selected orientation branch is evaluated; every branch
+is nevertheless prevalidated and retained as in-memory law evidence.
+
+The coupling contract is the shared raw candidate tape at an equal base event
+address. Equal root seed, coupling group, event ordinal, and literal stream
+name identify `W_0,W_1,...`. Each law performs its own rejection/acceptance map,
+so unequal bounds can accept different candidates and values without shifting
+another stream or event. `docs/COMPLETE-EVENT-SELECTION-VECTORS.md` pins the
+full event and unequal-bound rejection examples.
+
+Direct `TetrominoEventSelection` construction checks structural consistency
+but does not replay Philox; canonical serialization, digest identity, and
+portable artifact verification remain deferred. S2.4 supplies no generic
+conditional DAG, named control law, placement, configuration/legacy adapter,
+trajectory, optimized kernel, CLI, batch, Slurm/HPC, or production path.
+
+### 6.9 Clocks
 
 The engine records, without substitution,
 
@@ -451,7 +498,7 @@ The engine records, without substitution,
 
 `ClockKind` is an enum in analysis APIs. Every fitted quantity records its clock. A function must not silently change from one clock to another.
 
-### 6.9 Configuration
+### 6.10 Configuration
 
 `SimulationConfig` contains
 
@@ -468,7 +515,7 @@ The engine records, without substitution,
 
 Validation occurs before allocation or simulation. During M1.1, the typed objects expose only the repository-local digest profiles `tetris-ballistic/software-geometry-record@1` and `tetris-ballistic/software-config-record@1`. These digests are not shared scientific identities and must not be compared with data-repository record hashes. A shared result-bundle projection remains an M1.3 gate.
 
-### 6.10 Results
+### 6.11 Results
 
 `SimulationResult` exposes read-only-by-contract arrays or defensive copies for
 
@@ -498,11 +545,13 @@ The persistence layer snapshots caller arrays before writing. A reversible NumPy
   `launch`, and `contact` stream within a coupling group; an arm or width is
   not an implicit key salt. Equal bounds accept the same bounded variate and
   rejection ordinal. Different bounds can reject at different ordinals, so the
-  frozen S2.2 mapper does not guarantee one literal accepted uniform across
-  such laws; that coupling terminology must close before composite selection.
-- Every later law record must declare its stream set and consume one logical
-  variate from every declared stream at each event, including degenerate or
-  conditionally unused choices.
+  frozen mapper does not guarantee one literal accepted uniform across such
+  laws. S2.4 implements the PI-ratified shared raw tape—not a shared accepted
+  variate—as the package coupling contract.
+- The S2.4 selector consumes one logical variate from each fixed stream at every
+  event, including degenerate choices. Its orientation draw is interpreted
+  through the selected family's prevalidated branch; unselected branch laws
+  receive no additional draws.
 - The existing one-cell compatibility path remains separately pinned to
   `legacy-dual-stream-v1`; it is not silently migrated to the semantic
   contract.
@@ -735,6 +784,21 @@ Add and maintain
 - defer named family/contact order, conditional orientation resolution,
   complete-event consumption, configuration execution, placement composition,
   trajectories, serialization identity, and every production route.
+
+### S2.4 — provisional complete tetromino event selection
+
+- implement the PI-ratified exact five-family, two-contact, and four-stream
+  orders plus the full five-branch orientation table from the fixed
+  19-geometry registry;
+- validate and snapshot the complete address, law, and stream schedule before
+  drawing family, selected-family orientation, launch, and contact exactly once;
+- bind the returned in-memory evidence to its address, complete law, and all
+  four accepted-rejection records while defining coupling as the shared raw
+  candidate tape under law-local acceptance; and
+- defer a generic conditional selector/DAG, named control laws, canonical
+  serialization and digest identity, placement/configuration composition,
+  trajectories, legacy migration, optimized kernels, HPC, and every production
+  route.
 
 ### M1.2 — reference engine extraction
 
