@@ -9,9 +9,9 @@ Python dispatch path runs as before.
 
 Bit-equality contract: the kernel takes a pre-generated array of random
 positions (``positions[i]`` = column for step i+1) so the RNG sequence
-matches the legacy `random.randint(0, width-1)` exactly. The orchestrator
-must call ``[random.randint(0, width - 1) for _ in range(steps)]`` before
-invoking the kernel, with the same RNG state.
+matches a seeded legacy ``random.Random`` stream exactly. The orchestrator
+draws from the simulation's per-instance Python and NumPy legacy-compatible
+streams before invoking the kernel.
 
 The numba ``@njit`` kernel returns updated arrays; the orchestrator
 deserializes them into the standard ``Tetris_Ballistic`` attributes.

@@ -500,7 +500,7 @@ def test_simulation_config_rejects_invalid_positive_integer_fields(field: str, i
         _one_cell_config(**{field: invalid})
 
 
-@pytest.mark.parametrize("invalid", [True, 1.5, -1, None])
+@pytest.mark.parametrize("invalid", [True, 1.5, -1, 2**32, None])
 def test_simulation_config_rejects_invalid_root_seed(invalid: object) -> None:
     with pytest.raises(ValueError, match="root_seed"):
         _one_cell_config(root_seed=invalid)

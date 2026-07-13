@@ -153,6 +153,18 @@ def test_saved_none_seed_spelling_remains_loadable(tmp_path) -> None:
     assert simulation.config_data["seed"] is None
 
 
+@pytest.mark.parametrize("seed", [True, -1, 2**32, "7"])
+def test_direct_constructor_rejects_invalid_seed(seed) -> None:
+    with pytest.raises(ValueError, match="seed"):
+        Tetris_Ballistic(
+            width=12,
+            height=40,
+            steps=20,
+            seed=seed,
+            density=_valid_density(),
+        )
+
+
 def test_load_config_is_transactional_on_validation_failure(tmp_path) -> None:
     simulation = Tetris_Ballistic(
         width=12, height=40, steps=20, seed=7, density=_valid_density()
@@ -270,23 +282,21 @@ def test_rejected_config_does_not_mutate_global_rng_streams(tmp_path) -> None:
     assert np.random.random() == expected_numpy
 
 
-def test_corrupt_cached_cdf_raises_in_legacy_sampler(monkeypatch) -> None:
+def test_corrupt_cached_cdf_raises_in_legacy_sampler() -> None:
     simulation = Tetris_Ballistic(
         width=12, height=40, steps=1, seed=7, density=_valid_density()
     )
     simulation._sample_cdf = np.zeros(40)
-    monkeypatch.setattr(np.random, "random", lambda: 0.5)
 
     with pytest.raises(RuntimeError, match="invalid cached sampling CDF"):
         simulation.Sample_Tetris()
 
 
-def test_corrupt_cached_cdf_raises_in_kernel_orchestrator(monkeypatch) -> None:
+def test_corrupt_cached_cdf_raises_in_kernel_orchestrator() -> None:
     simulation = Tetris_Ballistic(
         width=12, height=40, steps=1, seed=7, density=_valid_density()
     )
     simulation._sample_cdf = np.zeros(40)
-    monkeypatch.setattr(np.random, "random", lambda: 0.5)
 
     with pytest.raises(RuntimeError, match="invalid cached sampling CDF"):
         simulation._simulate_1x1_kernel()

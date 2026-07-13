@@ -523,8 +523,12 @@ class SimulationConfig:
             value = getattr(self, name)
             if type(value) is not int or value <= 0:
                 raise ValueError(f"{name} must be a positive integer")
-        if type(self.root_seed) is not int or self.root_seed < 0:
-            raise ValueError("root_seed must be a nonnegative integer")
+        if (
+            type(self.root_seed) is not int
+            or self.root_seed < 0
+            or self.root_seed > 2**32 - 1
+        ):
+            raise ValueError("root_seed must be an integer in [0, 2**32 - 1]")
         if not isinstance(self.boundary, BoundaryKind):
             raise ValueError("boundary must be a BoundaryKind")
         if type(self.schema_version) is not str or self.schema_version != MODEL_SCHEMA_VERSION:

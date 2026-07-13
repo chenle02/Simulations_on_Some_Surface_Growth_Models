@@ -11,8 +11,10 @@ By Le Chen, Mauricio Montes and Ian Ruau
 """
 
 import math
+import platform
 import random
 import re
+import warnings
 
 # Use non-interactive backend for visualization to enable buffer operations
 import matplotlib
@@ -39,6 +41,9 @@ np.set_printoptions(threshold=np.inf)  # Make sure that print() displays the ent
 
 _LEGACY_PIECE_KEYS = tuple(f"Piece-{index}" for index in range(20))
 _LEGACY_CONFIG_KEYS = frozenset((*_LEGACY_PIECE_KEYS, "width", "height", "steps", "seed"))
+LEGACY_RNG_CONTRACT_VERSION = "legacy-dual-stream-v1"
+LEGACY_STATE_SELECTION_STREAM = "legacy-state-selection-v1"
+LEGACY_POSITION_STREAM = "legacy-position-v1"
 
 
 class _UniqueKeySafeLoader(yaml.SafeLoader):
@@ -262,6 +267,7 @@ class Tetris_Ballistic:
             self.height = self.config_data['height']
             self.seed = self.config_data['seed']
         else:
+            seed = _config_seed(seed)
             if density is not None:
                 self.config_data = _validate_legacy_density(density)
             else:
@@ -355,24 +361,98 @@ class Tetris_Ballistic:
         Set the seed for random number generation
         -----------------------------------------
 
-        This method sets the seed for both the built-in random module and
-        numpy's random module. It ensures that the seed is either a valid
-        integer or None. If None is provided, the seed is set to a random value
-        based on system time or another source of randomness.
+        This method creates independent Python and NumPy legacy-compatible RNG
+        streams owned by this simulation. It ensures that the seed is either a
+        valid integer or None. If None is provided, each stream seeds itself
+        from system entropy.
 
         :param seed: Seed value to set for random number generation. If None, a random seed is used.
         :type seed: int or None
 
         :raises ValueError: If the seed is not an integer or None.
         """
-        if seed is not None:
-            try:
-                seed = int(seed)
-            except ValueError:
-                raise ValueError("Seed must be an integer or None")
+        seed = _config_seed(seed)
+        self.seed = seed
+        if hasattr(self, "config_data"):
+            self.config_data["seed"] = seed
+        self._rng_contract_version = LEGACY_RNG_CONTRACT_VERSION
+        self._rng_runtime_metadata = {
+            "python_version": platform.python_version(),
+            "numpy_version": np.__version__,
+        }
+        self._rng_streams = {
+            LEGACY_STATE_SELECTION_STREAM: np.random.RandomState(seed),
+            LEGACY_POSITION_STREAM: random.Random(seed),
+        }
+        self._numpy_rng = self._rng_streams[LEGACY_STATE_SELECTION_STREAM]
+        self._python_rng = self._rng_streams[LEGACY_POSITION_STREAM]
+        self._rng_migration_notice = None
 
-        random.seed(seed)
-        np.random.seed(seed)
+    @property
+    def rng_contract_metadata(self):
+        """Describe the exact legacy-compatible RNG contract and runtime."""
+        return {
+            "contract_version": self._rng_contract_version,
+            "root_seed": self.seed,
+            "streams": {
+                LEGACY_STATE_SELECTION_STREAM: "numpy.random.RandomState(MT19937)",
+                LEGACY_POSITION_STREAM: "random.Random(MT19937)",
+            },
+            **self._rng_runtime_metadata,
+        }
+
+    def __setstate__(self, state):
+        """Restore serialized state, including pre-instance-RNG snapshots.
+
+        Snapshots written before per-instance RNG streams were introduced did
+        not contain the process-global Python or NumPy RNG states.  Exact RNG
+        continuation is therefore unrecoverable for those snapshots.  They
+        remain loadable, but their private streams are reinitialized from the
+        stored seed and the migration is surfaced through a warning and
+        ``_rng_migration_notice``.
+        """
+        self.__dict__.update(state)
+        if "_python_rng" not in state or "_numpy_rng" not in state:
+            self.set_seed(self.seed)
+            self._rng_migration_notice = (
+                "legacy snapshot lacked serialized RNG state; "
+                "streams restarted from the stored seed"
+            )
+            warnings.warn(self._rng_migration_notice, RuntimeWarning, stacklevel=2)
+        else:
+            contract_version = state.get(
+                "_rng_contract_version", LEGACY_RNG_CONTRACT_VERSION
+            )
+            if contract_version != LEGACY_RNG_CONTRACT_VERSION:
+                raise ValueError(
+                    f"unsupported RNG contract version {contract_version!r}"
+                )
+            self._rng_contract_version = contract_version
+            if "_rng_runtime_metadata" not in state:
+                self._rng_runtime_metadata = {
+                    "python_version": platform.python_version(),
+                    "numpy_version": np.__version__,
+                }
+            self._rng_streams = {
+                LEGACY_STATE_SELECTION_STREAM: self._numpy_rng,
+                LEGACY_POSITION_STREAM: self._python_rng,
+            }
+            if "_rng_migration_notice" not in state:
+                self._rng_migration_notice = None
+
+        if "_sample_cdf" not in state:
+            density = {
+                key: self.config_data[key]
+                for key in _LEGACY_PIECE_KEYS
+            }
+            validated_density = _validate_legacy_density(density)
+            probs = np.array(
+                [validated_density[key] for key in _LEGACY_PIECE_KEYS],
+                dtype=np.float64,
+            ).flatten()
+            self._sample_probs = probs / probs.sum()
+            self._sample_cdf = np.cumsum(self._sample_probs)
+            self._sample_cdf[-1] = max(1.0, self._sample_cdf[-1])
 
     def load_config(self, filename):
         """
@@ -665,7 +745,7 @@ class Tetris_Ballistic:
         # The legacy code rebuilt the probability vector + called np.random.choice
         # on every step (40% of runtime per cProfile). We now use the cached
         # CDF (built once in __init__) + np.searchsorted, which is ~10x faster.
-        u = np.random.random()
+        u = self._numpy_rng.random_sample()
         sample_index = int(np.searchsorted(self._sample_cdf, u, side="right"))
         if sample_index >= 40:
             raise RuntimeError("invalid cached sampling CDF")
@@ -700,6 +780,9 @@ class Tetris_Ballistic:
         Return:
             None
         """
+        # Simulate always means a fresh, reproducible run of this configured
+        # cell. Direct sampling methods retain continuation semantics.
+        self.set_seed(self.seed)
         self.reset()
 
         # Phase 4b fast path: numba-JIT kernel for piece_19-only configurations
@@ -753,16 +836,17 @@ class Tetris_Ballistic:
 
         positions = np.empty(steps, dtype=np.int64)
         sticky_flags = np.empty(steps, dtype=np.bool_)
+        sample_indices = np.empty(steps, dtype=np.int64)
+        python_state_before = self._python_rng.getstate()
+        numpy_state_before = self._numpy_rng.get_state()
         for i in range(steps):
-            u = np.random.random()
+            u = self._numpy_rng.random_sample()
             idx = int(np.searchsorted(cdf, u, side="right"))
             if idx >= 40:
                 raise RuntimeError("invalid cached sampling CDF")
+            sample_indices[i] = idx
             sticky_flags[i] = (idx % 2) == 1
-            positions[i] = random.randint(0, self.width - 1)
-            piece_id = idx // 2
-            column = idx % 2
-            self.SampleDist[piece_id, column] += 1
+            positions[i] = self._python_rng.randint(0, self.width - 1)
 
         substrate_64 = self.substrate.astype(np.int64, copy=False)
         if substrate_64 is not self.substrate:
@@ -776,7 +860,21 @@ class Tetris_Ballistic:
         self.Fluctuation = fluct
         self.AvergeHeight = avg
         self.FinalSteps = final_steps
+        attempted_events = steps if final_steps == steps else final_steps + 1
+        attempted_indices = sample_indices[:attempted_events]
+        np.add.at(
+            self.SampleDist,
+            (attempted_indices // 2, attempted_indices % 2),
+            1,
+        )
         if final_steps < steps:
+            # The kernel must not consume draws for events after the failed
+            # top-contact attempt. Restore and replay only the attempted tape.
+            self._python_rng.setstate(python_state_before)
+            self._numpy_rng.set_state(numpy_state_before)
+            for _ in range(attempted_events):
+                self._numpy_rng.random_sample()
+                self._python_rng.randint(0, self.width - 1)
             print("Game Over, reach the top")
             self.Fluctuation = self.Fluctuation[:final_steps]
             self.AvergeHeight = self.AvergeHeight[:final_steps]
@@ -892,7 +990,7 @@ class Tetris_Ballistic:
             int: The particle ID or the step number that has been placed in this step.
                 + If the value is -1, it means it reaches to the top.
         """
-        position = random.randint(0, self.width - 2)
+        position = self._python_rng.randint(0, self.width - 2)
 
         next = i
 
@@ -987,7 +1085,7 @@ class Tetris_Ballistic:
 
         match rot:
             case 0 | 2:
-                position = random.randint(0, self.width - 4)
+                position = self._python_rng.randint(0, self.width - 4)
 
                 landing_row_outleft = self._surface_row(position - 1) + 1 if position > 1 and sticky else self.height
                 landing_row_pivot = self._surface_row(position)
@@ -1013,7 +1111,7 @@ class Tetris_Ballistic:
                 self._Place_I(position, landing_row, next, rot)
 
             case 1 | 3:
-                position = random.randint(0, self.width - 1)
+                position = self._python_rng.randint(0, self.width - 1)
 
                 landing_row_outleft = self._surface_row(position - 1) + 1 if position > 1 and sticky else self.height
                 landing_row_pivot = self._surface_row(position)
@@ -1117,7 +1215,7 @@ class Tetris_Ballistic:
         next = i
         match rot:
             case 0:
-                position = random.randint(0, self.width - 2)
+                position = self._python_rng.randint(0, self.width - 2)
 
                 landing_row_outleft = self._surface_row(position - 1) + 1 if position > 0 and sticky else self.height
                 landing_row_pivot = self._surface_row(position)
@@ -1139,7 +1237,7 @@ class Tetris_Ballistic:
                 next = i + 1
                 self._Place_L(position, landing_row, next, rot)
             case 1:
-                position = random.randint(2, self.width - 1)
+                position = self._python_rng.randint(2, self.width - 1)
 
                 landing_row_outright = self._surface_row(position + 1) + 1 if position < self.width - 1 and sticky else self.height
                 landing_row_pivot = self._surface_row(position)
@@ -1163,7 +1261,7 @@ class Tetris_Ballistic:
                 next = i + 1
                 self._Place_L(position, landing_row, next, rot)
             case 2:
-                position = random.randint(1, self.width - 1)
+                position = self._python_rng.randint(1, self.width - 1)
 
                 landing_row_outright = self._surface_row(position + 1) + 1 if position < self.width - 1 and sticky else self.height
                 landing_row_pivot = self._surface_row(position)
@@ -1185,7 +1283,7 @@ class Tetris_Ballistic:
                 next = i + 1
                 self._Place_L(position, landing_row - 2, next, rot)
             case 3:
-                position = random.randint(0, self.width - 3)
+                position = self._python_rng.randint(0, self.width - 3)
 
                 landing_row_outright = self._surface_row(position + 3) + 2 if position < self.width - 3 and sticky else self.height
                 landing_row_right1 = self._surface_row(position + 1) + 1 if position < self.width - 1 else self.height
@@ -1291,12 +1389,12 @@ class Tetris_Ballistic:
         int: The particle ID or the step number that has been placed in this step.
             + If the value is -1, it means it reaches to the top.
         """
-        position = random.randint(0, self.width - 1)
+        position = self._python_rng.randint(0, self.width - 1)
 
         next = i
         match rot:
             case 0:
-                position = random.randint(1, self.width - 1)
+                position = self._python_rng.randint(1, self.width - 1)
 
                 landing_row_outleft = self._surface_row(position - 2) + 1 if position > 2 and sticky else self.height
                 landing_row_left = self._surface_row(position - 1) if position > 1 else self.height
@@ -1318,7 +1416,7 @@ class Tetris_Ballistic:
                 next = i + 1
                 self._Place_J(position, landing_row, next, rot)
             case 1:
-                position = random.randint(2, self.width - 1)
+                position = self._python_rng.randint(2, self.width - 1)
 
                 landing_row_outright = self._surface_row(position + 1) + 1 if position < self.width - 1 and sticky else self.height
                 landing_row_pivot = self._surface_row(position)
@@ -1342,7 +1440,7 @@ class Tetris_Ballistic:
                 next = i + 1
                 self._Place_J(position, landing_row - 1, next, rot)
             case 2:
-                position = random.randint(0, self.width - 2)
+                position = self._python_rng.randint(0, self.width - 2)
 
                 landing_row_outright1 = self._surface_row(position + 1) + 1 if position < self.width - 1 and sticky else self._surface_row(position + 1) + 2
                 landing_row_outright2 = self._surface_row(position + 2) + 3 if position < self.width - 2 and sticky else self.height
@@ -1364,7 +1462,7 @@ class Tetris_Ballistic:
                 next = i + 1
                 self._Place_J(position, landing_row - 2, next, rot)
             case 3:
-                position = random.randint(0, self.width - 3)
+                position = self._python_rng.randint(0, self.width - 3)
 
                 landing_row_outright = self._surface_row(position + 3) + 1 if position < self.width - 3 and sticky else self.height
                 landing_row_right1 = self._surface_row(position + 1) if position < self.width - 1 else self.height
@@ -1474,7 +1572,7 @@ class Tetris_Ballistic:
         next = i
         match rot:
             case 0:
-                position = random.randint(1, self.width - 2)
+                position = self._python_rng.randint(1, self.width - 2)
 
                 landing_row_outleft = self._surface_row(position - 2) + 2 if position > 2 and sticky else self.height
                 landing_row_left = self._surface_row(position - 1) + 1 if position > 1 else self.height
@@ -1498,7 +1596,7 @@ class Tetris_Ballistic:
                 next = i + 1
                 self._Place_T(position, landing_row - 1, next, rot)
             case 1:
-                position = random.randint(0, self.width - 2)
+                position = self._python_rng.randint(0, self.width - 2)
 
                 landing_row_outright = self._surface_row(position + 2) + 2 if position < self.width - 2 and sticky else self.height
                 landing_row_right = self._surface_row(position + 1) + 1 if position < self.width - 1 else self.height
@@ -1520,7 +1618,7 @@ class Tetris_Ballistic:
                 next = i + 1
                 self._Place_T(position, landing_row - 1, next, rot)
             case 2:
-                position = random.randint(1, self.width - 2)
+                position = self._python_rng.randint(1, self.width - 2)
 
                 landing_row_outright = self._surface_row(position + 2) + 1 if position < self.width - 2 and sticky else self.height
                 landing_row_right = self._surface_row(position + 1) if position < self.width - 1 else self.height
@@ -1544,7 +1642,7 @@ class Tetris_Ballistic:
                 next = i + 1
                 self._Place_T(position, landing_row, next, rot)
             case 3:
-                position = random.randint(1, self.width - 1)
+                position = self._python_rng.randint(1, self.width - 1)
 
                 landing_row_outright = self._surface_row(position + 1) + 1 if position < self.width - 1 and sticky else self.height
                 landing_row_pivot = self._surface_row(position)
@@ -1628,7 +1726,7 @@ class Tetris_Ballistic:
         next = i
         match rot:
             case 0 | 2:
-                position = random.randint(1, self.width - 2)
+                position = self._python_rng.randint(1, self.width - 2)
 
                 landing_row_outleft = self._surface_row(position - 2) + 1 if position > 2 and sticky else self.height
                 landing_row_left = self._surface_row(position - 1) if position > 1 else self.height
@@ -1652,7 +1750,7 @@ class Tetris_Ballistic:
                 next = i + 1
                 self._Place_S(position, landing_row, next, rot)
             case 1 | 3:
-                position = random.randint(1, self.width - 1)
+                position = self._python_rng.randint(1, self.width - 1)
 
                 landing_row_outleft2 = self._surface_row(position - 2) + 2 if position > 2 and sticky else self.height
                 landing_row_outleft1 = self._surface_row(position - 1) + 1 if position > 1 else self.height
@@ -1736,7 +1834,7 @@ class Tetris_Ballistic:
         next = i
         match rot:
             case 0 | 2:
-                position = random.randint(1, self.width - 2)
+                position = self._python_rng.randint(1, self.width - 2)
 
                 landing_row_outleft2 = self._surface_row(position - 2) + 2 if position > 2 and sticky else self.height
                 landing_row_outleft1 = self._surface_row(position - 1) + 1 if position > 1 else self.height
@@ -1760,7 +1858,7 @@ class Tetris_Ballistic:
                 next = i + 1
                 self._Place_Z(position, landing_row, next, rot)
             case 1 | 3:
-                position = random.randint(1, self.width - 1)
+                position = self._python_rng.randint(1, self.width - 1)
 
                 landing_row_outleft = self._surface_row(position - 2) + 1 if position > 2 and sticky else self.height
                 landing_row_left = self._surface_row(position - 1) if position > 1 else self.height
@@ -1814,7 +1912,7 @@ class Tetris_Ballistic:
             int: The particle ID or the step number that has been placed in this step.
                 + If the value is -1, it means it reaches to the top.
         """
-        position = random.randint(0, self.width - 1)
+        position = self._python_rng.randint(0, self.width - 1)
 
         next = i
 
@@ -1877,7 +1975,10 @@ class Tetris_Ballistic:
         self.reset()
         i = 0
         while i < self.steps:
-            choice = [random.choice(my_list), random.choice(rotation_list)]
+            choice = [
+                self._python_rng.choice(my_list),
+                self._python_rng.choice(rotation_list),
+            ]
             match choice[0]:
                 case 0: i = self.Update_O(i)
                 case 1: i = self.Update_I(i, choice[1])

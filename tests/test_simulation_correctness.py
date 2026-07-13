@@ -8,11 +8,10 @@ Phase 1 (incremental heights) is expected to be **bit-equal** (atol=0)
 because the population standard-deviation formula is the same, just
 computed via ``np.std`` instead of a Python for-loop.
 
-Phase 4 (numba kernel) is expected to **diverge** because the random
-number generator changes (``random.randint`` → numba-compatible
-``np.random``). For Phase 4, this test should be parameterized with a
-looser ``atol`` and a statistical-equivalence test should be added
-separately.
+Phase 4 (numba kernel) pre-generates positions from the same legacy-compatible
+Python RNG stream, so integer trajectories retain exact draw compatibility.
+Its hand-rolled fluctuation reduction remains subject to the existing tight
+floating-point tolerance.
 
 Performance note: each simulation run is cached via ``lru_cache``
 (a single cell runs ONCE and is reused across the fluctuation +
