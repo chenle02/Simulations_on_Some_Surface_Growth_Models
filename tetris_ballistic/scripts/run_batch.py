@@ -8,8 +8,9 @@ per-cell overhead to zero after warm-up.
 
 Task mapping for a Slurm array of ``A`` tasks over a grid of ``T`` cells:
 each array index ``i`` owns the block ``[i*chunk, (i+1)*chunk)`` where
-``chunk = ceil(T / A)``.  Cells are idempotent (existing joblib -> skip),
-so re-submitting after preemption resumes cleanly.
+``chunk = ceil(T / A)``. Cells are reusable only through the managed manifest
+gate, so re-submitting after preemption resumes complete identity/checksum-
+validated work and rejects stale or partial output.
 
 Usage
 -----
@@ -34,11 +35,12 @@ import time
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(_HERE, "..", ".."))
+from tetris_ballistic.run_artifacts import CellDisposition
 from tetris_ballistic.scripts.run_one_cell import (
     decode_task_id,
     grid_size,
     load_grid_spec,
-    run_cell,
+    run_cell_result,
 )
 
 
@@ -94,8 +96,10 @@ def main() -> None:
     for tid in range(start, stop):
         pct, L, seed = decode_task_id(tid, spec)
         try:
-            path = run_cell(spec, pct, L, seed, args.out_dir, flat=args.flat_output)
-            if os.path.getmtime(path) >= t0:
+            result = run_cell_result(
+                spec, pct, L, seed, args.out_dir, flat=args.flat_output
+            )
+            if result.disposition is CellDisposition.CREATED:
                 n_done += 1
             else:
                 n_skip += 1

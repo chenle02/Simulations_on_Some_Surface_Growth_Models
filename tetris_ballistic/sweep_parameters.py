@@ -16,11 +16,10 @@ import sys
 from itertools import chain
 from multiprocessing import Pool
 
-from joblib import dump
-
 from tetris_ballistic.retrieve_default_configs import configs_dir
 from tetris_ballistic.retrieve_default_configs import retrieve_default_configs as rdc
-from tetris_ballistic.tetris_ballistic import Tetris_Ballistic, load_density_from_config
+from tetris_ballistic.run_artifacts import execute_managed_run, resolve_engine_route
+from tetris_ballistic.tetris_ballistic import load_density_from_config
 
 
 class DualLogger:
@@ -62,9 +61,9 @@ def simulate(params, ratio: float, total_iterations: int):
         ratio (float): The height/width ratio of the simulation grid.
         total_iterations (int): The total number of iterations/simulations to be performed.
 
-    This function runs a single instance of the Tetris Ballistic simulation
-    with the given parameters, saves the simulation configuration, results, and
-    generates a visualization of the simulation outcome.
+    This function runs a single instance of the Tetris Ballistic simulation,
+    publishes its configuration and result through the managed manifest-last
+    writer, and generates a derived visualization of the outcome.
     """
     # Extract parameters
     w, seed, config_name, density, current_iteration = params
@@ -75,52 +74,57 @@ def simulate(params, ratio: float, total_iterations: int):
     fig_filename = f'{basename}_w={w}_seed={seed}.png'
     log_file_path = f'{basename}_w={w}_seed={seed}.log'
 
-    sys.stdout = DualLogger(log_file_path, mode='a')
+    logger = DualLogger(log_file_path, mode='a')
+    previous_stdout = sys.stdout
+    sys.stdout = logger
+    try:
+        height = int(round(w * ratio))
+        steps = int(round(ratio * w * w))
 
-    # Check if this simulation has already been completed
-    if os.path.exists(joblib_filename):
-        print(f"Skipping completed simulation: {joblib_filename}")
-        return
-
-    print(f"Running simulation: {joblib_filename}")
-
-    TB = Tetris_Ballistic(width=w,
-                          height=w * ratio,
-                          steps=ratio * w * w,
-                          seed=seed,
-                          density=density)
-
-    # Check if this config file has already been saved
-    if not os.path.exists(config_filename):
-        print(f"Save the config file: {config_filename}")
-        TB.save_config(config_filename)
-
-    TB.Simulate()
-    title = basename.replace("_", " ")
-    title = title.replace("config", "Config: ")
-    list_images = TB.list_tetromino_images()
-    if len(list_images) > 10:
-        print("Too many images to display: ", len(list_images))
-        list_images = None
-    else:
-        print("List Images: ", list_images)
-
-    TB.ShowData(fig_filename=fig_filename,
+        def render_derived_figure(simulation):
+            title = basename.replace("_", " ").replace("config", "Config: ")
+            list_images = simulation.list_tetromino_images()
+            if len(list_images) > 10:
+                print("Too many images to display: ", len(list_images))
+                list_images = None
+            else:
+                print("List Images: ", list_images)
+            simulation.ShowData(
+                fig_filename=fig_filename,
                 custom_text=title,
-                images=list_images)
+                images=list_images,
+            )
 
-    dump(TB, joblib_filename)
+        result = execute_managed_run(
+            joblib_path=joblib_filename,
+            config_path=config_filename,
+            width=w,
+            height=height,
+            steps=steps,
+            seed=seed,
+            density=density,
+            engine_route=resolve_engine_route(density),
+            semantic_context={
+                "config_basename": basename,
+                "density_state_order": ["nonsticky", "sticky"],
+                "percentage_semantics": "encoded_by_effective_density",
+                "producer": "sweep_parameters-v1",
+            },
+            before_publish=render_derived_figure,
+            on_start=lambda: print(f"Running simulation: {joblib_filename}"),
+        )
+        if result.reused:
+            print(f"Skipping verified completed simulation: {joblib_filename}")
+            return
 
-    print(f"Finished simulation: {joblib_filename}")
-
-    # Log progress
-    if current_iteration > 0:
-        progress = (current_iteration / total_iterations) * 100
-        progress_message = f"Progress: {progress:.2f}% Completed simulation: {joblib_filename}"
-        log_progress(progress_message)
-
-    sys.stdout.close()  # Assuming sys.stdout was set to an instance of DualLogger
-    sys.stdout = sys.__stdout__
+        print(f"Finished simulation: {joblib_filename}")
+        if current_iteration > 0:
+            progress = (current_iteration / total_iterations) * 100
+            progress_message = f"Progress: {progress:.2f}% Completed simulation: {joblib_filename}"
+            log_progress(progress_message)
+    finally:
+        sys.stdout = previous_stdout
+        logger.close()
 
 
 def log_progress(progress_message):

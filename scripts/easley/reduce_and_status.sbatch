@@ -5,7 +5,7 @@
 # the cluster (so the sync-back moves ~GB of npz, not the ~100s-of-GB of joblib),
 # then writes a heartbeat.json + EASLEY_COMPUTE_STATUS.md that the Greenwood
 # pull script reads. Chain after the compute array:
-#   sbatch --dependency=afterany:<ARRAY_JID> scripts/easley/reduce_and_status.sbatch <exp>
+#   sbatch --dependency=afterany:<ARRAY_JID> scripts/easley/reduce_and_status.sbatch <exp> [grid.yaml ...]
 # or run standalone once the array is done:
 #   sbatch scripts/easley/reduce_and_status.sbatch tetris14
 #
@@ -27,6 +27,16 @@ EXP="${1:-tetris14}"
 REPO_ROOT="$(git -C "$(dirname "$0")" rev-parse --show-toplevel 2>/dev/null || pwd)"
 cd "$REPO_ROOT"
 
+shift $(( $# > 0 ? 1 : 0 ))
+GRID_SPECS=("$@")
+if [[ "${#GRID_SPECS[@]}" -eq 0 ]]; then
+  case "$EXP" in
+    tetris14) GRID_SPECS=("experiments/exp14a/grid.yaml" "experiments/exp14b/grid.yaml") ;;
+    tetris15) GRID_SPECS=("experiments/exp15/grid.yaml") ;;
+    *) echo "ERROR: provide one or more declared grid specs for $EXP" >&2; exit 2 ;;
+  esac
+fi
+
 module load python/anaconda/3.12.7 2>/dev/null || module load python 2>/dev/null || true
 export PYTHONPATH="$REPO_ROOT:${PYTHONPATH:-}"
 
@@ -36,48 +46,45 @@ TRACES="$SCRATCH/traces"
 HEARTBEAT="$SCRATCH/heartbeat.json"
 STATUS="$SCRATCH/EASLEY_COMPUTE_STATUS.md"
 
+python3 - "$EXP" "$HEARTBEAT" "$STATUS" <<'PY' || exit 2
+import json, sys
+from datetime import datetime, timezone
+from tetris_ballistic.run_artifacts import atomic_write_bytes
+
+experiment, heartbeat, status = sys.argv[1:4]
+pending = {
+    "experiment": experiment,
+    "reduce_complete": False,
+    "schema_version": "tetris-experiment-completion-v1",
+    "state": "running",
+    "timestamp_utc": datetime.now(timezone.utc).isoformat(),
+}
+atomic_write_bytes(heartbeat, (json.dumps(pending, indent=2, sort_keys=True) + "\n").encode())
+atomic_write_bytes(status, f"# Easley {experiment} compute status\n\nReduction audit is running.\n".encode())
+PY
+
 echo "=== reduce $EXP: $(find "$RESULTS" -name '*.joblib' 2>/dev/null | wc -l) joblib cells -> $TRACES ==="
 
-python3 -u -m tetris_ballistic.scripts.reduce_traces --in "$RESULTS" --out "$TRACES"
+STATUS_ARGS=()
+for grid_spec in "${GRID_SPECS[@]}"; do
+  STATUS_ARGS+=(--grid-spec "$grid_spec")
+done
+python3 -u -m tetris_ballistic.scripts.reduce_traces \
+  --in "$RESULTS" \
+  --out "$TRACES" \
+  "${STATUS_ARGS[@]}"
 REDUCE_RC=$?
 echo "reduce exit code: $REDUCE_RC"
 
-REDUCE_RC=$REDUCE_RC python3 - "$EXP" "$RESULTS" "$TRACES" "$HEARTBEAT" "$STATUS" <<'PY'
-import json, sys, time, glob, os, re
-exp, results, traces, hb_path, status_path = sys.argv[1:6]
-reduce_rc = int(os.environ.get("REDUCE_RC", "1"))
-# expected distinct (pct,L) cells = number of L_* dirs under pct_* in results/
-expected = len({(m.group(1), m.group(2)) for p in glob.glob(os.path.join(results, "**", "*.joblib"), recursive=True)
-                if (m := re.search(r"pct_(\d+)/L_(\d+)/", p))})
-n_joblib = len(glob.glob(os.path.join(results, "**", "*.joblib"), recursive=True))
-n_npz = len(glob.glob(os.path.join(traces, "**", "*.npz"), recursive=True))
-npz_bytes = sum(os.path.getsize(p) for p in glob.glob(os.path.join(traces, "**", "*.npz"), recursive=True))
-# HONEST completeness: reduce process succeeded AND every cell produced an npz.
-complete = (reduce_rc == 0) and (expected > 0) and (n_npz >= expected)
-hb = {
-    "experiment": exp,
-    "timestamp_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-    "joblib_cells": n_joblib,
-    "expected_cells": expected,
-    "npz_cells": n_npz,
-    "npz_bytes": npz_bytes,
-    "reduce_rc": reduce_rc,
-    "reduce_complete": complete,
-}
-open(hb_path, "w").write(json.dumps(hb, indent=2))
-md = [
-    f"# Easley {exp} compute status",
-    "",
-    f"Timestamp: `{hb['timestamp_utc']}`",
-    "",
-    "| joblib cells | npz cells | expected cells | npz size (MB) | complete |",
-    "|---:|---:|---:|---:|:--:|",
-    f"| {n_joblib} | {n_npz} | {expected} | {npz_bytes/1e6:.1f} | {'yes' if complete else 'NO'} |",
-    "",
-    "Pull the reduced traces with `scripts/easley/pull_traces.sh` on Greenwood/Dell.",
-]
-open(status_path, "w").write("\n".join(md) + "\n")
-print("wrote", hb_path, "and", status_path)
-PY
+python3 -u -m tetris_ballistic.scripts.experiment_status \
+  --experiment "$EXP" \
+  "${STATUS_ARGS[@]}" \
+  --results "$RESULTS" \
+  --traces "$TRACES" \
+  --heartbeat "$HEARTBEAT" \
+  --status "$STATUS" \
+  --reduce-rc "$REDUCE_RC"
+STATUS_RC=$?
 
 echo "=== done. Reduced traces in $TRACES ready for pull. ==="
+exit "$STATUS_RC"

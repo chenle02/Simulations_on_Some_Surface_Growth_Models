@@ -87,8 +87,12 @@ sbatch experiments/exp14/job_array.slurm
 Each array task runs ONE cell via `python -m
 tetris_ballistic.scripts.run_one_cell --task-id $SLURM_ARRAY_TASK_ID`.
 Outputs land in `experiments/exp14/results/pct_NN/L_LLLL/seed_SSS.joblib`.
-The job is idempotent — re-submitting after preemption skips completed
-cells. After the array finishes, run the streaming KPZ analysis:
+Each cell also has a canonical YAML snapshot, a SHA-256 manifest, and a
+persistent advisory lock. Re-submission reuses a cell only after its exact
+configuration and software identities, both payload checksums, and terminal
+completion invariants validate. Bare legacy joblibs, stale configurations,
+partial writes, and corrupt outputs fail closed instead of being skipped.
+After the array finishes, run the streaming KPZ analysis:
 
 ```bash
 python -m tetris_ballistic.scripts.run_kpz_analysis \

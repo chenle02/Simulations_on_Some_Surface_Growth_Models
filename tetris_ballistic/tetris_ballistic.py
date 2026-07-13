@@ -587,34 +587,26 @@ class Tetris_Ballistic:
             """
             return dumper.represent_sequence(u'tag:yaml.org,2002:seq', data, flow_style=True)
 
+        from tetris_ballistic.run_artifacts import atomic_write_bytes
+
         try:
-            with open(filename, 'w') as file:
-                # Add custom list representer to the YAML dumper
-                yaml.add_representer(type(None), _represent_none, Dumper=NoAliasDumper)
-                yaml.add_representer(list, _represent_list, Dumper=NoAliasDumper)
-
-                # Handle None values correctly
-                formatted_data = {k: v if v is not None else None for k, v in self.config_data.items()}
-
-                # Separate the 'Piece-' entries from the rest
-                piece_data = {k: v for k, v in formatted_data.items() if k.startswith("Piece-")}
-                other_data = {k: v for k, v in formatted_data.items() if not k.startswith("Piece-")}
-
-                # Sort the 'Piece-' entries by their numeric value
-                sorted_piece_data = dict(sorted(piece_data.items(), key=lambda item: _extract_number(item[0])))
-
-                # Combine the sorted data
-                combined_data = {**other_data, **sorted_piece_data}
-
-                yaml.dump(combined_data,
-                          file,
-                          sort_keys=False,
-                          Dumper=NoAliasDumper,
-                          default_flow_style=False)
-                print(f"Configuration saved to {filename}")
-
-        except Exception as e:
-            print(f"Failed to save configuration: {e}")
+            yaml.add_representer(type(None), _represent_none, Dumper=NoAliasDumper)
+            yaml.add_representer(list, _represent_list, Dumper=NoAliasDumper)
+            formatted_data = {k: v if v is not None else None for k, v in self.config_data.items()}
+            piece_data = {k: v for k, v in formatted_data.items() if k.startswith("Piece-")}
+            other_data = {k: v for k, v in formatted_data.items() if not k.startswith("Piece-")}
+            sorted_piece_data = dict(sorted(piece_data.items(), key=lambda item: _extract_number(item[0])))
+            combined_data = {**other_data, **sorted_piece_data}
+            serialized = yaml.dump(
+                combined_data,
+                sort_keys=False,
+                Dumper=NoAliasDumper,
+                default_flow_style=False,
+            ).encode("utf-8")
+            atomic_write_bytes(filename, serialized)
+        except Exception as error:
+            raise RuntimeError(f"failed to save configuration to {filename}") from error
+        print(f"Configuration saved to {filename}")
 
     def reset(self):
         """
@@ -2556,7 +2548,10 @@ class Tetris_Ballistic:
 
     def save_simulation(self, filename="TB.joblib"):
         """
-        Dump the class instance to a file using joblib.
+        Atomically dump one standalone class instance using joblib.
+
+        This is an unmanaged compatibility API: it does not create the
+        identity/checksum manifest required for managed HPC resume.
 
         Args:
             - filename: str, the path to the file where to dump the class instance. (Default: "TB.joblib")
@@ -2568,7 +2563,9 @@ class Tetris_Ballistic:
         # temp_height_dynamics = self.HeightDynamics
         # self.HeightDynamics = None  # or np.array([]) if you prefer to keep the attribute but empty
 
-        joblib.dump(self, filename)
+        from tetris_ballistic.run_artifacts import atomic_joblib_dump
+
+        atomic_joblib_dump(self, filename)
         print(f"Data dumped to {filename}")
 
         # Restore self.HeightDynamics
@@ -2577,7 +2574,10 @@ class Tetris_Ballistic:
     @staticmethod
     def load_simulation(filename):
         """
-        Load a Tetris_Ballistic class instance from a file using joblib.
+        Load an unmanaged compatibility joblib without resume validation.
+
+        Managed HPC cells must be opened through the manifest validator before
+        unpickling; this method is retained for historical analysis artifacts.
 
         Args:
             - filename: str, the path to the file from which to load the class instance.

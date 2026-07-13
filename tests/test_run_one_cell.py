@@ -44,7 +44,7 @@ def tiny_spec_path(tmp_path):
 def test_load_grid_spec_missing_key_raises(tmp_path):
     p = tmp_path / "bad.yaml"
     p.write_text(yaml.safe_dump({"pcts": [5], "widths": [50]}))  # missing seeds + piece_config
-    with pytest.raises(ValueError, match="missing required keys"):
+    with pytest.raises(ValueError, match="missing=.*piece_config.*seeds"):
         load_grid_spec(str(p))
 
 
@@ -129,6 +129,7 @@ def test_run_cell_e2e(tiny_spec_path, tmp_path):
     out_dir = tmp_path / "results"
     jp = run_cell(spec, pct=50, L=20, seed=0, out_dir=str(out_dir))
     assert jp.exists()
+    assert jp.with_suffix(".manifest.json").exists()
 
     # Re-run is idempotent (resume contract)
     mtime_first = jp.stat().st_mtime_ns

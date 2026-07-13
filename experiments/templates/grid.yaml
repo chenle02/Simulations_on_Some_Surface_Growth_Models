@@ -7,6 +7,9 @@
 #
 # Iteration order (decode_task_id): pct outermost, then L, then seed innermost.
 # Consecutive task IDs share the same (pct, L) ensemble.
+# Lists must be nonempty, contain unique built-in integers, and declare no
+# duplicate cell. pcts are sticky fractions in [0,100]; seeds are in the
+# NumPy legacy-compatible range [0, 2**32-1].
 
 piece_config: piece_19_combined_percentage  # supported templates (see run_one_cell.build_density)
 pcts:    [5, 50, 90, 95, 98, 99]            # 6 sticky-fraction values

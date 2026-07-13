@@ -36,7 +36,7 @@ fi
 # Guard 1: reduction MUST be complete (never pull before reduce-on-Easley ran).
 HB=$(ssh "$REMOTE" "cat /scratch/$REMOTE_USER/${EXP}/heartbeat.json 2>/dev/null || echo '{}'")
 echo "  heartbeat: $(echo "$HB" | python3 -c "import json,sys;h=json.load(sys.stdin);print({k:h.get(k) for k in ('npz_cells','joblib_cells','reduce_complete','npz_bytes','timestamp_utc')} if h else 'empty')")"
-if ! echo "$HB" | python3 -c "import json,sys;sys.exit(0 if json.load(sys.stdin).get('reduce_complete') else 1)" 2>/dev/null; then
+if ! echo "$HB" | python3 -c "import json,sys;h=json.load(sys.stdin);ok=(h.get('schema_version')=='tetris-experiment-completion-v1' and h.get('reduce_complete') is True and h.get('error_count')==0 and h.get('validated_joblib_cells')==h.get('expected_cells') and h.get('joblib_cells')==h.get('expected_cells') and h.get('validated_npz_cells')==h.get('expected_ensembles') and h.get('npz_cells')==h.get('expected_ensembles'));sys.exit(0 if ok else 1)" 2>/dev/null; then
   echo "REFUSING: reduction not complete on Easley. Run scripts/easley/reduce_and_status.sbatch ${EXP} first." >&2
   exit 4
 fi

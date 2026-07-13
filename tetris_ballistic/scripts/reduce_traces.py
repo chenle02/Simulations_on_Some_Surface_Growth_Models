@@ -16,8 +16,8 @@ Input layouts (auto-detected):
 
 Output:
   <out>/pct_{pct:02d}/L_{L:04d}.npz   with arrays:
-      seeds       int32   (n_seeds,)
-      final_steps int32   (n_seeds,)
+      seeds       int64   (n_seeds,)
+      final_steps int64   (n_seeds,)
       W           float32 (n_seeds, T_min)   interface width per step
       hbar        float32 (n_seeds, T_min)   mean height per step
   and scalar metadata: pct, L, hbar_max, saturated (h̄_max ≥ L^{3/2}).
@@ -34,10 +34,18 @@ import glob
 import os
 import re
 import sys
+import tempfile
 from collections import defaultdict
 
 import joblib
 import numpy as np
+
+from tetris_ballistic.scripts.experiment_status import (
+    declare_experiment,
+    load_validated_declared_cell,
+    validate_declared_raw_cells,
+)
+from tetris_ballistic.scripts.run_one_cell import CellRequest
 
 _FLAT_RE = re.compile(r"percentage_(\d+)_w=(\d+)_seed=(\d+)\.joblib$")
 _HIER_RE = re.compile(r"pct_(\d+)/L_(\d+)/seed_(\d+)\.joblib$")
@@ -57,10 +65,9 @@ def discover(in_dir: str) -> dict[tuple[int, int], list[tuple[int, str]]]:
     return cells
 
 
-def reduce_cell(seed_paths: list[tuple[int, str]], L: int):
+def _reduce_simulations(seed_simulations, L: int, pct: int):
     seeds, finals, w_list, h_list = [], [], [], []
-    for seed, path in seed_paths:
-        obj = joblib.load(path)
+    for seed, obj in seed_simulations:
         n = int(obj.FinalSteps)
         seeds.append(seed)
         finals.append(n)
@@ -71,15 +78,35 @@ def reduce_cell(seed_paths: list[tuple[int, str]], L: int):
     H = np.stack([a[:t_min] for a in h_list])
     hbar_max = float(H.mean(axis=0)[-1])
     return {
-        "seeds": np.asarray(seeds, dtype=np.int32),
-        "final_steps": np.asarray(finals, dtype=np.int32),
+        "seeds": np.asarray(seeds, dtype=np.int64),
+        "final_steps": np.asarray(finals, dtype=np.int64),
         "W": W,
         "hbar": H,
-        "pct": np.int32(seed_paths and _pct_of(seed_paths[0][1])),
+        "pct": np.int32(pct),
         "L": np.int32(L),
         "hbar_max": np.float32(hbar_max),
         "saturated": np.bool_(hbar_max >= L ** 1.5),
     }
+
+
+def reduce_cell(seed_paths: list[tuple[int, str]], L: int):
+    """Reduce a historical unmanaged ensemble (legacy compatibility path)."""
+
+    return _reduce_simulations(
+        ((seed, joblib.load(path)) for seed, path in seed_paths),
+        L,
+        _pct_of(seed_paths[0][1]),
+    )
+
+
+def reduce_declared_cell(seed_requests: list[tuple[int, CellRequest]], L: int, pct: int):
+    """Reduce managed cells from the simulations returned by locked validation."""
+
+    return _reduce_simulations(
+        ((seed, load_validated_declared_cell(request)) for seed, request in seed_requests),
+        L,
+        pct,
+    )
 
 
 def _pct_of(path: str) -> int:
@@ -91,25 +118,69 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--in", dest="in_dir", required=True)
     ap.add_argument("--out", dest="out_dir", required=True)
+    ap.add_argument(
+        "--grid-spec",
+        action="append",
+        help="Require an exact managed raw inventory declared by this grid (repeatable)",
+    )
     args = ap.parse_args()
 
-    cells = discover(args.in_dir)
+    if args.grid_spec:
+        managed = True
+        declaration = declare_experiment(args.grid_spec, args.in_dir)
+        valid_cells, errors, _observed = validate_declared_raw_cells(
+            declaration, args.in_dir
+        )
+        if errors or valid_cells != len(declaration.cells):
+            details = "\n".join(errors[:50])
+            sys.exit(f"managed raw preflight failed:\n{details}")
+        cells: dict[tuple[int, int], list[tuple[int, CellRequest]]] = defaultdict(list)
+        for (pct, width, seed), request in declaration.cells.items():
+            cells[(pct, width)].append((seed, request))
+        for seed_requests in cells.values():
+            seed_requests.sort(key=lambda item: item[0])
+    else:
+        managed = False
+        cells = discover(args.in_dir)
     if not cells:
         sys.exit(f"no joblib runs found under {args.in_dir}")
 
     total_in = total_out = 0
-    for (pct, L), seed_paths in sorted(cells.items()):
-        data = reduce_cell(seed_paths, L)
+    for (pct, L), seed_inputs in sorted(cells.items()):
+        if managed:
+            data = reduce_declared_cell(seed_inputs, L, pct)
+            input_paths = [request.joblib_path for _, request in seed_inputs]
+        else:
+            data = reduce_cell(seed_inputs, L)
+            input_paths = [path for _, path in seed_inputs]
         out_path = os.path.join(args.out_dir, f"pct_{pct:02d}", f"L_{L:04d}.npz")
         os.makedirs(os.path.dirname(out_path), exist_ok=True)
-        tmp = out_path + ".tmp"
-        np.savez_compressed(tmp, **data)
-        os.replace(tmp + ".npz", out_path)
-        in_bytes = sum(os.path.getsize(p) for _, p in seed_paths)
+        descriptor, tmp = tempfile.mkstemp(
+            prefix=f".{os.path.basename(out_path)}.",
+            suffix=".tmp.npz",
+            dir=os.path.dirname(out_path),
+        )
+        os.close(descriptor)
+        try:
+            np.savez_compressed(tmp, **data)
+            with open(tmp, "rb") as handle:
+                os.fsync(handle.fileno())
+            os.replace(tmp, out_path)
+            directory = os.open(os.path.dirname(out_path), os.O_RDONLY)
+            try:
+                os.fsync(directory)
+            finally:
+                os.close(directory)
+        finally:
+            try:
+                os.unlink(tmp)
+            except FileNotFoundError:
+                pass
+        in_bytes = sum(os.path.getsize(path) for path in input_paths)
         out_bytes = os.path.getsize(out_path)
         total_in += in_bytes
         total_out += out_bytes
-        print(f"pct={pct:02d} L={L:>4}: {len(seed_paths):>3} seeds  "
+        print(f"pct={pct:02d} L={L:>4}: {len(seed_inputs):>3} seeds  "
               f"{in_bytes/1e6:6.1f} MB -> {out_bytes/1e6:5.2f} MB  "
               f"{'SAT' if bool(data['saturated']) else 'unsat'}")
 
