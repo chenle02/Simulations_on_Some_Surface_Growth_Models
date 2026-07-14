@@ -45,8 +45,8 @@ configuration execution, a trajectory, legacy code, HPC, or production.
   ratified geometries, with no width-linear scan.
 - Independent all-anchor oracle: all 20 ratified geometries plus all 91
   deterministically generated fixed polyominoes through area five pass at
-  three legal widths each; a horizontal-I width-four negative control fails as
-  required.
+  three legal-width cases per geometry; a horizontal-I width-four negative
+  control fails as required.
 - Full default suite: 768 passed, 6 skipped, 6 deselected.
 - Full slow suite: 6 passed, 774 deselected.
 - CI-scope `ruff check tetris_ballistic/ tests/`, changed-file Ruff formatting,
