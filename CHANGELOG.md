@@ -31,6 +31,16 @@ change.
 
 ### Added
 
+- A provisional pure reference-state primitive extractor under the explicit
+  `tetris_ballistic.engine.observables` submodule. `measure_state` defensively
+  reconstructs an exact sparse aggregate and returns a frozen record containing
+  the exact width, canonical sparse positive-column envelope, occupied mass,
+  height sum, height-square sum, below-envelope volume, and void count. The
+  width plus omitted-zero sparse pairs reconstructs the complete envelope
+  without width- or height-sized allocation; no float summary, RNG,
+  selection, placement call/composition, transition, configuration adapter,
+  checkpoint I/O, canonical serialization or digest identity, trajectory,
+  legacy route, root export, HPC, release, or production path is added.
 - Hardened the provisional periodic-law preflight to validate one canonical
   anchor per positive-weight geometry instead of scanning every substrate
   column. Cyclic translation makes the check complete, while a width-`10**1000`

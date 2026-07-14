@@ -5,8 +5,9 @@
 **Status:** M1.1 contracts plus provisional S2.1 exact placement, S2.2
 counter-addressed semantic-RNG oracles, and S2.3 explicit-order exact-law/
 one-stream selection records, plus S2.4 fixed-order tetromino event selection
-without placement; trajectory routing and shared cross-repository schemas are
-not implemented
+without placement and a pure exact reference-state primitive extractor; event/
+placement composition, trajectory routing, and shared cross-repository schemas
+are not implemented
 
 **Compatibility target:** backward-compatible 2.1.x transition, then 3.0.0 only after migration gates
 
@@ -493,7 +494,56 @@ portable artifact verification remain deferred. S2.4 supplies no generic
 conditional DAG, named control law, placement, configuration/legacy adapter,
 trajectory, optimized kernel, CLI, batch, Slurm/HPC, or production path.
 
-### 6.9 Clocks
+### 6.9 Provisional pure reference-state primitives
+
+`tetris_ballistic.engine.observables` is an explicit-submodule-only, pure state
+measurement surface. It is not re-exported from `tetris_ballistic` or
+`tetris_ballistic.engine`, and neither package `__init__.py` changes.
+
+`measure_state(state)` requires and defensively reconstructs an exact
+`SparseAggregate`, then returns a frozen, slotted `ReferenceStatePrimitives`
+record with
+
+- `width`;
+- `nonzero_column_heights`, the canonically sorted `(x, h_x)` pairs for
+  positive-height columns, with omitted columns exactly representing height
+  zero and each stored height equal to one plus the maximum occupied `y` in
+  that column;
+- `occupied_mass`;
+- `height_sum` and `height_square_sum`;
+- `below_envelope_volume`, exactly equal to `height_sum`; and
+- `void_count`, exactly `below_envelope_volume - occupied_mass`.
+
+The width plus sparse pairs reconstructs the complete integer interface
+envelope without allocating a width-sized or height-sized array. For occupied
+mass `m` and `k` occupied columns, expected container work is
+`O(m + k log k)` and peak snapshot/auxiliary memory is `O(m + k)`. The
+implementation does not iterate or allocate in proportion to the numerical
+magnitude of substrate width or maximum occupied height; ordinary big-integer
+arithmetic still scales with their bit length. This is required because valid
+exact sparse states may carry arbitrarily large integer widths and heights.
+
+Direct record construction rejects non-built-in integer values, malformed or
+noncanonical sparse pairs, zero/negative stored heights, out-of-range or
+duplicate columns, and inconsistent exact identities. In particular it
+requires
+
+```text
+k <= occupied_mass <= height_sum,
+height_sum = sum(h_x),
+height_square_sum = sum(h_x**2),
+below_envelope_volume = height_sum,
+void_count = height_sum - occupied_mass.
+```
+
+This slice deliberately computes no floating-valued mean height, surface
+width/roughness, or porosity ratio. It adds no event/contact counters, RNG,
+event selection, placement call or composition, state transition, configuration adapter,
+checkpoint I/O, canonical serialization or digest identity, persistence API,
+trajectory, legacy route, optimized kernel, CLI, scheduler, Slurm/HPC,
+release, or production path.
+
+### 6.10 Clocks
 
 The engine records, without substitution,
 
@@ -504,7 +554,7 @@ The engine records, without substitution,
 
 `ClockKind` is an enum in analysis APIs. Every fitted quantity records its clock. A function must not silently change from one clock to another.
 
-### 6.10 Configuration
+### 6.11 Configuration
 
 `SimulationConfig` contains
 
@@ -521,7 +571,7 @@ The engine records, without substitution,
 
 Validation occurs before allocation or simulation. During M1.1, the typed objects expose only the repository-local digest profiles `tetris-ballistic/software-geometry-record@1` and `tetris-ballistic/software-config-record@1`. These digests are not shared scientific identities and must not be compared with data-repository record hashes. A shared result-bundle projection remains an M1.3 gate.
 
-### 6.11 Results
+### 6.12 Results
 
 `SimulationResult` exposes read-only-by-contract arrays or defensive copies for
 
@@ -808,6 +858,9 @@ Add and maintain
 
 ### M1.2 — reference engine extraction
 
+- complete the pure exact state-primitives slice under the explicit
+  `engine.observables` submodule while leaving event/contact accumulation,
+  checkpoints, I/O, and trajectories open;
 - separate state, placement, RNG, observables, and I/O from the legacy class;
 - preserve legacy adapters and golden behavior;
 - add contact-rule and multi-clock instrumentation.
