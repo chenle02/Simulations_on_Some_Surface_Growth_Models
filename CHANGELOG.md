@@ -31,6 +31,20 @@ change.
 
 ### Added
 
+- A provisional pure reference-placement primitive extractor under the
+  explicit `tetris_ballistic.engine.observables` submodule. Given one
+  already-created `ReferencePlacement`, `measure_placement` defensively
+  reconstructs and recertifies it, then returns a frozen exact companion with
+  canonical ordered final-face kinds, fixed-order final/causal face counts,
+  the canonical-contact-indexed causal mask, seam-lateral count, unique contact
+  endpoints, aggregate-support sites
+  and columns, their induced periodic N4 graph/component count and canonical
+  cyclic arc, and sparse strict interface-envelope and integer-moment/void
+  deltas. The extractor never calls `place_one`, `measure_state`, RNG, or
+  selection. It creates no selection-to-placement binding, accumulation,
+  checkpoint/persistence/identity schema, configuration route, trajectory,
+  legacy/optimized route, root export, Easley/Slurm/HPC path, release, or
+  production path; Article S1a-09, M1.2, and S2 remain open.
 - A provisional pure reference-state primitive extractor under the explicit
   `tetris_ballistic.engine.observables` submodule. `measure_state` defensively
   reconstructs an exact sparse aggregate and returns a frozen record containing

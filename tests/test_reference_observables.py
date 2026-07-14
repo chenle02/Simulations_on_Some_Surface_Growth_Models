@@ -272,13 +272,24 @@ def test_observables_module_has_only_the_approved_import_dependencies() -> None:
     assert imports == [
         (0, "__future__", ("annotations",)),
         (0, "dataclasses", ("dataclass",)),
-        (1, "state", ("SparseAggregate",)),
+        (2, "models", ("ContactKind",)),
+        (1, "reference", ("ContactFace", "ContactFaceKind", "ReferencePlacement")),
+        (1, "state", ("SparseAggregate", "WorldCell")),
     ]
 
 
 def test_observable_symbols_remain_explicit_submodule_only() -> None:
-    assert observable_engine.__all__ == ["ReferenceStatePrimitives", "measure_state"]
+    assert observable_engine.__all__ == [
+        "ReferenceStatePrimitives",
+        "measure_state",
+        "ReferencePlacementPrimitives",
+        "measure_placement",
+    ]
     assert not hasattr(tetris_ballistic, "ReferenceStatePrimitives")
     assert not hasattr(tetris_ballistic, "measure_state")
+    assert not hasattr(tetris_ballistic, "ReferencePlacementPrimitives")
+    assert not hasattr(tetris_ballistic, "measure_placement")
     assert not hasattr(engine, "ReferenceStatePrimitives")
     assert not hasattr(engine, "measure_state")
+    assert not hasattr(engine, "ReferencePlacementPrimitives")
+    assert not hasattr(engine, "measure_placement")

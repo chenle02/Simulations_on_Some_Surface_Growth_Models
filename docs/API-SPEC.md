@@ -5,9 +5,9 @@
 **Status:** M1.1 contracts plus provisional S2.1 exact placement, S2.2
 counter-addressed semantic-RNG oracles, and S2.3 explicit-order exact-law/
 one-stream selection records, plus S2.4 fixed-order tetromino event selection
-without placement and a pure exact reference-state primitive extractor; event/
-placement composition, trajectory routing, and shared cross-repository schemas
-are not implemented
+without placement and pure exact reference-state and already-certified-
+placement primitive extractors; selection/placement composition, accumulation,
+trajectory routing, and shared cross-repository schemas are not implemented
 
 **Compatibility target:** backward-compatible 2.1.x transition, then 3.0.0 only after migration gates
 
@@ -536,14 +536,130 @@ below_envelope_volume = height_sum,
 void_count = height_sum - occupied_mass.
 ```
 
-This slice deliberately computes no floating-valued mean height, surface
+This state slice deliberately computes no floating-valued mean height, surface
 width/roughness, or porosity ratio. It adds no event/contact counters, RNG,
-event selection, placement call or composition, state transition, configuration adapter,
-checkpoint I/O, canonical serialization or digest identity, persistence API,
-trajectory, legacy route, optimized kernel, CLI, scheduler, Slurm/HPC,
-release, or production path.
+event selection, placement call or composition, state transition,
+configuration adapter, checkpoint I/O, canonical serialization or digest
+identity, persistence API, trajectory, legacy route, optimized kernel, CLI,
+scheduler, Slurm/HPC, release, or production path.
 
-### 6.10 Clocks
+### 6.10 Provisional pure reference-placement primitives
+
+The same explicit-only `tetris_ballistic.engine.observables` submodule also
+defines `measure_placement(placement)`. Its input is one **already-created**,
+exact `ReferencePlacement`; the function does not select or place an event.
+It accepts only the exact record type and defensively reconstructs that record,
+thereby rerunning the S2.1 placement certificate's geometry, landing, contact,
+and pre/post-state checks before deriving any primitive. It never calls
+`place_one`, `measure_state`, an RNG surface, or an event-selection surface.
+
+The result is a frozen, slotted `ReferencePlacementPrimitives` companion with
+the following stored fields:
+
+- `width`, the common periodic width of the certified pre/post states;
+- `contact_kind`, restricted to `supported-v1` or
+  `edge-first-contact-v1`;
+- `placed_mass`, the exact positive post-state minus pre-state mass;
+- `early_arrest_gap` and `lateral_trigger`, where `lateral_trigger` is true
+  exactly for an `edge-first-contact-v1` certificate with positive gap, and a
+  supported certificate has zero gap;
+- `contact_face_kinds`, the exact `ContactFaceKind` sequence in canonical
+  `placement.contacts` order;
+- `contact_face_kind_counts` and `causal_face_kind_counts`, each a complete
+  tuple of `(ContactFaceKind, count)` pairs in enum order, including zero
+  counts for `floor-support`, `aggregate-support`, `lateral-left`,
+  `lateral-right`, and `aggregate-above`;
+- `causal_contact_mask`, a nonnegative exact integer whose bit `i` indexes the
+  canonical `placement.contacts` tuple and is set exactly when that final face
+  is in `placement.causal_contacts`;
+- `seam_lateral_face_count`, the number of final left/right lateral faces
+  whose directed neighbor relation crosses the periodic seam;
+- `contacting_piece_cells`, the sorted unique piece-cell endpoints of all
+  final face contacts;
+- `contacted_aggregate_cells`, the sorted unique non-floor neighbor endpoints
+  of all final face contacts;
+- `contacted_support_sites`, the sorted unique aggregate-neighbor endpoints of
+  the `aggregate-support` faces, and `contacted_support_columns`, their sorted
+  unique horizontal projection;
+- `support_graph_edges`, the canonical undirected edge tuple of the graph
+  induced by `contacted_support_sites` under periodic-horizontal and ordinary-
+  vertical N4 adjacency, with each edge's endpoints lexicographically ordered
+  and the edge tuple sorted;
+- `support_cluster_count`, the exact number of connected components of that
+  induced graph, including zero for an empty support-site set;
+- `support_arc_origin`, `support_arc_span`, and `support_column_gaps`, the
+  canonical cyclic summary of the distinct support columns;
+- `envelope_changes`, the sorted sparse tuple of only strict
+  `(x, pre_height, post_height)` increases caused by the certified piece; and
+- `height_sum_delta`, `height_square_sum_delta`, and `void_count_delta`, the
+  exact signed/integer changes implied by the sparse envelope and placed mass.
+
+The record also exposes derived read-only properties `contact_face_count`,
+`causal_contact_face_count`, `contacting_piece_cell_count`,
+`contacted_aggregate_cell_count`, `contacted_support_site_count`, and
+`contacted_support_column_count`. These are tuple cardinalities or sums of the
+stored count vectors; they add no independent state.
+
+The final count vector exactly counts `contact_face_kinds`. The causal count
+vector is the final support-face vector for a supported
+landing or an edge-first landing with zero gap, and it is the final lateral-
+face vector for an edge-first landing with positive gap; all other causal-kind
+counts are zero. The causal mask sets exactly the positions in
+`contact_face_kinds` belonging to that causal-kind set, no bit at or above
+`contact_face_count`, and its population equals `causal_contact_face_count`.
+Support sites are a subset of contacted aggregate cells, their multiplicity
+equals the aggregate-support face count, and support columns are exactly their
+horizontal projection.
+
+For sorted distinct support columns `x_0, ..., x_(r-1)` at width `L`, define
+each forward cyclic gap by `(x_(i+1) - x_i) mod L`. The canonical support-arc
+rules are:
+
+- no columns: `(support_arc_origin, support_arc_span,
+  support_column_gaps) = (None, 0, ())`;
+- one column `x`: `(x, 0, (L,))`; and
+- two or more columns: exclude a largest cyclic gap, breaking a tie by the
+  numerically smallest successor column; that successor is the origin, the
+  span is `L - largest_gap`, and the gap tuple starts at the origin and retains
+  the excluded closing gap as its final entry.
+
+Thus every nonempty gap tuple sums to `L`, and for two or more columns its
+entries except the final excluded gap sum to `support_arc_span`. The graph and
+arc are summaries of aggregate support sites only; floor support, lateral
+neighbors, and aggregate-above neighbors do not become support sites.
+
+If `envelope_changes = ((x_j, a_j, b_j), ...)`, each entry has
+`0 <= a_j < b_j`, columns are unique and sorted, and the exact identities are
+
+```text
+height_sum_delta = sum(b_j - a_j),
+height_square_sum_delta = sum(b_j**2 - a_j**2),
+void_count_delta = height_sum_delta - placed_mass.
+```
+
+`void_count_delta` is intentionally signed. The source `ReferencePlacement`
+remains authoritative for geometry identity, launch anchor, actual and
+counterfactual landing heights, complete directed face records, and pre/post
+states; this companion neither duplicates those fields nor declares a
+persisted event schema or identity.
+
+Let `m` be pre-state mass, `k` its occupied-column count, `p` the placed-cell
+count, `c` the final-face count, and `s` the aggregate-support-site count.
+After defensive certificate reconstruction, expected extractor container work
+is bounded by `O(m + c log c + (k + p) log(k + p) + s log s)` with sparse
+auxiliary storage. Total call cost also includes the existing
+`ReferencePlacement` landing/contact replay used for recertification. Neither
+phase iterates or allocates in proportion to the numerical magnitude of width
+or maximum height; exact-integer work still scales with bit length.
+
+This is a pure one-certificate projection. It adds no selection-to-placement
+binding, event ordinal, counter accumulation, checkpoint or persistence
+contract, canonical serialization or digest identity, configuration or legacy
+route, multi-event trajectory, optimized kernel, CLI, scheduler, Easley/Slurm/
+HPC route, release, or production path. Article S1a-09, M1.2, and overall S2
+therefore remain open.
+
+### 6.11 Clocks
 
 The engine records, without substitution,
 
@@ -554,7 +670,7 @@ The engine records, without substitution,
 
 `ClockKind` is an enum in analysis APIs. Every fitted quantity records its clock. A function must not silently change from one clock to another.
 
-### 6.11 Configuration
+### 6.12 Configuration
 
 `SimulationConfig` contains
 
@@ -571,7 +687,7 @@ The engine records, without substitution,
 
 Validation occurs before allocation or simulation. During M1.1, the typed objects expose only the repository-local digest profiles `tetris-ballistic/software-geometry-record@1` and `tetris-ballistic/software-config-record@1`. These digests are not shared scientific identities and must not be compared with data-repository record hashes. A shared result-bundle projection remains an M1.3 gate.
 
-### 6.12 Results
+### 6.13 Results
 
 `SimulationResult` exposes read-only-by-contract arrays or defensive copies for
 
@@ -858,9 +974,10 @@ Add and maintain
 
 ### M1.2 — reference engine extraction
 
-- complete the pure exact state-primitives slice under the explicit
-  `engine.observables` submodule while leaving event/contact accumulation,
-  checkpoints, I/O, and trajectories open;
+- complete the pure exact state- and already-certified-placement-primitives
+  slices under the explicit `engine.observables` submodule while leaving
+  selection/placement binding, event/contact accumulation, checkpoints, I/O,
+  and trajectories open;
 - separate state, placement, RNG, observables, and I/O from the legacy class;
 - preserve legacy adapters and golden behavior;
 - add contact-rule and multi-clock instrumentation.

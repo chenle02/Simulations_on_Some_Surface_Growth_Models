@@ -4,121 +4,159 @@
 
 **Project**: `Simulations_on_Some_Surface_Growth_Models`
 
-**Current bounded unit**: M1.2/S2 pure reference-state primitives without
-event or placement composition
+**Current bounded unit**: M1.2/S2 pure primitives for one already-certified
+reference placement, without selection-to-placement composition or accumulation
 
 ## Current state
 
-The approved pure-state slice is complete over software authority
-`4e90a1c0daa5f1909277b0abe8f9091fbfca351a`. The current handoff-bearing
-commit is the new software authority; obtain its exact hash with
-`git rev-parse HEAD` rather than embedding a self-hash here.
+The approved placement-primitives slice is implemented over predecessor
+software authority `8335dff8693fed8dbf3601c55406869a503d36fb`. The current
+handoff-bearing commit will be the new software authority; after commit, obtain
+its exact hash with `git rev-parse HEAD` rather than embedding a self-hash here.
 
-The explicit-only `tetris_ballistic.engine.observables` submodule adds a pure
-`measure_state(SparseAggregate)` extractor and a frozen, slotted
-`ReferenceStatePrimitives` record. The complete interface envelope is retained
-exactly as the width plus canonically sorted positive-column `(x, height)`
-pairs; omitted columns have height zero. This representation remains exact
-without imposing a width-sized or height-sized allocation.
+The explicit-only `tetris_ballistic.engine.observables` submodule retains the
+pure `measure_state` surface and adds `measure_placement(ReferencePlacement)`
+plus a frozen, slotted `ReferencePlacementPrimitives` companion. The input is
+one already-created S2.1 placement certificate. The extractor defensively
+reconstructs and recertifies it, then derives exact final/causal contact,
+aggregate-support topology, canonical cyclic-support-arc, and sparse envelope-
+change primitives.
 
-This slice completes neither M1.2 nor overall S2 and opens no composition or
-later gate.
+This slice completes neither Article S1a-09, M1.2, nor overall S2 and opens no
+composition, accumulation, persistence, execution, or production gate.
 
 ## Executable contract
 
-- `measure_state` accepts only an exact, fully initialized `SparseAggregate`
-  and defensively reconstructs it before measurement.
-- All scalar fields and every envelope coordinate/height are exact built-in
-  integers. The record contains width, the sparse positive-column envelope,
-  occupied mass, height sum, height-square sum, below-envelope volume, and void
-  count.
-- The envelope is sorted, unique, in range, and positive. Its exact identities
-  are `height_sum = sum(height)`, `height_square_sum = sum(height * height)`,
-  `below_envelope_volume = height_sum`, and
-  `void_count = below_envelope_volume - occupied_mass`, with the number of
-  nonzero columns no greater than occupied mass and occupied mass no greater
-  than envelope volume.
-- For occupied mass `m` and `k` occupied columns, expected container work is
-  `O(m + k log k)` and peak snapshot/auxiliary memory is `O(m + k)`. There is
-  no iteration or allocation proportional to the numerical width or maximum
-  height; ordinary exact-integer work still scales with bit length.
-- The module defines no floating observable, RNG draw, event/contact counter,
-  selection or placement call, transition, configuration adapter, checkpoint
-  I/O, canonical serialization, digest identity, persistence API, trajectory,
-  legacy route, scheduler, release, or production route.
+- `measure_placement` accepts only an exact, fully initialized
+  `ReferencePlacement`. Reconstruction reruns the existing geometry, landing,
+  contact, and pre/post-state certificate checks before measurement. The
+  extractor never calls `place_one`, `measure_state`, RNG, or selection.
+- The 23 stored fields are `width`, `contact_kind`, `placed_mass`,
+  `early_arrest_gap`, `lateral_trigger`, `contact_face_kinds`,
+  `contact_face_kind_counts`, `causal_face_kind_counts`, `causal_contact_mask`,
+  `seam_lateral_face_count`, `contacting_piece_cells`,
+  `contacted_aggregate_cells`, `contacted_support_sites`,
+  `contacted_support_columns`, `support_graph_edges`,
+  `support_cluster_count`, `support_arc_origin`, `support_arc_span`,
+  `support_column_gaps`, `envelope_changes`, `height_sum_delta`,
+  `height_square_sum_delta`, and `void_count_delta`.
+- `contact_face_kinds` retains the exact kind at every canonical
+  `placement.contacts` position. Both face-count tuples contain every
+  `ContactFaceKind` exactly once in enum order, including zeros. Causal-mask
+  bit `i` indexes that sequence and is set exactly at causal-kind positions;
+  no higher bit is set, and the mask population equals the causal-face count.
+  Causal kinds are support faces unless a positive-gap edge-first landing
+  triggered lateral arrest, in which case they are lateral faces.
+- Contact endpoints are canonical sorted unique world cells. Aggregate-support
+  sites exclude floor and all non-support aggregate contacts; support columns
+  are exactly their sorted horizontal projection.
+- `support_graph_edges` is the sorted canonical undirected graph induced on
+  aggregate-support sites by periodic-horizontal and ordinary-vertical N4
+  adjacency. `support_cluster_count` is its exact component count.
+- The support arc excludes one largest forward cyclic column gap, breaking a
+  tie by the smallest successor/origin column. Empty support has
+  `(None, 0, ())`; singleton support at `x` has `(x, 0, (width,))`; otherwise
+  the gap tuple starts at the origin and retains the excluded closing gap last,
+  while `support_arc_span = width - largest_gap`.
+- `envelope_changes` is the sorted unique tuple of strict sparse
+  `(x, pre_height, post_height)` increases. Exact identities are
+  `height_sum_delta = sum(post - pre)`,
+  `height_square_sum_delta = sum(post**2 - pre**2)`, and
+  `void_count_delta = height_sum_delta - placed_mass`; the void delta is
+  intentionally signed.
+- Six derived properties expose the total final and causal face counts and the
+  cardinalities of contacting piece cells, contacted aggregate cells, support
+  sites, and support columns. They store no additional state.
+- Geometry identity, launch anchor, actual/counterfactual landing heights,
+  complete directed faces, and pre/post states remain authoritative on the
+  source `ReferencePlacement`; the primitive companion is not a persisted
+  event schema or identity.
+- After certificate reconstruction, extractor work stays sparse in pre-state
+  mass/occupied columns, placed cells, contacts, and support sites. Total cost
+  also includes the existing S2.1 landing/contact replay used to recertify the
+  input. There is no iteration or allocation proportional to numerical width
+  or maximum height; ordinary exact-integer work still scales with bit length.
 
-## Validation evidence
+## Current validation evidence
 
-- Focused reference-observables suite: 39 passed.
-- Independent dense oracle over 4,608 exhaustive small occupancy states (512
-  at width/height 3 x 3 plus 4,096 at 4 x 3) agrees on the complete envelope
-  and every exact scalar.
-- Named empty, holey, seam-adjacent, and tied-maximum cases; exact
-  width-`10**1000` and vertical-coordinate `y = 10**1000` regressions;
-  caller/state-mutation detachment;
-  forged/subclass/partial/hostile-container rejection; direct-record invariant
-  checks; forbidden-call/import and package-root export guards: passed.
-- Combined observables and reference-engine suites: 74 passed.
-- Full default suite: 807 passed, 6 skipped, 6 deselected.
-- Full slow suite: 6 passed, 813 deselected.
-- CI-scope `ruff check tetris_ballistic/ tests/`, changed-file Ruff formatting,
-  `compileall`, conflict scan, and `git diff --check`: passed.
-- Clean PEP 517 sdist-to-wheel build, Twine, gzip/ZIP integrity, required-member
-  audit, and foreign-directory exclusion: passed. The final wheel SHA-256 is
-  `7ec99a311c76a8a3f47e16960532d079d9249995de65c8aa34366f4555c9ac02`;
-  the final sdist SHA-256 is
-  `70304c967eb0850c94209b2d2228228abf32cab5695149ec56253eeb0b399a49`.
-- Isolated final-wheel explicit-import, dependency, root-export, exact-state,
-  and huge-width/vertical-coordinate smokes passed on Python 3.10.18,
-  3.11.13, 3.12.11, 3.13.7, and 3.14.6.
-- Independent read-only code/contract, oracle, and package/provenance reviews
-  passed after their documentation findings were incorporated.
+- Focused state-plus-placement observables suites: 63 passed.
+- The independent placement oracle covers all 2,432 one-cell certificates from
+  every occupancy of `3 x 2` and `4 x 2` windows, every anchor, and both exact
+  contact kinds, plus named floor, incidental-contact, lateral-trigger, seam,
+  support-cluster, cyclic-gap tie, sparse-envelope, and signed-void cases.
+- Combined reference-engine plus both observables suites: 98 passed.
+- Exact-field-order/frozen/slots construction, every direct-record invariant,
+  forged/subclass/partial/hostile input rejection, caller-mutation detachment,
+  canonical causal-mask indexing, huge-width/height sparse behavior, forbidden
+  `place_one`/`measure_state`/RNG/selection calls, forbidden import coupling,
+  and package-root export guards are covered.
+- Independent adversarial review exhaustively checked 4,088 support-column
+  subsets at widths 3--11, 37,376 periodic support-site subsets, and 60,000
+  all-geometry placement/envelope comparisons. Its one causal-mask constructor
+  finding was fixed with `contact_face_kinds` plus an exact same-popcount
+  regression; the follow-up audit passed.
+- Full default suite: 831 passed, 6 declared slow skips, 6 deselections.
+- Declared slow suite: 6 passed, 837 deselections.
+- CI-scope Ruff, changed-file Ruff format, compileall, and diff checks passed.
+- Clean isolated PEP 517 sdist-to-wheel build and Twine passed. The sdist has
+  203 members and SHA-256
+  `82a809ec92a0d3c4987d70cb635ea62232ec25bb883ab4b405dd0a91cc132bdd`;
+  the wheel has 157 members and SHA-256
+  `741e61672e7fd9baeaeda9a43619d4a78a1886bfdb2a7c31f14326e9413e7531`.
+  Live, staged, sdist, and wheel copies of `engine/observables.py` are
+  byte-identical; source-only tests/docs occur only in the sdist as intended.
+- Fresh full-dependency wheel installs, `pip check`, outside-repository exact
+  placement/topology/envelope smokes, and root-export guards passed on Python
+  3.10.18, 3.11.13, 3.12.11, 3.13.7, and 3.14.6 with inherited Python paths
+  explicitly removed.
 
 Repository-wide `ruff format --check .` is not the configured CI gate and has
-pre-existing unrelated formatting debt. The changed Python files are
-Ruff-formatted; do not mix a bulk repository reformat into this unit.
+pre-existing unrelated formatting debt. Check and format only the changed
+Python files; do not mix a bulk repository reformat into this unit.
 
 ## Scope boundary
 
-This unit changes only the pure exact state-primitives surface, its tests, and
-its contract/release documentation. It does not compose event selection with
-placement, add event/contact instrumentation, expose a configuration or legacy
-adapter, create checkpoints or trajectories, define a canonical encoding or
-digest, or open an optimized kernel, CLI, batch, Easley/HPC, release, or
-production route. `engine/reference.py`, `engine/event.py`, `engine/rng.py`,
+This unit is a pure projection of one supplied placement certificate. It does
+not bind an S2.4 selection to S2.1 placement, assign an event ordinal, accumulate
+event/contact counters, create checkpoints or persistence, define canonical
+serialization or digest identity, expose a configuration or legacy adapter,
+run a multi-event trajectory, or open an optimized kernel, CLI, batch,
+Easley/Slurm/HPC, release, or production route. The placement certificate
+itself is unchanged.
+
+`engine/reference.py`, `engine/event.py`, `engine/rng.py`,
 `engine/selection.py`, `engine/state.py`, `models.py`, every configuration
 model/route, and both package-root `__init__.py` files remain unchanged.
 
 ## Provenance anchors and parallel-work guard
 
-- Periodic-law preflight implementation:
-  `6e4f2fdf3fb67ac1fcf0674a7ddd7e54f27f286c`.
 - Software authority immediately preceding this slice:
-  `4e90a1c0daa5f1909277b0abe8f9091fbfca351a`.
+  `8335dff8693fed8dbf3601c55406869a503d36fb`.
 - Preceding Article receipt:
-  `8380a3b99dfbaca3b517ca1dd40dfc81b579781b`.
+  `07a866e312e915579a0890d3effacc163b900106`.
 - Preceding authored wiki implementation page:
-  `4230003c80c994033dda9d9dacb361365be3445c`.
+  `712ae48a11d7134a435af4b1d0c0394e2fb28fc8`.
 - Preceding generated wiki dashboard:
-  `873c2961d83c01c2394eed7c713c8fc42ffe7765`.
+  `7fba2f266add5b7e66391d2fad38883dbf13b65c`.
 - Preceding final Article closure:
-  `8b1f495bacf8b1ef709cae272ccea2ae17c0dae3`.
+  `26b3e1b701c7a273ced03df327f1ea5ec7addc6e`.
 
-Another worker may own the six-repository pipeline. Do not edit, regenerate,
+Another worker may own the multi-repository pipeline. Do not edit, regenerate,
 stage, or advance that pipeline's files. Any downstream Article/wiki update
 must use the shared-repository bi-directional sync workflow first and stage
 only explicitly audited Tetris provenance paths.
 
 ## Next bounded step
 
-1. Commit and immediately push this software unit, then record its exact hash
-   through the Article receipt -> authored wiki page -> generated dashboard ->
-   final Article closure provenance loop.
-2. Re-run the exact downstream preflights before each repository write and
-   preserve concurrent foreign work.
-3. Do not infer a following implementation unit. Event/placement composition,
-   configuration, trajectories, S3, Easley/HPC, release, and production remain
-   closed pending a separate contract and explicit approval.
+1. Complete the software closure gates, commit only the audited placement-
+   primitives unit, and immediately push the new software authority.
+2. Record that exact authority through the Article receipt -> authored wiki
+   page -> generated dashboard -> final Article closure provenance loop, with
+   a fresh preflight before each repository write.
+3. Do not infer a following implementation unit. Selection/placement binding,
+   accumulation/checkpoints, configuration, trajectories, S3, Easley/HPC,
+   release, and production remain closed pending a separate contract and
+   explicit approval.
 
 ## Pre-flight for a future software session
 
@@ -128,7 +166,6 @@ only explicitly audited Tetris provenance paths.
    untracked `.omx/` and `.pi-subagents/` directories.
 3. Confirm Dell `main`, `origin/main`, and Greenwood are synchronized at this
    handoff-bearing authority or a documented later bounded unit.
-4. Run `.venv/bin/python -m pytest -q` and
-   `.venv/bin/python -m pytest -q -m slow` before another semantic change.
-5. Keep event, placement, and configuration uncomposed until a separate
-   approved gate authorizes that route.
+4. Run the full default and slow suites before another semantic change.
+5. Keep selection and placement uncomposed, and keep cumulative/event execution
+   routes closed until a separate approved gate authorizes them.
