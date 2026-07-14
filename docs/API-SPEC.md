@@ -230,10 +230,16 @@ positive-weight geometry support. This manual configuration-wide preflight
 requires a nonempty plain list or tuple with unique geometry IDs, defensively
 revalidates and snapshots every geometry, requires width at least three and
 strictly greater than every positive geometry's bounding-box width, and checks
-the periodic cardinality/N4-adjacency invariant at every anchor. It returns the
-validated immutable geometry tuple. The one-event function cannot infer a
-mixture's other positive-weight geometries, and this preflight is not a
-`SimulationConfig` execution route.
+the periodic cardinality/N4-adjacency invariant at canonical anchor zero. This
+single check is complete: for fixed width, cyclic horizontal translation is a
+bijection of lattice sites and an automorphism of the periodic N4 graph, while
+wrapping at anchor `a` is anchor-zero wrapping followed by translation by `a`.
+Consequently neither cell collisions nor internal N4 edges depend on the
+anchor. The number of wrapping checks is independent of substrate width after
+the width guard. The preflight returns the validated immutable geometry tuple.
+The one-event function cannot infer a mixture's other positive-weight
+geometries, and this preflight is not a `SimulationConfig` execution route.
+`place_one` still checks the actual supplied anchor for each event.
 
 For each reflected local `(delta_y, delta_x)` cell, an anchor height `y`
 produces the world cell

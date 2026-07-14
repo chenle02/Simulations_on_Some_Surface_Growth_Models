@@ -31,6 +31,14 @@ change.
 
 ### Added
 
+- Hardened the provisional periodic-law preflight to validate one canonical
+  anchor per positive-weight geometry instead of scanning every substrate
+  column. Cyclic translation makes the check complete, while a width-`10**1000`
+  regression and an independent all-anchor oracle over the ratified registry
+  plus deterministically generated polyominoes pin a width-independent anchor-
+  check count. Public validation order, defensive snapshots, and `place_one`'s
+  actual-anchor check are unchanged; no selection/placement composition or
+  execution route is added.
 - A provisional S2.4 fixed-order tetromino event selector under the explicit
   `tetris_ballistic.engine.event` submodule. Immutable complete laws pin the
   five-family, two-contact, and exact 2/8/1/4/4 orientation orders and validate

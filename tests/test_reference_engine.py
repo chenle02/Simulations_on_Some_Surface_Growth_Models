@@ -6,6 +6,7 @@ from dataclasses import dataclass, replace
 
 import pytest
 
+import tetris_ballistic.engine.reference as reference_engine
 from tetris_ballistic.engine import (
     ContactFace,
     ContactFaceKind,
@@ -65,10 +66,7 @@ def _has_support(piece_cells: tuple[Cell, ...], occupied: frozenset[Cell]) -> bo
 
 
 def _has_lateral_contact(piece_cells: tuple[Cell, ...], width: int, occupied: frozenset[Cell]) -> bool:
-    return any(
-        ((x - 1) % width, y) in occupied or ((x + 1) % width, y) in occupied
-        for x, y in piece_cells
-    )
+    return any(((x - 1) % width, y) in occupied or ((x + 1) % width, y) in occupied for x, y in piece_cells)
 
 
 def _brute_landing_height(
@@ -182,15 +180,68 @@ def _oracle_place(
 
 
 def _normalize_faces(faces: tuple[ContactFace, ...]) -> tuple[OracleFace, ...]:
-    return tuple(
-        (face.piece_cell, face.kind.value, face.neighbor_cell, face.crosses_seam)
-        for face in faces
-    )
+    return tuple((face.piece_cell, face.kind.value, face.neighbor_cell, face.crosses_seam) for face in faces)
 
 
 def _occupied_from_mask(width: int, height: int, mask: int) -> frozenset[Cell]:
     cells = tuple((x, y) for y in range(height) for x in range(width))
     return frozenset(cell for index, cell in enumerate(cells) if mask & (1 << index))
+
+
+def _normalized_polyomino(cells: frozenset[Cell]) -> tuple[Cell, ...]:
+    minimum_row = min(row for row, _ in cells)
+    minimum_column = min(column for _, column in cells)
+    return tuple(sorted((row - minimum_row, column - minimum_column) for row, column in cells))
+
+
+def _generated_fixed_polyominoes(maximum_area: int) -> tuple[tuple[Cell, ...], ...]:
+    current = {((0, 0),)}
+    generated = set(current)
+    for _ in range(1, maximum_area):
+        next_area: set[tuple[Cell, ...]] = set()
+        for coordinates in current:
+            occupied = frozenset(coordinates)
+            for row, column in coordinates:
+                for neighbor in (
+                    (row - 1, column),
+                    (row + 1, column),
+                    (row, column - 1),
+                    (row, column + 1),
+                ):
+                    if neighbor not in occupied:
+                        next_area.add(_normalized_polyomino(occupied.union({neighbor})))
+        current = next_area
+        generated.update(current)
+    return tuple(sorted(generated, key=lambda coordinates: (len(coordinates), coordinates)))
+
+
+def _independent_world_cells(geometry: PieceGeometry) -> tuple[Cell, ...]:
+    height = max(row for row, _ in geometry.coordinates) + 1
+    return tuple(sorted((column, height - 1 - row) for row, column in geometry.coordinates))
+
+
+def _independent_n4_edges(cells: tuple[Cell, ...], *, width: int | None = None) -> frozenset[tuple[int, int]]:
+    edges: set[tuple[int, int]] = set()
+    for left_index, (left_x, left_y) in enumerate(cells):
+        for right_index, (right_x, right_y) in enumerate(cells[left_index + 1 :], start=left_index + 1):
+            if left_x == right_x and abs(left_y - right_y) == 1:
+                edges.add((left_index, right_index))
+            elif left_y == right_y:
+                separation = abs(left_x - right_x)
+                if separation == 1 or (width is not None and separation == width - 1):
+                    edges.add((left_index, right_index))
+    return frozenset(edges)
+
+
+def _independent_all_anchors_preserve_wrapping(local_cells: tuple[Cell, ...], width: int) -> bool:
+    expected_edges = _independent_n4_edges(local_cells)
+    for anchor_x in range(width):
+        wrapped = tuple(((anchor_x + delta_x) % width, delta_y) for delta_x, delta_y in local_cells)
+        if len(set(wrapped)) != len(local_cells):
+            return False
+        if _independent_n4_edges(wrapped, width=width) != expected_edges:
+            return False
+    return True
 
 
 def _assert_matches_oracle(actual: ReferencePlacement, expected: _OraclePlacement, *, context: str) -> None:
@@ -238,10 +289,12 @@ def test_exhaustive_small_states_match_independent_brute_height_oracle() -> None
                     assert actual.anchor_x == anchor_x, context
                     assert actual.pre_state == state, context
                     assert actual.post_state.width == width, context
-                    assert all(
-                        face.kind is not ContactFaceKind.AGGREGATE_ABOVE for face in actual.stopping_contacts
-                    ), context
-                    assert all(face.kind is not ContactFaceKind.AGGREGATE_ABOVE for face in actual.causal_contacts), context
+                    assert all(face.kind is not ContactFaceKind.AGGREGATE_ABOVE for face in actual.stopping_contacts), (
+                        context
+                    )
+                    assert all(face.kind is not ContactFaceKind.AGGREGATE_ABOVE for face in actual.causal_contacts), (
+                        context
+                    )
                     case_count += 1
 
     assert case_count == 16_384
@@ -501,7 +554,10 @@ def test_generic_width_guards_are_geometry_aware() -> None:
         place_one(SparseAggregate.empty(4), horizontal_i, 0, ContactKind.EDGE_FIRST_CONTACT_V1)
 
     assert place_one(SparseAggregate.empty(3), lj, 2, ContactKind.SUPPORTED_V1).post_state.mass == lj.area
-    assert place_one(SparseAggregate.empty(5), horizontal_i, 4, ContactKind.SUPPORTED_V1).post_state.mass == horizontal_i.area
+    assert (
+        place_one(SparseAggregate.empty(5), horizontal_i, 4, ContactKind.SUPPORTED_V1).post_state.mass
+        == horizontal_i.area
+    )
 
 
 def test_periodic_law_preflight_checks_the_complete_positive_weight_support() -> None:
@@ -524,3 +580,50 @@ def test_periodic_law_preflight_checks_the_complete_positive_weight_support() ->
         validate_periodic_law(5, {ONE_CELL})
     with pytest.raises(ValueError, match="unique geometry IDs"):
         validate_periodic_law(5, [ONE_CELL, ONE_CELL])
+
+
+def test_periodic_law_preflight_has_width_independent_anchor_work(monkeypatch: pytest.MonkeyPatch) -> None:
+    geometries = (*TETROMINO_REGISTRY, ONE_CELL)
+    huge_width = 10**1000
+    checked_anchors: list[int] = []
+    original_validate_wrapping = reference_engine._validate_wrapping
+
+    def record_representative_anchor(
+        local_cells: tuple[Cell, ...],
+        *,
+        state: SparseAggregate,
+        anchor_x: int,
+    ) -> None:
+        checked_anchors.append(anchor_x)
+        assert anchor_x == 0, "periodic-law preflight scanned beyond its representative anchor"
+        assert len(checked_anchors) <= len(geometries), "periodic-law preflight repeated a geometry check"
+        original_validate_wrapping(local_cells, state=state, anchor_x=anchor_x)
+
+    monkeypatch.setattr(reference_engine, "_validate_wrapping", record_representative_anchor)
+
+    assert validate_periodic_law(huge_width, geometries) == geometries
+    assert checked_anchors == [0] * len(geometries)
+
+
+def test_representative_anchor_matches_independent_all_anchor_oracle() -> None:
+    horizontal_i = GEOMETRY_BY_ID["tetromino.i.00"]
+    assert not _independent_all_anchors_preserve_wrapping(_independent_world_cells(horizontal_i), width=4)
+
+    generated_coordinates = _generated_fixed_polyominoes(maximum_area=5)
+    assert len(generated_coordinates) == 91
+    generated_geometries = tuple(
+        PieceGeometry(
+            id=f"oracle.generated.{index:03d}",
+            family_id="oracle-generated",
+            coordinates=coordinates,
+        )
+        for index, coordinates in enumerate(generated_coordinates)
+    )
+
+    for geometry in (*TETROMINO_REGISTRY, ONE_CELL, *generated_geometries):
+        local_cells = _independent_world_cells(geometry)
+        for width in (max(3, geometry.width + 1), geometry.width + 2, geometry.width + 5):
+            assert _independent_all_anchors_preserve_wrapping(local_cells, width), (
+                f"independent all-anchor oracle rejected geometry={geometry.id}, width={width}"
+            )
+            assert validate_periodic_law(width, [geometry]) == (geometry,)

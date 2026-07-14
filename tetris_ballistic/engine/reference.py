@@ -209,9 +209,7 @@ class ReferencePlacement:
         stopping_face_kinds = (
             _SUPPORT_FACE_KINDS if self.contact_kind is ContactKind.SUPPORTED_V1 else _EDGE_FIRST_FACE_KINDS
         )
-        expected_stopping_contacts = tuple(
-            contact for contact in self.contacts if contact.kind in stopping_face_kinds
-        )
+        expected_stopping_contacts = tuple(contact for contact in self.contacts if contact.kind in stopping_face_kinds)
         if self.stopping_contacts != expected_stopping_contacts:
             raise ValueError("stopping_contacts do not match the selected stopping predicate")
         causal_face_kinds = (
@@ -219,9 +217,7 @@ class ReferencePlacement:
             if self.contact_kind is ContactKind.EDGE_FIRST_CONTACT_V1 and self.early_arrest_gap > 0
             else _SUPPORT_FACE_KINDS
         )
-        expected_causal_contacts = tuple(
-            contact for contact in self.contacts if contact.kind in causal_face_kinds
-        )
+        expected_causal_contacts = tuple(contact for contact in self.contacts if contact.kind in causal_face_kinds)
         if self.causal_contacts != expected_causal_contacts:
             raise ValueError("causal_contacts do not match the selected stopping law")
         if not self.causal_contacts:
@@ -293,10 +289,7 @@ def _has_lateral_contact(
     width: int,
     occupied: frozenset[WorldCell],
 ) -> bool:
-    return any(
-        ((x - 1) % width, y) in occupied or ((x + 1) % width, y) in occupied
-        for x, y in piece_cells
-    )
+    return any(((x - 1) % width, y) in occupied or ((x + 1) % width, y) in occupied for x, y in piece_cells)
 
 
 def _candidate_heights(
@@ -342,8 +335,7 @@ def _landing_height(
         if not _is_valid(piece_cells, area=geometry_area, occupied=state.occupied):
             continue
         if _has_support(piece_cells, state.occupied) or (
-            include_lateral
-            and _has_lateral_contact(piece_cells, width=state.width, occupied=state.occupied)
+            include_lateral and _has_lateral_contact(piece_cells, width=state.width, occupied=state.occupied)
         ):
             valid_landings.append(height)
     if not valid_landings:  # pragma: no cover - floor support guarantees a candidate for valid inputs
@@ -385,6 +377,13 @@ def validate_periodic_law(
     later trajectory/configuration route will make this preflight mandatory.
     The returned tuple is a defensive immutable snapshot of the validated
     geometry sequence.
+
+    One canonical anchor suffices for each geometry.  For fixed width, cyclic
+    horizontal translation is a bijection of lattice sites and an automorphism
+    of the periodic N4 graph.  Wrapping at any anchor is therefore the
+    anchor-zero wrapping followed by such a translation, so both cell
+    cardinality and the internal adjacency graph have the same verdict at
+    every anchor.
     """
 
     state = SparseAggregate.empty(width)
@@ -411,8 +410,7 @@ def validate_periodic_law(
 
     for geometry in snapshot:
         local_cells = tuple((delta_x, delta_y) for delta_y, delta_x in geometry.world_coordinates)
-        for anchor_x in range(state.width):
-            _validate_wrapping(local_cells, state=state, anchor_x=anchor_x)
+        _validate_wrapping(local_cells, state=state, anchor_x=0)
     return snapshot
 
 
@@ -435,7 +433,9 @@ def _contact_faces(
 
         right_neighbor = ((x + 1) % state.width, y)
         if right_neighbor in state.occupied:
-            contacts.append(ContactFace(ContactFaceKind.LATERAL_RIGHT, piece_cell, right_neighbor, x == state.width - 1))
+            contacts.append(
+                ContactFace(ContactFaceKind.LATERAL_RIGHT, piece_cell, right_neighbor, x == state.width - 1)
+            )
 
         above_neighbor = (x, y + 1)
         if above_neighbor in state.occupied:
@@ -500,9 +500,7 @@ def place_one(
         landing_y=landing_y,
     )
     contacts = _contact_faces(piece_cells, state=state)
-    stopping_face_kinds = (
-        _SUPPORT_FACE_KINDS if contact_kind is ContactKind.SUPPORTED_V1 else _EDGE_FIRST_FACE_KINDS
-    )
+    stopping_face_kinds = _SUPPORT_FACE_KINDS if contact_kind is ContactKind.SUPPORTED_V1 else _EDGE_FIRST_FACE_KINDS
     stopping_contacts = tuple(contact for contact in contacts if contact.kind in stopping_face_kinds)
     causal_face_kinds = (
         _LATERAL_FACE_KINDS
