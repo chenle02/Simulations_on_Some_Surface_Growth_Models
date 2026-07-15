@@ -4,10 +4,11 @@
 
 **Status:** M1.1 contracts plus provisional S2.1 exact placement, S2.2
 counter-addressed semantic-RNG oracles, and S2.3 explicit-order exact-law/
-one-stream selection records, plus S2.4 fixed-order tetromino event selection
-without placement and pure exact reference-state and already-certified-
-placement primitive extractors; selection/placement composition, accumulation,
-trajectory routing, and shared cross-repository schemas are not implemented
+one-stream selection records, plus S2.4 fixed-order tetromino event selection,
+an explicit reference-only one-event selection-to-placement binder, and
+pure exact reference-state and already-certified-placement primitive
+extractors; accumulation, checkpoint/persistence identity, trajectory routing,
+and shared cross-repository schemas are not implemented
 
 **Compatibility target:** backward-compatible 2.1.x transition, then 3.0.0 only after migration gates
 
@@ -659,7 +660,54 @@ route, multi-event trajectory, optimized kernel, CLI, scheduler, Easley/Slurm/
 HPC route, release, or production path. Article S1a-09, M1.2, and overall S2
 therefore remain open.
 
-### 6.11 Clocks
+### 6.11 Provisional reference event-placement binding
+
+`tetris_ballistic.engine.binding` is an explicit-submodule-only bridge from one
+already-created S2.4 selection certificate to one S2.1 slow-reference
+placement. It is not re-exported from `tetris_ballistic` or
+`tetris_ballistic.engine`. The provisional surface contains
+
+- frozen, slotted `ReferenceEventPlacement(selection, placement)`, whose two
+  stored fields retain defensively reconstructed `TetrominoEventSelection` and
+  `ReferencePlacement` certificates; and
+- keyword-only `place_selected_event(*, state, selection)`, which accepts an
+  exact `SparseAggregate` and exact `TetrominoEventSelection`.
+
+Validation proceeds state first and then selection. The launch-law upper bound
+must equal the state width; an incidentally in-range selected anchor does not
+repair a mismatched launch law. Before placement, the binder derives the full
+positive joint geometry support in fixed family and per-family orientation
+order: a geometry is reachable exactly when both its family count and its
+orientation count are positive. Zero-family branches and zero-orientation
+slots are retained in the selection law but excluded from the executable
+support. Every reachable ID is resolved through the ratified 19-orientation
+registry, its family is checked, and `validate_periodic_law` preflights that
+complete support. Thus a narrow selected geometry cannot hide a different
+reachable orientation that is invalid at the same periodic width.
+
+The selected contact ID maps only to `ContactKind.SUPPORTED_V1` or
+`ContactKind.EDGE_FIRST_CONTACT_V1`. After all caller-controlled validation and
+law-wide preflight pass, the function calls `place_one` exactly once. It
+defensively recertifies the delegated result and requires exact agreement in
+selected geometry and family, launch anchor, contact endpoint, pre-state,
+placed mass, and disjoint state transition before returning the composite
+certificate. Direct `ReferenceEventPlacement` construction enforces the same
+selection/placement cross-field and positive-support periodic-law identities.
+
+The binder does not call `select_event`, any one-stream selector, RNG, or either
+observable extractor. In particular, it does not replay Philox: a directly
+constructed, structurally valid `TetrominoEventSelection` remains
+non-authenticating, while a record originally returned by `select_event`
+retains its certified address/law/draw evidence unchanged. The result is an
+in-memory one-event certificate, not a serialization or persistence identity.
+
+This unit adds no event/contact accumulator, checkpoint or persistence schema,
+canonical digest, `SimulationConfig` or legacy adapter, multi-event trajectory,
+optimized kernel, CLI, scheduler, Easley/Slurm/HPC route, release, or production
+path. Article S1a-09 executable completion, M1.2, and overall S2 remain open;
+S3 and all later gates remain closed.
+
+### 6.12 Clocks
 
 The engine records, without substitution,
 
@@ -670,7 +718,7 @@ The engine records, without substitution,
 
 `ClockKind` is an enum in analysis APIs. Every fitted quantity records its clock. A function must not silently change from one clock to another.
 
-### 6.12 Configuration
+### 6.13 Configuration
 
 `SimulationConfig` contains
 
@@ -687,7 +735,7 @@ The engine records, without substitution,
 
 Validation occurs before allocation or simulation. During M1.1, the typed objects expose only the repository-local digest profiles `tetris-ballistic/software-geometry-record@1` and `tetris-ballistic/software-config-record@1`. These digests are not shared scientific identities and must not be compared with data-repository record hashes. A shared result-bundle projection remains an M1.3 gate.
 
-### 6.13 Results
+### 6.14 Results
 
 `SimulationResult` exposes read-only-by-contract arrays or defensive copies for
 
@@ -975,9 +1023,10 @@ Add and maintain
 ### M1.2 — reference engine extraction
 
 - complete the pure exact state- and already-certified-placement-primitives
-  slices under the explicit `engine.observables` submodule while leaving
-  selection/placement binding, event/contact accumulation, checkpoints, I/O,
-  and trajectories open;
+  slices under the explicit `engine.observables` submodule and the exact
+  one-event selection-to-placement certificate under explicit
+  `engine.binding`, while leaving event/contact accumulation, checkpoints,
+  I/O, configuration execution, and trajectories open;
 - separate state, placement, RNG, observables, and I/O from the legacy class;
 - preserve legacy adapters and golden behavior;
 - add contact-rule and multi-clock instrumentation.

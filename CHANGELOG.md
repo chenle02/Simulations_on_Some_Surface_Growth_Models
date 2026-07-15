@@ -31,6 +31,19 @@ change.
 
 ### Added
 
+- A provisional reference-only selection-to-placement binder under the
+  explicit `tetris_ballistic.engine.binding` submodule. Given one exact sparse
+  state and one already-created `TetrominoEventSelection`,
+  `place_selected_event` defensively reconstructs both, requires the launch-law
+  bound to equal the substrate width, derives and preflights the complete
+  positive family--orientation support, and calls `place_one` exactly once.
+  The frozen `ReferenceEventPlacement` result retains both the selection and
+  placement certificates and recertifies their geometry/family, launch anchor,
+  contact endpoint, and pre-state binding. It never selects or replays RNG and
+  adds no accumulation, checkpoint/persistence/identity schema, configuration
+  route, multi-event trajectory, legacy/optimized route, root export,
+  Easley/Slurm/HPC path, release, or production path; Article S1a-09, M1.2,
+  and overall S2 remain open.
 - A provisional pure reference-placement primitive extractor under the
   explicit `tetris_ballistic.engine.observables` submodule. Given one
   already-created `ReferencePlacement`, `measure_placement` defensively
