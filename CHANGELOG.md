@@ -31,6 +31,23 @@ change.
 
 ### Added
 
+- A provisional exact event/contact fold under the explicit
+  `tetris_ballistic.engine.accumulation` submodule. A keyword-only start
+  operation creates a canonical empty-origin `ReferenceEventAccumulator`, and
+  a keyword-only fold consumes one already-bound `ReferenceEventPlacement` at
+  the exact next ordinal. The frozen record retains independently recertified
+  mass, envelope moments, void count, fixed family/orientation/contact/face
+  marginals, contact multiplicities, translation-invariant support topology,
+  whole-envelope histograms, strict envelope flow, signed contact-gap and
+  topology strata, and exact roughness-numerator projections. Every fold
+  cross-binds one exactly-once placement measurement to pristine event and
+  state authorities and admits the terminal count `2**64` only after consuming
+  ordinal `2**64 - 1`. Direct records remain structurally consistent claimed-
+  prefix summaries, not authenticated histories or RNG evidence. The module is
+  not root-exported and adds no selection, placement, merge, checkpoint/
+  persistence identity, serialization, configuration route, multi-event
+  driver, optimized path, CLI, Easley/Slurm/HPC route, release, or production
+  path; Article S1a-09, M1.2, and overall S2 remain open.
 - A provisional reference-only selection-to-placement binder under the
   explicit `tetris_ballistic.engine.binding` submodule. Given one exact sparse
   state and one already-created `TetrominoEventSelection`,

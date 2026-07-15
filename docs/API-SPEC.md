@@ -7,8 +7,9 @@ counter-addressed semantic-RNG oracles, and S2.3 explicit-order exact-law/
 one-stream selection records, plus S2.4 fixed-order tetromino event selection,
 an explicit reference-only one-event selection-to-placement binder, and
 pure exact reference-state and already-certified-placement primitive
-extractors; accumulation, checkpoint/persistence identity, trajectory routing,
-and shared cross-repository schemas are not implemented
+extractors, plus an explicit-only exact in-memory event/contact accumulator;
+checkpoint/persistence identity, trajectory routing, and shared
+cross-repository schemas are not implemented
 
 **Compatibility target:** backward-compatible 2.1.x transition, then 3.0.0 only after migration gates
 
@@ -707,7 +708,107 @@ optimized kernel, CLI, scheduler, Easley/Slurm/HPC route, release, or production
 path. Article S1a-09 executable completion, M1.2, and overall S2 remain open;
 S3 and all later gates remain closed.
 
-### 6.12 Clocks
+### 6.12 Provisional reference event/contact accumulation
+
+`tetris_ballistic.engine.accumulation` is an explicit-submodule-only fold over
+already-created `ReferenceEventPlacement` certificates. It is not re-exported
+from `tetris_ballistic` or `tetris_ballistic.engine`. Its public surface is
+limited to the frozen, slotted `ReferenceEventAccumulator` record and two
+keyword-only functions:
+
+```python
+start_event_accumulator(
+    *,
+    empty_state: SparseAggregate,
+    root_seed: int,
+    coupling_group_id: str,
+    law: TetrominoEventLaw,
+) -> ReferenceEventAccumulator
+
+accumulate_event(
+    *,
+    accumulator: ReferenceEventAccumulator,
+    event: ReferenceEventPlacement,
+) -> ReferenceEventAccumulator
+```
+
+Start accepts only a recertified canonical empty state. The frozen event law's
+launch bound must equal that state's width, and its complete positive
+family--orientation support must satisfy the existing periodic-law preflight.
+The initial event count and every additive total are zero, while the five
+family, 19-orientation, two-contact, and five face-kind tuples retain all
+declared zero slots. The address contract is inherited from event selection:
+the root seed is a built-in integer in `[0, 2**128 - 1]`, the coupling group is
+nonempty built-in UTF-8 text whose length-framed encoding is at most
+`2**32 - 1` bytes, and event ordinals lie in `[0, 2**64 - 1]`.
+
+Each fold first recertifies the supplied accumulator and bound event, then
+requires identical root, coupling group, law, and width; an event ordinal equal
+to the current event count; and an event pre-state equal to the current state.
+The terminal ordinal `2**64 - 1` may be consumed to produce event count
+`2**64`; every later fold fails before measurement. One placement primitive is
+measured exactly once across an adversarial delegate boundary. Every consumed
+primitive is cross-bound to pristine detached selection, placement, and
+independently measured pre/post-state authorities before the post-state becomes
+the next current state.
+
+The accumulator retains exact integers and canonical immutable tuples for:
+
+- current mass, height sum, height-square sum, below-envelope volume, and void
+  count;
+- fixed family, orientation, contact endpoint, final face-kind, and causal
+  face-kind counts;
+- seam-lateral faces, per-event distinct contacting-cell/support-site/support-
+  column multiplicities, and floor-/aggregate-support event flags;
+- sparse landing-gap, support-cluster, support-span, and normalized cyclic
+  support-gap-signature counts;
+- whole-envelope pre/post height histograms, including arithmetically counted
+  zero-height columns, plus strict per-column envelope-change flow;
+- contact--gap--signed-delta strata and orientation--contact--topology strata,
+  the latter retaining count, signed void-delta sum, and signed roughness-
+  numerator-delta sum; and
+- cumulative height, squared-height, and signed void deltas.
+
+The cyclic signature is the lexicographically least rotation of the placement
+primitive's certified gap tuple. This supplies translation-invariant
+accumulator keys without redefining the coordinate-tie-broken tuple at the
+placement API boundary. Contact keys contain the selected built-in rule ID
+string; only face-kind tuples contain exact `ContactFaceKind` values. Sparse
+count entries have positive counts and are strictly sorted and duplicate-free;
+topology records have the same canonical ordering. Nested lists, dictionaries,
+booleans in integer positions, subclasses, aliases, and mutable values are
+rejected.
+
+Direct construction performs structural recertification. Among its normative
+projections are
+
+```text
+occupied_mass = 4 * event_count,
+height_sum = occupied_mass + void_count = below_envelope_volume,
+R = width * height_square_sum - height_sum**2 >= 0.
+```
+
+Family/orientation/contact marginals, topology/contact joint tables, signed
+delta sums, whole-envelope histogram flow, and per-column envelope changes
+must all reproduce their common totals and the independently measured current
+state. Every pre/post histogram contributes exactly `width` columns per event;
+strict envelope changes contribute at most four columns per event and telescope
+from the all-zero initial envelope. All arithmetic uses exact Python integers.
+
+This value is a structurally consistent claimed-prefix summary, not an
+authenticated history. An uninterrupted caller-observed chain beginning at
+`start_event_accumulator` procedurally enforces empty origin and one-step
+ordinal/state continuity, but a directly constructed equal record proves
+neither its historical events nor Philox provenance. No lineage token, digest,
+journal, merge operation, serialization, or persistence identity is implied.
+
+The unit performs no RNG or event selection, no placement, no trajectory
+driving, no configuration or legacy adaptation, no floating summary, no I/O,
+and no optimized, CLI, scheduler, Easley/Slurm/HPC, release, or production
+routing. It advances the in-memory reference instrumentation but completes
+neither Article S1a-09, M1.2, nor overall S2; all later gates remain closed.
+
+### 6.13 Clocks
 
 The engine records, without substitution,
 
@@ -718,7 +819,7 @@ The engine records, without substitution,
 
 `ClockKind` is an enum in analysis APIs. Every fitted quantity records its clock. A function must not silently change from one clock to another.
 
-### 6.13 Configuration
+### 6.14 Configuration
 
 `SimulationConfig` contains
 
@@ -735,7 +836,7 @@ The engine records, without substitution,
 
 Validation occurs before allocation or simulation. During M1.1, the typed objects expose only the repository-local digest profiles `tetris-ballistic/software-geometry-record@1` and `tetris-ballistic/software-config-record@1`. These digests are not shared scientific identities and must not be compared with data-repository record hashes. A shared result-bundle projection remains an M1.3 gate.
 
-### 6.14 Results
+### 6.15 Results
 
 `SimulationResult` exposes read-only-by-contract arrays or defensive copies for
 
@@ -1025,8 +1126,9 @@ Add and maintain
 - complete the pure exact state- and already-certified-placement-primitives
   slices under the explicit `engine.observables` submodule and the exact
   one-event selection-to-placement certificate under explicit
-  `engine.binding`, while leaving event/contact accumulation, checkpoints,
-  I/O, configuration execution, and trajectories open;
+  `engine.binding`, plus the exact in-memory fold of an already-bound event
+  under explicit `engine.accumulation`, while leaving checkpoint/persisted-byte
+  identity, I/O, configuration execution, and trajectories open;
 - separate state, placement, RNG, observables, and I/O from the legacy class;
 - preserve legacy adapters and golden behavior;
 - add contact-rule and multi-clock instrumentation.
