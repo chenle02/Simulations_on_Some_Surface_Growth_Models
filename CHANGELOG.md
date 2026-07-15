@@ -31,6 +31,23 @@ change.
 
 ### Added
 
+- A provisional PRE one-cell common-random-number selector under the explicit
+  `tetris_ballistic.engine.one_cell_coupling` submodule. The keyword-only
+  operation fixes coupling group `pre-one-cell-discovery-v1`, the ordered
+  `launch`/`contact` stream schedule, and stickiness thresholds
+  `(0, 1, 2, 5, 10, 25, 50, 100)`; it consumes one exact uniform launch draw
+  and one exact uniform contact draw per event, then derives all eight nested
+  arm decisions by the strict predicate `contact < threshold`. Returned frozen
+  evidence retains the root, event, width, both selected values, and both
+  accepted-rejection ordinals. Certification covers every contact integer and
+  every planned campaign width; persistent vectors pin stream keys, strict
+  threshold boundaries, forced rejection, and an unequal-width case that
+  distinguishes a shared raw candidate tape from a shared accepted variate.
+  The module is not root-exported and performs no transition, arm-state
+  evolution, trajectory, accumulation, persistence, configuration or legacy
+  adaptation, compiled RNG/kernel execution, CLI, Easley/Slurm/HPC routing,
+  release, or production dispatch; it does not close the compiled-RNG
+  admission gate.
 - A provisional pure transition under the explicit
   `tetris_ballistic.engine.one_cell` submodule for the clean
   `one-cell-rd-bd-periodic-v1` law. The keyword-only operation snapshots a

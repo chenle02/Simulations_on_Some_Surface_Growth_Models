@@ -1,6 +1,6 @@
 # `tetris-ballistic` Community API and Architecture Specification
 
-**Specification version:** 0.5.1
+**Specification version:** 0.5.2
 
 **Status:** M1.1 contracts plus provisional S2.1 exact placement, S2.2
 counter-addressed semantic-RNG oracles, and S2.3 explicit-order exact-law/
@@ -8,7 +8,8 @@ one-stream selection records, plus S2.4 fixed-order tetromino event selection,
 an explicit reference-only one-event selection-to-placement binder, and
 pure exact reference-state and already-certified-placement primitive
 extractors, plus an explicit-only exact in-memory event/contact accumulator
-and a separate explicit-only clean periodic one-cell event transition;
+and separate explicit-only clean periodic one-cell transition and PRE
+two-stream common-random-number event selector;
 checkpoint/persistence identity, trajectory routing, and shared
 cross-repository schemas are not implemented
 
@@ -883,7 +884,87 @@ configuration/legacy dispatch, hard-wall or finite-ceiling law, float archive,
 optimized kernel, CLI, scheduler, Easley/Slurm/HPC route, release, or
 production path. Existing legacy and tetromino semantics remain unchanged.
 
-### 6.14 Clocks
+### 6.14 Provisional PRE one-cell coupled event selection
+
+`tetris_ballistic.engine.one_cell_coupling` is an explicit-submodule-only,
+stateless composition of the certified S2.2 semantic RNG and S2.3 uniform
+selection layers. It is not re-exported from `tetris_ballistic` or
+`tetris_ballistic.engine`; neither package `__init__.py` changes. Its complete
+provisional surface is
+
+```python
+from tetris_ballistic.engine.one_cell_coupling import (
+    ONE_CELL_CONTACT_DENOMINATOR,
+    ONE_CELL_COUPLING_GROUP_ID,
+    ONE_CELL_STICKINESS_THRESHOLDS,
+    ONE_CELL_STREAM_SET,
+    OneCellCoupledEventSelection,
+    select_one_cell_coupled_event,
+)
+```
+
+The model-level coupling identity and logical schedule are fixed internally:
+
+```text
+coupling group = pre-one-cell-discovery-v1
+streams        = (launch, contact)
+thresholds     = (0, 1, 2, 5, 10, 25, 50, 100)
+
+launch  ~ uniform_below(width)
+contact ~ uniform_below(100)
+```
+
+The keyword-only selector accepts a built-in unsigned 128-bit root seed, a
+built-in unsigned 64-bit event ordinal, and a built-in integer width in
+`[3, 2**64]`. Scientific root index `r` is supplied unchanged as the numerical
+root seed, and event ordinals are zero based. It validates the complete fixed
+contract and request before any draw, then calls the S2.3 uniform selector
+exactly twice in the displayed order. No arm, width, or endpoint is an implicit
+stream-key salt, and no categorical, floating probability, per-arm Bernoulli,
+or endpoint shortcut is permitted.
+
+All eight arms share the selected launch column and contact integer. In the
+fixed threshold order, the sticky-endpoint predicate is literally
+
+```text
+contact_value < threshold.
+```
+
+Therefore equality at a threshold is nonsticky for that arm. The 0% arm is
+always nonsticky and the 100% arm always sticky, but both retain the common
+event-level contact draw. The eight decisions are nested and have seven
+possible Boolean patterns over contact values 0 through 99.
+
+The frozen, slotted `OneCellCoupledEventSelection` retains the root, event,
+width, launch `UniformSelection`, and contact `UniformSelection`, including
+both accepted-rejection ordinals. Its type fixes the coupling group and stream
+schedule; read-only properties expose those identities, the shared launch and
+contact values, the eight sticky flags, and threshold--decision pairs. Nested
+selection records are defensively reconstructed. A malformed launch delegate
+fails before contact; a malformed contact delegate fails after the second
+logical call.
+
+At equal root seed and event ordinal, widths in one coupling group share the
+launch raw candidate tape, not necessarily the accepted launch value: unequal
+bounds can reject at different ordinals. Their contact selection is identical
+because its address and bound 100 are identical. Launch rejection cannot shift
+contact or later events. The root remains the resampling block; coupled widths
+and arms are not independent replicates. Persistent exact keys, raw words,
+planned-width mappings, threshold boundaries, and unequal-width rejection
+evidence are recorded in `docs/PRE-ONE-CELL-COUPLING-VECTORS.md`.
+
+Direct record construction enforces structural consistency but does not replay
+Philox. Certified semantic provenance applies to selector-produced records.
+This slice performs no call to the deterministic one-cell transition, no
+arm-state evolution, trajectory, accumulator, checkpoint or persistence
+identity, canonical serialization, configuration or legacy route, compiled
+RNG or optimized kernel, CLI, scheduler, Easley/Slurm/HPC route, release, or
+production dispatch. It therefore does not close the protocol's compiled-RNG
+admission gate, complete common correctness, or authorize scientific
+acquisition; boundary-law certification, compiled/scalar trajectory
+equivalence, interruption/resume, and campaign-identity gates remain open.
+
+### 6.15 Clocks
 
 The engine records, without substitution,
 
@@ -894,7 +975,7 @@ The engine records, without substitution,
 
 `ClockKind` is an enum in analysis APIs. Every fitted quantity records its clock. A function must not silently change from one clock to another.
 
-### 6.15 Configuration
+### 6.16 Configuration
 
 `SimulationConfig` contains
 
@@ -911,7 +992,7 @@ The engine records, without substitution,
 
 Validation occurs before allocation or simulation. During M1.1, the typed objects expose only the repository-local digest profiles `tetris-ballistic/software-geometry-record@1` and `tetris-ballistic/software-config-record@1`. These digests are not shared scientific identities and must not be compared with data-repository record hashes. A shared result-bundle projection remains an M1.3 gate.
 
-### 6.16 Results
+### 6.17 Results
 
 `SimulationResult` exposes read-only-by-contract arrays or defensive copies for
 
