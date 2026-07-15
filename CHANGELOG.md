@@ -31,6 +31,26 @@ change.
 
 ### Added
 
+- A provisional pure three-boundary scalar transition under the explicit
+  `tetris_ballistic.engine.one_cell_boundary` submodule. The keyword-only
+  operation covers `periodic-v1`, archived
+  `hard-wall-legacy-asymmetric-v1`, and corrected
+  `hard-wall-reflection-symmetric-v1`; returns a frozen, self-validating
+  certificate with physical neighbor existence, separate law eligibility,
+  exact height/void/squared-height increments, endpoint and positive-gap
+  distinctions, eligible causal side, height-defined equality mask, and
+  boundary-appropriate seam status; and delegates the periodic route exactly
+  once to the Slice 1 authority. Certification exhausts 12,672 events per law
+  at widths 3--5 and heights 0--3, pins five identical exp14 source and kernel
+  archives, compares the legacy route with an independent inverted-row oracle
+  and an exact executable archived-method fixture, compares the corrected route
+  with a separately written physical-height oracle, and proves corrected
+  reflection symmetry while retaining the named archived `x=1` defect. The
+  module is not root-exported and adds no RNG, coupled-arm evolution,
+  accumulation, trajectory, compiled path, persistence,
+  configuration/legacy dispatch, CLI, Easley/Slurm/HPC route, release, or
+  production path; compiled RNG, trajectory equivalence, resume, campaign
+  identity, and scientific acquisition remain gated.
 - A provisional PRE one-cell common-random-number selector under the explicit
   `tetris_ballistic.engine.one_cell_coupling` submodule. The keyword-only
   operation fixes coupling group `pre-one-cell-discovery-v1`, the ordered

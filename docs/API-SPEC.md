@@ -1,6 +1,6 @@
 # `tetris-ballistic` Community API and Architecture Specification
 
-**Specification version:** 0.5.2
+**Specification version:** 0.5.3
 
 **Status:** M1.1 contracts plus provisional S2.1 exact placement, S2.2
 counter-addressed semantic-RNG oracles, and S2.3 explicit-order exact-law/
@@ -9,7 +9,9 @@ an explicit reference-only one-event selection-to-placement binder, and
 pure exact reference-state and already-certified-placement primitive
 extractors, plus an explicit-only exact in-memory event/contact accumulator
 and separate explicit-only clean periodic one-cell transition and PRE
-two-stream common-random-number event selector;
+two-stream common-random-number event selector, plus an explicit-only
+three-boundary scalar one-cell transition with archived and corrected
+hard-wall laws;
 checkpoint/persistence identity, trajectory routing, and shared
 cross-repository schemas are not implemented
 
@@ -961,10 +963,137 @@ identity, canonical serialization, configuration or legacy route, compiled
 RNG or optimized kernel, CLI, scheduler, Easley/Slurm/HPC route, release, or
 production dispatch. It therefore does not close the protocol's compiled-RNG
 admission gate, complete common correctness, or authorize scientific
-acquisition; boundary-law certification, compiled/scalar trajectory
-equivalence, interruption/resume, and campaign-identity gates remain open.
+acquisition. Boundary-law certification is addressed separately in Section
+6.15; compiled/scalar trajectory equivalence, interruption/resume, and
+campaign-identity gates remain open.
 
-### 6.15 Clocks
+### 6.15 Provisional PRE one-cell scalar boundary transition
+
+`tetris_ballistic.engine.one_cell_boundary` is an
+explicit-submodule-only, deterministic one-event oracle for the three PRE
+boundary laws. It is not re-exported from `tetris_ballistic` or
+`tetris_ballistic.engine`; neither package `__init__.py` changes. Its complete
+provisional surface is
+
+```python
+from tetris_ballistic.engine.one_cell_boundary import (
+    OneCellBoundaryLaw,
+    OneCellBoundaryTransition,
+    transition_one_cell_boundary,
+)
+```
+
+The exact `OneCellBoundaryLaw` values are
+
+```text
+periodic-v1
+hard-wall-legacy-asymmetric-v1
+hard-wall-reflection-symmetric-v1
+```
+
+`transition_one_cell_boundary` is keyword-only. It accepts one exact enum
+member, a plain `list` or `tuple` of at least three nonnegative built-in
+integer heights, a built-in launch integer in `[0, width)`, and a built-in
+Boolean `sticky_endpoint_selected`. It snapshots the full interface as an
+immutable tuple and never mutates the caller's sequence. Wrong concrete types
+raise `TypeError`; legal concrete types outside the scalar domain raise
+`ValueError`. Heights use arbitrary-precision Python integers; production
+storage bounds remain a later gate.
+
+For physical launch height `a`, set `vertical = a + 1`. Every nonsticky event
+has `post = vertical`. For a selected sticky event, the exact recurrences are
+
+```text
+periodic:          post = max(vertical, h[(x-1) mod L], h[(x+1) mod L])
+legacy hard wall:  post = max(vertical,
+                              h[x-1] if x > 1,
+                              h[x+1] if x < L-1)
+corrected wall:    post = max(vertical,
+                              h[x-1] if x > 0,
+                              h[x+1] if x < L-1).
+```
+
+Only the launch column changes. Neighbor eligibility is determined solely by
+boundary law and position, independent of endpoint selection. Both periodic
+neighbors are eligible. For either hard wall, the right neighbor is eligible
+exactly at `x < L-1`; the legacy left guard is `x > 1`, while the corrected
+guard is `x > 0`. A nonsticky event simply ignores otherwise eligible
+neighbors.
+
+The frozen, slotted `OneCellBoundaryTransition` retains the boundary enum,
+immutable pre/post height tuples, launch and endpoint selection, optional
+physical left and right pre-heights, launch pre-height, separate left/right
+eligibility flags, launch post-height, exact `delta_s`, `delta_v`, and
+`delta_q`, positive-gap trigger, the Slice 1 `OneCellCausalSide`, equality
+mask, and `seam_equality: bool | None`. Its only derived properties are
+`width` and `gap`, with `gap == delta_v`; the boundary enum is the identity,
+so no duplicate `model_id` property is added. Direct construction reruns the
+selected recurrence without calling the Slice 1 delegate and rejects
+inconsistent local heights, eligibility, deltas, classifications, or
+off-launch changes.
+
+A missing hard-wall neighbor is `None`. An existing neighbor retains its
+physical height even if the legacy law makes it ineligible. The equality mask
+therefore remains height-defined on every physical neighbor:
+
+```text
+mask = 1 * (post == a + 1)
+     + 2 * (existing left height == post)
+     + 4 * (existing right height == post).
+```
+
+The positive-gap trigger is true exactly when the sticky endpoint was selected
+and `delta_v > 0`. Causal sides consider only law-eligible neighbors attaining
+`post` on such an event. Thus at `(1, 0, 0)`, launch 1, sticky selected, the
+legacy result has equality mask 3 but no causal side: the left neighbor exists
+and is height-equal, yet is ineligible. Periodic seam equality is Boolean;
+hard-wall seam equality is not applicable and is exactly `None`, never a
+physical false or zero.
+
+The periodic route calls the already certified
+`transition_one_cell_periodic` exactly once with the immutable request. It
+requires an exact-type, fully self-validating result, cross-binds that result
+to the complete request, and projects every Slice 1 certificate field into the
+unified boundary record. Wrong-type, subclass, malformed, or cross-request
+delegate results fail closed. Hard-wall routes never call the periodic
+delegate.
+
+The archived legacy authority comprises exp14 commits
+`767577aaa00988a3eeb8a4a5a6c795234cb89aa2`,
+`06d3e38c2fbdb19f8bc47ed24d09181e21e39bbf`,
+`58b17f814c0b0e6c3e4f72ab62f072a2792e86e9`,
+`a47ec6c6606bc78a86427cca7a2f331c68dce653`, and
+`218819fb67742f9f4652176cd61c180713edd448`. Their Python one-cell code is
+identical at blob `8c4f64f71a1e2b1769dbd1b37fee3c40df608323`, SHA-256
+`3ce8ade36fa1e471fa54cce6e3b3fd8950f0ef21d734343423f46275e83dc206`;
+their compiled one-cell kernel is also identical at blob
+`3d6bf4c3f6bc622b357be1a328fd5fe4541a3d99`, SHA-256
+`eaeb255240fa05610c6d77abdc93df15020c6699b47cafac6a7444e98acd74c7`.
+The certification suite embeds and executes the exact four archived method
+bodies and separately evaluates an independent archived-row translation; a
+local-history gate proves the embedded source equals the pinned blob. The
+normative vectors are recorded in `docs/PRE-ONE-CELL-BOUNDARY-VECTORS.md`, so
+shallow CI does not depend on historical Git objects.
+
+The fast certification suite exhausts widths 3--5, heights 0--3, every launch,
+and both endpoint selections: 12,672 cases per law. Periodic records match
+Slice 1 field for field; legacy records match both the exact executable
+archived engine fixture and an independent inverted-row oracle; corrected
+records match a separately written physical-height oracle and pass exhaustive
+reflection symmetry. The hard-wall laws differ in exactly 168 small-state
+cases, all and only at the archived `x=1` defect. The decisive `(5, 0, 0)`
+sticky witness yields legacy launch post-height 1 versus corrected post-height
+5.
+
+This slice adds no RNG or launch selection, coupled-arm evolution,
+accumulation, multi-event trajectory, compiled/Numba path, checkpoint or
+persistence identity, configuration or legacy dispatch, CLI, scheduler,
+Easley/Slurm/HPC route, release, or production path. It closes only
+common-correctness item 2 after source, package, review, CI, and parity gates;
+compiled RNG, compiled/scalar trajectories, interruption/resume, campaign
+identity, pilots, canaries, and scientific acquisition remain closed.
+
+### 6.16 Clocks
 
 The engine records, without substitution,
 
@@ -975,7 +1104,7 @@ The engine records, without substitution,
 
 `ClockKind` is an enum in analysis APIs. Every fitted quantity records its clock. A function must not silently change from one clock to another.
 
-### 6.16 Configuration
+### 6.17 Configuration
 
 `SimulationConfig` contains
 
@@ -992,7 +1121,7 @@ The engine records, without substitution,
 
 Validation occurs before allocation or simulation. During M1.1, the typed objects expose only the repository-local digest profiles `tetris-ballistic/software-geometry-record@1` and `tetris-ballistic/software-config-record@1`. These digests are not shared scientific identities and must not be compared with data-repository record hashes. A shared result-bundle projection remains an M1.3 gate.
 
-### 6.17 Results
+### 6.18 Results
 
 `SimulationResult` exposes read-only-by-contract arrays or defensive copies for
 
