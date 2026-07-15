@@ -1,13 +1,14 @@
 # `tetris-ballistic` Community API and Architecture Specification
 
-**Specification version:** 0.5.0
+**Specification version:** 0.5.1
 
 **Status:** M1.1 contracts plus provisional S2.1 exact placement, S2.2
 counter-addressed semantic-RNG oracles, and S2.3 explicit-order exact-law/
 one-stream selection records, plus S2.4 fixed-order tetromino event selection,
 an explicit reference-only one-event selection-to-placement binder, and
 pure exact reference-state and already-certified-placement primitive
-extractors, plus an explicit-only exact in-memory event/contact accumulator;
+extractors, plus an explicit-only exact in-memory event/contact accumulator
+and a separate explicit-only clean periodic one-cell event transition;
 checkpoint/persistence identity, trajectory routing, and shared
 cross-repository schemas are not implemented
 
@@ -808,7 +809,81 @@ and no optimized, CLI, scheduler, Easley/Slurm/HPC, release, or production
 routing. It advances the in-memory reference instrumentation but completes
 neither Article S1a-09, M1.2, nor overall S2; all later gates remain closed.
 
-### 6.13 Clocks
+### 6.13 Provisional PRE clean periodic one-cell transition
+
+`tetris_ballistic.engine.one_cell` is an explicit-submodule-only,
+deterministic one-event oracle for `one-cell-rd-bd-periodic-v1`. It is not
+re-exported from `tetris_ballistic` or `tetris_ballistic.engine`; neither
+package `__init__.py` changes. Its complete provisional surface is
+
+```python
+from tetris_ballistic.engine.one_cell import (
+    ONE_CELL_PERIODIC_MODEL_ID,
+    OneCellCausalSide,
+    OneCellPeriodicTransition,
+    transition_one_cell_periodic,
+)
+```
+
+`transition_one_cell_periodic` is keyword-only. It accepts a plain `list` or
+`tuple` of at least three nonnegative built-in integer heights, a built-in
+launch integer already in `[0, width)`, and a built-in Boolean
+`sticky_endpoint_selected`. It snapshots the complete interface as an
+immutable tuple and never mutates the caller's sequence. Wrong concrete types
+raise `TypeError`; legal concrete types outside the model domain raise
+`ValueError`. Heights use arbitrary-precision Python integers in this oracle;
+production storage bounds remain a later gate.
+
+For launch height `a` and modulo-periodic pre-event neighbor heights `b` and
+`c`, the exact recurrence is
+
+```text
+vertical = a + 1
+post     = vertical                 if sticky_endpoint_selected is false
+post     = max(vertical, b, c)      if sticky_endpoint_selected is true
+```
+
+Only the launch column changes. The returned frozen, slotted
+`OneCellPeriodicTransition` retains immutable pre/post height tuples, the
+launch and endpoint selection, the three local pre-heights and launch
+post-height, and the exact integer primitives
+
+```text
+delta_s = post - a
+delta_v = post - (a + 1)
+delta_q = post**2 - a**2
+```
+
+Its `gap` property is exactly `delta_v`; `width` and `model_id` are also
+derived read-only properties. The record additionally retains the positive-gap
+trigger, causal side, equality mask, and periodic-seam equality. Direct record
+construction reruns the complete recurrence and rejects inconsistent local
+heights, deltas, classifications, or off-launch changes.
+
+The positive-gap trigger is true exactly when the sticky endpoint was selected
+and `delta_v > 0`. `OneCellCausalSide` is `none` without such a trigger;
+otherwise it is `left`, `right`, or `both` according to which pre-event
+neighbor heights attain `post`. This causal classification is deliberately
+separate from the fixed height-equality mask
+
+```text
+mask = 1 * (post == a + 1) + 2 * (b == post) + 4 * (c == post).
+```
+
+Lateral equality bits remain height-defined on nonsticky and selected-sticky
+zero-gap events and therefore do not imply causal arrest. `seam_equality` is
+true only for a mask-qualified left equality from launch column zero or a
+mask-qualified right equality from launch column `width - 1`; an incidental
+contact against a taller neighbor is not equality.
+
+This slice is independent of the legacy one-cell fast path and the tetromino
+event stack. It adds no RNG or launch selection, common-draw eight-arm
+coupling, accumulation, trajectory, checkpoint, persistence or serialization,
+configuration/legacy dispatch, hard-wall or finite-ceiling law, float archive,
+optimized kernel, CLI, scheduler, Easley/Slurm/HPC route, release, or
+production path. Existing legacy and tetromino semantics remain unchanged.
+
+### 6.14 Clocks
 
 The engine records, without substitution,
 
@@ -819,7 +894,7 @@ The engine records, without substitution,
 
 `ClockKind` is an enum in analysis APIs. Every fitted quantity records its clock. A function must not silently change from one clock to another.
 
-### 6.14 Configuration
+### 6.15 Configuration
 
 `SimulationConfig` contains
 
@@ -836,7 +911,7 @@ The engine records, without substitution,
 
 Validation occurs before allocation or simulation. During M1.1, the typed objects expose only the repository-local digest profiles `tetris-ballistic/software-geometry-record@1` and `tetris-ballistic/software-config-record@1`. These digests are not shared scientific identities and must not be compared with data-repository record hashes. A shared result-bundle projection remains an M1.3 gate.
 
-### 6.15 Results
+### 6.16 Results
 
 `SimulationResult` exposes read-only-by-contract arrays or defensive copies for
 

@@ -31,6 +31,19 @@ change.
 
 ### Added
 
+- A provisional pure transition under the explicit
+  `tetris_ballistic.engine.one_cell` submodule for the clean
+  `one-cell-rd-bd-periodic-v1` law. The keyword-only operation snapshots a
+  plain height sequence and applies one exact periodic RD/BD event, returning
+  a frozen, self-validating certificate with exact height, void, and squared-
+  height increments; endpoint and positive-gap distinctions; causal side;
+  fixed vertical/left/right equality mask; and separate seam equality. The
+  exhaustive suite compares 12,672 bounded one-event cases with both an
+  independent scalar oracle and the existing sparse periodic placement oracle,
+  and separately checks reachable hole-bearing prefixes. The module is not
+  root-exported and adds no RNG, coupled arms, accumulator, trajectory,
+  checkpoint/persistence identity, configuration or legacy route, optimized
+  kernel, CLI, Easley/Slurm/HPC route, release, or production path.
 - A provisional exact event/contact fold under the explicit
   `tetris_ballistic.engine.accumulation` submodule. A keyword-only start
   operation creates a canonical empty-origin `ReferenceEventAccumulator`, and
