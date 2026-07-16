@@ -31,6 +31,27 @@ change.
 
 ### Added
 
+- A provisional pre-derived-key compiled Philox4x64-10 and exact
+  bounded-integer surface under the explicit
+  `tetris_ballistic.engine.rng_compiled` submodule. Its three keyword-only
+  functions expose the four-lane bijection, lane-zero raw words at counters
+  `(event, rejection, 0, 0)`, and exact bounds from one through `2**64`; the
+  bounded result reuses the frozen scalar `SemanticDraw`. The implementation
+  contract requires unsigned limb multiplication, private `n - 1` bound
+  encoding, candidate evaluation even for bound one, identity mapping for
+  bound `2**64`, fail-before-wrap rejection accounting, and Numba nopython
+  signatures without object mode, floating point, fast math, or high-level
+  random distributions. Its conformance-receipt index pins the upstream,
+  project, PRE, and scalar-comparison digests and defines a 56-row base
+  manifest plus three supplementary probes and every applicable
+  exact-selection and complete-event uniform/raw projection, including natural
+  acceptance at rejection ordinals one, two, and five.
+  This module is not root-exported; it does not compile SHA-256 key derivation
+  or categorical interval search and adds no scheduler, transition,
+  trajectory, persistence, configuration/legacy, CLI, Easley/Slurm/HPC,
+  release, or scientific-acquisition route. The legacy `_kernel_1x1.py` is
+  neither imported nor an authority, and common-correctness items 4--6 remain
+  open gates.
 - A provisional pure three-boundary scalar transition under the explicit
   `tetris_ballistic.engine.one_cell_boundary` submodule. The keyword-only
   operation covers `periodic-v1`, archived

@@ -1,6 +1,6 @@
 # `tetris-ballistic` Community API and Architecture Specification
 
-**Specification version:** 0.5.3
+**Specification version:** 0.5.4
 
 **Status:** M1.1 contracts plus provisional S2.1 exact placement, S2.2
 counter-addressed semantic-RNG oracles, and S2.3 explicit-order exact-law/
@@ -11,7 +11,8 @@ extractors, plus an explicit-only exact in-memory event/contact accumulator
 and separate explicit-only clean periodic one-cell transition and PRE
 two-stream common-random-number event selector, plus an explicit-only
 three-boundary scalar one-cell transition with archived and corrected
-hard-wall laws;
+hard-wall laws, plus an explicit-only pre-derived-key compiled Philox and
+exact bounded-integer implementation contract;
 checkpoint/persistence identity, trajectory routing, and shared
 cross-repository schemas are not implemented
 
@@ -1093,7 +1094,76 @@ common-correctness item 2 after source, package, review, CI, and parity gates;
 compiled RNG, compiled/scalar trajectories, interruption/resume, campaign
 identity, pilots, canaries, and scientific acquisition remain closed.
 
-### 6.16 Clocks
+### 6.16 Provisional PRE compiled semantic-RNG primitives
+
+`tetris_ballistic.engine.rng_compiled` is an explicit-submodule-only,
+pre-derived-key implementation of the Philox and exact bounded-integer portion
+of `semantic-philox4x64-10-v1`. It is not re-exported from
+`tetris_ballistic` or `tetris_ballistic.engine`, and importing either root does
+not require the optional compiled dependency.
+
+Its complete public surface is
+
+```python
+philox4x64_10(*, counter, key) -> tuple[int, int, int, int]
+raw_u64_from_key(*, key, event_ordinal, rejection_ordinal=0) -> int
+uniform_below_from_key(*, key, event_ordinal, n) -> SemanticDraw
+```
+
+All calls are keyword-only. Counter and key containers are exact built-in
+tuples of, respectively, four and two exact unsigned-64 built-in integers;
+event, rejection, and bound values use the same fail-closed exact-type policy.
+The bounded call accepts every `n` in `[1, 2**64]` and returns the already
+certified frozen `tetris_ballistic.engine.rng.SemanticDraw`. The module neither
+duplicates that record nor introduces another RNG identity.
+
+This surface deliberately begins after key derivation. The certified scalar
+SHA-256 root/group/stream derivation remains a host operation; Slice 4 does not
+recompile SHA-256 or describe a partially scalar root-address wrapper as fully
+compiled. `raw_u64_from_key` selects output lane zero at counter
+`(event_ordinal, rejection_ordinal, 0, 0)`. `philox4x64_10` retains all four
+lanes so the complete Random123 known answers remain observable.
+
+For `M = 2**64`, `q = floor(M / n)`, and `T = q*n`, the exact bounded law
+rejects `word >= T` and otherwise returns `floor(word / q)`. The private
+compiled boundary encodes the public bound as unsigned word `n - 1`, making
+both endpoint bounds representable without an API sentinel. Bound one still
+evaluates its ordinal-zero candidate and returns zero; bound `2**64` accepts
+that candidate unchanged. Rejections increment only the second counter lane,
+retain the accepted zero-based ordinal, and fail before unsigned wrap.
+
+Numerical kernels use unsigned integer arithmetic, including limb-based exact
+high/low multiplication, and must acquire Numba nopython signatures. Object
+mode, floating point, fast math, high-level NumPy random operations, and calls
+to the scalar Philox or bounded implementation are outside the contract. The
+scalar module supplies only the shared result type and comparison evidence.
+
+The implementation and certification boundary is indexed by
+`docs/PRE-ONE-CELL-COMPILED-RNG-VECTORS.md`. That receipt pins the upstream
+Random123 suite; project `SEMANTIC-RNG-VECTORS.md`
+(`913258f0...18c34`), `EXACT-SELECTION-VECTORS.md`
+(`324f43f4...f21a9`), `COMPLETE-EVENT-SELECTION-VECTORS.md`
+(`331a445c...f2839`), and `PRE-ONE-CELL-COUPLING-VECTORS.md`
+(`74c1ab6e...eba3`); the scalar comparison digest; and the frozen PRE
+authority. The required suite begins with a 56-row base manifest plus three
+supplementary fixed key/raw probes, then replays every applicable
+exact-selection and complete-event underlying uniform/raw projection. It also
+covers endpoint and threshold neighbors, natural rejection chains accepted at
+ordinals one, two, and five, event/stream isolation, hostile boundaries, and
+demonstrated nopython signatures. Categorical examples are checked only at
+their bounded-uniform layer; categorical interval search is not part of this
+API.
+
+This slice adds no compiled key derivation, PRE two-draw scheduling, nested-arm
+evolution, transition, trajectory, chunk, accumulation, checkpoint, resume,
+persistence, configuration or legacy dispatch, CLI, benchmark claim,
+GPU/CUDA or scheduler route, Easley/Slurm/HPC submission, release, or
+production path. The legacy `_kernel_1x1.py` is neither imported nor an
+authority. Common-correctness item 3 closes only after all source, package,
+review, CI, and repository-parity gates pass. Items 4--6 remain open; all
+scientific acquisition remains closed.
+
+### 6.17 Clocks
 
 The engine records, without substitution,
 
@@ -1104,7 +1174,7 @@ The engine records, without substitution,
 
 `ClockKind` is an enum in analysis APIs. Every fitted quantity records its clock. A function must not silently change from one clock to another.
 
-### 6.17 Configuration
+### 6.18 Configuration
 
 `SimulationConfig` contains
 
@@ -1121,7 +1191,7 @@ The engine records, without substitution,
 
 Validation occurs before allocation or simulation. During M1.1, the typed objects expose only the repository-local digest profiles `tetris-ballistic/software-geometry-record@1` and `tetris-ballistic/software-config-record@1`. These digests are not shared scientific identities and must not be compared with data-repository record hashes. A shared result-bundle projection remains an M1.3 gate.
 
-### 6.18 Results
+### 6.19 Results
 
 `SimulationResult` exposes read-only-by-contract arrays or defensive copies for
 
