@@ -1,6 +1,6 @@
 # `tetris-ballistic` Community API and Architecture Specification
 
-**Specification version:** 0.5.5
+**Specification version:** 0.5.6
 
 **Status:** M1.1 contracts plus provisional S2.1 exact placement, S2.2
 counter-addressed semantic-RNG oracles, and S2.3 explicit-order exact-law/
@@ -13,10 +13,11 @@ two-stream common-random-number event selector, plus an explicit-only
 three-boundary scalar one-cell transition with archived and corrected
 hard-wall laws, plus an explicit-only pre-derived-key compiled Philox and
 exact bounded-integer implementation contract, plus an explicit-only exact
-scalar common-draw four-schedule trajectory and accumulator fold, plus an
+scalar common-draw four-schedule trajectory and accumulator fold, an
 explicit-only Numba compiled multi-arm chunk backend with full-record scalar
-equality; checkpoint/persistence identity and shared cross-repository schemas
-are not implemented
+equality, an explicit-only manifest-last checkpoint/final codec, and an
+explicit-only held-byte PRE campaign/task-map identity codec; runner,
+scheduler, deployment, and scientific-acquisition surfaces are not implemented
 
 **Compatibility target:** backward-compatible 2.1.x transition, then 3.0.0 only after migration gates
 
@@ -1815,7 +1816,109 @@ correctness item 5 after its complete evidence gate. Item 6 and common
 correctness remain open until Slice 8 binds one exact campaign and isolated
 clone.
 
-### 6.20 Clocks
+### 6.20 Provisional PRE campaign identity codec
+
+Slice 8A adds a pure held-byte identity layer only through the explicit
+submodule:
+
+```python
+from tetris_ballistic.engine.one_cell_campaign import (
+    OneCellBootstrapMatrixIdentity,
+    OneCellCampaignAuthority,
+    OneCellCampaignTask,
+    OneCellCampaignValidationError,
+    OneCellHorizonBranch,
+    OneCellTaskMapIdentity,
+    decode_one_cell_campaign_task,
+    encode_one_cell_campaign_task_index,
+    explain_one_cell_campaign_task,
+    load_one_cell_campaign,
+)
+```
+
+These names are absent from both package roots. The module imports neither
+Numba nor the Slice 7 checkpoint implementation and performs no filesystem,
+runner, scheduler, Easley, numerical-evolution, promotion, or analysis action.
+
+`load_one_cell_campaign` accepts exact built-in configuration bytes plus all
+nine ordered `(relative_path, member_bytes)` task-map members. The campaign
+member uses profile `tetris-pre-one-cell-campaign@1` and is general-YAML-
+incompatible by design: it is the strict canonical JSON byte string produced
+by compact sorted-key UTF-8 encoding plus one terminal LF. Duplicate or
+unknown keys, floats and nonfinite values, noncanonical integer or string
+encodings, alternate whitespace/newlines, aliases, anchors, tags, merges,
+unsafe paths, hostile runtime subclasses, and over-limit documents fail
+closed. Every task-map member is canonical LF-terminated JSONL, is bound by
+exact size and SHA-256, and contains every row in the frozen root-fast order.
+
+The held configuration binds the frozen Article protocol commit/blob/digest,
+the clean one-cell model and all three boundary-law IDs, exact Philox stream
+and counter conventions, four threshold schedules, F0/P0/P1/B1/B2 inventories,
+all four P1 horizon branches, four bootstrap descriptors, execution and output
+bounds, and all 20 complete literal 512-checkpoint/16-snapshot vectors with
+their Slice 7 hashes. Synthetic Slice 8A fixtures may use future-authority
+placeholder digests, but no final campaign, matrix, transported wheel, or
+deployment lock is stored in this software repository.
+
+The five returned record types are frozen, slotted, keyword-only dataclasses.
+They preserve exact raw configuration/member bytes and validated immutable
+projections for bootstrap matrices, task maps, horizon branches, campaign
+authority, and decoded tasks. Public construction and every later operation
+revalidate exact built-in types, complete cross-relations, literal vectors,
+and private captured authorities; equality with a Boolean or string/integer
+subclass is not accepted as an identity substitute.
+
+The zero-based task maps are algebraically invertible:
+
+```text
+F0               8 cells   boundary -> width -> root
+P0 initial      48 cells   width -> root
+P0 confirmation  1 cell    its own map at index zero
+each P1 map     480 cells   width -> root
+B1              384 cells   boundary -> width -> root
+B2             1800 cells   boundary -> width -> root
+```
+
+Threshold arms remain coupled inside a cell and are never a task dimension.
+`decode_one_cell_campaign_task` maps one declared map/index to its exact
+boundary, width, root, schedule, horizon, literal checkpoint/snapshot plan,
+inference role, and applicable bootstrap population index.
+`encode_one_cell_campaign_task_index` performs the reverse mapping and accepts
+only a declared exact `OneCellBoundaryLaw`, width, and root.
+
+`explain_one_cell_campaign_task` derives compact canonical scientific-identity
+bytes. They bind the raw campaign digest, task-map digest, decoded primitive
+task, complete checkpoint/snapshot vectors, applicable bootstrap descriptor
+and population index, pushed 40-hex source commit, exact wheel digest, and
+deployment-lock digest. P1 and the conditional P0 confirmation additionally
+require a branch-decision digest; fixed-horizon maps reject one. Host, queue,
+partition, concurrency, attempt, job ID, log path, and other scheduler metadata
+are deliberately absent.
+
+`OneCellCampaignValidationError`, a `RuntimeError` subclass, marks untrusted
+held-byte/schema/cross-binding failures. Nonexact public argument types raise
+`TypeError`, invalid exact map/value/range requests raise `ValueError`, and
+captured module, builtin, imported-function, class, map-specification, or
+private-cache corruption raises `AssertionError`. Cached decoded records are
+sealed by deeply immutable primitive values, exact-type checked on access, and
+deep-cloned before use. SHA-256 is an accidental-corruption and authority-join
+mechanism, not authentication.
+
+This pure-Python seal assumes that the genuine outermost public function or
+runtime-sealed record-constructor entry executes. Replacement of that entry's
+own code, closure cells, or metaclass call before its first instruction, or
+direct invocation of closure-internal objects obtained through introspection,
+is not an enforceable in-process boundary. Once genuine entry begins, all
+captured module, builtin, imported, callable, class, cache, and literal
+dependencies are checked before use.
+
+This codec is only the Slice 8A prerequisite. It creates no `SOURCE`, `WHEEL`,
+`CAMPAIGN`, `DEPLOYMENT`, admission, launch, or single-use submission claim.
+Common-correctness item 6 remains open until later slices freeze the runner and
+exact campaign, transport the one exact wheel, and certify a fresh isolated
+Easley deployment with zero scheduler submissions or scientific tasks.
+
+### 6.21 Clocks
 
 The engine records, without substitution,
 
@@ -1826,7 +1929,7 @@ The engine records, without substitution,
 
 `ClockKind` is an enum in analysis APIs. Every fitted quantity records its clock. A function must not silently change from one clock to another.
 
-### 6.21 Configuration
+### 6.22 Configuration
 
 `SimulationConfig` contains
 
@@ -1843,7 +1946,7 @@ The engine records, without substitution,
 
 Validation occurs before allocation or simulation. During M1.1, the typed objects expose only the repository-local digest profiles `tetris-ballistic/software-geometry-record@1` and `tetris-ballistic/software-config-record@1`. These digests are not shared scientific identities and must not be compared with data-repository record hashes. A shared result-bundle projection remains an M1.3 gate.
 
-### 6.22 Results
+### 6.23 Results
 
 `SimulationResult` exposes read-only-by-contract arrays or defensive copies for
 

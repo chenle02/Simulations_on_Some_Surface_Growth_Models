@@ -31,6 +31,24 @@ change.
 
 ### Added
 
+- A provisional held-byte PRE campaign codec under the explicit
+  `tetris_ballistic.engine.one_cell_campaign` submodule. Its frozen, slotted,
+  keyword-only records and four task operations accept only strict
+  `tetris-pre-one-cell-campaign@1` canonical-JSON bytes plus all nine complete
+  canonical-JSONL task maps; validate exact protocol/model/execution records,
+  four bootstrap descriptors, four precommitted P1 horizon branches, every
+  F0/P0/P1/B1/B2 task row, and all 20 literal 512-checkpoint/16-snapshot vector
+  pairs; and provide exhaustive root-fast forward/reverse task mapping. The
+  task explanation joins raw campaign and map digests to external pushed
+  source, exact wheel, deployment lock, and applicable branch-decision
+  authorities in compact scientific-identity bytes while excluding host,
+  queue, attempt, and scheduler metadata. The module is memory-only, imports
+  neither checkpoint/Numba nor legacy dispatch, is not package-root exported,
+  and creates no final campaign YAML, bootstrap bytes, wheel, lock, task
+  directory, runner/CLI, Slurm/Easley action, simulation acquisition, output,
+  analysis, promotion, release, or launch authority. Synthetic exhaustive KATs
+  certify Slice 8A only; common-correctness item 6 remains open through the
+  later exact campaign freeze and campaign-isolated Easley certification.
 - A provisional manifest-last checkpoint and interruption/resume surface under
   the explicit `tetris_ballistic.engine.one_cell_checkpoint` submodule. Its
   exact eight-name, keyword-only API builds the Article's 512-checkpoint and
