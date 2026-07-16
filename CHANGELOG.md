@@ -31,31 +31,48 @@ change.
 
 ### Added
 
-- A provisional exact scalar common-draw trajectory under the explicit
-  `tetris_ballistic.engine.one_cell_trajectory` submodule. Its keyword-only
-  start operation creates eight distinct zero interfaces in threshold order
-  `(0, 1, 2, 5, 10, 25, 50, 100)`, and its keyword-only chunk operation
-  advances the inferred contiguous interval from the current event count to
-  an exclusive stop. Each event calls the certified PRE selector once, shares
-  its launch and contact across all arms, applies literal `contact < threshold`
-  decisions, and calls the certified three-law boundary transition once per
-  arm in order. Frozen trajectory and arm records retain exact interfaces,
-  height moments, void and gap projections, endpoint/trigger counts, fixed
-  causal and equality strata, sparse gap histograms, and boundary-appropriate
-  seam counts without retaining an event tape. Defensive reconstruction,
-  fail-before-delegate unsigned-64/unsigned-128 bounds, structural
-  recertification, cross-arm nesting, empty-chunk identity, and arbitrary
-  partition equivalence are part of the contract. A separately written
-  SHA-256/Philox/rejection/three-recurrence oracle supplies complete root-zero,
-  width-three `[0,7)` and `[0,50)` vectors for all arms and laws, exhaustive
-  one-, two-, and declared-slow three-event injected tapes, real-RNG sweeps,
-  forced rejection, adversarial delegation, and high/low-word `Q` round-trip
-  evidence. The module is not root-exported and adds no compiled/Numba
-  trajectory, packed `Q`, checkpoint, persistence/resume, configuration or
-  campaign identity, legacy dispatch, runner/CLI, Easley/Slurm/HPC route,
-  pilot, canary, simulation output, analysis, release, or scientific
-  acquisition. It advances only the scalar prerequisite for common-
-  correctness item 4; items 4--6 remain open.
+- A provisional Numba multi-arm chunk backend under the explicit
+  `tetris_ballistic.engine.one_cell_trajectory_compiled` submodule. Its one
+  keyword-only operation accepts and returns the exact frozen scalar record,
+  derives the certified launch/contact keys once each on the host, and evolves
+  the inferred contiguous interval entirely through unsigned nopython RNG,
+  three-law recurrence, and accumulator arithmetic. It supports the exact
+  primary, B1, B2-full, and B2-high schedules without placing schedule, law,
+  or threshold in an RNG address. Fresh private arrays and a typed sparse
+  histogram carry every scalar field, with exact high-first `Q` words,
+  explicit square-subtraction borrow, addition carry, overflow reporting, and
+  atomic failure. An empty chunk reconstructs an equal record without key
+  derivation, compiled allocation, RNG, or kernel dispatch. The three-way
+  certificate compares an independent primitive-tuple oracle, the scalar
+  backend, and complete compiled records across 84 persisted rows, exhaustive
+  small tapes, real-RNG and exact Article matrices, all short and long
+  partitions, forced launch/contact rejection, packed-Q carry/borrow/overflow
+  witnesses, hostile records, and Numba 0.58 floor coverage. The existing
+  `hpc` extra supplies Numba; package roots remain importable without it, and
+  explicit import without it reports the submodule and extra clearly. The
+  module is not root-exported and adds no compiled start or public record,
+  checkpoint/persistence, campaign dispatch or identity, runner/CLI,
+  scheduler, Slurm/Easley/HPC submission, output, analysis, release, or
+  scientific acquisition. Slice 6 may close only common-correctness item 4
+  after its source, package, review, CI, and parity gates; items 5--6 remain
+  open.
+- The provisional exact scalar common-draw trajectory under
+  `tetris_ballistic.engine.one_cell_trajectory` now accepts one additive
+  keyword-only `threshold_schedule`. It admits exactly primary
+  `(0, 1, 2, 5, 10, 25, 50, 100)`, B1 `(0, 5, 50, 100)`, B2-full
+  `(5, 50, 90, 95, 98, 99)`, or B2-high `(90, 95, 98, 99)`; the original
+  primary default, four-name export surface, retained records, and every
+  primary vector remain unchanged. A trajectory exposes its schedule only as
+  a derived property. Each event shares the certified selector's launch and
+  contact values across the selected arms, applies literal
+  `contact < threshold`, and folds the certified three-law boundary result.
+  B1 and B2-high are exact projections, while 36 B2-full rows extend the 48
+  primary root-zero, width-three `[0,7)` and `[0,50)` vectors. The schedules
+  are evolution laws only: width-to-schedule dispatch and campaign identity
+  remain later gates. This additive scalar recertification creates no packed
+  public state, persistence/resume, configuration, runner/CLI, scheduler,
+  Easley/Slurm/HPC submission, output, analysis, release, or scientific
+  acquisition route.
 - A provisional pre-derived-key compiled Philox4x64-10 and exact
   bounded-integer surface under the explicit
   `tetris_ballistic.engine.rng_compiled` submodule. Its three keyword-only

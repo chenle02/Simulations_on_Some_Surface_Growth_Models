@@ -33,6 +33,15 @@ _U128_MAX = _U128_MODULUS - 1
 _MIN_WIDTH = 3
 _MAX_WIDTH = 1024
 _THRESHOLDS = (0, 1, 2, 5, 10, 25, 50, 100)
+_B1_THRESHOLDS = (0, 5, 50, 100)
+_B2_FULL_THRESHOLDS = (5, 50, 90, 95, 98, 99)
+_B2_HIGH_THRESHOLDS = (90, 95, 98, 99)
+_THRESHOLD_SCHEDULES = (
+    _THRESHOLDS,
+    _B1_THRESHOLDS,
+    _B2_FULL_THRESHOLDS,
+    _B2_HIGH_THRESHOLDS,
+)
 
 # Capture the certified authority objects once.  The private delegate defaults
 # below make later rebinding of imported aliases unable to redirect execution.
@@ -68,6 +77,11 @@ def _assert_contract_integrity(
     _hard_wall_legacy: object = _HARD_WALL_LEGACY,
     _hard_wall_corrected: object = _HARD_WALL_CORRECTED,
     _causal_order: object = _CAUSAL_ORDER,
+    _primary_thresholds: object = _THRESHOLDS,
+    _b1_thresholds: object = _B1_THRESHOLDS,
+    _b2_full_thresholds: object = _B2_FULL_THRESHOLDS,
+    _b2_high_thresholds: object = _B2_HIGH_THRESHOLDS,
+    _threshold_schedules: object = _THRESHOLD_SCHEDULES,
 ) -> None:
     """Fail closed if any private frozen authority has been rebound."""
 
@@ -84,12 +98,35 @@ def _assert_contract_integrity(
         raise AssertionError("unsigned scalar bounds do not match the frozen protocol")
     if type(_MIN_WIDTH) is not int or _MIN_WIDTH != 3 or type(_MAX_WIDTH) is not int or _MAX_WIDTH != 1024:
         raise AssertionError("trajectory width bounds do not match the frozen protocol")
+    literal_schedules = (
+        (0, 1, 2, 5, 10, 25, 50, 100),
+        (0, 5, 50, 100),
+        (5, 50, 90, 95, 98, 99),
+        (90, 95, 98, 99),
+    )
+    captured_schedules = (
+        _primary_thresholds,
+        _b1_thresholds,
+        _b2_full_thresholds,
+        _b2_high_thresholds,
+    )
+    current_schedules = (
+        _THRESHOLDS,
+        _B1_THRESHOLDS,
+        _B2_FULL_THRESHOLDS,
+        _B2_HIGH_THRESHOLDS,
+    )
     if (
-        type(_THRESHOLDS) is not tuple
-        or _THRESHOLDS != (0, 1, 2, 5, 10, 25, 50, 100)
-        or any(type(threshold) is not int for threshold in _THRESHOLDS)
+        any(type(schedule) is not tuple for schedule in current_schedules)
+        or current_schedules != literal_schedules
+        or any(type(threshold) is not int for schedule in current_schedules for threshold in schedule)
+        or any(current is not captured for current, captured in zip(current_schedules, captured_schedules))
+        or _THRESHOLD_SCHEDULES is not _threshold_schedules
+        or type(_THRESHOLD_SCHEDULES) is not tuple
+        or len(_THRESHOLD_SCHEDULES) != 4
+        or any(actual is not expected for actual, expected in zip(_THRESHOLD_SCHEDULES, captured_schedules))
     ):
-        raise AssertionError("trajectory thresholds do not match the frozen protocol")
+        raise AssertionError("trajectory threshold schedules do not match the frozen protocol")
     if (
         _BOUNDARY_LAW_TYPE is not _boundary_law_type
         or _BOUNDARY_TRANSITION_TYPE is not _boundary_transition_type
@@ -161,9 +198,20 @@ def _require_boundary_law(value: object) -> OneCellBoundaryLaw:
 
 def _require_threshold(value: object) -> int:
     threshold = _require_plain_int(value, label="threshold")
-    if threshold not in _THRESHOLDS:
-        raise ValueError("threshold must be one of the eight frozen PRE thresholds")
+    if threshold not in (0, 1, 2, 5, 10, 25, 50, 90, 95, 98, 99, 100):
+        raise ValueError("threshold must be one of the frozen PRE threshold values")
     return threshold
+
+
+def _require_threshold_schedule(value: object) -> tuple[int, ...]:
+    if type(value) is not tuple:
+        raise TypeError("threshold_schedule must be a built-in tuple")
+    if any(type(threshold) is not int for threshold in value):
+        raise TypeError("threshold_schedule entries must be built-in integers")
+    for schedule in _THRESHOLD_SCHEDULES:
+        if value == schedule:
+            return schedule
+    raise ValueError("threshold_schedule must equal one of the four frozen PRE schedules")
 
 
 def _snapshot_uint_tuple(value: object, *, length: int, label: str) -> tuple[int, ...]:
@@ -423,7 +471,7 @@ def _snapshot_arm(value: object, *, label: str) -> OneCellScalarArmAccumulator:
 
 @dataclass(frozen=True, slots=True)
 class OneCellScalarTrajectory:
-    """Immutable exact scalar prefix shared by all eight PRE arms."""
+    """Immutable exact scalar prefix shared by one frozen PRE arm schedule."""
 
     root_seed: int
     boundary_law: OneCellBoundaryLaw
@@ -442,11 +490,10 @@ class OneCellScalarTrajectory:
 
         if type(self.arms) is not tuple:
             raise TypeError("arms must be a built-in tuple")
-        if len(self.arms) != len(_THRESHOLDS):
-            raise ValueError("arms must contain exactly the eight frozen thresholds")
         arms = tuple(_snapshot_arm(arm, label=f"arm {index}") for index, arm in enumerate(self.arms))
+        threshold_schedule = _require_threshold_schedule(tuple(arm.threshold for arm in arms))
 
-        for index, (arm, threshold) in enumerate(zip(arms, _THRESHOLDS)):
+        for index, (arm, threshold) in enumerate(zip(arms, threshold_schedule)):
             if arm.boundary_law is not boundary_law:
                 raise ValueError(f"arm {index} boundary_law must equal the trajectory boundary_law")
             if arm.threshold != threshold:
@@ -467,6 +514,12 @@ class OneCellScalarTrajectory:
         object.__setattr__(self, "width", width)
         object.__setattr__(self, "event_count", event_count)
         object.__setattr__(self, "arms", arms)
+
+    @property
+    def threshold_schedule(self) -> tuple[int, ...]:
+        """Return the complete frozen threshold schedule derived from the arms."""
+
+        return tuple(arm.threshold for arm in self.arms)
 
 
 _TRAJECTORY_TYPE = OneCellScalarTrajectory
@@ -715,18 +768,20 @@ def start_one_cell_scalar_trajectory(
     root_seed: int,
     boundary_law: OneCellBoundaryLaw,
     width: int,
+    threshold_schedule: tuple[int, ...] = _THRESHOLDS,
 ) -> OneCellScalarTrajectory:
-    """Create the canonical all-zero scalar prefix for all eight PRE arms."""
+    """Create the canonical all-zero scalar prefix for one frozen PRE schedule."""
 
     _assert_contract_integrity()
     _assert_record_type_integrity()
     root = _require_uint(root_seed, maximum=_U128_MAX, label="root_seed")
     law = _require_boundary_law(boundary_law)
     selected_width = _require_width(width)
+    selected_schedule = _require_threshold_schedule(threshold_schedule)
     _validate_protocol_products(width=selected_width, event_count=0)
 
     arms = []
-    for threshold in _THRESHOLDS:
+    for threshold in selected_schedule:
         arms.append(
             _ARM_TYPE(
                 boundary_law=law,

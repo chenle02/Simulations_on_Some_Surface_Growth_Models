@@ -40,7 +40,15 @@ _U64_MAX = _U64_SPACE - 1
 _U128_MAX = (1 << 128) - 1
 _U64_MASK = _U64_MAX
 _THRESHOLDS = (0, 1, 2, 5, 10, 25, 50, 100)
-_CONTACT_REPRESENTATIVES = (0, 1, 2, 5, 10, 25, 50)
+_B1_THRESHOLDS = (0, 5, 50, 100)
+_B2_FULL_THRESHOLDS = (5, 50, 90, 95, 98, 99)
+_B2_HIGH_THRESHOLDS = (90, 95, 98, 99)
+_THRESHOLD_SCHEDULES = (
+    _THRESHOLDS,
+    _B1_THRESHOLDS,
+    _B2_FULL_THRESHOLDS,
+    _B2_HIGH_THRESHOLDS,
+)
 _GROUP = "pre-one-cell-discovery-v1"
 _DOMAIN = b"tetris-kpz/semantic-philox4x64-10-v1\0"
 _M0 = 0xD2E7470EE14C6C93
@@ -699,6 +707,471 @@ _PINNED_N50_CORRECTED = (
     ),
 )
 
+_PINNED_B2_N7_PERIODIC = (
+    (
+        5,
+        (4, 4, 1),
+        9,
+        33,
+        2,
+        1,
+        1,
+        2,
+        (6, 0, 1, 0),
+        (0, 0, 2, 0),
+        (0, 5, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
+        ((0, 6), (2, 1)),
+        0,
+    ),
+    (
+        50,
+        (4, 4, 4),
+        12,
+        48,
+        5,
+        4,
+        2,
+        3,
+        (5, 0, 1, 1),
+        (0, 0, 2, 3),
+        (0, 3, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0),
+        ((0, 5), (2, 1), (3, 1)),
+        1,
+    ),
+    (
+        90,
+        (4, 4, 4),
+        12,
+        48,
+        5,
+        6,
+        2,
+        3,
+        (5, 0, 1, 1),
+        (0, 0, 2, 3),
+        (0, 1, 0, 0, 0, 0, 0, 0, 0, 3, 0, 1, 1, 0, 1, 0),
+        ((0, 5), (2, 1), (3, 1)),
+        1,
+    ),
+    (
+        95,
+        (4, 4, 4),
+        12,
+        48,
+        5,
+        7,
+        2,
+        3,
+        (5, 0, 1, 1),
+        (0, 0, 2, 3),
+        (0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 1, 1, 0, 1, 0),
+        ((0, 5), (2, 1), (3, 1)),
+        1,
+    ),
+    (
+        98,
+        (4, 4, 4),
+        12,
+        48,
+        5,
+        7,
+        2,
+        3,
+        (5, 0, 1, 1),
+        (0, 0, 2, 3),
+        (0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 1, 1, 0, 1, 0),
+        ((0, 5), (2, 1), (3, 1)),
+        1,
+    ),
+    (
+        99,
+        (4, 4, 4),
+        12,
+        48,
+        5,
+        7,
+        2,
+        3,
+        (5, 0, 1, 1),
+        (0, 0, 2, 3),
+        (0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 1, 1, 0, 1, 0),
+        ((0, 5), (2, 1), (3, 1)),
+        1,
+    ),
+)
+
+_PINNED_B2_N7_HARD_WALL = (
+    (
+        5,
+        (4, 4, 1),
+        9,
+        33,
+        2,
+        1,
+        1,
+        2,
+        (6, 0, 1, 0),
+        (0, 0, 2, 0),
+        (0, 5, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
+        ((0, 6), (2, 1)),
+        None,
+    ),
+    (
+        50,
+        (4, 4, 4),
+        12,
+        48,
+        5,
+        4,
+        2,
+        3,
+        (5, 1, 1, 0),
+        (0, 3, 2, 0),
+        (0, 3, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0),
+        ((0, 5), (2, 1), (3, 1)),
+        None,
+    ),
+    (
+        90,
+        (4, 4, 4),
+        12,
+        48,
+        5,
+        6,
+        2,
+        3,
+        (5, 1, 1, 0),
+        (0, 3, 2, 0),
+        (0, 1, 0, 0, 0, 0, 0, 0, 0, 3, 1, 1, 1, 0, 0, 0),
+        ((0, 5), (2, 1), (3, 1)),
+        None,
+    ),
+    (
+        95,
+        (4, 4, 4),
+        12,
+        48,
+        5,
+        7,
+        2,
+        3,
+        (5, 1, 1, 0),
+        (0, 3, 2, 0),
+        (0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 1, 1, 1, 0, 0, 0),
+        ((0, 5), (2, 1), (3, 1)),
+        None,
+    ),
+    (
+        98,
+        (4, 4, 4),
+        12,
+        48,
+        5,
+        7,
+        2,
+        3,
+        (5, 1, 1, 0),
+        (0, 3, 2, 0),
+        (0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 1, 1, 1, 0, 0, 0),
+        ((0, 5), (2, 1), (3, 1)),
+        None,
+    ),
+    (
+        99,
+        (4, 4, 4),
+        12,
+        48,
+        5,
+        7,
+        2,
+        3,
+        (5, 1, 1, 0),
+        (0, 3, 2, 0),
+        (0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 1, 1, 1, 0, 0, 0),
+        ((0, 5), (2, 1), (3, 1)),
+        None,
+    ),
+)
+
+_PINNED_B2_N50_PERIODIC = (
+    (
+        5,
+        (19, 19, 19),
+        57,
+        1083,
+        7,
+        6,
+        3,
+        3,
+        (47, 0, 2, 1),
+        (0, 0, 5, 2),
+        (0, 25, 0, 7, 0, 8, 0, 4, 0, 3, 0, 0, 2, 0, 1, 0),
+        ((0, 47), (2, 2), (3, 1)),
+        8,
+    ),
+    (
+        50,
+        (22, 22, 21),
+        65,
+        1409,
+        15,
+        24,
+        9,
+        3,
+        (41, 2, 4, 3),
+        (0, 3, 5, 7),
+        (0, 14, 0, 3, 0, 6, 0, 3, 0, 10, 2, 3, 4, 1, 3, 1),
+        ((0, 41), (1, 5), (2, 2), (3, 2)),
+        11,
+    ),
+    (
+        90,
+        (23, 23, 22),
+        68,
+        1542,
+        18,
+        44,
+        9,
+        4,
+        (41, 1, 5, 3),
+        (0, 1, 11, 6),
+        (0, 3, 0, 2, 0, 1, 0, 0, 0, 20, 1, 5, 5, 3, 3, 7),
+        ((0, 41), (1, 3), (2, 4), (3, 1), (4, 1)),
+        12,
+    ),
+    (
+        95,
+        (23, 23, 22),
+        68,
+        1542,
+        18,
+        46,
+        9,
+        4,
+        (41, 1, 5, 3),
+        (0, 1, 11, 6),
+        (0, 2, 0, 1, 0, 1, 0, 0, 0, 21, 1, 6, 5, 3, 3, 7),
+        ((0, 41), (1, 3), (2, 4), (3, 1), (4, 1)),
+        12,
+    ),
+    (
+        98,
+        (23, 23, 22),
+        68,
+        1542,
+        18,
+        49,
+        9,
+        4,
+        (41, 1, 5, 3),
+        (0, 1, 11, 6),
+        (0, 0, 0, 1, 0, 0, 0, 0, 0, 23, 1, 6, 5, 4, 3, 7),
+        ((0, 41), (1, 3), (2, 4), (3, 1), (4, 1)),
+        12,
+    ),
+    (
+        99,
+        (23, 23, 22),
+        68,
+        1542,
+        18,
+        49,
+        9,
+        4,
+        (41, 1, 5, 3),
+        (0, 1, 11, 6),
+        (0, 0, 0, 1, 0, 0, 0, 0, 0, 23, 1, 6, 5, 4, 3, 7),
+        ((0, 41), (1, 3), (2, 4), (3, 1), (4, 1)),
+        12,
+    ),
+)
+
+_PINNED_B2_N50_LEGACY = (
+    (
+        5,
+        (19, 18, 18),
+        55,
+        1009,
+        5,
+        6,
+        3,
+        2,
+        (47, 1, 2, 0),
+        (0, 2, 3, 0),
+        (0, 31, 0, 7, 0, 5, 0, 1, 0, 2, 1, 1, 2, 0, 0, 0),
+        ((0, 47), (1, 1), (2, 2)),
+        None,
+    ),
+    (
+        50,
+        (20, 19, 19),
+        58,
+        1122,
+        8,
+        24,
+        5,
+        3,
+        (45, 1, 4, 0),
+        (0, 3, 5, 0),
+        (0, 16, 0, 4, 0, 6, 0, 0, 0, 14, 1, 3, 2, 1, 2, 1),
+        ((0, 45), (1, 3), (2, 1), (3, 1)),
+        None,
+    ),
+    (
+        90,
+        (21, 21, 20),
+        62,
+        1282,
+        12,
+        44,
+        7,
+        3,
+        (43, 2, 5, 0),
+        (0, 4, 8, 0),
+        (0, 3, 0, 2, 0, 1, 0, 0, 0, 22, 2, 8, 5, 6, 0, 1),
+        ((0, 43), (1, 3), (2, 3), (3, 1)),
+        None,
+    ),
+    (
+        95,
+        (21, 21, 20),
+        62,
+        1282,
+        12,
+        46,
+        7,
+        3,
+        (43, 2, 5, 0),
+        (0, 4, 8, 0),
+        (0, 2, 0, 1, 0, 1, 0, 0, 0, 23, 2, 9, 5, 6, 0, 1),
+        ((0, 43), (1, 3), (2, 3), (3, 1)),
+        None,
+    ),
+    (
+        98,
+        (21, 21, 20),
+        62,
+        1282,
+        12,
+        49,
+        7,
+        3,
+        (43, 2, 5, 0),
+        (0, 4, 8, 0),
+        (0, 0, 0, 1, 0, 0, 0, 0, 0, 25, 2, 9, 5, 7, 0, 1),
+        ((0, 43), (1, 3), (2, 3), (3, 1)),
+        None,
+    ),
+    (
+        99,
+        (21, 21, 20),
+        62,
+        1282,
+        12,
+        49,
+        7,
+        3,
+        (43, 2, 5, 0),
+        (0, 4, 8, 0),
+        (0, 0, 0, 1, 0, 0, 0, 0, 0, 25, 2, 9, 5, 7, 0, 1),
+        ((0, 43), (1, 3), (2, 3), (3, 1)),
+        None,
+    ),
+)
+
+_PINNED_B2_N50_CORRECTED = (
+    (
+        5,
+        (19, 19, 18),
+        56,
+        1046,
+        6,
+        6,
+        3,
+        2,
+        (47, 2, 1, 0),
+        (0, 4, 2, 0),
+        (0, 31, 0, 7, 0, 5, 0, 1, 0, 2, 2, 1, 1, 0, 0, 0),
+        ((0, 47), (2, 3)),
+        None,
+    ),
+    (
+        50,
+        (20, 20, 19),
+        59,
+        1161,
+        9,
+        24,
+        6,
+        3,
+        (44, 2, 2, 2),
+        (0, 4, 3, 2),
+        (0, 16, 0, 4, 0, 6, 0, 0, 0, 14, 2, 3, 2, 0, 2, 1),
+        ((0, 44), (1, 4), (2, 1), (3, 1)),
+        None,
+    ),
+    (
+        90,
+        (21, 21, 20),
+        62,
+        1282,
+        12,
+        44,
+        7,
+        3,
+        (43, 2, 5, 0),
+        (0, 4, 8, 0),
+        (0, 3, 0, 2, 0, 1, 0, 0, 0, 22, 2, 8, 5, 6, 0, 1),
+        ((0, 43), (1, 3), (2, 3), (3, 1)),
+        None,
+    ),
+    (
+        95,
+        (21, 21, 20),
+        62,
+        1282,
+        12,
+        46,
+        7,
+        3,
+        (43, 2, 5, 0),
+        (0, 4, 8, 0),
+        (0, 2, 0, 1, 0, 1, 0, 0, 0, 23, 2, 9, 5, 6, 0, 1),
+        ((0, 43), (1, 3), (2, 3), (3, 1)),
+        None,
+    ),
+    (
+        98,
+        (21, 21, 20),
+        62,
+        1282,
+        12,
+        49,
+        7,
+        3,
+        (43, 2, 5, 0),
+        (0, 4, 8, 0),
+        (0, 0, 0, 1, 0, 0, 0, 0, 0, 25, 2, 9, 5, 7, 0, 1),
+        ((0, 43), (1, 3), (2, 3), (3, 1)),
+        None,
+    ),
+    (
+        99,
+        (21, 21, 20),
+        62,
+        1282,
+        12,
+        49,
+        7,
+        3,
+        (43, 2, 5, 0),
+        (0, 4, 8, 0),
+        (0, 0, 0, 1, 0, 0, 0, 0, 0, 25, 2, 9, 5, 7, 0, 1),
+        ((0, 43), (1, 3), (2, 3), (3, 1)),
+        None,
+    ),
+)
+
 _PINNED_ROOT_ZERO_PROJECTIONS = {
     ("periodic-v1", 7): _PINNED_N7_PERIODIC,
     ("periodic-v1", 50): _PINNED_N50_PERIODIC,
@@ -708,8 +1181,21 @@ _PINNED_ROOT_ZERO_PROJECTIONS = {
     ("hard-wall-reflection-symmetric-v1", 50): _PINNED_N50_CORRECTED,
 }
 
+_PINNED_B2_ROOT_ZERO_PROJECTIONS = {
+    ("periodic-v1", 7): _PINNED_B2_N7_PERIODIC,
+    ("periodic-v1", 50): _PINNED_B2_N50_PERIODIC,
+    ("hard-wall-legacy-asymmetric-v1", 7): _PINNED_B2_N7_HARD_WALL,
+    ("hard-wall-legacy-asymmetric-v1", 50): _PINNED_B2_N50_LEGACY,
+    ("hard-wall-reflection-symmetric-v1", 7): _PINNED_B2_N7_HARD_WALL,
+    ("hard-wall-reflection-symmetric-v1", 50): _PINNED_B2_N50_CORRECTED,
+}
+
 
 class _IntSubclass(int):
+    pass
+
+
+class _TupleSubclass(tuple):
     pass
 
 
@@ -900,26 +1386,41 @@ def _oracle_fold_arm(arm: dict[str, object], *, launch_x: int, contact_value: in
     return next_arm
 
 
-def _oracle_start(law_id: str, width: int) -> tuple[dict[str, object], ...]:
-    return tuple(_oracle_empty_arm(law_id, threshold, width) for threshold in _THRESHOLDS)
+def _oracle_start(
+    law_id: str,
+    width: int,
+    threshold_schedule: tuple[int, ...] = _THRESHOLDS,
+) -> tuple[dict[str, object], ...]:
+    return tuple(_oracle_empty_arm(law_id, threshold, width) for threshold in threshold_schedule)
 
 
 def _oracle_from_tape(
     law_id: str,
     width: int,
     tape: tuple[tuple[int, int], ...],
+    threshold_schedule: tuple[int, ...] = _THRESHOLDS,
 ) -> tuple[dict[str, object], ...]:
-    arms = _oracle_start(law_id, width)
+    arms = _oracle_start(law_id, width, threshold_schedule)
     for launch_x, contact_value in tape:
         arms = tuple(_oracle_fold_arm(arm, launch_x=launch_x, contact_value=contact_value) for arm in arms)
     return arms
 
 
 def _oracle_real(
-    *, root_seed: int, law_id: str, width: int, stop: int
+    *,
+    root_seed: int,
+    law_id: str,
+    width: int,
+    stop: int,
+    threshold_schedule: tuple[int, ...] = _THRESHOLDS,
 ) -> tuple[tuple[dict[str, object], ...], tuple[tuple[int, int, int, int], ...]]:
     tape = tuple(_oracle_selection(root_seed=root_seed, width=width, event_ordinal=event) for event in range(stop))
-    arms = _oracle_from_tape(law_id, width, tuple((launch, contact) for launch, contact, _, _ in tape))
+    arms = _oracle_from_tape(
+        law_id,
+        width,
+        tuple((launch, contact) for launch, contact, _, _ in tape),
+        threshold_schedule,
+    )
     return arms, tape
 
 
@@ -985,7 +1486,9 @@ def _assert_trajectory_matches_oracle(
 ) -> None:
     assert trajectory.event_count == expected_arms[0]["event_count"]
     assert trajectory.width == len(expected_arms[0]["heights"])
-    assert tuple(arm.threshold for arm in trajectory.arms) == _THRESHOLDS
+    expected_schedule = tuple(int(arm["threshold"]) for arm in expected_arms)
+    assert trajectory.threshold_schedule == expected_schedule
+    assert tuple(arm.threshold for arm in trajectory.arms) == expected_schedule
     for arm, expected in zip(trajectory.arms, expected_arms):
         _assert_arm_matches_oracle(arm, expected)
     _assert_structural_laws(trajectory)
@@ -1032,15 +1535,28 @@ def _assert_structural_laws(trajectory: OneCellScalarTrajectory) -> None:
         assert all(current >= previous for current, previous in zip(arm.heights, previous_heights))
         previous_endpoint = arm.endpoint_selected_count
         previous_heights = arm.heights
-    assert trajectory.arms[0].endpoint_selected_count == 0
-    assert trajectory.arms[0].positive_gap_trigger_count == 0
-    assert trajectory.arms[0].void_volume == 0
-    assert trajectory.arms[0].height_sum == trajectory.event_count
-    assert trajectory.arms[-1].endpoint_selected_count == trajectory.event_count
+    arms_by_threshold = {arm.threshold: arm for arm in trajectory.arms}
+    if zero_arm := arms_by_threshold.get(0):
+        assert zero_arm.endpoint_selected_count == 0
+        assert zero_arm.positive_gap_trigger_count == 0
+        assert zero_arm.void_volume == 0
+        assert zero_arm.height_sum == trajectory.event_count
+    if hundred_arm := arms_by_threshold.get(100):
+        assert hundred_arm.endpoint_selected_count == trajectory.event_count
 
 
-def _start(law: OneCellBoundaryLaw = OneCellBoundaryLaw.PERIODIC, width: int = 3, root_seed: int = 0):
-    return start_one_cell_scalar_trajectory(root_seed=root_seed, boundary_law=law, width=width)
+def _start(
+    law: OneCellBoundaryLaw = OneCellBoundaryLaw.PERIODIC,
+    width: int = 3,
+    root_seed: int = 0,
+    threshold_schedule: tuple[int, ...] = _THRESHOLDS,
+):
+    return start_one_cell_scalar_trajectory(
+        root_seed=root_seed,
+        boundary_law=law,
+        width=width,
+        threshold_schedule=threshold_schedule,
+    )
 
 
 def _run(
@@ -1049,9 +1565,15 @@ def _run(
     law: OneCellBoundaryLaw = OneCellBoundaryLaw.PERIODIC,
     width: int = 3,
     root_seed: int = 0,
+    threshold_schedule: tuple[int, ...] = _THRESHOLDS,
 ) -> OneCellScalarTrajectory:
     return advance_one_cell_scalar_chunk(
-        trajectory=_start(law=law, width=width, root_seed=root_seed),
+        trajectory=_start(
+            law=law,
+            width=width,
+            root_seed=root_seed,
+            threshold_schedule=threshold_schedule,
+        ),
         stop_event_ordinal=stop,
     )
 
@@ -1060,8 +1582,9 @@ def _run_tape(
     law: OneCellBoundaryLaw,
     width: int,
     tape: tuple[tuple[int, int], ...],
+    threshold_schedule: tuple[int, ...] = _THRESHOLDS,
 ) -> OneCellScalarTrajectory:
-    trajectory = _start(law=law, width=width)
+    trajectory = _start(law=law, width=width, threshold_schedule=threshold_schedule)
     for launch_x, contact_value in tape:
         trajectory = one_cell_trajectory._advance_selected_event(
             trajectory=trajectory,
@@ -1097,25 +1620,43 @@ def test_public_surface_signatures_records_and_initial_state_are_exact() -> None
     ]
     assert tuple(field.name for field in fields(OneCellScalarArmAccumulator)) == _ARM_FIELD_NAMES
     assert tuple(field.name for field in fields(OneCellScalarTrajectory)) == _TRAJECTORY_FIELD_NAMES
-    for function, names in (
-        (start_one_cell_scalar_trajectory, ("root_seed", "boundary_law", "width")),
-        (advance_one_cell_scalar_chunk, ("trajectory", "stop_event_ordinal")),
-        (one_cell_trajectory._advance_selected_event, ("trajectory", "launch_x", "contact_value")),
+    for function, names, defaults in (
+        (
+            start_one_cell_scalar_trajectory,
+            ("root_seed", "boundary_law", "width", "threshold_schedule"),
+            (inspect.Parameter.empty, inspect.Parameter.empty, inspect.Parameter.empty, _THRESHOLDS),
+        ),
+        (
+            advance_one_cell_scalar_chunk,
+            ("trajectory", "stop_event_ordinal"),
+            (inspect.Parameter.empty, inspect.Parameter.empty),
+        ),
+        (
+            one_cell_trajectory._advance_selected_event,
+            ("trajectory", "launch_x", "contact_value"),
+            (inspect.Parameter.empty, inspect.Parameter.empty, inspect.Parameter.empty),
+        ),
     ):
         parameters = tuple(inspect.signature(function).parameters.values())
         assert tuple(parameter.name for parameter in parameters) == names
         assert all(parameter.kind is inspect.Parameter.KEYWORD_ONLY for parameter in parameters)
-        assert all(parameter.default is inspect.Parameter.empty for parameter in parameters)
+        assert tuple(parameter.default for parameter in parameters) == defaults
 
-    for law in _LAWS:
-        trajectory = _start(law=law, width=5, root_seed=_U128_MAX)
+    for law, threshold_schedule in product(_LAWS, _THRESHOLD_SCHEDULES):
+        trajectory = _start(
+            law=law,
+            width=5,
+            root_seed=_U128_MAX,
+            threshold_schedule=threshold_schedule,
+        )
         assert trajectory.root_seed == _U128_MAX
         assert trajectory.boundary_law is law
         assert trajectory.width == 5
         assert trajectory.event_count == 0
-        assert tuple(arm.threshold for arm in trajectory.arms) == _THRESHOLDS
-        assert len({id(arm) for arm in trajectory.arms}) == 8
-        assert len({id(arm.heights) for arm in trajectory.arms}) == 8
+        assert trajectory.threshold_schedule == threshold_schedule
+        assert tuple(arm.threshold for arm in trajectory.arms) == threshold_schedule
+        assert len({id(arm) for arm in trajectory.arms}) == len(threshold_schedule)
+        assert len({id(arm.heights) for arm in trajectory.arms}) == len(threshold_schedule)
         _assert_structural_laws(trajectory)
         with pytest.raises(FrozenInstanceError):
             trajectory.event_count = 1
@@ -1131,7 +1672,7 @@ def test_records_expose_only_frozen_derived_properties() -> None:
         name for name, value in vars(OneCellScalarTrajectory).items() if isinstance(value, property)
     }
     assert arm_properties == {"width", "roughness_numerator"}
-    assert trajectory_properties == set()
+    assert trajectory_properties == {"threshold_schedule"}
 
 
 def test_empty_chunk_is_equal_delegate_free_defensive_snapshot(monkeypatch: pytest.MonkeyPatch) -> None:
@@ -1165,10 +1706,27 @@ def test_independent_rng_prefix_and_pinned_root_zero_trajectory_vectors() -> Non
         for stop in (7, 50):
             expected_arms, _ = _oracle_real(root_seed=0, law_id=law.value, width=3, stop=stop)
             actual = _run(stop, law=law)
+            assert actual == _run(stop, law=law, threshold_schedule=_THRESHOLDS)
             literal = _PINNED_ROOT_ZERO_PROJECTIONS[(law.value, stop)]
             assert tuple(_oracle_projection(arm) for arm in expected_arms) == literal
             assert tuple(_production_projection(arm) for arm in actual.arms) == literal
             _assert_trajectory_matches_oracle(actual, expected_arms)
+
+            b2_expected, _ = _oracle_real(
+                root_seed=0,
+                law_id=law.value,
+                width=3,
+                stop=stop,
+                threshold_schedule=_B2_FULL_THRESHOLDS,
+            )
+            b2_actual = _run(stop, law=law, threshold_schedule=_B2_FULL_THRESHOLDS)
+            b2_literal = _PINNED_B2_ROOT_ZERO_PROJECTIONS[(law.value, stop)]
+            assert tuple(_oracle_projection(arm) for arm in b2_expected) == b2_literal
+            assert tuple(_production_projection(arm) for arm in b2_actual.arms) == b2_literal
+            _assert_trajectory_matches_oracle(b2_actual, b2_expected)
+
+    assert sum(len(rows) for rows in _PINNED_ROOT_ZERO_PROJECTIONS.values()) == 48
+    assert sum(len(rows) for rows in _PINNED_B2_ROOT_ZERO_PROJECTIONS.values()) == 36
 
     periodic = _run(50, law=OneCellBoundaryLaw.PERIODIC).arms[3]
     legacy = _run(50, law=OneCellBoundaryLaw.HARD_WALL_LEGACY_ASYMMETRIC).arms[3]
@@ -1249,35 +1807,122 @@ def test_independent_rng_prefix_and_pinned_root_zero_trajectory_vectors() -> Non
         None,
     )
 
+    for law in _LAWS:
+        b2 = _run(50, law=law, threshold_schedule=_B2_FULL_THRESHOLDS)
+        high_arms = b2.arms[2:]
+        expected_heights = (23, 23, 22) if law is OneCellBoundaryLaw.PERIODIC else (21, 21, 20)
+        expected_s_q_v = (68, 1542, 18) if law is OneCellBoundaryLaw.PERIODIC else (62, 1282, 12)
+        assert tuple(arm.heights for arm in high_arms) == (expected_heights,) * 4
+        assert (
+            tuple((arm.height_sum, arm.height_square_sum, arm.void_volume) for arm in high_arms)
+            == (expected_s_q_v,) * 4
+        )
+        assert tuple(arm.endpoint_selected_count for arm in high_arms) == (44, 46, 49, 49)
 
-@pytest.mark.parametrize("law", _LAWS)
-def test_every_partition_of_seven_and_every_split_of_fifty(law: OneCellBoundaryLaw) -> None:
-    uninterrupted_7 = _run(7, law=law)
+
+def test_contact_boundary_witnesses_and_schedule_projections_are_exact() -> None:
+    contact_witnesses = (
+        (4, 55, "0bfb25192b17f92e"),
+        (5, 24, "0f3558266a1ecb4c"),
+        (49, 45, "7daaf3e15f89f819"),
+        (50, 216, "81e81f92c924dd8f"),
+        (89, 67, "e3f955d77cf51347"),
+        (90, 70, "e85457065d119d2a"),
+        (94, 221, "f1f54e9cab7b23d6"),
+        (95, 18, "f5c22f4c931abfb3"),
+        (97, 7, "fa673b3a532b5051"),
+        (98, 135, "fb2f98475c7d4d5e"),
+        (99, 43, "fed165ae9ecf81ff"),
+    )
+    contact_key = _oracle_key(0, "contact")
+    for expected_value, event, expected_hex in contact_witnesses:
+        raw_word = _oracle_philox((event, 0, 0, 0), contact_key)[0]
+        assert f"{raw_word:016x}" == expected_hex
+        assert raw_word < (_U64_SPACE // 100) * 100
+        _, contact, _, contact_rejection = _oracle_selection(root_seed=0, width=3, event_ordinal=event)
+        assert (contact, contact_rejection) == (expected_value, 0)
+
+    neighbor_contacts = (4, 5, 49, 50, 89, 90, 94, 95, 97, 98, 99)
+    b2 = _run_tape(
+        OneCellBoundaryLaw.PERIODIC,
+        3,
+        tuple((1, contact) for contact in neighbor_contacts),
+        _B2_FULL_THRESHOLDS,
+    )
+    assert tuple(arm.endpoint_selected_count for arm in b2.arms) == (1, 3, 5, 7, 9, 10)
+
+    for law, width, root_seed, stop in product(_LAWS, (3, 5), (0, 95), (0, 1, 7, 50)):
+        primary = _run(stop, law=law, width=width, root_seed=root_seed)
+        b1 = _run(
+            stop,
+            law=law,
+            width=width,
+            root_seed=root_seed,
+            threshold_schedule=_B1_THRESHOLDS,
+        )
+        b2_full = _run(
+            stop,
+            law=law,
+            width=width,
+            root_seed=root_seed,
+            threshold_schedule=_B2_FULL_THRESHOLDS,
+        )
+        b2_high = _run(
+            stop,
+            law=law,
+            width=width,
+            root_seed=root_seed,
+            threshold_schedule=_B2_HIGH_THRESHOLDS,
+        )
+        primary_by_threshold = {arm.threshold: arm for arm in primary.arms}
+        b2_by_threshold = {arm.threshold: arm for arm in b2_full.arms}
+        assert b1.arms == tuple(primary_by_threshold[threshold] for threshold in _B1_THRESHOLDS)
+        assert b2_high.arms == tuple(b2_by_threshold[threshold] for threshold in _B2_HIGH_THRESHOLDS)
+        assert tuple(b2_by_threshold[threshold] for threshold in (5, 50)) == tuple(
+            primary_by_threshold[threshold] for threshold in (5, 50)
+        )
+
+
+@pytest.mark.parametrize(("law", "threshold_schedule"), tuple(product(_LAWS, _THRESHOLD_SCHEDULES)))
+def test_every_partition_of_seven_and_every_split_of_fifty(
+    law: OneCellBoundaryLaw,
+    threshold_schedule: tuple[int, ...],
+) -> None:
+    uninterrupted_7 = _run(7, law=law, threshold_schedule=threshold_schedule)
     for cut_mask in range(1 << 6):
         stops = [index + 1 for index in range(6) if cut_mask & (1 << index)] + [7]
-        trajectory = _start(law=law)
+        trajectory = _start(law=law, threshold_schedule=threshold_schedule)
         for stop in stops:
             trajectory = advance_one_cell_scalar_chunk(trajectory=trajectory, stop_event_ordinal=stop)
         assert trajectory == uninterrupted_7
 
-    uninterrupted_50 = _run(50, law=law)
+    uninterrupted_50 = _run(50, law=law, threshold_schedule=threshold_schedule)
     for split in range(51):
-        trajectory = _start(law=law)
+        trajectory = _start(law=law, threshold_schedule=threshold_schedule)
         trajectory = advance_one_cell_scalar_chunk(trajectory=trajectory, stop_event_ordinal=split)
         trajectory = advance_one_cell_scalar_chunk(trajectory=trajectory, stop_event_ordinal=split)
         trajectory = advance_one_cell_scalar_chunk(trajectory=trajectory, stop_event_ordinal=50)
         trajectory = advance_one_cell_scalar_chunk(trajectory=trajectory, stop_event_ordinal=50)
         assert trajectory == uninterrupted_50
 
-    unit_chunks = _start(law=law)
+    unit_chunks = _start(law=law, threshold_schedule=threshold_schedule)
     for stop in range(1, 51):
         unit_chunks = advance_one_cell_scalar_chunk(trajectory=unit_chunks, stop_event_ordinal=stop)
     assert unit_chunks == uninterrupted_50
 
 
-@pytest.mark.parametrize("law", _LAWS)
-def test_deterministic_longer_chunk_partitions(law: OneCellBoundaryLaw) -> None:
-    uninterrupted = _run(257, law=law, width=5, root_seed=0x0123456789ABCDEF)
+@pytest.mark.parametrize(("law", "threshold_schedule"), tuple(product(_LAWS, _THRESHOLD_SCHEDULES)))
+def test_deterministic_longer_chunk_partitions(
+    law: OneCellBoundaryLaw,
+    threshold_schedule: tuple[int, ...],
+) -> None:
+    uninterrupted = _run(
+        257,
+        law=law,
+        width=5,
+        root_seed=0x0123456789ABCDEF,
+        threshold_schedule=threshold_schedule,
+    )
     partitions = (
         (257,),
         (1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 257),
@@ -1285,75 +1930,127 @@ def test_deterministic_longer_chunk_partitions(law: OneCellBoundaryLaw) -> None:
         tuple(range(1, 258, 17)) + (257,),
     )
     for stops in partitions:
-        trajectory = _start(law=law, width=5, root_seed=0x0123456789ABCDEF)
+        trajectory = _start(
+            law=law,
+            width=5,
+            root_seed=0x0123456789ABCDEF,
+            threshold_schedule=threshold_schedule,
+        )
         for stop in stops:
             trajectory = advance_one_cell_scalar_chunk(trajectory=trajectory, stop_event_ordinal=stop)
         assert trajectory == uninterrupted
 
 
-def test_all_3600_one_event_cases_match_independent_oracle() -> None:
+def test_all_14400_one_event_schedule_cases_match_independent_oracle() -> None:
     count = 0
     transitions = 0
-    for law, width, launch_x, contact_value in product(_LAWS, range(3, 6), range(5), range(100)):
+    for threshold_schedule, law, width, launch_x, contact_value in product(
+        _THRESHOLD_SCHEDULES,
+        _LAWS,
+        range(3, 6),
+        range(5),
+        range(100),
+    ):
         if launch_x >= width:
             continue
-        expected = _oracle_from_tape(law.value, width, ((launch_x, contact_value),))
-        actual = _run_tape(law, width, ((launch_x, contact_value),))
+        expected = _oracle_from_tape(
+            law.value,
+            width,
+            ((launch_x, contact_value),),
+            threshold_schedule,
+        )
+        actual = _run_tape(
+            law,
+            width,
+            ((launch_x, contact_value),),
+            threshold_schedule,
+        )
         _assert_trajectory_matches_oracle(actual, expected)
         count += 1
-        transitions += 8
-    assert count == 3600
-    assert transitions == 28800
+        transitions += len(threshold_schedule)
+    assert count == 14400
+    assert transitions == 79200
 
 
-def test_all_1323_two_event_tapes_match_independent_oracle() -> None:
+def test_all_3564_two_event_schedule_tapes_match_independent_oracle() -> None:
     count = 0
     transitions = 0
-    for law, launches, contacts in product(
-        _LAWS,
-        product(range(3), repeat=2),
-        product(_CONTACT_REPRESENTATIVES, repeat=2),
-    ):
-        tape = tuple(zip(launches, contacts))
-        expected = _oracle_from_tape(law.value, 3, tape)
-        actual = _run_tape(law, 3, tape)
-        _assert_trajectory_matches_oracle(actual, expected)
-        count += 1
-        transitions += 16
-    assert count == 1323
-    assert transitions == 21168
+    representatives = (
+        (_THRESHOLDS, (0, 1, 2, 5, 10, 25, 50)),
+        (_B1_THRESHOLDS, (0, 5, 50)),
+        (_B2_FULL_THRESHOLDS, (0, 5, 50, 90, 95, 98, 99)),
+        (_B2_HIGH_THRESHOLDS, (0, 90, 95, 98, 99)),
+    )
+    for threshold_schedule, contacts_for_schedule in representatives:
+        for law, launches, contacts in product(
+            _LAWS,
+            product(range(3), repeat=2),
+            product(contacts_for_schedule, repeat=2),
+        ):
+            tape = tuple(zip(launches, contacts))
+            expected = _oracle_from_tape(law.value, 3, tape, threshold_schedule)
+            actual = _run_tape(law, 3, tape, threshold_schedule)
+            _assert_trajectory_matches_oracle(actual, expected)
+            count += 1
+            transitions += 2 * len(threshold_schedule)
+    assert count == 3564
+    assert transitions == 44388
 
 
 @pytest.mark.slow
-def test_all_27783_three_event_tapes_match_independent_oracle() -> None:
+def test_all_67878_three_event_schedule_tapes_match_independent_oracle() -> None:
     count = 0
     transitions = 0
-    for law, launches, contacts in product(
-        _LAWS,
-        product(range(3), repeat=3),
-        product(_CONTACT_REPRESENTATIVES, repeat=3),
-    ):
-        tape = tuple(zip(launches, contacts))
-        expected = _oracle_from_tape(law.value, 3, tape)
-        actual = _run_tape(law, 3, tape)
-        _assert_trajectory_matches_oracle(actual, expected)
-        count += 1
-        transitions += 24
-    assert count == 27783
-    assert transitions == 666792
+    representatives = (
+        (_THRESHOLDS, (0, 1, 2, 5, 10, 25, 50)),
+        (_B1_THRESHOLDS, (0, 5, 50)),
+        (_B2_FULL_THRESHOLDS, (0, 5, 50, 90, 95, 98, 99)),
+        (_B2_HIGH_THRESHOLDS, (0, 90, 95, 98, 99)),
+    )
+    for threshold_schedule, contacts_for_schedule in representatives:
+        for law, launches, contacts in product(
+            _LAWS,
+            product(range(3), repeat=3),
+            product(contacts_for_schedule, repeat=3),
+        ):
+            tape = tuple(zip(launches, contacts))
+            expected = _oracle_from_tape(law.value, 3, tape, threshold_schedule)
+            actual = _run_tape(law, 3, tape, threshold_schedule)
+            _assert_trajectory_matches_oracle(actual, expected)
+            count += 1
+            transitions += 3 * len(threshold_schedule)
+    assert count == 67878
+    assert transitions == 1314630
 
 
-def test_independent_real_rng_sweep_192_trajectories() -> None:
+def test_independent_real_rng_sweep_768_trajectories() -> None:
     trajectories = 0
     transitions = 0
-    for root_seed, width, law in product(range(16), (3, 4, 5, 32), _LAWS):
-        expected, _ = _oracle_real(root_seed=root_seed, law_id=law.value, width=width, stop=64)
-        actual = _run(64, law=law, width=width, root_seed=root_seed)
+    for root_seed, width, law, threshold_schedule in product(
+        range(16),
+        (3, 4, 5, 32),
+        _LAWS,
+        _THRESHOLD_SCHEDULES,
+    ):
+        expected, _ = _oracle_real(
+            root_seed=root_seed,
+            law_id=law.value,
+            width=width,
+            stop=64,
+            threshold_schedule=threshold_schedule,
+        )
+        actual = _run(
+            64,
+            law=law,
+            width=width,
+            root_seed=root_seed,
+            threshold_schedule=threshold_schedule,
+        )
         _assert_trajectory_matches_oracle(actual, expected)
         trajectories += 1
-        transitions += 64 * 8
-    assert trajectories == 192
-    assert transitions == 98304
+        transitions += 64 * len(threshold_schedule)
+    assert trajectories == 768
+    assert transitions == 270336
 
 
 def test_forced_launch_and_contact_rejection_real_route_and_partition(
@@ -1384,11 +2081,29 @@ def test_forced_launch_and_contact_rejection_real_route_and_partition(
 
     monkeypatch.setattr(semantic_rng, "raw_u64", raw_u64_with_rejections)
     forced_tape = ((1, 79), (0, 9), (1, 0), (0, 2), (0, 92))
-    for law in _LAWS:
-        uninterrupted = _run(5, law=law, width=3, root_seed=0)
-        expected = _oracle_from_tape(law.value, 3, forced_tape)
+    endpoint_totals = {
+        _THRESHOLDS: (0, 1, 1, 2, 3, 3, 3, 5),
+        _B1_THRESHOLDS: (0, 2, 3, 5),
+        _B2_FULL_THRESHOLDS: (2, 3, 4, 5, 5, 5),
+        _B2_HIGH_THRESHOLDS: (4, 5, 5, 5),
+    }
+    for law, threshold_schedule in product(_LAWS, _THRESHOLD_SCHEDULES):
+        uninterrupted = _run(
+            5,
+            law=law,
+            width=3,
+            root_seed=0,
+            threshold_schedule=threshold_schedule,
+        )
+        expected = _oracle_from_tape(law.value, 3, forced_tape, threshold_schedule)
         _assert_trajectory_matches_oracle(uninterrupted, expected)
-        split = _start(law=law, width=3, root_seed=0)
+        assert tuple(arm.endpoint_selected_count for arm in uninterrupted.arms) == endpoint_totals[threshold_schedule]
+        split = _start(
+            law=law,
+            width=3,
+            root_seed=0,
+            threshold_schedule=threshold_schedule,
+        )
         for stop in (1, 2, 2, 3, 5):
             split = advance_one_cell_scalar_chunk(trajectory=split, stop_event_ordinal=stop)
         assert split == uninterrupted
@@ -1396,8 +2111,11 @@ def test_forced_launch_and_contact_rejection_real_route_and_partition(
     assert ("contact", 2, 0) in calls and ("contact", 2, 1) in calls
 
 
-def test_selector_once_and_eight_boundary_calls_in_threshold_order() -> None:
-    trajectory = _start()
+@pytest.mark.parametrize("threshold_schedule", _THRESHOLD_SCHEDULES)
+def test_selector_once_and_boundary_calls_in_schedule_order(
+    threshold_schedule: tuple[int, ...],
+) -> None:
+    trajectory = _start(threshold_schedule=threshold_schedule)
     selector_calls: list[tuple[int, int, int]] = []
 
     def selector(*, root_seed: int, event_ordinal: int, width: int) -> OneCellCoupledEventSelection:
@@ -1441,8 +2159,8 @@ def test_selector_once_and_eight_boundary_calls_in_threshold_order() -> None:
         _transition_delegate=transition_spy,
     )
     assert folded == selected
-    assert len(transition_calls) == 8
-    assert [sticky for _, _, sticky in transition_calls] == [False, False, False, False, True, True, True, True]
+    assert len(transition_calls) == len(threshold_schedule)
+    assert [sticky for _, _, sticky in transition_calls] == [5 < threshold for threshold in threshold_schedule]
     assert all(heights == (0, 0, 0) and launch_x == 1 for heights, launch_x, _ in transition_calls)
 
 
@@ -1578,6 +2296,43 @@ def test_exact_types_ranges_and_keyword_only_calls() -> None:
                 boundary_law=OneCellBoundaryLaw.PERIODIC,
                 width=bad,
             )
+    for bad in (
+        list(_THRESHOLDS),
+        _TupleSubclass(_THRESHOLDS),
+        "primary",
+        None,
+    ):
+        with pytest.raises(TypeError):
+            start_one_cell_scalar_trajectory(
+                root_seed=0,
+                boundary_law=OneCellBoundaryLaw.PERIODIC,
+                width=3,
+                threshold_schedule=bad,
+            )
+    for bad in (
+        (0, 5, 50),
+        (0, 5, 50, 99, 100),
+        (100, 50, 5, 0),
+        (0, 5, 5, 100),
+        (0, 5, 50, 90, 95, 98, 99, 100),
+        (0, 5, 90, 100),
+        (),
+    ):
+        with pytest.raises(ValueError):
+            start_one_cell_scalar_trajectory(
+                root_seed=0,
+                boundary_law=OneCellBoundaryLaw.PERIODIC,
+                width=3,
+                threshold_schedule=bad,
+            )
+    for bad in ((0, 5, 50, True), (0, 5.0, 50, 100), (0, _IntSubclass(5), 50, 100)):
+        with pytest.raises(TypeError):
+            start_one_cell_scalar_trajectory(
+                root_seed=0,
+                boundary_law=OneCellBoundaryLaw.PERIODIC,
+                width=3,
+                threshold_schedule=bad,
+            )
 
     trajectory = _run(2)
     for bad in (True, 2.0, _IntSubclass(2), "2", None):
@@ -1648,6 +2403,16 @@ def test_direct_records_recertify_projections_and_reject_forgery() -> None:
     partial = object.__new__(OneCellScalarTrajectory)
     with pytest.raises(TypeError):
         advance_one_cell_scalar_chunk(trajectory=partial, stop_event_ordinal=0)
+
+    b2 = _run(7, threshold_schedule=_B2_FULL_THRESHOLDS)
+    assert replace(b2) == b2
+    assert replace(b2.arms[2]) == b2.arms[2]
+    with pytest.raises(ValueError, match="frozen PRE threshold"):
+        replace(b2.arms[2], threshold=89)
+    with pytest.raises(ValueError, match="four frozen PRE schedules"):
+        replace(b2, arms=b2.arms[:-1])
+    with pytest.raises(ValueError, match="four frozen PRE schedules"):
+        replace(b2, arms=(b2.arms[0], b2.arms[2], *b2.arms[1:2], *b2.arms[3:]))
 
 
 def test_q_unsigned_128_high_low_round_trip() -> None:
@@ -1723,6 +2488,10 @@ def test_private_authority_rebinding_fails_closed(monkeypatch: pytest.MonkeyPatc
     original = trajectory
     corruptions = (
         ("_THRESHOLDS", (0, 1, 2, 5, 10, 25, 50, 99)),
+        ("_B1_THRESHOLDS", (0, 5, 50, 99)),
+        ("_B2_FULL_THRESHOLDS", (5, 50, 90, 95, 98, 100)),
+        ("_B2_HIGH_THRESHOLDS", (90, 95, 98, 100)),
+        ("_THRESHOLD_SCHEDULES", tuple(reversed(one_cell_trajectory._THRESHOLD_SCHEDULES))),
         ("_CAUSAL_ORDER", tuple(reversed(one_cell_trajectory._CAUSAL_ORDER))),
         ("_PERIODIC", OneCellBoundaryLaw.HARD_WALL_LEGACY_ASYMMETRIC),
         ("_BOUNDARY_LAWS", tuple(reversed(one_cell_trajectory._BOUNDARY_LAWS))),
@@ -1843,6 +2612,7 @@ def test_no_root_exports_and_dependency_guard() -> None:
     }
     assert imported_roots.isdisjoint(forbidden_roots)
     source = source_path.read_text(encoding="utf-8")
+    assert "endpoint_selected = contact_value < arm.threshold" in source
     for forbidden in (
         ".rng import",
         ".rng_compiled import",
@@ -1856,6 +2626,8 @@ def test_no_root_exports_and_dependency_guard() -> None:
         ".models import",
         "numpy",
         "numba",
+        "sticky_by_threshold",
+        "arm_decisions",
     ):
         assert forbidden not in source
 
