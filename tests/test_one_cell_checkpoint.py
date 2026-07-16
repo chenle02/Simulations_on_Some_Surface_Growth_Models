@@ -2134,6 +2134,15 @@ def test_only_allowlisted_slice_paths_are_new_or_modified() -> None:
         pytest.skip("Git history is unavailable")
     import subprocess
 
+    parent_check = subprocess.run(
+        ["git", "cat-file", "-e", f"{_SOFTWARE_PARENT}^{{commit}}"],
+        cwd=_REPO_ROOT,
+        capture_output=True,
+        text=True,
+    )
+    if parent_check.returncode != 0:
+        pytest.skip("the frozen software parent is unavailable in this shallow checkout")
+
     result = subprocess.run(
         ["git", "diff", "--name-only", _SOFTWARE_PARENT, "--"],
         cwd=_REPO_ROOT,
