@@ -1426,7 +1426,396 @@ acquisition. Slice 6 may close common-correctness item 4 only after all source,
 test, package, review, CI, and repository-parity gates pass; items 5--6 remain
 open.
 
-### 6.19 Clocks
+### 6.19 Provisional PRE one-cell checkpoint and resume identity
+
+`tetris_ballistic.engine.one_cell_checkpoint` is the explicit-submodule-only
+Slice 7 checkpoint, interruption, and finalization surface for the certified
+Slice 5/6 one-cell trajectories. It is not re-exported from
+`tetris_ballistic` or `tetris_ballistic.engine`. Its `__all__` contains exactly
+
+```python
+[
+    "OneCellCheckpointValidationError",
+    "OneCellCheckpointBinding",
+    "OneCellCheckpointSchedule",
+    "OneCellCheckpointProgress",
+    "OneCellInterruptionFlag",
+    "build_one_cell_checkpoint_schedule",
+    "advance_one_cell_checkpoint_generation",
+    "publish_one_cell_final",
+]
+```
+
+Package and engine roots remain importable without Numba. Explicit import of
+this module without a compatible `hpc` extra raises a clear `ImportError`
+naming `tetris_ballistic.engine.one_cell_checkpoint` and
+`tetris_ballistic[hpc]`.
+
+All record constructors and the three top-level functions are keyword-only.
+Every record is frozen and slotted except `OneCellInterruptionFlag`, the sole
+mutable operational latch. The calls are
+
+```python
+build_one_cell_checkpoint_schedule(
+    *,
+    terminal_event_count: int,
+) -> OneCellCheckpointSchedule
+
+advance_one_cell_checkpoint_generation(
+    *,
+    task_directory: str,
+    binding: OneCellCheckpointBinding,
+    interruption_flag: OneCellInterruptionFlag | None = None,
+) -> OneCellCheckpointProgress
+
+publish_one_cell_final(
+    *,
+    task_directory: str,
+    binding: OneCellCheckpointBinding,
+) -> OneCellCheckpointProgress
+```
+
+The record field order is frozen:
+
+```text
+OneCellCheckpointSchedule:
+  terminal_event_count
+  checkpoint_event_counts
+  snapshot_checkpoint_indices
+  snapshot_event_counts
+  checkpoint_vector_sha256
+  snapshot_vector_sha256
+
+OneCellCheckpointBinding:
+  root_seed
+  boundary_law
+  width
+  threshold_schedule
+  terminal_event_count
+  configuration_bytes
+  scientific_identity_bytes
+  software_commit
+
+OneCellCheckpointProgress:
+  disposition
+  trajectory
+  generation
+  checkpoint_count
+  snapshot_count
+  used_fallback
+  manifest_path
+```
+
+Schedule vectors and trajectory arms are exact built-in tuples. Counts and
+generation are exact built-in integers. Digests, disposition, commit, and the
+absolute normalized manifest path are exact built-in strings.
+`used_fallback` is an exact Boolean, and `trajectory` is the exact Slice 5
+record. Progress dispositions are exactly `ready`, `requeue-required`,
+`terminal`, `complete`, or `reused`. Direct progress construction proves only
+structural consistency; progress is never accepted as recovery authority.
+For final `complete` or `reused` progress, generation is exactly zero,
+checkpoint/snapshot counts are 512/16, and the trajectory is reconstructed
+from the final bundle. `used_fallback` is false for `reused`; newly `complete`
+reports only whether that publication invocation selected an older valid
+terminal recovery generation.
+
+`OneCellInterruptionFlag` exposes exactly a read-only `requested` property,
+idempotent zero-argument `request()`, and signal-compatible
+`__call__(signum, frame)` with the two positional arguments supplied by
+Python's signal machinery. Each mutator performs one Boolean store and no I/O,
+allocation, formatting, logging, locking, exception raising, kernel work,
+exit, or requeue operation. The module does not install a signal handler.
+
+#### Binding and schedule
+
+A binding accepts only an unsigned-128 built-in root seed, an exact
+`OneCellBoundaryLaw`, width in `[3,1024]`, one exact primary, B1, B2-full, or
+B2-high threshold tuple, terminal processed-event count, two nonempty exact
+built-in byte strings no larger than 1 MiB each, and a full lowercase 40-hex
+software commit. The terminal is at least 769 and below `2**64`, with exact
+preflight laws
+
+```text
+width * N < 2**64
+width * N**2 < 2**128.
+```
+
+Configuration and scientific-identity bytes are persisted and compared
+exactly but remain opaque. This module does not parse YAML or JSON and does not
+derive a campaign, horizon branch, task, attempt, or directory identity.
+
+The request identity binds the root, boundary enum value, width, threshold
+order, terminal, schedule hashes, raw-byte sizes and hashes, software commit,
+and literal RNG contract:
+
+```text
+algorithm       = semantic-philox4x64-10-v1
+coupling group  = pre-one-cell-discovery-v1
+stream order    = (launch, contact)
+counter         = (zero-based event ordinal, rejection ordinal, 0, 0).
+```
+
+It is compact sorted-key canonical JSON with exact envelope keys `profile`,
+`record`, and `sha256`. Profile is
+`tetris-pre-one-cell-checkpoint-request@1`; the digest hashes the compact
+canonical bytes of `record` alone without a trailing LF. The record keys are
+
+```text
+boundary_law
+checkpoint_vector_sha256
+configuration_sha256
+configuration_size_bytes
+counter_fields
+coupling_group
+rng_algorithm
+root_seed_decimal
+scientific_identity_sha256
+scientific_identity_size_bytes
+snapshot_vector_sha256
+software_commit
+stream_order
+terminal_event_count
+threshold_schedule
+width
+```
+
+`root_seed_decimal` is an unsigned base-ten string with no leading zero except
+literal `"0"`; raw opaque bytes are never base64-encoded into JSON. The stored
+raw bytes, member sizes and hashes, request record, and envelope digest must
+all agree.
+
+The schedule contains exactly 384 early and 128 late processed-event counts.
+For `A=ceil(N/2)` and `M=A-1`, the early mathematical value is
+`M**(j/383)`, rounded half up and forced forward by
+
+```text
+n_0 = 1
+n_j = min(M-(383-j), max(n_(j-1)+1, round_half_up(M**(j/383))))
+n_383 = M.
+```
+
+Rounding is decided exactly by
+
+```text
+(2*r-1)**383 <= 2**383 * M**j < (2*r+1)**383.
+```
+
+The late values are `A+floor(k*(N-A)/127)`, `k=0,...,127`. Snapshot indices
+are exactly
+
+```text
+(0,34,68,102,136,170,204,238,273,307,341,375,409,443,477,511).
+```
+
+Checkpoint and snapshot digests use their separate compact sorted-key profiles
+without a trailing LF. The full KATs at `N=769` and `N=100663296`, plus both
+hashes for every declared horizon, are normative in
+`docs/PRE-ONE-CELL-CHECKPOINT-VECTORS.md`. They certify the schedule only;
+Slice 8 must still bind selected literal vectors and hashes into exact campaign
+bytes.
+
+#### Recovery and interruption
+
+A fresh task starts only through the captured Slice 5 scalar start at `N=0`.
+Callers cannot inject a prefix or numerical delegate. Resume state comes only
+from the validated task directory, and numerical evolution calls only the
+captured public Slice 6 `advance_one_cell_compiled_chunk`.
+
+One invocation holds the persistent task lock across discovery, validation,
+compiled advance, generation publication, readback, and retention. It stops at
+the next strict global multiple of `2**20` processed events or the terminal,
+and compiled calls stop additionally at every unrecorded scientific
+checkpoint. No call crosses an observation point or spans more than `2**20`
+events. Due rows and snapshots are captured at their exact stops. Without an
+interruption, one durable generation is returned as `ready` or `terminal`.
+
+The flag is sampled after lock-time validation, before a compiled call, after
+each bounded return, and after readback and retention immediately before the
+returned disposition. The last sample is the interruption linearization
+point. A fresh pre-requested task may commit one canonical `N=0` generation;
+an already durable state is never duplicated. A requested flag returns
+`requeue-required` after durable publication. Because a terminal recovery
+generation is still incomplete, `requeue-required` takes precedence over
+`terminal` until a separate final manifest exists. No interrupted invocation
+publishes a final manifest, installs a signal handler, or requests requeue.
+
+#### Closed codec
+
+Recovery profile is `tetris-ballistic/pre-one-cell-checkpoint@1`; final
+profile is `tetris-ballistic/pre-one-cell-final@1`. Pickle, joblib, YAML,
+NPZ/ZIP, object arrays, native structs, and caller-selected member names are
+forbidden. For zero-padded 20-digit generation text `G`, recovery names are
+
+```text
+checkpoint.G.configuration.bin
+checkpoint.G.scientific-identity.bin
+checkpoint.G.state.json
+checkpoint.G.arrays.u64le
+checkpoint.G.manifest.json
+```
+
+Final names are the corresponding fixed `final.*` names. A temporary is
+`.TARGET.NONCE.tmp` with a 32-lowercase-hex nonce. Every created member is a
+single-link regular owner-only 0600 file. Configuration, identity, state, and
+manifest members are bounded by 1 MiB; arrays are bounded by 64 MiB. The latter
+is a fail-closed parser/allocation ceiling, not an Article output-cap result.
+
+The five final names are literally
+
+```text
+final.configuration.bin
+final.scientific-identity.bin
+final.state.json
+final.arrays.u64le
+final.manifest.json
+```
+
+Stored JSON is strict compact sorted-key UTF-8 with exact keys, duplicate-key
+and nonfinite-value rejection, and one trailing LF. Member SHA-256 values hash
+the exact stored bytes. Array bytes are a headerless, uncompressed C-order
+concatenation of little-endian unsigned-64 words. Each section record has
+exactly `dtype`, `name`, `offset_words`, `shape`, and `word_count`; dtype is
+literal `<u8`, offsets are contiguous from zero, and file length is eight times
+the final word count.
+
+A current or checkpoint arm row has 33 words in this order:
+
+```text
+S, Q_high, Q_low, V, endpoint_count, trigger_count, gap_sum, maximum_gap,
+causal_counts[none,left,right,both],
+causal_gap_sums[none,left,right,both],
+equality_counts[endpoint_false,masks 0..7],
+equality_counts[endpoint_true,masks 0..7],
+seam_count_scratch.
+```
+
+Hard-wall state marks seam applicability false and reconstructs the scratch
+word as public `None`, never physical zero. Histogram rows are sorted exact
+`(arm_index,gap,count)` triples.
+
+For arm count `A`, width `L`, completed checkpoints `K`, snapshots `J`, and
+histogram rows `H`, recovery sections are exactly
+
+```text
+current_heights              (A,L)
+current_rows                 (A,33)
+current_histogram            (H,3)
+checkpoint_event_counts      (K)
+checkpoint_rows              (K,A,33)
+snapshot_checkpoint_indices  (J)
+snapshot_event_counts        (J)
+snapshot_heights             (J,A,L)
+```
+
+Final sections are exactly
+
+```text
+checkpoint_event_counts      (512)
+checkpoint_rows              (512,A,33)
+snapshot_checkpoint_indices  (16)
+snapshot_event_counts        (16)
+snapshot_heights             (16,A,L)
+final_histogram              (H,3)
+```
+
+Rank-one shapes remain one-element JSON arrays. The terminal snapshot is the
+final interface. No per-event launch, contact, rejection, transition, RNG, or
+height-history tape beyond the 16 snapshots is persisted.
+
+Checkpoint manifests have exact keys `current_event_count`, `generation`,
+`members`, `next_event_ordinal`, `profile`, `request_identity`, and `status`,
+with status `checkpoint`. Final manifests have only `members`, `profile`,
+`request_identity`, and status `complete`. `members` has exact keys `arrays`,
+`configuration`, `scientific_identity`, and `state`; each member record has
+exactly `filename`, `sha256`, and `size_bytes`.
+
+Checkpoint state JSON has exact keys
+
+```text
+arm_count, checkpoint_count, current_event_count, generation,
+next_event_ordinal, profile, seam_equality_applicable, sections,
+snapshot_count, terminal_event_count, width.
+```
+
+Its profile is `tetris-pre-one-cell-checkpoint-state@1`. Final state omits
+`current_event_count`, `generation`, and `next_event_ordinal` and uses
+`tetris-pre-one-cell-final-state@1`.
+
+#### Filesystem, validation, and finalization
+
+`task_directory` is an absolute normalized exact built-in string naming one
+pre-existing dedicated directory. Every path component and inner member is
+opened relative to held no-follow descriptors. Symlinks, hard links,
+nonregular members, substituted ancestors, malformed reserved names, and
+unexpected entries fail closed.
+
+`task.lock` is a persistent, never-replaced inode held with exclusive
+`flock`. Payload members are exclusively created, flushed, fsynced, installed
+without replacement, and followed by a directory fsync. The strict manifest
+is installed last, followed by another directory fsync and full descriptor-
+based readback. Retention begins only after that validation and keeps at most
+the newest two fully valid matching generations.
+
+Recovery ordinals lie in `[1,2**64-1]`. They are numeric, strictly increasing,
+and never derived from mtime or directory enumeration order. The next ordinal
+is one greater than the maximum ordinal observed in any well-formed committed,
+payload-only, or managed-temporary checkpoint basename; exhaustion fails
+before filesystem mutation or numerical execution.
+
+Malformed, noncanonical, identity-unreadable, or request-mismatched manifests
+are fatal and never fall back. Once a canonical manifest proves matching
+identity, a corrupt referenced payload, checksum, layout, or scientific
+invariant rejects that candidate and may select only the immediately older
+retained fully valid generation. `used_fallback` reports this choice. If no
+valid matching state remains while committed material exists, execution fails
+instead of restarting from zero. New generations use one plus every observed
+ordinal and never reuse a corrupt or orphan ordinal.
+
+Before every compiled call, publication, resume, fallback, finalization, and
+reuse, the host reconstructs the exact Slice 5 records and recomputes in Python
+arbitrary precision all height sums, squared-height sums and high-first `Q`
+words, roughness nonnegativity, void/gap identities, histograms,
+causal/equality projections, endpoint laws, seams, arm nesting, schedule
+prefixes, snapshot projections, identity fields, layouts, sizes, and hashes.
+
+Reaching the terminal creates and validates only a private terminal recovery
+generation. `publish_one_cell_final` separately requires that state plus all
+512 rows and 16 snapshots, derives deterministic final members, installs
+`final.manifest.json` last without overwrite, and validates it again. Only a
+valid final manifest marks completion. A malformed or corrupt present final is
+fatal and never falls back; the same exact binding may validate and return a
+valid final as `reused`. Every recovery generation remains private. Only the
+manifest-closed final bundle is eligible for a later deliberate promotion;
+this module performs no promotion.
+
+Exact regular fixed final payloads left without a manifest are uncommitted
+debris. After revalidating the terminal recovery state, the publisher may
+adopt them only when they equal the newly derived deterministic bytes exactly;
+otherwise it removes regular managed debris, fsyncs, and rebuilds. It never
+adopts a nonregular, linked, unexpected, or mismatching member.
+
+#### Failure and scope boundary
+
+Nonexact caller types raise `TypeError`; invalid values, ranges, laws, or task
+paths raise `ValueError`; compiled or generation-ordinal exhaustion raises
+`OverflowError`; and private captured-authority corruption raises
+`AssertionError`. Untrusted filesystem state, publication/readback/retention
+failure, or a persisted scientific-invariant failure raises
+`OneCellCheckpointValidationError`, a `RuntimeError` subclass, before further
+numerical execution or destructive cleanup. Caller-owned values are never
+mutated. SHA-256 detects accidental corruption but is not authentication, and
+the advisory lock does not defend against a malicious same-UID writer.
+
+This slice defines no campaign YAML/schema, plan/cell/task/attempt identity,
+horizon selection, bootstrap matrix, task loop, runner, CLI, legacy dispatch,
+signal installation, Slurm environment or requeue/submission action, Easley
+deployment, pilot/canary/campaign execution, simulation acquisition, analysis,
+promotion, release, or scientific inference. It may close only common-
+correctness item 5 after its complete evidence gate. Item 6 and common
+correctness remain open until Slice 8 binds one exact campaign and isolated
+clone.
+
+### 6.20 Clocks
 
 The engine records, without substitution,
 
@@ -1437,7 +1826,7 @@ The engine records, without substitution,
 
 `ClockKind` is an enum in analysis APIs. Every fitted quantity records its clock. A function must not silently change from one clock to another.
 
-### 6.20 Configuration
+### 6.21 Configuration
 
 `SimulationConfig` contains
 
@@ -1454,7 +1843,7 @@ The engine records, without substitution,
 
 Validation occurs before allocation or simulation. During M1.1, the typed objects expose only the repository-local digest profiles `tetris-ballistic/software-geometry-record@1` and `tetris-ballistic/software-config-record@1`. These digests are not shared scientific identities and must not be compared with data-repository record hashes. A shared result-bundle projection remains an M1.3 gate.
 
-### 6.21 Results
+### 6.22 Results
 
 `SimulationResult` exposes read-only-by-contract arrays or defensive copies for
 

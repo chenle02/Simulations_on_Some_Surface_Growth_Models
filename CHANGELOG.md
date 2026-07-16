@@ -31,6 +31,31 @@ change.
 
 ### Added
 
+- A provisional manifest-last checkpoint and interruption/resume surface under
+  the explicit `tetris_ballistic.engine.one_cell_checkpoint` submodule. Its
+  exact eight-name, keyword-only API builds the Article's 512-checkpoint and
+  16-snapshot schedules, binds one canonical Slice 5 start to the captured
+  Slice 6 compiled chunk, commits at strict global `2**20` recovery boundaries,
+  and exposes a one-Boolean signal latch without installing handlers or issuing
+  requeue actions. Recovery validates exact opaque configuration/scientific
+  bytes, request and RNG identity, software commit, next event ordinal,
+  checksums, little-endian unsigned array layouts, and every trajectory,
+  histogram, causal/equality, seam, snapshot, and nesting invariant before
+  reuse. Persistent descriptor-anchored locking, manifest-last fsync/readback,
+  monotone generations, newest-two-valid retention, explicit matching-identity
+  fallback, and fatal mismatch/corrupt-final rules make partial, stale,
+  mismatched, and concurrent same-task state fail closed. A terminal recovery
+  generation remains private and incomplete; only the separate deterministic
+  `final.manifest.json` marks a final bundle complete. Normative full 512/16
+  KATs at terminals 769 and 100,663,296 and exact hashes for all 20 declared
+  horizons come from an independent integer-only generator and are schedule
+  evidence, not Slice 8 campaign identities. The module is not root-exported,
+  imports no legacy artifact authority, and adds no campaign YAML/schema,
+  task loop, runner/CLI, signal installation, Slurm/Easley action, pilot or
+  campaign execution, simulation acquisition, analysis, promotion, release,
+  or scientific inference. Slice 7 may close only common-correctness item 5
+  after source, corruption/interruption, package, review, CI, and parity gates;
+  item 6 and common correctness remain open.
 - A provisional Numba multi-arm chunk backend under the explicit
   `tetris_ballistic.engine.one_cell_trajectory_compiled` submodule. Its one
   keyword-only operation accepts and returns the exact frozen scalar record,
