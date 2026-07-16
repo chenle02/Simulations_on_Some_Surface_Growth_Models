@@ -1,3 +1,11 @@
 include CHANGELOG.md
+include .github/workflows/workflow.yml
+include scripts/easley/reduce_tw_interfaces.sbatch
+include tests/__init__.py
+include tests/conftest.py
+include tests/build_golden_reference.py
+include tests/build_legacy_golden.py
+include tests/fixtures/legacy-trajectories-v1.json
 recursive-include docs *.md
+recursive-include tests/golden_reference *.npz
 exclude tests/test_compute_endpoint_slope.py
