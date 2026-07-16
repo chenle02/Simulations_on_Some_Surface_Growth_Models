@@ -1,6 +1,6 @@
 # `tetris-ballistic` Community API and Architecture Specification
 
-**Specification version:** 0.5.4
+**Specification version:** 0.5.5
 
 **Status:** M1.1 contracts plus provisional S2.1 exact placement, S2.2
 counter-addressed semantic-RNG oracles, and S2.3 explicit-order exact-law/
@@ -12,8 +12,9 @@ and separate explicit-only clean periodic one-cell transition and PRE
 two-stream common-random-number event selector, plus an explicit-only
 three-boundary scalar one-cell transition with archived and corrected
 hard-wall laws, plus an explicit-only pre-derived-key compiled Philox and
-exact bounded-integer implementation contract;
-checkpoint/persistence identity, trajectory routing, and shared
+exact bounded-integer implementation contract, plus an explicit-only exact
+scalar common-draw eight-arm trajectory and accumulator fold;
+compiled trajectory equality, checkpoint/persistence identity, and shared
 cross-repository schemas are not implemented
 
 **Compatibility target:** backward-compatible 2.1.x transition, then 3.0.0 only after migration gates
@@ -1163,7 +1164,130 @@ authority. Common-correctness item 3 closes only after all source, package,
 review, CI, and repository-parity gates pass. Items 4--6 remain open; all
 scientific acquisition remains closed.
 
-### 6.17 Clocks
+### 6.17 Provisional PRE scalar one-cell trajectory
+
+`tetris_ballistic.engine.one_cell_trajectory` is an
+explicit-submodule-only, exact in-memory scalar trajectory over the certified
+PRE coupling and three boundary laws. It is not re-exported from
+`tetris_ballistic` or `tetris_ballistic.engine`; neither package initializer
+changes. Its complete public surface is
+
+```python
+from tetris_ballistic.engine.one_cell_trajectory import (
+    OneCellScalarArmAccumulator,
+    OneCellScalarTrajectory,
+    advance_one_cell_scalar_chunk,
+    start_one_cell_scalar_trajectory,
+)
+```
+
+The module's `__all__` contains exactly those four names.
+Both calls are keyword-only and both records are frozen and slotted.
+`start_one_cell_scalar_trajectory` accepts an exact built-in unsigned-128
+`root_seed`, an exact certified `OneCellBoundaryLaw`, and an exact built-in
+width in `[3, 1024]`. It creates eight distinct all-zero interfaces in exact
+threshold order `(0, 1, 2, 5, 10, 25, 50, 100)`. This PRE-specific width
+ceiling covers every declared campaign width while rejecting infeasible
+arithmetic-only Slice 2 widths before allocating a height tuple.
+
+`advance_one_cell_scalar_chunk` accepts an already certified trajectory and
+an exact built-in `stop_event_ordinal`. It evolves exactly the contiguous
+half-open interval
+
+```text
+[trajectory.event_count, stop_event_ordinal).
+```
+
+The inferred start forbids skipping or replaying an ordinal. Equality is a
+delegate-free identity operation: an equal stop returns an equal defensively
+reconstructed trajectory without selecting or transitioning an event. Neither
+operation mutates the caller's record or any nested tuple.
+
+`OneCellScalarArmAccumulator` retains exactly
+
+```text
+boundary_law
+threshold
+heights
+event_count
+height_sum
+height_square_sum
+void_volume
+endpoint_selected_count
+positive_gap_trigger_count
+gap_sum
+maximum_gap
+causal_counts
+causal_gap_sums
+endpoint_equality_mask_counts
+gap_histogram
+seam_equality_count
+```
+
+The causal tuples use fixed order `(none, left, right, both)`. Equality counts
+are a two-row tuple indexed first by endpoint false/true and then by masks zero
+through seven. The histogram is a sorted sparse tuple of `(gap, count)` pairs.
+Periodic seam equality is an integer count; either hard-wall value is exactly
+`None`, not physical false or numeric zero. The record's only derived
+properties are `width` and the exact roughness numerator
+`width*height_square_sum - height_sum**2`.
+
+`OneCellScalarTrajectory` retains only `root_seed`, `boundary_law`, `width`,
+the common `event_count`, and the tuple of eight arm accumulators. It retains
+no per-event selection, contact, RNG, transition, or height-history tape.
+Direct construction of either record proves all structural projections but
+does not authenticate a claimed Philox history.
+
+For every event, advance calls the certified Slice 2
+`select_one_cell_coupled_event` exactly once and cross-binds its exact result
+to the requested root, ordinal, and width. It then calls the certified Slice 3
+`transition_one_cell_boundary` exactly once per arm in threshold order, using
+the one shared launch and literal endpoint decision `contact < threshold`, and
+cross-binds every transition before folding its certified primitives. No arm,
+boundary law, or threshold enters an RNG address.
+
+All scalar state uses exact integers. Heights, `N`, `S`, `V`, counters, gaps,
+histogram entries, and periodic seam counts are unsigned-64 values; `Q` is an
+unsigned-128 Python integer. Before any delegate call, advance checks with
+arbitrary precision that
+
+```text
+0 <= current N <= stop < 2**64
+width * stop < 2**64
+width * stop**2 < 2**128.
+```
+
+Every arm certifies `S=sum(heights)`, `Q=sum(h*h)`, `V=S-N=gap_sum`, and a
+nonnegative roughness numerator. Its histogram, causal/equality projections,
+endpoint/trigger totals, and seam count reproduce the common event count and
+void volume. In particular, equality counts total `N`, their selected row
+totals the endpoint count, and both mask-zero cells are zero. Causal counts
+total `N`; the `none` count is `N-trigger`, and causal gap sums total `V` with
+zero in the `none` stratum. At `N=0` the histogram is empty. Every nonempty
+prefix has a positive zero-gap bin, positive counts on strictly increasing
+keys, count total `N`, weighted total `V`, positive-bin count equal to the
+trigger count, and final key equal to the maximum gap. Every height is at most
+`N`. The 0% arm always has `S=N` and zero endpoint, trigger, and void counts;
+the 100% endpoint count is `N`; endpoint counts and every height column are
+nondecreasing across the threshold order.
+
+Normative complete `[0,7)` and `[0,50)` snapshots for root zero, width three,
+all eight arms, and all three laws are recorded in
+`docs/PRE-ONE-CELL-SCALAR-TRAJECTORY-VECTORS.md`. The certificate is produced
+by a separately written SHA-256/Philox/rejection/recurrence/accumulator oracle,
+exhaustive small injected-event tapes, real-RNG sweeps, forced rejection, and
+chunk-partition equivalence. Slice 5 proves exact high/low-word round-trip
+compatibility for `Q` in tests but exposes no packed representation.
+
+This surface adds no compiled or Numba trajectory, packed `Q`, performance
+claim, checkpoint, persistence, resume, serialization, configuration or
+campaign identity, legacy dispatch, runner, CLI, scheduler,
+Easley/Slurm/HPC route, pilot, canary, simulation output, analysis, release,
+or scientific-acquisition path. It advances the scalar prerequisite for
+common-correctness item 4 but closes no numbered common-correctness item;
+items 4--6 remain open.
+
+### 6.18 Clocks
 
 The engine records, without substitution,
 
@@ -1174,7 +1298,7 @@ The engine records, without substitution,
 
 `ClockKind` is an enum in analysis APIs. Every fitted quantity records its clock. A function must not silently change from one clock to another.
 
-### 6.18 Configuration
+### 6.19 Configuration
 
 `SimulationConfig` contains
 
@@ -1191,7 +1315,7 @@ The engine records, without substitution,
 
 Validation occurs before allocation or simulation. During M1.1, the typed objects expose only the repository-local digest profiles `tetris-ballistic/software-geometry-record@1` and `tetris-ballistic/software-config-record@1`. These digests are not shared scientific identities and must not be compared with data-repository record hashes. A shared result-bundle projection remains an M1.3 gate.
 
-### 6.19 Results
+### 6.20 Results
 
 `SimulationResult` exposes read-only-by-contract arrays or defensive copies for
 

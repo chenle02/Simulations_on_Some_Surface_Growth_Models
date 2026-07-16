@@ -31,6 +31,31 @@ change.
 
 ### Added
 
+- A provisional exact scalar common-draw trajectory under the explicit
+  `tetris_ballistic.engine.one_cell_trajectory` submodule. Its keyword-only
+  start operation creates eight distinct zero interfaces in threshold order
+  `(0, 1, 2, 5, 10, 25, 50, 100)`, and its keyword-only chunk operation
+  advances the inferred contiguous interval from the current event count to
+  an exclusive stop. Each event calls the certified PRE selector once, shares
+  its launch and contact across all arms, applies literal `contact < threshold`
+  decisions, and calls the certified three-law boundary transition once per
+  arm in order. Frozen trajectory and arm records retain exact interfaces,
+  height moments, void and gap projections, endpoint/trigger counts, fixed
+  causal and equality strata, sparse gap histograms, and boundary-appropriate
+  seam counts without retaining an event tape. Defensive reconstruction,
+  fail-before-delegate unsigned-64/unsigned-128 bounds, structural
+  recertification, cross-arm nesting, empty-chunk identity, and arbitrary
+  partition equivalence are part of the contract. A separately written
+  SHA-256/Philox/rejection/three-recurrence oracle supplies complete root-zero,
+  width-three `[0,7)` and `[0,50)` vectors for all arms and laws, exhaustive
+  one-, two-, and declared-slow three-event injected tapes, real-RNG sweeps,
+  forced rejection, adversarial delegation, and high/low-word `Q` round-trip
+  evidence. The module is not root-exported and adds no compiled/Numba
+  trajectory, packed `Q`, checkpoint, persistence/resume, configuration or
+  campaign identity, legacy dispatch, runner/CLI, Easley/Slurm/HPC route,
+  pilot, canary, simulation output, analysis, release, or scientific
+  acquisition. It advances only the scalar prerequisite for common-
+  correctness item 4; items 4--6 remain open.
 - A provisional pre-derived-key compiled Philox4x64-10 and exact
   bounded-integer surface under the explicit
   `tetris_ballistic.engine.rng_compiled` submodule. Its three keyword-only
