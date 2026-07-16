@@ -43,6 +43,7 @@ from tetris_ballistic.engine.one_cell_campaign import (
 
 _REPO_ROOT = Path(__file__).resolve().parents[1]
 _SOFTWARE_PARENT = "87b99f8a9e41968d9aecbfc1f8af90dbb01fc90c"
+_SOFTWARE_AUTHORITY = "b33cc0191298d80f0bdc944a3a5e444952873e37"
 _HEX_A = "a" * 64
 _HEX_B = "b" * 64
 _HEX_C = "c" * 64
@@ -2873,16 +2874,17 @@ assert "tetris_ballistic.engine.one_cell_trajectory_compiled" not in sys.modules
 def test_only_the_frozen_slice_8a_allowlist_is_new_or_modified() -> None:
     if not (_REPO_ROOT / ".git").is_dir():
         pytest.skip("Git history is unavailable")
-    parent_check = subprocess.run(
-        ["git", "cat-file", "-e", f"{_SOFTWARE_PARENT}^{{commit}}"],
-        cwd=_REPO_ROOT,
-        capture_output=True,
-        text=True,
-    )
-    if parent_check.returncode != 0:
-        pytest.skip("the frozen software parent is unavailable in this shallow checkout")
+    for commit in (_SOFTWARE_PARENT, _SOFTWARE_AUTHORITY):
+        endpoint_check = subprocess.run(
+            ["git", "cat-file", "-e", f"{commit}^{{commit}}"],
+            cwd=_REPO_ROOT,
+            capture_output=True,
+            text=True,
+        )
+        if endpoint_check.returncode != 0:
+            pytest.skip("the frozen Slice 8A range is unavailable in this shallow checkout")
     changed_result = subprocess.run(
-        ["git", "diff", "--name-only", _SOFTWARE_PARENT, "--"],
+        ["git", "diff", "--name-only", _SOFTWARE_PARENT, _SOFTWARE_AUTHORITY, "--"],
         cwd=_REPO_ROOT,
         check=True,
         capture_output=True,

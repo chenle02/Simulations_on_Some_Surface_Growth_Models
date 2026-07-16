@@ -31,6 +31,42 @@ change.
 
 ### Added
 
+- A provisional fail-closed PRE launch and Slurm runner under the explicit
+  `tetris_ballistic.engine.one_cell_runner` submodule, with distinct in-job
+  and submission module CLIs plus one generic inert Easley wrapper. Frozen,
+  sealed records join the pushed protocol/source/wheel/campaign/deployment,
+  optional branch, lane admission, exact ordered Slice 8A identities,
+  content-bound interpreter/Git/Slurm tools, private path/resource/process
+  environments, and post-push coordinator readback before any mutable action.
+  Public records are recursively snapshotted without retaining nested caller
+  aliases.
+  Submission installs one durable no-replace claim before the sole exact
+  `sbatch` array call and records bounded accepted/rejected/unknown output in
+  one immutable receipt; no ambiguity permits replay. In-job authorization
+  requires that accepted receipt and exact Slurm mapping, blocks `SIGUSR1`
+  before its bounded handshake, lazily imports the Slice 7 checkpoint surface,
+  advances one exact cell, and permits only one durable exact-element requeue
+  after a no-replace permit. Every public projection is rebound to held and
+  live authority bytes; coordinator and software histories must descend their
+  frozen Slice 8B prerequisites. Filesystem-reported name/path limits,
+  pairwise-isolated roots, retained no-follow descriptor chains, immutable
+  ledger-name identities, and nonwritable batch ancestry protect every
+  generated path and scheduler boundary. All deterministic runtime path and
+  temporary shapes are preflighted before Git; the guard entry is fsynced
+  before linking, and two-link target fsync precedes guard unlink so every
+  crash boundary is either linked-and-refused or already durable. Final
+  file/private-directory metadata is rechecked on retained
+  descriptors. A private evidence-only
+  reconciliation validator freezes replay to false and requires a superseding
+  launch. Fixture profiles refuse submission and scientific
+  execution before writes/imports/scheduler calls; successful scheduler and
+  width-3/terminal-769 lifecycle coverage uses private mocked drivers only.
+  The source distribution carries the wrapper once while the wheel excludes
+  it; no root export, console entry point, legacy dispatch, dependency, real
+  Easley/Slurm action, final campaign byte, launch authority, declared-horizon
+  run, or scientific acquisition is added. Common-correctness item 6 remains
+  open through the exact campaign freeze and zero-launch isolated Easley
+  certification.
 - A provisional held-byte PRE campaign codec under the explicit
   `tetris_ballistic.engine.one_cell_campaign` submodule. Its frozen, slotted,
   keyword-only records and four task operations accept only strict

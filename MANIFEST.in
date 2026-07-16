@@ -1,6 +1,7 @@
 include CHANGELOG.md
 include .github/workflows/workflow.yml
 include scripts/easley/reduce_tw_interfaces.sbatch
+include scripts/easley/run_pre_one_cell.sbatch
 include tests/__init__.py
 include tests/conftest.py
 include tests/build_golden_reference.py

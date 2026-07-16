@@ -1,6 +1,6 @@
 # `tetris-ballistic` Community API and Architecture Specification
 
-**Specification version:** 0.5.6
+**Specification version:** 0.5.7
 
 **Status:** M1.1 contracts plus provisional S2.1 exact placement, S2.2
 counter-addressed semantic-RNG oracles, and S2.3 explicit-order exact-law/
@@ -15,9 +15,12 @@ hard-wall laws, plus an explicit-only pre-derived-key compiled Philox and
 exact bounded-integer implementation contract, plus an explicit-only exact
 scalar common-draw four-schedule trajectory and accumulator fold, an
 explicit-only Numba compiled multi-arm chunk backend with full-record scalar
-equality, an explicit-only manifest-last checkpoint/final codec, and an
-explicit-only held-byte PRE campaign/task-map identity codec; runner,
-scheduler, deployment, and scientific-acquisition surfaces are not implemented
+equality, an explicit-only manifest-last checkpoint/final codec, an
+explicit-only held-byte PRE campaign/task-map identity codec, and an
+explicit-only fail-closed PRE launch/Slurm runner with single-use scheduler
+claims and bounded interruption/requeue state; no production campaign,
+admission, launch authority, Easley deployment certificate, scheduler action,
+or scientific acquisition is created by the software slice
 
 **Compatibility target:** backward-compatible 2.1.x transition, then 3.0.0 only after migration gates
 
@@ -1918,7 +1921,153 @@ Common-correctness item 6 remains open until later slices freeze the runner and
 exact campaign, transport the one exact wheel, and certify a fresh isolated
 Easley deployment with zero scheduler submissions or scientific tasks.
 
-### 6.21 Clocks
+### 6.21 Provisional PRE launch and Slurm runner
+
+Slice 8B adds a fail-closed orchestration layer through the explicit submodule
+only:
+
+```python
+from tetris_ballistic.engine.one_cell_runner import (
+    OneCellAuthorizedTask,
+    OneCellLaunchAuthority,
+    OneCellLaunchTask,
+    OneCellRunnerAuthorizationError,
+    OneCellRunnerOutcome,
+    OneCellRunnerPaths,
+    OneCellRunnerValidationError,
+    OneCellSchedulerError,
+    OneCellSlurmResourceEnvelope,
+    OneCellSubmissionOutcome,
+    authorize_one_cell_slurm_task,
+    explain_one_cell_launch_task,
+    list_one_cell_launch_tasks,
+    load_one_cell_launch_authority,
+    run_one_cell_authorized_task,
+    submit_one_cell_launch,
+)
+```
+
+These names are absent from both package roots. The three errors are direct
+sibling `RuntimeError` subclasses. All seven records are sealed, frozen,
+slotted, keyword-only dataclasses with exact resolved annotations; nested
+campaign/task/authority values and ordered environment tuples are deep-
+snapshotted and revalidated at every public entry.
+
+```text
+load_one_cell_launch_authority(*, authorization_path: str)
+list_one_cell_launch_tasks(*, launch: OneCellLaunchAuthority)
+explain_one_cell_launch_task(*, launch: OneCellLaunchAuthority,
+                             array_position: int)
+authorize_one_cell_slurm_task(*, launch: OneCellLaunchAuthority,
+                              submission_claim_bytes: bytes,
+                              submission_receipt_bytes: bytes)
+run_one_cell_authorized_task(*, authorization: OneCellAuthorizedTask)
+submit_one_cell_launch(*, launch: OneCellLaunchAuthority)
+```
+
+The loader accepts one absolute private authorization directory containing
+exact `launch.json`, `ordered-tasks.jsonl`, `readback.json`, and
+`runtime-python.path`. It parses strict duplicate-aware canonical JSON/JSONL,
+enforces every profile/key/type/size/path bound, reconstructs the Slice 8A
+campaign and scientific identities, and joins the pushed protocol, source,
+wheel, campaign, deployment, branch when applicable, admission, task map,
+batch wrapper, resources, interpreter, and coordinator readback. The clean
+detached coordinator checkout is inspected only with a content-bound Git
+binary, a scrubbed environment/config inventory, the exact main-only fetch
+refspec `+refs/heads/main:refs/remotes/origin/main`, and exact no-write argv.
+The launch commit must descend coordinator authority
+`087cdaf8d8444de7d9548bc1c97ca42f221cef27`; the detached `SOURCE` must descend
+software parent `b33cc0191298d80f0bdc944a3a5e444952873e37`.
+Bootstrap Git must be owned by a trusted administrator other than the current
+user; scheduler tools may instead use an explicitly allowed owner.
+
+Production records bind immutable scheduler and scientific process
+environments, a single partition, bounded array mapping, exact `sbatch` and
+`scontrol` content identities, private task/log/cache/temp/ledger roots, a
+content-bound Python interpreter, and one generic wrapper. Scheduler IDs are
+bounded positive uint32 decimal strings. Generated names and absolute paths
+are checked against fixed and descriptor-reported component/path limits before
+any write or call. Before the first Git process, the closest existing held
+parents preflight all ledger target/temporary shapes, task/attempt and
+checkpoint/final shapes, log templates, and scheduler argv members. The only
+persisted fixture profiles are the paired
+`tetris-pre-one-cell-launch-fixture@1` and
+`tetris-pre-one-cell-admission-fixture@1`; both carry the same frozen
+`scientific_execution_permitted: false` object. Supporting records keep their
+single production schema spelling, and every other `-fixture@1` spelling is
+invalid. Inspection may parse the fixture pair, but every submission, Slurm
+authorization, and lifecycle mutation route refuses the fixture launch before
+a scheduler call, checkpoint import, or persistent write.
+Every public record argument is recursively cloned through campaign
+identities, ordered tasks, resources, paths, and environment tuples before it
+is used; nested caller-owned dataclass objects are never retained by alias.
+
+A branch decision must join the selected Slice 8A horizon record and P1 task
+map: `rule.profile` is `tetris-pre-one-cell-horizon-branch@1`,
+`rule.input_sha256` equals the initial-P0 `final-manifests.jsonl` file-ref
+digest, and the map digest, `l_star`, and confirmation fields reproduce the
+campaign authority.
+
+Submission is initial-call-exactly-once. Under a descriptor-relative private
+ledger lock, the gate durably installs and reads back one no-replace claim
+before the sole exact argv-based `sbatch` call. It drains stdout/stderr with
+8-KiB bounded prefixes and explicit overflow flags, then durably installs one
+immutable accepted/rejected/unknown receipt. Any prior claim, rejection,
+timeout, malformed response, ambiguous spawn, overflow, crash, or publication
+failure consumes that launch and permits no automatic replay. Only an accepted
+receipt with one bounded decimal array job ID can authorize an in-job task.
+Before the claim is written, held claims/receipts descriptors validate the
+complete target names plus the receipt's fixed 32-hex temporary-link shape
+against component and rendered-path limits. The same preflight covers the
+permit/result names and result temporary-link shape before a permit write or
+`scontrol`; impossible durable publication therefore causes zero scheduler
+calls.
+Receipt/result publication first fsyncs the temporary file and directory to
+establish the guard, then fsyncs the target directory while target and guard
+links both exist, unlinks the guard, and fsyncs again. A crash before the
+proving fsync or guard unlink leaves link count two and is refused; afterward
+the target is already durable and single-link. Proving-fsync failure removes
+the target before the guard and fsyncs cleanup. Stable file reads recheck
+identity, timestamps, ownership, mode, and link count after the final byte;
+retained private-directory descriptors are rechecked throughout creation.
+The private submission-reconciliation parser validates committed evidence
+only: both replay permissions remain false and another initial call requires a
+separately approved superseding launch.
+
+The top-level CLI dispatcher only materializes argv and selects the execute or
+inspection entry. The dedicated execute entry blocks `SIGUSR1` in its first
+statement, before argument or authority parsing. After all authority, receipt,
+Slurm, path, restart-permit, and lazy checkpoint-import gates, it installs the
+request-only `OneCellInterruptionFlag` handler and unblocks atomically, so a
+signal pending during the receipt handshake is neither fatal nor lost. The
+prior mask and handler are restored on every exit.
+One decoded campaign cell maps to one exact Slice 7 binding and task directory.
+The runner advances durable generations until terminal, publishes/reuses the
+sole final manifest only after the final signal linearization point, and may
+issue one exact-element `scontrol requeue` only after a durable no-replace
+permit. Accepted, rejected, and unknown requeue results are immutable; no
+result permits a second call.
+
+The runner module imports neither the checkpoint module nor Numba eagerly.
+The first production checkpoint import occurs only after full authorization;
+an installed no-`hpc` environment therefore preserves ordinary package and
+campaign imports and gives the frozen explicit missing-extra failure only on
+the private probe/authorized runner boundary. The new CLIs are
+`python -m tetris_ballistic.scripts.run_pre_one_cell` and
+`python -m tetris_ballistic.scripts.submit_pre_one_cell`; neither is a console
+entry point or legacy-dispatch alias. Their exact modes, outputs, controlled
+exit codes, wrapper, authority profiles, and operational file layout are
+specified in `docs/PRE-ONE-CELL-RUNNER.md`.
+
+This slice implements and tests the generic gate with permanently ineligible
+fixtures and private mocked state-machine drivers. It creates no real campaign,
+deployment certificate, admission, launch, ledger claim, scheduler job,
+Easley task, checkpoint/final under a declared campaign root, scientific
+output, promotion, analysis, or inference. Common-correctness item 6 remains
+open until the exact transported wheel and campaign are frozen and an isolated
+Easley tree passes the separate zero-launch certification.
+
+### 6.22 Clocks
 
 The engine records, without substitution,
 
@@ -1929,7 +2078,7 @@ The engine records, without substitution,
 
 `ClockKind` is an enum in analysis APIs. Every fitted quantity records its clock. A function must not silently change from one clock to another.
 
-### 6.22 Configuration
+### 6.23 Configuration
 
 `SimulationConfig` contains
 
@@ -1946,7 +2095,7 @@ The engine records, without substitution,
 
 Validation occurs before allocation or simulation. During M1.1, the typed objects expose only the repository-local digest profiles `tetris-ballistic/software-geometry-record@1` and `tetris-ballistic/software-config-record@1`. These digests are not shared scientific identities and must not be compared with data-repository record hashes. A shared result-bundle projection remains an M1.3 gate.
 
-### 6.23 Results
+### 6.24 Results
 
 `SimulationResult` exposes read-only-by-contract arrays or defensive copies for
 
