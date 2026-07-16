@@ -33,6 +33,7 @@ from tetris_ballistic.engine.one_cell_checkpoint import (
 
 _REPO_ROOT = Path(__file__).resolve().parents[1]
 _SOFTWARE_PARENT = "70d0c5d1a7a8cdc62a2ef1ad1b255f8ff4f43a4b"
+_SOFTWARE_AUTHORITY = "5557e6dd299488b5963122dc18f5f40c03648f0c"
 _U64_SPACE = 1 << 64
 _U64_MASK = _U64_SPACE - 1
 _PRIMARY = (0, 1, 2, 5, 10, 25, 50, 100)
@@ -2128,41 +2129,31 @@ else:
 
 
 def test_only_allowlisted_slice_paths_are_new_or_modified() -> None:
-    # This local-history gate is skipped in source archives and shallow wheels;
-    # package membership is certified separately by the release gate.
+    # This historical gate certifies the already-closed Slice 7 range. Future
+    # additive slices are certified by their own allowlist tests and must not
+    # make this closed range inspect the current working tree forever.
     if not (_REPO_ROOT / ".git").is_dir():
         pytest.skip("Git history is unavailable")
     import subprocess
 
-    parent_check = subprocess.run(
-        ["git", "cat-file", "-e", f"{_SOFTWARE_PARENT}^{{commit}}"],
-        cwd=_REPO_ROOT,
-        capture_output=True,
-        text=True,
-    )
-    if parent_check.returncode != 0:
-        pytest.skip("the frozen software parent is unavailable in this shallow checkout")
+    for commit in (_SOFTWARE_PARENT, _SOFTWARE_AUTHORITY):
+        commit_check = subprocess.run(
+            ["git", "cat-file", "-e", f"{commit}^{{commit}}"],
+            cwd=_REPO_ROOT,
+            capture_output=True,
+            text=True,
+        )
+        if commit_check.returncode != 0:
+            pytest.skip("the closed Slice 7 range is unavailable in this shallow checkout")
 
     result = subprocess.run(
-        ["git", "diff", "--name-only", _SOFTWARE_PARENT, "--"],
-        cwd=_REPO_ROOT,
-        check=True,
-        capture_output=True,
-        text=True,
-    )
-    untracked_result = subprocess.run(
-        ["git", "ls-files", "--others", "--exclude-standard"],
+        ["git", "diff", "--name-only", _SOFTWARE_PARENT, _SOFTWARE_AUTHORITY, "--"],
         cwd=_REPO_ROOT,
         check=True,
         capture_output=True,
         text=True,
     )
     changed = {line for line in result.stdout.splitlines() if line}
-    changed.update(
-        line
-        for line in untracked_result.stdout.splitlines()
-        if line and not line.startswith((".omx/", ".pi-subagents/"))
-    )
     assert changed <= {
         "tetris_ballistic/engine/one_cell_checkpoint.py",
         "tests/test_one_cell_checkpoint.py",
