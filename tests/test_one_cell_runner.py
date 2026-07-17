@@ -5888,7 +5888,9 @@ def test_generic_wrapper_and_manifest_remain_inert_and_package_separated() -> No
     assert source.count('runtime_python_file="$authorization_directory/runtime-python.path"') == 1
     assert source.count("--authorization") == 1
     assert source.count("--execute") == 1
-    assert "-I -B -u -X utf8 -m tetris_ballistic.scripts.run_pre_one_cell" in source
+    assert source.count("-m tetris_ballistic_pre_one_cell_bootstrap") == 1
+    assert source.count("\n  run \\\n") == 1
+    assert "tetris_ballistic.scripts.run_pre_one_cell" not in source
     assert 'stat_executable="/usr/bin/stat"' in source
     assert source.count('check_directory_chain "$authorization_directory"') == 1
     assert source.count('check_directory_chain "$python_parent"') == 1
@@ -5902,9 +5904,10 @@ def test_generic_wrapper_and_manifest_remain_inert_and_package_separated() -> No
         "module load",
         "activate",
         "PYTHONPATH",
+        "TETRIS_BALLISTIC_PRE_ONE_CELL_BOOTSTRAP",
         "git ",
         "mkdir",
-        "trap ",
+        "\ntrap ",
         "--partition",
         "--account",
         "--qos",

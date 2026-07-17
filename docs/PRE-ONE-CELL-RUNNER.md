@@ -353,8 +353,19 @@ hostname to equal the Slurm daemon node name and to lie in the frozen nova
 compute-node range. It then repeats the private sidecar/interpreter checks and
 `exec`s only the installed submission module. The login node may issue the one
 direct outer scheduler-control call, but never runs this wrapper or project
-Python. The wrapper does not replace or modify the launch-bound scientific
-wrapper, runner, child-array argv, claim, or receipt semantics.
+Python. Both sealed wrappers invoke the installed sibling module
+`tetris_ballistic_pre_one_cell_bootstrap` with exactly one literal target,
+`run` or `submit`. The sibling refuses any other target, preloaded
+`tetris_ballistic` module, noncanonical or linked installed path, wrong Python
+startup flags, cache-oriented environment, unexpected package descendant, or
+heavy legacy import. It seeds synthetic package, engine, and scripts paths and
+therefore never executes the legacy package-root or engine initializer. The
+`run` target imports only its lazy CLI before main, preserving that CLI's
+SIGUSR1-before-runner-import boundary; the `submit` target verifies its exact
+runner import closure before main. This prevents Matplotlib/font/XML startup
+and cache writes in the scrubbed Slurm process without changing ordinary
+package imports or either CLI. The wrapper does not replace or modify runner,
+child-array argv, claim, or receipt semantics.
 The separately sealed operational manifest and coordinator roadmap bind the
 complete outer argv, including `--no-requeue`, `--export=NIL`, walltime,
 working directory, open mode, and log paths; those submission options are not
@@ -362,12 +373,12 @@ all observable from inside the allocation and are not claimed as wrapper-only
 proof.
 
 Each wrapper is included exactly once in the source distribution and both are
-excluded from the wheel. The Python runner and both module CLIs are included
-in the wheel. No console entry point, package-root export, legacy runner edit,
-or dependency change is introduced. A later commit that adds only the
-administrative wrapper is an `ADMIN_WRAPPER_SOURCE` authority; it does not
-replace the already frozen scientific `SOURCE`, wheel, campaign, or
-deployment.
+excluded from the wheel. The sibling bootstrap, Python runner, and both module
+CLIs are included in the wheel. No console entry point, environment sentinel,
+package-root edit or export, CLI edit, legacy runner edit, or dependency change
+is introduced. The new bootstrap changes wheel identity and both wrapper
+bytes, so a deployment using it must pin the resulting source, wheel, and
+wrapper authorities rather than reuse an older certificate.
 
 Installed-wheel tests use permanently ineligible authorities and private
 mocked scheduler/lifecycle drivers. They cover strict parsing, exact argv and

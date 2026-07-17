@@ -157,5 +157,8 @@ mode_has_no_group_or_world_write "$metadata_mode" ||
     fail_deployment "runtime Python has an invalid size"
 [[ -r "$python" && -x "$python" ]] || fail_deployment "runtime Python is not executable"
 
-exec "$python" -I -B -u -X utf8 -m tetris_ballistic.scripts.run_pre_one_cell \
+export LANG=C
+export LC_ALL=C
+exec "$python" -I -B -u -X utf8 -m tetris_ballistic_pre_one_cell_bootstrap \
+  run \
   --authorization "$authorization_directory" --execute

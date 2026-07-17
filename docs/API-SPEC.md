@@ -2067,8 +2067,18 @@ sealed operational manifest and coordinator record bind outer options that are
 not observable from inside the allocation, including no-requeue/export mode,
 walltime, working directory, and logs. The wrapper is not imported, installed
 in the wheel, or used as the launch-bound scientific batch script, and
-therefore does not change the frozen runner API, scientific `SOURCE`, campaign
-identity, or child-array scheduler argv.
+therefore does not change the runner API, campaign identity, or child-array
+scheduler argv. Both sealed PRE wrappers invoke the installed sibling module
+`tetris_ballistic_pre_one_cell_bootstrap` with exactly one literal `run` or
+`submit` target. That sibling validates isolated/cache-disabled/UTF-8 startup,
+the scrubbed environment, collision-free module state, and canonical unlinked
+installed paths before seeding synthetic package, engine, and scripts paths.
+It never executes the legacy package-root or engine initializer, rejects any
+unexpected descendant or plotting/XML import, and keeps the run CLI's lazy
+runner behind its existing SIGUSR1 mask boundary. This is not a public package
+mode or API, and no environment sentinel or root/CLI edit is involved. Because
+the sibling changes wheel identity and both wrapper bytes, deployments using
+it must pin fresh source, wheel, and wrapper authorities.
 
 This slice implements and tests the generic gate with permanently ineligible
 fixtures and private mocked state-machine drivers. It creates no real campaign,

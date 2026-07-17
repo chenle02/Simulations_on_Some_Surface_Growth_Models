@@ -191,5 +191,6 @@ mode_has_no_group_or_world_write "$metadata_mode" ||
 
 export LANG=C
 export LC_ALL=C
-exec "$python" -I -B -u -X utf8 -m tetris_ballistic.scripts.submit_pre_one_cell \
+exec "$python" -I -B -u -X utf8 -m tetris_ballistic_pre_one_cell_bootstrap \
+  submit \
   --authorization "$authorization_directory" --execute

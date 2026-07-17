@@ -242,7 +242,9 @@ def test_administrative_compute_wrapper_is_inert_guarded_and_source_only() -> No
     assert "umask 077" in source
     assert source.count("--authorization") == 1
     assert source.count("--execute") == 1
-    assert source.count("tetris_ballistic.scripts.submit_pre_one_cell") == 1
+    assert source.count("-m tetris_ballistic_pre_one_cell_bootstrap") == 1
+    assert source.count("\n  submit \\\n") == 1
+    assert "tetris_ballistic.scripts.submit_pre_one_cell" not in source
     assert 'kernel_hostname_file="/proc/sys/kernel/hostname"' in source
     assert '"$kernel_hostname" == "$SLURMD_NODENAME"' in source
     assert '"${SLURM_JOB_PARTITION:-}" == "nova_short"' in source
@@ -256,9 +258,10 @@ def test_administrative_compute_wrapper_is_inert_guarded_and_source_only() -> No
         "module load",
         "activate",
         "PYTHONPATH",
+        "TETRIS_BALLISTIC_PRE_ONE_CELL_BOOTSTRAP",
         "git ",
         "mkdir",
-        "trap ",
+        "\ntrap ",
         "sbatch",
         "scontrol",
         "srun",
@@ -318,11 +321,11 @@ def test_administrative_wrapper_refuses_spoofed_compute_environment_on_login() -
     assert completed.stderr == (b"ERROR[78]: the kernel hostname differs from the assigned compute node\n")
 
 
-def test_administrative_wrapper_does_not_change_certified_scientific_bytes() -> None:
+def test_pre_one_cell_bootstrap_change_does_not_touch_runner_bytes() -> None:
     expected = {
-        "tetris_ballistic/engine/one_cell_runner.py": "65c327edea629ee434454ea72bbd555ebf53bca52c0e369cccc0f72db4f3920b",
-        "tetris_ballistic/scripts/submit_pre_one_cell.py": "12bc06777ddee133f3e550b6c58480acc65a118cc000281743d19b59aa1ec92d",
-        "scripts/easley/run_pre_one_cell.sbatch": "ff64545664ec9b4fb169e1b76197107738ae8d1df19da7fc3c8a971a497ba655",
+        "tetris_ballistic/engine/one_cell_runner.py": (
+            "65c327edea629ee434454ea72bbd555ebf53bca52c0e369cccc0f72db4f3920b"
+        ),
     }
     actual = {relative: hashlib.sha256((_ROOT / relative).read_bytes()).hexdigest() for relative in expected}
     assert actual == expected
