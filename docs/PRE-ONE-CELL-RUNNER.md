@@ -343,10 +343,31 @@ activation, `PYTHONPATH`, Git command, directory creation, trap, or fallback
 interpreter. It accepts one authorization directory, performs only feasible
 private path/interpreter checks, and `exec`s the installed in-job module.
 
-The wrapper is included exactly once in the source distribution and excluded
-from the wheel. The Python runner and both module CLIs are included in the
-wheel. No console entry point, package-root export, legacy runner edit, or
-dependency change is introduced.
+`scripts/easley/submit_pre_one_cell.sbatch` is a distinct administrative
+compute wrapper, not the scientific batch authority. It has no `#SBATCH`
+directive and accepts the same single authorization-directory argument. Before
+reading the runtime sidecar or starting project Python, it requires an exact
+non-array, non-restarted, one-node/one-task/one-CPU, 4,096-MiB
+`nova_short` allocation named `tkpz-admin-submit`; it also requires the kernel
+hostname to equal the Slurm daemon node name and to lie in the frozen nova
+compute-node range. It then repeats the private sidecar/interpreter checks and
+`exec`s only the installed submission module. The login node may issue the one
+direct outer scheduler-control call, but never runs this wrapper or project
+Python. The wrapper does not replace or modify the launch-bound scientific
+wrapper, runner, child-array argv, claim, or receipt semantics.
+The separately sealed operational manifest and coordinator roadmap bind the
+complete outer argv, including `--no-requeue`, `--export=NIL`, walltime,
+working directory, open mode, and log paths; those submission options are not
+all observable from inside the allocation and are not claimed as wrapper-only
+proof.
+
+Each wrapper is included exactly once in the source distribution and both are
+excluded from the wheel. The Python runner and both module CLIs are included
+in the wheel. No console entry point, package-root export, legacy runner edit,
+or dependency change is introduced. A later commit that adds only the
+administrative wrapper is an `ADMIN_WRAPPER_SOURCE` authority; it does not
+replace the already frozen scientific `SOURCE`, wheel, campaign, or
+deployment.
 
 Installed-wheel tests use permanently ineligible authorities and private
 mocked scheduler/lifecycle drivers. They cover strict parsing, exact argv and

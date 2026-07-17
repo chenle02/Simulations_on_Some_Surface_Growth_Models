@@ -2059,6 +2059,17 @@ entry point or legacy-dispatch alias. Their exact modes, outputs, controlled
 exit codes, wrapper, authority profiles, and operational file layout are
 specified in `docs/PRE-ONE-CELL-RUNNER.md`.
 
+The source distribution also carries a separate inert administrative compute
+wrapper for the submission CLI. It requires the live fields of an exact
+non-array `nova_short` compute allocation and kernel/Slurm hostname equality
+before reading the runtime sidecar or starting project Python. A separately
+sealed operational manifest and coordinator record bind outer options that are
+not observable from inside the allocation, including no-requeue/export mode,
+walltime, working directory, and logs. The wrapper is not imported, installed
+in the wheel, or used as the launch-bound scientific batch script, and
+therefore does not change the frozen runner API, scientific `SOURCE`, campaign
+identity, or child-array scheduler argv.
+
 This slice implements and tests the generic gate with permanently ineligible
 fixtures and private mocked state-machine drivers. It creates no real campaign,
 deployment certificate, admission, launch, ledger claim, scheduler job,

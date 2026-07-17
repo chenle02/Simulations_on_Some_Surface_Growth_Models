@@ -31,6 +31,12 @@ change.
 
 ### Added
 
+- A source-distributed administrative compute wrapper for PRE submission.  It
+  refuses login hosts, outer arrays, restarts, and resource/partition drift,
+  rechecks the private runtime sidecar and interpreter, and only then executes
+  the unchanged submission CLI.  It is separate from the scientific batch
+  authority and from the certified wheel/campaign/deployment; the login node
+  performs only the direct outer scheduler-control call.
 - A provisional fail-closed PRE launch and Slurm runner under the explicit
   `tetris_ballistic.engine.one_cell_runner` submodule, with distinct in-job
   and submission module CLIs plus one generic inert Easley wrapper. Frozen,

@@ -6,8 +6,10 @@ creates a production submission claim.
 
 from __future__ import annotations
 
+import hashlib
 import inspect
 import re
+import subprocess
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -19,6 +21,7 @@ from tetris_ballistic.scripts import submit_pre_one_cell as cli
 _AUTHORIZATION = "/private/authorizations/pre-one-cell"
 _LAUNCH_SHA256 = "a" * 64
 _DIAGNOSTIC = re.compile(rb"ERROR\[[0-9]{2}\]: [^\r\n]*\n\Z")
+_ROOT = Path(__file__).resolve().parents[1]
 
 
 def _launch() -> SimpleNamespace:
@@ -228,3 +231,98 @@ def test_submission_failure_is_forwarded_without_traceback(
     captured = capsysbinary.readouterr()
     _assert_failure_output(captured, code=75)
     assert b"\\u2603" in captured.err
+
+
+def test_administrative_compute_wrapper_is_inert_guarded_and_source_only() -> None:
+    wrapper = _ROOT / "scripts" / "easley" / "submit_pre_one_cell.sbatch"
+    source = wrapper.read_text(encoding="utf-8")
+    assert source.endswith("\n")
+    assert "#SBATCH" not in source
+    assert "set -euo pipefail" in source
+    assert "umask 077" in source
+    assert source.count("--authorization") == 1
+    assert source.count("--execute") == 1
+    assert source.count("tetris_ballistic.scripts.submit_pre_one_cell") == 1
+    assert 'kernel_hostname_file="/proc/sys/kernel/hostname"' in source
+    assert '"$kernel_hostname" == "$SLURMD_NODENAME"' in source
+    assert '"${SLURM_JOB_PARTITION:-}" == "nova_short"' in source
+    assert '"${SLURM_JOB_NAME:-}" == "tkpz-admin-submit"' in source
+    assert '"${SLURM_MEM_PER_NODE:-}" == "4096"' in source
+    assert "node8[0-9][0-9]|node90[0-7]|node92[6-9]|node9[3-7][0-9]|node98[0-2]" in source
+    assert "node9[0-7][0-9]" not in source
+    assert source.index("kernel_hostname_file=") < source.index("runtime_python_file=")
+    assert source.index('"$kernel_hostname" == "$SLURMD_NODENAME"') < source.index("runtime_python_file=")
+    for forbidden in (
+        "module load",
+        "activate",
+        "PYTHONPATH",
+        "git ",
+        "mkdir",
+        "trap ",
+        "sbatch",
+        "scontrol",
+        "srun",
+        "--account",
+        "--qos",
+        "run_one_cell.py",
+        "run_batch.py",
+    ):
+        assert forbidden not in source
+
+    syntax = subprocess.run(
+        ["/bin/bash", "-n", str(wrapper)],
+        check=False,
+        stdin=subprocess.DEVNULL,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        timeout=30,
+    )
+    assert syntax.returncode == 0, syntax.stderr.decode("utf-8", "replace")
+    assert syntax.stdout == b""
+    assert syntax.stderr == b""
+
+    manifest = (_ROOT / "MANIFEST.in").read_text(encoding="utf-8").splitlines()
+    declaration = "include scripts/easley/submit_pre_one_cell.sbatch"
+    assert manifest.count(declaration) == 1
+    pyproject = (_ROOT / "pyproject.toml").read_text(encoding="utf-8")
+    assert "scripts/easley/submit_pre_one_cell.sbatch" not in pyproject
+
+
+def test_administrative_wrapper_refuses_spoofed_compute_environment_on_login() -> None:
+    wrapper = _ROOT / "scripts" / "easley" / "submit_pre_one_cell.sbatch"
+    kernel_hostname = Path("/proc/sys/kernel/hostname").read_text(encoding="ascii").strip()
+    spoofed_node = "node801" if kernel_hostname != "node801" else "node802"
+    completed = subprocess.run(
+        ["/bin/bash", str(wrapper), "/definitely/missing"],
+        check=False,
+        stdin=subprocess.DEVNULL,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        env={
+            "LANG": "C",
+            "LC_ALL": "C",
+            "SLURM_JOB_ID": "1",
+            "SLURMD_NODENAME": spoofed_node,
+            "SLURM_JOB_NODELIST": spoofed_node,
+            "SLURM_JOB_NAME": "tkpz-admin-submit",
+            "SLURM_JOB_PARTITION": "nova_short",
+            "SLURM_JOB_NUM_NODES": "1",
+            "SLURM_NTASKS": "1",
+            "SLURM_CPUS_PER_TASK": "1",
+            "SLURM_MEM_PER_NODE": "4096",
+        },
+        timeout=30,
+    )
+    assert completed.returncode == 78
+    assert completed.stdout == b""
+    assert completed.stderr == (b"ERROR[78]: the kernel hostname differs from the assigned compute node\n")
+
+
+def test_administrative_wrapper_does_not_change_certified_scientific_bytes() -> None:
+    expected = {
+        "tetris_ballistic/engine/one_cell_runner.py": "65c327edea629ee434454ea72bbd555ebf53bca52c0e369cccc0f72db4f3920b",
+        "tetris_ballistic/scripts/submit_pre_one_cell.py": "12bc06777ddee133f3e550b6c58480acc65a118cc000281743d19b59aa1ec92d",
+        "scripts/easley/run_pre_one_cell.sbatch": "ff64545664ec9b4fb169e1b76197107738ae8d1df19da7fc3c8a971a497ba655",
+    }
+    actual = {relative: hashlib.sha256((_ROOT / relative).read_bytes()).hexdigest() for relative in expected}
+    assert actual == expected
