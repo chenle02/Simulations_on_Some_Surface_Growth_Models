@@ -246,6 +246,18 @@ def test_administrative_compute_wrapper_is_inert_guarded_and_source_only() -> No
     assert source.count("\n  submit \\\n") == 1
     assert "tetris_ballistic.scripts.submit_pre_one_cell" not in source
     assert 'kernel_hostname_file="/proc/sys/kernel/hostname"' in source
+    assert "metadata_group" in source
+    assert "administrator_namespace_is_safe" in source
+    assert source.count('[[ "$path" == "$home_anchor" || "$path" == "$home_anchor/"* ]]') == 1
+    assert source.count('[[ "$metadata_owner" == "$EUID" ]]') == 1
+    assert source.count('[[ "$metadata_owner" == "0" ]]') >= 2
+    assert "(8#$mode & 8#002) == 0" in source
+    assert "(8#$mode & 8#020) == 0 || group == 0" in source
+    assert source.count('local home_anchor="$2"') == 1
+    assert "the home trust anchor has boundary whitespace" in source
+    assert "the home trust anchor is unavailable, linked, or unsearchable" in source
+    assert source.count('check_directory_chain "$authorization_directory" "$home_anchor"') == 1
+    assert source.count('check_directory_chain "$python_parent" "$home_anchor"') == 1
     assert '"$kernel_hostname" == "$SLURMD_NODENAME"' in source
     assert '"${SLURM_JOB_PARTITION:-}" == "nova_short"' in source
     assert '"${SLURM_JOB_NAME:-}" == "tkpz-admin-submit"' in source

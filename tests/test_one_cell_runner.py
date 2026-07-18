@@ -5892,8 +5892,18 @@ def test_generic_wrapper_and_manifest_remain_inert_and_package_separated() -> No
     assert source.count("\n  run \\\n") == 1
     assert "tetris_ballistic.scripts.run_pre_one_cell" not in source
     assert 'stat_executable="/usr/bin/stat"' in source
-    assert source.count('check_directory_chain "$authorization_directory"') == 1
-    assert source.count('check_directory_chain "$python_parent"') == 1
+    assert "metadata_group" in source
+    assert "administrator_namespace_is_safe" in source
+    assert source.count('[[ "$path" == "$home_anchor" || "$path" == "$home_anchor/"* ]]') == 1
+    assert source.count('[[ "$metadata_owner" == "$EUID" ]]') == 1
+    assert source.count('[[ "$metadata_owner" == "0" ]]') >= 2
+    assert "(8#$mode & 8#002) == 0" in source
+    assert "(8#$mode & 8#020) == 0 || group == 0" in source
+    assert source.count('local home_anchor="$2"') == 1
+    assert "the home trust anchor has boundary whitespace" in source
+    assert "the home trust anchor is unavailable, linked, or unsearchable" in source
+    assert source.count('check_directory_chain "$authorization_directory" "$home_anchor"') == 1
+    assert source.count('check_directory_chain "$python_parent" "$home_anchor"') == 1
     assert '"$metadata_mode" == "700"' in source
     assert '"$metadata_mode" == "600"' in source
     assert source.count('"$metadata_links" == "1"') >= 2

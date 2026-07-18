@@ -31,13 +31,15 @@ read_metadata() {
     local path="$1"
     local metadata=""
     local extra=""
-    metadata="$("$stat_executable" --printf='%u %a %h %s %d %i' -- "$path")" ||
+    metadata="$("$stat_executable" --printf='%u %g %a %h %s %d %i' -- "$path")" ||
         fail_deployment "path metadata cannot be read"
-    IFS=' ' read -r metadata_owner metadata_mode metadata_links metadata_size \
-        metadata_device metadata_inode extra <<<"$metadata"
+    IFS=' ' read -r metadata_owner metadata_group metadata_mode metadata_links \
+        metadata_size metadata_device metadata_inode extra <<<"$metadata"
     [[ -z "$extra" ]] || fail_deployment "path metadata is malformed"
     [[ "$metadata_owner" =~ ^(0|[1-9][0-9]*)$ ]] ||
         fail_deployment "path owner metadata is malformed"
+    [[ "$metadata_group" =~ ^(0|[1-9][0-9]*)$ ]] ||
+        fail_deployment "path group metadata is malformed"
     [[ "$metadata_mode" =~ ^[0-7]{3,4}$ ]] ||
         fail_deployment "path mode metadata is malformed"
     [[ "$metadata_links" =~ ^[1-9][0-9]*$ ]] ||
@@ -55,6 +57,13 @@ mode_has_no_group_or_world_write() {
     (( (8#$mode & 8#022) == 0 ))
 }
 
+administrator_namespace_is_safe() {
+    local mode="$1"
+    local group="$2"
+    (( (8#$mode & 8#002) == 0 )) &&
+        (( (8#$mode & 8#020) == 0 || group == 0 ))
+}
+
 path_is_within_limit() {
     local LC_ALL="C"
     local path="$1"
@@ -68,14 +77,18 @@ sidecar_has_exact_line_size() {
 
 check_directory_chain() {
     local path="$1"
+    local home_anchor="$2"
     local remaining="${path#/}"
     local component=""
     local current=""
+    local at_or_below_home_anchor=0
+    [[ "$path" == "$home_anchor" || "$path" == "$home_anchor/"* ]] ||
+        fail_deployment "path escapes the trusted home anchor"
     [[ -d / && ! -L / && -x / ]] || fail_deployment "the filesystem root is unavailable"
     read_metadata /
     [[ "$metadata_owner" == "0" ]] || fail_deployment "the filesystem root has an untrusted owner"
-    mode_has_no_group_or_world_write "$metadata_mode" ||
-        fail_deployment "the filesystem root is group- or world-writable"
+    administrator_namespace_is_safe "$metadata_mode" "$metadata_group" ||
+        fail_deployment "the administrator namespace above the home anchor is unsafe"
     while [[ -n "$remaining" ]]; do
         component="${remaining%%/*}"
         if [[ "$remaining" == */* ]]; then
@@ -87,10 +100,20 @@ check_directory_chain() {
         [[ -d "$current" && ! -L "$current" && -x "$current" ]] ||
             fail_deployment "a path ancestor is unavailable, linked, or unsearchable"
         read_metadata "$current"
-        [[ "$metadata_owner" == "$EUID" || "$metadata_owner" == "0" ]] ||
-            fail_deployment "a path ancestor has an untrusted owner"
-        mode_has_no_group_or_world_write "$metadata_mode" ||
-            fail_deployment "a path ancestor is group- or world-writable"
+        if [[ "$current" == "$home_anchor" ]]; then
+            at_or_below_home_anchor=1
+        fi
+        if (( at_or_below_home_anchor == 1 )); then
+            [[ "$metadata_owner" == "$EUID" ]] ||
+                fail_deployment "a private path ancestor has an untrusted owner"
+            mode_has_no_group_or_world_write "$metadata_mode" ||
+                fail_deployment "a private path ancestor is group- or world-writable"
+        else
+            [[ "$metadata_owner" == "0" ]] ||
+                fail_deployment "an administrator path ancestor has an untrusted owner"
+            administrator_namespace_is_safe "$metadata_mode" "$metadata_group" ||
+                fail_deployment "the administrator namespace above the home anchor is unsafe"
+        fi
     done
 }
 
@@ -132,7 +155,15 @@ is_normalized_absolute_path "$authorization_directory" ||
     fail_deployment "authorization directory is not an absolute normalized path"
 path_is_within_limit "$authorization_directory" ||
     fail_deployment "authorization directory path is too long"
-check_directory_chain "$authorization_directory"
+home_anchor="${HOME:-}"
+is_normalized_absolute_path "$home_anchor" ||
+    fail_deployment "the home trust anchor is not an absolute normalized path"
+path_is_within_limit "$home_anchor" || fail_deployment "the home trust anchor path is too long"
+[[ "$home_anchor" != [[:space:]]* && "$home_anchor" != *[[:space:]] ]] ||
+    fail_deployment "the home trust anchor has boundary whitespace"
+[[ -d "$home_anchor" && ! -L "$home_anchor" && -x "$home_anchor" ]] ||
+    fail_deployment "the home trust anchor is unavailable, linked, or unsearchable"
+check_directory_chain "$authorization_directory" "$home_anchor"
 read_metadata "$authorization_directory"
 [[ "$metadata_owner" == "$EUID" && "$metadata_mode" == "700" ]] ||
     fail_deployment "authorization directory must be current-user mode 0700"
@@ -177,7 +208,7 @@ is_normalized_absolute_path "$python" ||
 path_is_within_limit "$python" || fail_deployment "runtime Python path is too long"
 python_parent="${python%/*}"
 [[ -n "$python_parent" ]] || python_parent="/"
-check_directory_chain "$python_parent"
+check_directory_chain "$python_parent" "$home_anchor"
 [[ -f "$python" ]] || fail_deployment "runtime Python is unavailable"
 [[ ! -L "$python" ]] || fail_deployment "runtime Python must not be a symlink"
 read_metadata "$python"
