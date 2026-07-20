@@ -1,6 +1,6 @@
 # `tetris-ballistic` Community API and Architecture Specification
 
-**Specification version:** 0.5.7
+**Specification version:** 0.5.8
 
 **Status:** M1.1 contracts plus provisional S2.1 exact placement, S2.2
 counter-addressed semantic-RNG oracles, and S2.3 explicit-order exact-law/
@@ -8,6 +8,9 @@ one-stream selection records, plus S2.4 fixed-order tetromino event selection,
 an explicit reference-only one-event selection-to-placement binder, and
 pure exact reference-state and already-certified-placement primitive
 extractors, plus an explicit-only exact in-memory event/contact accumulator
+and the bounded explicit-only S2 reference trajectory with typed execution,
+512 selected full-occupancy checkpoints, canonical persisted-byte identity,
+independent deterministic reconstruction/resume, and a sole final manifest,
 and separate explicit-only clean periodic one-cell transition and PRE
 two-stream common-random-number event selector, plus an explicit-only
 three-boundary scalar one-cell transition with archived and corrected
@@ -716,8 +719,8 @@ in-memory one-event certificate, not a serialization or persistence identity.
 This unit adds no event/contact accumulator, checkpoint or persistence schema,
 canonical digest, `SimulationConfig` or legacy adapter, multi-event trajectory,
 optimized kernel, CLI, scheduler, Easley/Slurm/HPC route, release, or production
-path. Article S1a-09 executable completion, M1.2, and overall S2 remain open;
-S3 and all later gates remain closed.
+path. This binding unit alone did not complete Article S1a-09, M1.2, or S2;
+the later bounded trajectory contract in Section 6.25 supplies that closure.
 
 ### 6.12 Provisional reference event/contact accumulation
 
@@ -817,7 +820,8 @@ The unit performs no RNG or event selection, no placement, no trajectory
 driving, no configuration or legacy adaptation, no floating summary, no I/O,
 and no optimized, CLI, scheduler, Easley/Slurm/HPC, release, or production
 routing. It advances the in-memory reference instrumentation but completes
-neither Article S1a-09, M1.2, nor overall S2; all later gates remain closed.
+neither Article S1a-09, M1.2, nor overall S2 by itself; the later bounded
+trajectory contract in Section 6.25 supplies that closure.
 
 ### 6.13 Provisional PRE clean periodic one-cell transition
 
@@ -2130,6 +2134,100 @@ Validation occurs before allocation or simulation. During M1.1, the typed object
 - provenance.
 
 The persistence layer snapshots caller arrays before writing. A reversible NumPy `writeable=False` flag is not advertised as strong immutability.
+
+### 6.25 Bounded S2 reference trajectory, checkpoints, and reconstruction
+
+`tetris_ballistic.engine.reference_trajectory` is the explicit-submodule-only
+S2 exit oracle. It is not re-exported from `tetris_ballistic` or
+`tetris_ballistic.engine`, performs no filesystem I/O, and has no legacy,
+optimized, CLI, scheduler, Easley/Slurm/HPC, acquisition, release, or
+production route. Its public surface is limited to four frozen records and six
+keyword-only operations:
+
+```python
+ReferenceCheckpointSchedule
+ReferenceTrajectoryConfig
+ReferenceCheckpoint
+ReferenceTrajectory
+
+build_reference_checkpoint_schedule(*, terminal_event_count)
+canonical_json_bytes(value)
+start_reference_trajectory(*, config)
+advance_reference_trajectory(*, trajectory, stop_event_ordinal)
+reconstruct_reference_checkpoint(*, payload, expected_config, expected_sha256)
+reconstruct_reference_checkpoints(*, checkpoints, expected_config)
+```
+
+The schedule builder fixes the PRE-compatible S2 profile: exactly 512 strictly
+increasing positive event ordinals terminating at the configured horizon. A
+horizon below 769 is impossible and is rejected. The generated ordinal vector,
+not merely its formula, is bound by SHA-256 and retained in the configuration
+identity.
+
+`ReferenceTrajectoryConfig` is keyword-only and explicit. It binds built-in
+text model-law and plan IDs, one full lowercase 40-hex Git object ID, an exact
+unsigned 128-bit root, the coupling-group ID, a defensively reconstructed
+`TetrominoEventLaw`, its matching periodic width, a terminal horizon, the exact
+checkpoint schedule, and the sole accepted RNG ID
+`semantic-philox4x64-10-v1`. Construction validates the complete positive
+family--orientation support and enforces, before any trajectory mutation,
+
+```text
+N < 2**64,
+L * N < 2**64,
+L * N**2 < 2**128.
+```
+
+The driver begins at the canonical empty sparse aggregate and advances only to
+an explicit stop between the current and terminal ordinals. At every event it
+evaluates the ordered stream tuple `("family", "orientation", "launch",
+"contact")` exactly once, places the selected event with the slow reference
+primitive, and folds the resulting certificate through the exact event/contact
+accumulator. Checkpoints are emitted only at the frozen schedule ordinals; a
+chunked run and an uninterrupted run therefore have identical trajectory and
+checkpoint values.
+
+Each checkpoint contains the full sorted, duplicate-free occupancy state plus
+the complete exact accumulator projection needed to recompute every retained
+primitive. Its record also binds the complete configuration, configuration
+digest, event/next-event ordinals, array dtype/shape descriptors, state and
+accumulator checksums, payload profile, and checkpoint digest. Canonical bytes
+are UTF-8 JSON with sorted object keys, compact separators, exact built-in
+integers only, no NaN/float/Boolean/null values, and exactly one trailing
+newline. Set-valued arrays have their own normative lexicographic order and
+duplicate rejection; generic object-key sorting alone is not treated as a
+semantic canonicalizer.
+
+Reconstruction is authentication by deterministic replay, not rehydration of a
+self-consistent claimed summary. The reader first requires byte-for-byte
+canonical form and exact schema/inventory, then independently replays the bound
+configuration from the empty state through lower certified weighted/uniform
+selection and placement primitives. It does not call the writer's high-level
+`select_event` or `place_selected_event` composition functions. Every supplied
+occupancy cell and accumulator field must equal the replay-derived checkpoint.
+A standalone `ReferenceCheckpoint` proves only exact payload/digest
+consistency. Any direct construction or external copy/replace of a
+`ReferenceTrajectory` that attempts to reuse such a value, plus every
+deserialization and resume path, crosses the independent replay boundary;
+validation authority is never stored as a copyable field in a returned value.
+
+Batch reconstruction requires one common configuration, exact strictly
+increasing checkpoint inventory, and independent replay of every supplied
+checkpoint before reuse. A valid nonterminal checkpoint may resume toward the
+bound terminal horizon. The sole final manifest is created only at terminal
+completion after the exact 512-checkpoint inventory and replay-derived terminal
+state validate; a terminal checkpoint cannot legitimize forged earlier
+members. The manifest is a structural completion identity, not a claim about
+an external scheduler run, acquired data, or treatment effects.
+
+The ratified S2 exit certificate uses test-only roots and exactly eight factor
+paths, two small legal widths, four roots, and 256 events per prefix: 16,384
+events total. Its independent small-state, randomized differential, pinned
+golden/candidate-tape, round-trip/resume, transformed/adversarial, and
+fail-closed tests certify this bounded oracle surface. It is deliberately at
+least quadratic at checkpoint-rich horizons and is not the scientific Easley
+engine. With this bounded unit, the remaining S2 obligations close; S3, S4a,
+S1b, C0, S5a, E1, and all scientific execution remain separately gated.
 
 ## 7. RNG and reproducibility
 

@@ -31,6 +31,28 @@ change.
 
 ### Added
 
+- A bounded S2-exit reference trajectory under the explicit
+  `tetris_ballistic.engine.reference_trajectory` submodule. Frozen keyword-only
+  configuration binds the model/plan IDs, source revision, root and coupling
+  group, complete tetromino law, width, terminal horizon, exact
+  `semantic-philox4x64-10-v1` identity, and the PRE-compatible vector of 512
+  strictly increasing checkpoint ordinals. The slow driver consumes family,
+  selected-family orientation, launch, and contact exactly once per event,
+  folds the certified placement through the exact accumulator, and emits
+  selected full-occupancy checkpoints as compact sorted-key UTF-8 canonical
+  JSON with exact built-in integers, one trailing newline, and SHA-256 byte
+  identity. Reconstruction reparses strict canonical bytes, independently
+  replays the bound configuration through lower certified selection/placement
+  primitives rather than the writer's high-level composition path, compares
+  every state and accumulator primitive, validates the complete checkpoint
+  inventory, and permits resume or the sole terminal manifest only after that
+  replay. The fixed test-only exit sweep covers eight approved factor paths,
+  two legal widths, four roots, and 256-event prefixes (16,384 total events),
+  with no treatment inspection. This closes the ratified bounded oracle-only
+  S2 checkpoint/identity/reconstruction/configuration/trajectory contract, but
+  adds no root export, filesystem I/O, optimized or legacy route, CLI,
+  scheduler, Easley/Slurm/HPC action, acquisition, release, or production
+  path; S3 and every later scientific gate remain blocked.
 - A source-distributed administrative compute wrapper for PRE submission.  It
   refuses login hosts, outer arrays, restarts, and resource/partition drift,
   rechecks the private runtime sidecar and interpreter, and only then executes
