@@ -7,8 +7,17 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='tetris_ballistic',
-    version='1.2.6',
-    packages=find_packages(),
+    version='1.2.8',
+    packages=find_packages(include=["tetris_ballistic", "tetris_ballistic.*"]),
+    python_requires=">=3.9",
+    install_requires=[
+        "numpy",
+        "matplotlib",
+        "scipy",
+        "imageio",
+        "pyyaml",
+        "joblib",
+    ],
     # entry_points={
     #     'console_scripts': [
     #         'tetrisBD=tetris_ballistic.cli.main:cli',
