@@ -85,7 +85,7 @@ Piece-18: [1, 1]
 Piece-19: [0, 0]
 ```
 
-![Mixture of sticky and non sticky Tetris](./tests/simulation/config_Tetris_Non_Sticky.gif)
+![Mixture of sticky and non sticky Tetris](./tests/simulation/config_Tetris_All.gif)
 
 # 1x1 Stick block
 ```bash
@@ -145,4 +145,4 @@ Piece-18: [0, 0]
 Piece-19: [1, 0]
 ``` 
 
-![1x1 sticky block](./tests/simulation/config_1x1_Non_Sticky.gif)
+![1x1 non sticky block](./tests/simulation/config_1x1_Non_Sticky.gif)
