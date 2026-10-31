@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+message: >-
+  If you use this software, please cite it as below and record the exact
+  release (for example tetris-ballistic 1.2.x from PyPI) or the commit of
+  main that you used.
+title: 'tetris-ballistic: Monte Carlo simulation of Tetris ballistic deposition and other surface growth models'
+type: software
+authors:
+- family-names: Chen
+  given-names: Le
+  affiliation: Auburn University
+- family-names: Montes
+  given-names: Mauricio
+  affiliation: Auburn University
+- family-names: Ruau
+  given-names: Ian
+  affiliation: Auburn University
+license: MIT
+repository-code: https://github.com/chenle02/Simulations_on_Some_Surface_Growth_Models
+url: https://simulations-on-some-surface-growth-models.readthedocs.io/main/
+abstract: >-
+  Python package for simulating ballistic deposition of Tetris pieces
+  (the 19 fixed tetromino orientations and a 1x1 cell) on a one-dimensional
+  substrate, with sticky and non-sticky contact rules, interface-height and
+  roughness statistics, hole counts, image and animation output, and tools
+  for KPZ scaling analysis of large simulation ensembles. It began as a
+  final exam project for Math 7820 (Applied Stochastic Processes I),
+  Fall 2023, at Auburn University.
+keywords:
+- surface growth
+- ballistic deposition
+- Tetris
+- KPZ universality
+- Monte Carlo simulation
+- interacting particle systems
