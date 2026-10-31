@@ -2068,20 +2068,22 @@ class Tetris_Ballistic:
             ax.set_title(f"{plot_title} - Particle: {step}")
 
             # Relabel the y-axis
-            ax.set_yticks(np.arange(0, self.height, self.height // 5))
-            ax.set_yticklabels(np.arange(self.height, 0, -self.height // 5))
+            yticks = np.arange(0, self.height, max(1, self.height // 5))
+            ax.set_yticks(yticks)
+            ax.set_yticklabels(self.height - yticks)
 
             ax.set_ylabel("Height",
                           rotation=90,
                           labelpad=20,
                           verticalalignment="center")
             ax.set_xlabel("Substrate", labelpad=8)
-            ax.set_xticks(np.arange(0, self.width, self.width // 5))
+            ax.set_xticks(np.arange(0, self.width, max(1, self.width // 5)))
 
             # Convert the plot to an image and append to frames
             fig.canvas.draw()
-            image = np.frombuffer(fig.canvas.tostring_rgb(), dtype="uint8")
-            image = image.reshape(fig.canvas.get_width_height()[::-1] + (3,))
+            # buffer_rgba works on all supported Matplotlib versions;
+            # tostring_rgb was removed in Matplotlib 3.10.
+            image = np.asarray(fig.canvas.buffer_rgba())[:, :, :3].copy()
             frames.append(image)
 
             if step % 100 == 0:

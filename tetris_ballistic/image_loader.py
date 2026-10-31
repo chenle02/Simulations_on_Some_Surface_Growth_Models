@@ -1,4 +1,4 @@
-from pkg_resources import resource_filename
+from importlib.resources import files
 
 
 class TetrominoImageLoader:
@@ -62,4 +62,4 @@ class TetrominoImageLoader:
         piece_name, rotation = self.piece_info[piece_id]
         sticky_suffix = "_bordered" if not sticky else ""
         filename = f"Tetromino_{piece_name}_{rotation}{sticky_suffix}.png"
-        return resource_filename(__name__, f'data/{filename}')
+        return str(files("tetris_ballistic") / "data" / filename)
